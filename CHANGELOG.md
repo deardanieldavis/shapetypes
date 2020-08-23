@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.6](https://github.com/deardanieldavis/shapetypes/compare/v1.1.5...v1.1.6) (2020-08-23)
+
+
+### Bug Fixes
+
+* fixes security issue with old version of standard-version ([117dd92](https://github.com/deardanieldavis/shapetypes/commit/117dd926a95abb29efbff8b2114c25d0b30a541d))
+
 ### [1.1.5](https://github.com/deardanieldavis/shapetypes/compare/v1.1.4...v1.1.5) (2020-08-23)
 
 
