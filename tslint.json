@@ -13,22 +13,30 @@
     "typedef": [true, "call-signature"],
 
     // Immutability rules
-    "readonly-keyword": true,
+    //"readonly-keyword": true,
     "readonly-array": true,
     "no-let": true,
-    "no-object-mutation": true,
+    //"no-object-mutation": true,
     "no-delete": true,
     "no-method-signature": true,
 
     // Functional style rules
-    "no-this": true,
-    "no-class": true,
+    // DD: Removed most of these rules since I'm using classes
+    //"no-this": true,
+    //"no-class": true,
     "no-mixed-interface": true,
-    "no-expression-statement": [
+    /*"no-expression-statement": [
       true,
       { "ignore-prefix": ["console.", "process.exit"] }
-    ],
-    "no-if-statement": true
+    ],*/
+    //"no-if-statement": true
     /* end tslint-immutable rules */
+
+    // Added to allow underscores
+    "variable-name": {
+      "options": [
+        "allow-leading-underscore"
+      ]
+    }
   }
 }
