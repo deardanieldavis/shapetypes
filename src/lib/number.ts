@@ -1,3 +1,4 @@
+
 /**
  * Multiplies a value by 2. (Also a full example of Typedoc's functionality.)
  *
@@ -44,3 +45,8 @@ export function power(base: number, exponent: number): number {
   // This is a proposed es7 operator, which should be transpiled by Typescript
   return base ** exponent;
 }
+
+export function ttt(base: number): number {
+  return base;
+}
+
