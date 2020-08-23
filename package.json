@@ -17,7 +17,7 @@
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:tslint": "tslint --fix --project .",
     "test": "run-s build test:*",
-    "test:lint": "tslint --project . && prettier \"src/**/*.ts\" --list-different",
+    "test:lint": "tslint --project . && prettier \"src/**/*.ts\" --check",
     "test:unit": "nyc --silent ava",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
     "cov": "run-s build test:unit cov:html && open-cli coverage/index.html",
@@ -25,7 +25,7 @@
     "cov:send": "nyc report --reporter=lcov && codecov",
     "cov:check": "nyc report && nyc check-coverage --lines 100 --functions 100 --branches 100",
     "doc": "run-s doc:html && open-cli build/docs/index.html",
-    "doc:html": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --out build/docs",
+    "doc:html": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --out build/docs --theme minimal --excludePrivate",
     "doc:json": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --json build/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
@@ -51,31 +51,28 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@bitjson/npm-scripts-info": "^1.0.0",
-    "@bitjson/typedoc": "^0.15.0-0",
     "@istanbuljs/nyc-config-typescript": "^0.1.3",
-    "ava": "2.2.0",
-    "codecov": "^3.5.0",
+    "ava": "^3.11.1",
+    "codecov": "^3.7.2",
     "cz-conventional-changelog": "^2.1.0",
-    "gh-pages": "^2.0.1",
+    "gh-pages": "^2.2.0",
     "npm-run-all": "^4.1.5",
+    "npm-scripts-info": "^0.3.9",
     "nyc": "^14.1.1",
     "open-cli": "^5.0.0",
-    "prettier": "^1.18.2",
+    "prettier": "^1.19.1",
     "standard-version": "^6.0.1",
-    "trash-cli": "^3.0.0",
-    "tslint": "^5.18.0",
+    "trash-cli": "^3.1.0",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-immutable": "^6.0.1",
-    "typescript": "^3.5.3"
+    "typedoc": "^0.18.0",
+    "typescript": "^3.9.7"
   },
   "ava": {
     "failFast": true,
     "files": [
       "build/main/**/*.spec.js"
-    ],
-    "sources": [
-      "build/main/**/*.js"
     ]
   },
   "config": {
