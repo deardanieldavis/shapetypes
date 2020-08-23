@@ -1,4 +1,3 @@
-
 /**
  * Multiplies a value by 2. (Also a full example of Typedoc's functionality.)
  *
@@ -49,4 +48,3 @@ export function power(base: number, exponent: number): number {
 export function ttt(base: number): number {
   return base;
 }
-

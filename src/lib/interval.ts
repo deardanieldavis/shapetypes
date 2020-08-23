@@ -2,8 +2,7 @@
  * Test
  */
 
-
-export default class Interval {
+export class Interval {
   private _t0: number;
   private _t1: number;
 

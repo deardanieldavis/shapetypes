@@ -1,6 +1,6 @@
 // tslint:disable:no-let
 import test from 'ava';
-import Interval from './interval';
+import {Interval} from './interval';
 
 test('Setting T0 & T1', t => {
   const interval = new Interval(5, 10);
