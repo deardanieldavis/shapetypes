@@ -2729,12 +2729,6 @@ img {
 					<a href="interval.html#constructor" class="tsd-kind-icon">constructor</a>
 				</li>
 				<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-					<a href="interval.html#t0" class="tsd-kind-icon">T0</a>
-				</li>
-				<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-					<a href="interval.html#t1" class="tsd-kind-icon">T1</a>
-				</li>
-				<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 					<a href="interval.html#isdecreasing" class="tsd-kind-icon">is<wbr>Decreasing</a>
 				</li>
 				<li class=" tsd-kind-get-signature tsd-parent-kind-class">
@@ -2755,8 +2749,32 @@ img {
 				<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 					<a href="interval.html#min" class="tsd-kind-icon">min</a>
 				</li>
+				<li class=" tsd-kind-accessor tsd-parent-kind-class">
+					<a href="interval.html#t0" class="tsd-kind-icon">t0</a>
+				</li>
+				<li class=" tsd-kind-accessor tsd-parent-kind-class">
+					<a href="interval.html#t1" class="tsd-kind-icon">t1</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="interval.html#grow" class="tsd-kind-icon">grow</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="interval.html#includes" class="tsd-kind-icon">includes</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="interval.html#intersection" class="tsd-kind-icon">intersection</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="interval.html#reverse" class="tsd-kind-icon">reverse</a>
+				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="interval.html#swap" class="tsd-kind-icon">swap</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="interval.html#union" class="tsd-kind-icon">union</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="interval.html#valueat" class="tsd-kind-icon">value<wbr>At</a>
 				</li>
 			</ul>
 		</li>
@@ -2773,7 +2791,7 @@ img {
 		<section class="tsd-panel tsd-comment">
 			<div class="tsd-comment tsd-typography">
 				<div class="lead">
-					<p>Test</p>
+					<p>A number range between two values.</p>
 				</div>
 			</div>
 		</section>
@@ -2798,8 +2816,6 @@ img {
 					<section class="tsd-index-section ">
 						<h3>Accessors</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#t0" class="tsd-kind-icon">T0</a></li>
-							<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#t1" class="tsd-kind-icon">T1</a></li>
 							<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#isdecreasing" class="tsd-kind-icon">is<wbr>Decreasing</a></li>
 							<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#isincreasing" class="tsd-kind-icon">is<wbr>Increasing</a></li>
 							<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#issingleton" class="tsd-kind-icon">is<wbr>Singleton</a></li>
@@ -2807,12 +2823,20 @@ img {
 							<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#max" class="tsd-kind-icon">max</a></li>
 							<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#mid" class="tsd-kind-icon">mid</a></li>
 							<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#min" class="tsd-kind-icon">min</a></li>
+							<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="interval.html#t0" class="tsd-kind-icon">t0</a></li>
+							<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="interval.html#t1" class="tsd-kind-icon">t1</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#grow" class="tsd-kind-icon">grow</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#includes" class="tsd-kind-icon">includes</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#intersection" class="tsd-kind-icon">intersection</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#reverse" class="tsd-kind-icon">reverse</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#swap" class="tsd-kind-icon">swap</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#union" class="tsd-kind-icon">union</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#valueat" class="tsd-kind-icon">value<wbr>At</a></li>
 						</ul>
 					</section>
 				</div>
@@ -2830,21 +2854,28 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/interval.ts#L7">lib/interval.ts:7</a></li>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L9">lib/interval.ts:9</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>Represents an interval from a min to a max</p>
-							</div>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>t0: <span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The start of the interval (could be the interval&#39;s min or max)</p>
+									</div>
+								</div>
 							</li>
 							<li>
 								<h5>t1: <span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The end of the interval (could be the interval&#39;s min or max)</p>
+									</div>
+								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="interval.html" class="tsd-signature-type">Interval</a></h4>
@@ -2855,40 +2886,6 @@ img {
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Accessors</h2>
 			<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
-				<a name="t0" class="tsd-anchor"></a>
-				<h3>T0</h3>
-				<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> T0<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/interval.ts#L19">lib/interval.ts:19</a></li>
-							</ul>
-						</aside>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
-				<a name="t1" class="tsd-anchor"></a>
-				<h3>T1</h3>
-				<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> T1<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/interval.ts#L23">lib/interval.ts:23</a></li>
-							</ul>
-						</aside>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 				<a name="isdecreasing" class="tsd-anchor"></a>
 				<h3>is<wbr>Decreasing</h3>
 				<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
@@ -2898,9 +2895,14 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/interval.ts#L31">lib/interval.ts:31</a></li>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L50">lib/interval.ts:50</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>True if <a href="interval.html#t0">t0</a> is greater than <a href="interval.html#t1">t1</a></p>
+							</div>
+						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 					</li>
 				</ul>
@@ -2915,9 +2917,14 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/interval.ts#L27">lib/interval.ts:27</a></li>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L43">lib/interval.ts:43</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>True if <a href="interval.html#t0">t0</a> is less than <a href="interval.html#t1">t1</a></p>
+							</div>
+						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 					</li>
 				</ul>
@@ -2932,9 +2939,15 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/interval.ts#L35">lib/interval.ts:35</a></li>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L58">lib/interval.ts:58</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>True if <a href="interval.html#t0">t0</a> equals <a href="interval.html#t1">t1</a>
+								In this case, <a href="interval.html#length">length</a> will be 0</p>
+							</div>
+						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 					</li>
 				</ul>
@@ -2949,9 +2962,15 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/interval.ts#L61">lib/interval.ts:61</a></li>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L93">lib/interval.ts:93</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>The signed distance between <a href="interval.html#t0">t0</a> and <a href="interval.html#t1">t1</a>.
+								If the interval is decreasing (if <a href="interval.html#t1">t1</a> is less than <a href="interval.html#t0">t0</a>), this will return a negative value</p>
+							</div>
+						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 					</li>
 				</ul>
@@ -2966,18 +2985,13 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/interval.ts#L54">lib/interval.ts:54</a></li>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L82">lib/interval.ts:82</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Testing 123</p>
+								<p>The larger of <a href="interval.html#t0">t0</a> and <a href="interval.html#t1">t1</a></p>
 							</div>
-							<dl class="tsd-comment-tags">
-								<dt>returns:</dt>
-								<dd><p>The larger of T0 &amp; T1</p>
-								</dd>
-							</dl>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 					</li>
@@ -2993,9 +3007,14 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/interval.ts#L46">lib/interval.ts:46</a></li>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L75">lib/interval.ts:75</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>The value in the middle of <a href="interval.html#t0">t0</a> and <a href="interval.html#t1">t1</a></p>
+							</div>
+						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 					</li>
 				</ul>
@@ -3010,16 +3029,218 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/interval.ts#L39">lib/interval.ts:39</a></li>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L65">lib/interval.ts:65</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>The smaller of <a href="interval.html#t0">t0</a> and <a href="interval.html#t1">t1</a></p>
+							</div>
+						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+				<a name="t0" class="tsd-anchor"></a>
+				<h3>t0</h3>
+				<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> t0<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> t0<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L23">lib/interval.ts:23</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Gets or sets the start value of the interval</p>
+							</div>
+						</div>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+					</li>
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L26">lib/interval.ts:26</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Gets or sets the start value of the interval</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>value: <span class="tsd-signature-type">number</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+				<a name="t1" class="tsd-anchor"></a>
+				<h3>t1</h3>
+				<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> t1<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> t1<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L33">lib/interval.ts:33</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Gets or sets the end value of the interval</p>
+							</div>
+						</div>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+					</li>
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L36">lib/interval.ts:36</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Gets or sets the end value of the interval</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>value: <span class="tsd-signature-type">number</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 					</li>
 				</ul>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Methods</h2>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="grow" class="tsd-anchor"></a>
+				<h3>grow</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">grow<span class="tsd-signature-symbol">(</span>toInclude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L120">lib/interval.ts:120</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Expands the interval to include the new value</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>toInclude: <span class="tsd-signature-type">number</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="interval.html" class="tsd-signature-type">Interval</a></h4>
+						<p>A new interval containing this interval and the new value</p>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="includes" class="tsd-anchor"></a>
+				<h3>includes</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">includes<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L179">lib/interval.ts:179</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>True if the number is within the interval</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>t: <span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="intersection" class="tsd-anchor"></a>
+				<h3>intersection</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">intersection<span class="tsd-signature-symbol">(</span>intersector<span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L154">lib/interval.ts:154</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Finds the overlap between this and another interval</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>intersector: <a href="interval.html" class="tsd-signature-type">Interval</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The interval to find the overlap with</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="interval.html" class="tsd-signature-type">Interval</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+						<p>An interval representing the overlap. If there is no overlap, returns undefined.</p>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="reverse" class="tsd-anchor"></a>
+				<h3>reverse</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">reverse<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L109">lib/interval.ts:109</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Changes interval to [-<a href="interval.html#t1">t1</a>, -<a href="interval.html#t0">t0</a>]</p>
+							</div>
+						</div>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 				<a name="swap" class="tsd-anchor"></a>
 				<h3>swap</h3>
@@ -3030,10 +3251,80 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/interval.ts#L65">lib/interval.ts:65</a></li>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L100">lib/interval.ts:100</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Switches <a href="interval.html#t0">t0</a> and <a href="interval.html#t1">t1</a></p>
+							</div>
+						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="union" class="tsd-anchor"></a>
+				<h3>union</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">union<span class="tsd-signature-symbol">(</span>joiner<span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L136">lib/interval.ts:136</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Joins this and another interval to create one interval that encompasses them both.</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>joiner: <a href="interval.html" class="tsd-signature-type">Interval</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The interval to join with</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="interval.html" class="tsd-signature-type">Interval</a></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="valueat" class="tsd-anchor"></a>
+				<h3>value<wbr>At</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">value<wbr>At<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/interval.ts#L197">lib/interval.ts:197</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>The value at a normalized distance along the interval</p>
+							</div>
+							<pre><code class="language-js"><span class="hljs-keyword">let</span> interval = <span class="hljs-keyword">new</span> Interval(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>)
+<span class="hljs-built_in">console</span>.log(interval.parameterAt(<span class="hljs-number">0.1</span>))
+<span class="hljs-comment">// =&gt; 11</span></code></pre>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>t: <span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>A number between 0 &amp; 1</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 					</li>
 				</ul>
 			</section>
@@ -3045,6 +3336,7 @@ img {
 					<ul class="tsd-legend">
 						<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 						<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+						<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
 					</ul>
 				</div>
 			</div>

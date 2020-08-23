@@ -2736,13 +2736,47 @@ img {
 <div class="container container-main">
 	<div class="content-wrap">
 		<div class="tsd-panel tsd-typography">
+			<p><img src="https://img.shields.io/npm/v/shapetypes" alt="npm"></p>
 			<a href="#shapetypes" id="shapetypes" style="color: inherit; text-decoration: none;">
-				<h1>shapetypes</h1>
+				<h1>Shapetypes</h1>
 			</a>
-			<p>2d geometric objects and operations - including intersections, booleans, and transformations</p>
-			<p>Based on <a href="https://github.com/bitjson/typescript-starter">https://github.com/bitjson/typescript-starter</a></p>
-			<p>Test coverage: npm run cov
-			Docs: npm run doc (typedoc)</p>
+			<p>A 2d geometry library based loosely on the <a href="https://developer.rhino3d.com/api/">Rhino Common API</a>. </p>
+			<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+				<h1>Features</h1>
+			</a>
+			<ul>
+				<li>Essential geometry types – point, line, vector, rectangle, polyline, and polygon</li>
+				<li>Basic transformations – rotate, translate, and plane to plane</li>
+				<li>Intersections, booleans, and containment</li>
+				<li>Lightweight and written in Typescript</li>
+				<li><a href="https://deardanieldavis.github.io/shapetypes/">Lots of documentation</a></li>
+			</ul>
+			<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+				<h1>Getting started</h1>
+			</a>
+			<p><code>npm install shapetypes</code></p>
+			<pre><code class="language-ts"><span class="hljs-keyword">import</span> {Point, Plane, Rectangle} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>;
+<span class="hljs-keyword">let</span> rectangle = <span class="hljs-keyword">new</span> Rectangle(Plane.worldXY, <span class="hljs-number">10</span>, <span class="hljs-number">20</span>);
+<span class="hljs-built_in">console</span>.log(rectangle.area);
+<span class="hljs-comment">//&gt;200</span>
+<span class="hljs-built_in">console</span>.log(rectangle.contains(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">5</span>, <span class="hljs-number">5</span>)));
+<span class="hljs-comment">//&gt;true</span>
+</code></pre>
+			<a href="#alternatives" id="alternatives" style="color: inherit; text-decoration: none;">
+				<h1>Alternatives</h1>
+			</a>
+			<ul>
+				<li><a href="https://www.npmjs.com/package/rhino3dm">Rhino3dm</a>: A web assembly port of Rhino Common. This is a much
+				more extensive library that supports 3d geometry.</li>
+				<li><a href="https://www.npmjs.com/package/verb-nurbs">VerbNurbs</a>: A cross-platform Nurbs library.</li>
+				<li><a href="https://github.com/bjornharrtell/jsts">Javascript Topology Suite</a>: A library of geometric operations primarily for GIS data.</li>
+				<li><a href="https://turfjs.org">Turf JS</a>: Another library of geometric operations primarily for GIS data.</li>
+			</ul>
+			<a href="#credits" id="credits" style="color: inherit; text-decoration: none;">
+				<h1>Credits</h1>
+			</a>
+			<p>Package based on <a href="https://github.com/bitjson/typescript-starter">Typescript Starter</a>.
+			This project is not affiliated with Rhino3d or McNeel in any way.</p>
 		</div>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
@@ -2776,7 +2810,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/number.ts#L22">lib/number.ts:22</a></li>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/number.ts#L22">lib/number.ts:22</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2825,7 +2859,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/6a76e10/src/lib/number.ts#L43">lib/number.ts:43</a></li>
+								<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/ccfc1e2/src/lib/number.ts#L43">lib/number.ts:43</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2866,6 +2900,7 @@ img {
 					<ul class="tsd-legend">
 						<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 						<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+						<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
 					</ul>
 				</div>
 			</div>
