@@ -5,6 +5,7 @@ import { Point } from './point';
 import { approximatelyEqual } from './utilities';
 import { Vector } from './vector';
 
+/*
 test('PointAt', t => {
   // No translation, no rotation
   let center = new Point(0, 0);
@@ -119,7 +120,7 @@ test('Remap', t => {
   t.is(approximatelyEqual(plane.remapToPlaneSpace(new Point(2, 3)).v, 0), true);
   t.is(approximatelyEqual(plane.remapToPlaneSpace(new Point(1, 3)).u, 0), true);
   t.is(approximatelyEqual(plane.remapToPlaneSpace(new Point(1, 3)).v, 1), true);
-});
+});*/
 
 test('BackAndForth', t => {
   let center = new Point(2, 3);

@@ -49,7 +49,7 @@ export class Transform {
   }
 
   /**
-   * Creates a rotational transformation that rotates an object about a point
+   * Creates a rotational transformation that rotates an object clockwise about a point
    * Based on: https://www.javatpoint.com/general-pivot-point-rotation-or-rotation-about-fixed-point
    * @param angle: Angle of rotation, in radians
    * @param pivot: Pivot point for rotation. If undefined, will use 0,0
@@ -73,6 +73,32 @@ export class Transform {
     if (pivot !== undefined) {
       tran.M20 = pivot.x * (1 - cos) - pivot.y * sin;
       tran.M21 = pivot.y * (1 - cos) + pivot.x * sin;
+    }
+
+    return tran;
+  }
+
+  /**
+   * https://www.javatpoint.com/computer-graphics-3d-scaling
+   * https://www.cs.rit.edu/~icss571/clipTrans/2DTransBack.html
+   * @param x
+   * @param y
+   * @param center
+   */
+  public static scale(x: number, y?: number, center?: Point): Transform {
+    const tran = new Transform(1);
+
+    tran.M00 = x;
+    // tslint:disable-next-line:prefer-conditional-expression
+    if(y === undefined) {
+      tran.M11 = x;
+    } else {
+      tran.M11 = y;
+    }
+
+    if(center !== undefined) {
+      tran.M20 = center.x * (1 - tran.M00);
+      tran.M21 = center.y * (1 - tran.M11);
     }
 
     return tran;

@@ -1,191 +1,312 @@
 // tslint:disable:no-let
+// tslint:disable:readonly-array
+
+import { IntervalSorted } from './intervalSorted';
 
 /**
- * A number range between two values.
+ * An interval represents a number range between two values ([[T0]] & [[T1]]). This range can be increasing (when [[T0]] < [[T1]]) or decreasing (when [[T0]] > [[T1]]).
+ *
+ * ### Example
+ * ```js
+ * import { Interval } from 'shapetypes'
+ *
+ * const interval = new Interval(5, 10);
+ * console.log(interval.length);
+ * // => 5
+ * console.log(interval.mid);
+ * // => 7.5
+ * console.log(interval.contains(8));
+ * // => True
+ * console.log(interval.isIncreasing);
+ * // => True
+ *
+ * const interval = new Interval(10, 5);
+ * console.log(interval.length);
+ * // => -5
+ * console.log(interval.contains(8));
+ * // => True
+ * console.log(interval.isIncreasing);
+ * // => False
+ * ```
+ *
  */
 
 export class Interval {
-  private _t0: number;
-  private _t1: number;
+  // -----------------------
+  // STATIC
+  // -----------------------
 
   /**
-   * @param t0  The start of the interval (could be the interval's min or max)
-   * @param t1  The end of the interval (could be the interval's min or max)
+   * Creates a new interval that encompasses all the values in the array.
+   *
+   * ### Example
+   * ```js
+   * const interval = Interval.fromValues([5, 3, 4]);
+   * console.log(interval.min);
+   * // => 3
+   * console.log(interval.max);
+   * // => 5
+   * ```
+   * @param values  Numbers to contain within the interval.
    */
-  constructor(t0: number, t1: number) {
-    this._t0 = t0;
-    this._t1 = t1;
+  public static fromValues(values: number[]): Interval {
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    return new Interval(min, max);
   }
 
   /**
-   * Gets or sets the start value of the interval
+   * Creates a new interval by duplicating an existing interval
+   * @param interval
    */
-  get t0(): number {
-    return this._t0;
-  }
-  set t0(value: number) {
-    this._t0 = value;
+  public static fromExisting(interval: Interval | IntervalSorted): Interval {
+    if(interval instanceof Interval) {
+      return new Interval(interval.T0, interval.T1);
+    } else {
+      return new Interval(interval.min, interval.max);
+    }
   }
 
   /**
-   * Gets or sets the end value of the interval
+   * Creates a new interval that encompasses these two intervals.
+   * @param a First interval to encompass.
+   * @param b Second interval to encompass.
    */
-  get t1(): number {
-    return this._t1;
-  }
-  set t1(value: number) {
-    this._t1 = value;
+  public static union(a: Interval, b: Interval): Interval {
+    return Interval.fromValues([a.min, a.max, b.min, b.max]);
   }
 
   /**
-   * True if [[t0]] is less than [[t1]]
+   * Creates a new interval that is the overlapping portion of two intervals.
+   *
+   * ### Example
+   * ```js
+   * const a = new Interval(5, 10);
+   * const b = new Interval(-2, 7);
+   * const result = Interval.fromIntersection(a, b);
+   * console.log(result.min);
+   * // => 5
+   * console.log(result.max);
+   * // => 7
+   * ```
+   * @param a First interval to intersect
+   * @param b Second interval to intersect
+   * @returns   An interval representing the overlap between intervals. If there is no overlap, returns undefined.
    */
-  get isIncreasing(): boolean {
-    return this._t0 < this._t1;
+  public static intersection(
+    a: Interval,
+    b: Interval
+  ): Interval | undefined {
+    if (a.max < b.min) {
+      // No overlap
+      return;
+    }
+    if (b.max < a.min) {
+      return;
+    }
+
+    let min = a.min;
+    if (b.min > a.min) {
+      min = b.min;
+    }
+
+    let max = a.max;
+    if (b.max < a.max) {
+      max = b.max;
+    }
+
+    return new Interval(min, max);
+  }
+
+  // -----------------------
+  // VARS
+  // -----------------------
+  private _T0: number;
+  private _T1: number;
+
+  // -----------------------
+  // CONSTRUCTOR
+  // -----------------------
+
+  /**
+   * The interval is defined two values, which are the min and max of the number range.
+   * @param T0  The start of the interval (either starts at the min or max value. If range is increasing, will be min).
+   * @param T1  The end of the interval (either ends at the min or max value. If range is increasing, will be max).
+   */
+  constructor(T0: number, T1: number) {
+    this._T0 = T0;
+    this._T1 = T1;
+  }
+
+  // -----------------------
+  // GET & SET
+  // -----------------------
+
+  /**
+   * The start of the interval (either starts at the min or max value).
+   * @constructor
+   */
+  get T0(): number {
+    return this._T0;
+  }
+  set T0(value: number) {
+    this._T0 = value;
   }
 
   /**
-   * True if [[t0]] is greater than [[t1]]
+   * The end of the interval (either ends at the min or max value).
+   * @constructor
+   */
+  get T1(): number {
+    return this._T1;
+  }
+  set T1(value: number) {
+    this._T1 = value;
+  }
+
+  /**
+   * True if [[T0]] > [[T1]].
    */
   get isDecreasing(): boolean {
-    return this._t0 > this._t1;
+    return this._T0 > this._T1;
   }
 
   /**
-   * True if [[t0]] equals [[t1]]
-   * In this case, [[length]] will be 0
+   * True if [[T0]] < [[T1]].
+   */
+  get isIncreasing(): boolean {
+    return this._T0 < this._T1;
+  }
+
+  /**
+   * True if [[T0]] and [[T1]] are the same value.
    */
   get isSingleton(): boolean {
-    return this._t0 === this._t1;
+    return this._T0 === this._T1;
   }
 
   /**
-   * The smaller of [[t0]] and [[t1]]
+   * The smaller of [[T0]] and [[T1]].
    */
   get min(): number {
-    if (this._t0 <= this._t1) {
-      return this._t0;
+    if(this._T0 <= this._T1) {
+      return this._T0;
     }
-    return this._t1;
+    return this._T1;
   }
 
   /**
-   * The value in the middle of [[t0]] and [[t1]]
+   * The value at the middle of [[T0]] and [[T1]].
    */
   get mid(): number {
-    return (this._t0 + this._t1) / 2;
+    return (this._T0 + this._T1) / 2;
   }
 
   /**
-   * The larger of [[t0]] and [[t1]]
+   * The larger of [[T0]] and [[T1]].
    */
   get max(): number {
-    if (this._t0 <= this._t1) {
-      return this._t1;
+    if(this._T0 <= this._T1) {
+      return this._T1;
     }
-    return this._t0;
+    return this._T0;
   }
 
   /**
-   * The signed distance between [[t0]] and [[t1]].
-   * If the interval is decreasing (if [[t1]] is less than [[t0]]), this will return a negative value
+   * The signed distance between [[T0]] and [[T1]]. If the interval is increasing, this will be positive. If the interval is decreasing, it will be negative.
    */
   get length(): number {
-    return this._t1 - this._t0;
+    return this._T1 - this._T0;
   }
 
   /**
-   * Switches [[t0]] and [[t1]]
+   * The absolute distance between [[T0]] and [[T1]]. Will be positive regardless of whether the interval is increasing or decreasing.
    */
-  public swap(): void {
-    const temp = this._t0;
-    this._t0 = this._t1;
-    this._t1 = temp;
+  get lengthAbs(): number {
+    if(this._T0 <= this._T1) {
+      return this._T1 - this._T0;
+    }
+    return this._T0 - this._T1;
   }
 
+  // -----------------------
+  // PUBLIC
+  // -----------------------
+
   /**
-   * Changes interval to [-[[t1]], -[[t0]]]
+   * Changes interval to [-[[T1]], -[[T0]]]
    */
   public reverse(): void {
-    const temp = this._t0;
-    this._t0 = -1 * this._t1;
-    this._t1 = -1 * temp;
+    const temp = this._T0;
+    this._T0 = -1 * this._T1;
+    this._T1 = -1 * temp;
   }
 
   /**
-   * Expands the interval to include the new value
+   * Changes interval to [[[T1]], [[T0]]]
+   */
+  public swap(): void {
+    const temp = this._T0;
+    this._T0 = this._T1;
+    this._T1 = temp;
+  }
+
+  /**
+   * Expands the interval to include the new value.
+   *
+   * ### Example
+   * ```js
+   * const interval = new Interval(5, 10);
+   * interval.grow(20);
+   * console.log(interval.min);
+   * // => 5
+   * console.log(interval.max);
+   * // => 20
+   * ```
    * @param toInclude
-   * @returns   A new interval containing this interval and the new value
    */
-  public grow(toInclude: number): Interval {
-    let min = this.min;
-    if (toInclude < min) {
-      min = toInclude;
+  public grow(toInclude: number): void {
+    if(this.isIncreasing) {
+      if (toInclude < this._T0) {
+        this._T0 = toInclude;
+      } else if (toInclude > this._T1) {
+        this._T1 = toInclude;
+      }
+    } else {
+      if (toInclude < this._T1) {
+        this._T1 = toInclude;
+      } else if (toInclude > this._T0) {
+        this._T0 = toInclude;
+      }
     }
-    let max = this.max;
-    if (toInclude > max) {
-      max = toInclude;
-    }
-    return new Interval(min, max);
+
   }
 
   /**
-   * Joins this and another interval to create one interval that encompasses them both.
-   * @param joiner  The interval to join with
+   * True if the value is within the interval.
+   * @param value   Number to check for containment
+   * @param strict  If true, the value has to be fully inside the interval and can't equal [[min]] or [[max]]. If false, the value has to be inside interval but can equal [[min]] or [[max]].
    */
-  public union(joiner: Interval): Interval {
-    let min = this.min;
-    if (joiner.min < min) {
-      min = joiner.min;
+  public contains(value: number, strict: boolean = false): boolean {
+    if (strict) {
+      // Must be fully inside
+      if (this.min < value && value < this.max) {
+        return true;
+      }
+    } else {
+      // Can equal the extremes
+      if (this.min <= value && value <= this.max) {
+        return true;
+      }
     }
 
-    let max = this.max;
-    if (joiner.max > max) {
-      max = joiner.max;
-    }
-    return new Interval(min, max);
-  }
-
-  /**
-   * Finds the overlap between this and another interval
-   * @param intersector The interval to find the overlap with
-   * @returns   An interval representing the overlap. If there is no overlap, returns undefined.
-   */
-  public intersection(intersector: Interval): Interval | undefined {
-    if (this.max < intersector.min) {
-      return;
-    }
-    if (intersector.max < this.min) {
-      return;
-    }
-
-    let min = this.min;
-    if (intersector.min < min) {
-      min = intersector.min;
-    }
-
-    let max = this.max;
-    if (intersector.max > max) {
-      max = intersector.max;
-    }
-
-    return new Interval(min, max);
-  }
-
-  /**
-   * True if the number is within the interval
-   * @param t
-   */
-  public includes(t: number): boolean {
-    if (this.min <= t && t <= this.max) {
-      return true;
-    }
     return false;
   }
 
   /**
    * The value at a normalized distance along the interval
    *
+   * ### Example
    * ```js
    * let interval = new Interval(10, 20)
    * console.log(interval.parameterAt(0.1))
@@ -195,6 +316,22 @@ export class Interval {
    * @param t   A number between 0 & 1
    */
   public valueAt(t: number): number {
-    return this.min * (1 - t) + this.max * t;
+    return this._T0 * (1 - t) + this._T1 * t;
+  }
+
+  /**
+   * Remaps a value into the normalized distance of the interval.
+   *
+   * ### Example
+   * ```js
+   * let interval = new Interval(10, 20)
+   * console.log(interval.remapToInterval(11))
+   * // => 0.1
+   * ```
+   * @param value
+   */
+  public remapToInterval(value: number): number {
+    const t = (value - this._T0) / (this._T1 - this._T0);
+    return t;
   }
 }

@@ -7,5 +7,5 @@ export interface SettingsInterface {
 export const shapetypesSettings: SettingsInterface = {
   absoluteTolerance: 0.000001,
   angleTolerance: Math.PI / 360, // 1 degree
-  invertY: true
+  invertY: false
 };

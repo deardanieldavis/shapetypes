@@ -65,7 +65,7 @@ export class Plane {
       this.refreshTransforms();
     }
     if (this._cacheInvert === undefined) {
-      throw new Error("Cache not defined");
+      throw new Error('Cache not defined');
     }
 
     const result = this._cacheInvert.transform(new Point(u, v));
@@ -84,7 +84,7 @@ export class Plane {
       this.refreshTransforms();
     }
     if (this._cacheRemap === undefined) {
-      throw new Error("Cache not defined");
+      throw new Error('Cache not defined');
     }
 
     const result = this._cacheRemap.transform(point);

@@ -1,31 +1,116 @@
 // tslint:disable:no-let
 import test from 'ava';
 import { Interval } from './interval';
+import { IntervalSorted } from './intervalSorted';
 
-test('Getting T0 & T1', t => {
-  const interval = new Interval(5, 10);
+// -----------------------
+// STATIC
+// -----------------------
+test('fromValues', t => {
+  const a = Interval.fromValues([1,2,3,4,5]);
+  t.is(a.min, 1);
+  t.is(a.max, 5);
 
-  t.is(interval.t0, 5);
-  t.is(interval.t1, 10);
+  const b = Interval.fromValues([5,-2,3,4,5]);
+  t.is(b.min, -2);
+  t.is(b.max, 5);
 });
 
-test('Setting T0 & T1', t => {
-  const interval = new Interval(5, 10);
-  interval.t0 = 20;
-  interval.t1 = 22;
+test('fromInterval', t => {
+  const a = Interval.fromExisting(new Interval(5, 10));
+  t.is(a.T0, 5);
+  t.is(a.T1, 10);
 
-  t.is(interval.t0, 20);
-  t.is(interval.t1, 22);
+  const b = Interval.fromExisting(new IntervalSorted(5, 10));
+  t.is(b.T0, 5);
+  t.is(b.T1, 10);
 });
 
-test('Increasing and decreasing', t => {
-  let interval = new Interval(5, 10);
+test('fromUnion', t => {
+  const a = new Interval(5, 10);
+  const b = new Interval(-10, -20);
+  const result = Interval.union(a, b);
+
+  t.is(result.min, -20);
+  t.is(result.max, 10);
+});
+
+test('fromIntersection', t => {
+  // No overlap
+  const a = new Interval(5, 10);
+  const b = new Interval(-10, -20);
+  let result = Interval.intersection(a, b);
+  t.assert(result === undefined);
+  result = Interval.intersection(b, a);
+  t.assert(result === undefined);
+
+  // Overlap
+  const c = new Interval(-2, 7);
+  result = Interval.intersection(a, c);
+  if (result === undefined) {
+    t.fail();
+    return;
+  }
+  t.is(result.T0, 5);
+  t.is(result.T1, 7);
+
+  result = Interval.intersection(c, a);
+  if (result === undefined) {
+    t.fail();
+    return;
+  }
+  t.is(result.T0, 5);
+  t.is(result.T1, 7);
+});
+
+
+// -----------------------
+// CONSTRUCTOR
+// -----------------------
+test('Creating interval', t => {
+  const interval = new Interval(5, 10);
+  t.is(interval.T0, 5);
+  t.is(interval.T1, 10);
+});
+
+
+
+// -----------------------
+// GET AND SET
+// -----------------------
+
+test('T0', t => {
+  const interval = new Interval(5, 10);
+  t.is(interval.T0, 5);
+  interval.T0 = 20;
+  t.is(interval.T0, 20);
+});
+
+test('T1', t => {
+  const interval = new Interval(5, 10);
+  t.is(interval.T1, 10);
+  interval.T1 = 20;
+  t.is(interval.T1, 20);
+});
+
+test('Increasing', t => {
+  const interval = new Interval(5, 10);
   t.is(interval.isIncreasing, true);
   t.is(interval.isDecreasing, false);
+});
 
-  interval = new Interval(15, 10);
+test('Decreasing', t => {
+  const interval = new Interval(10, 5);
   t.is(interval.isIncreasing, false);
   t.is(interval.isDecreasing, true);
+});
+
+test('Singleton', t => {
+  const interval = new Interval(10, 10);
+  t.is(interval.isSingleton, true);
+
+  const notSingle = new Interval(5, 10);
+  t.is(notSingle.isSingleton, false);
 });
 
 test('Min & max', t => {
@@ -38,70 +123,73 @@ test('Min & max', t => {
   t.is(interval.max, 10);
 });
 
+
 test('Mid', t => {
   const interval = new Interval(5, 10);
   t.is(interval.mid, 7.5);
 });
 
 test('Length', t => {
-  const interval = new Interval(5, 10);
+  let interval = new Interval(5, 10);
   t.is(interval.length, 5);
+  t.is(interval.lengthAbs, 5);
+
+  interval = new Interval(10, 5);
+  t.is(interval.length, -5);
+  t.is(interval.lengthAbs, 5);
 });
 
-test('Singleton', t => {
-  const interval = new Interval(10, 10);
-  t.is(interval.isSingleton, true);
+// -----------------------
+// PUBLIC
+// -----------------------
+
+test('Reverse', t => {
+  const interval = new Interval(5, 10);
+  interval.reverse();
+  t.is(interval.T0, -10);
+  t.is(interval.T1, -5);
 });
 
 test('Swap', t => {
   const interval = new Interval(5, 10);
   interval.swap();
-  t.is(interval.t0, 10);
-  t.is(interval.t1, 5);
-});
-
-test('Reverse', t => {
-  const interval = new Interval(5, 10);
-  interval.reverse();
-  t.is(interval.t0, -10);
-  t.is(interval.t1, -5);
+  t.is(interval.T0, 10);
+  t.is(interval.T1, 5);
 });
 
 test('Grow', t => {
-  const interval = new Interval(5, 10);
+  let interval = new Interval(5, 10);
+  interval.grow(20);
+  t.is(interval.T0, 5);
+  t.is(interval.T1, 20);
 
-  let growed = interval.grow(20);
-  t.is(growed.t0, 5);
-  t.is(growed.t1, 20);
+  interval = new Interval(5, 10);
+  interval.grow(-10);
+  t.is(interval.T0, -10);
+  t.is(interval.T1, 10);
 
-  growed = interval.grow(-10);
-  t.is(growed.t0, -10);
-  t.is(growed.t1, 10);
+  interval = new Interval(10, 5);
+  interval.grow(20);
+  t.is(interval.T0, 20);
+  t.is(interval.T1, 5);
+
+  interval = new Interval(10, 5);
+  interval.grow(-10);
+  t.is(interval.T0, 10);
+  t.is(interval.T1, -10);
 });
 
-test('Union', t => {
-  const a = new Interval(5, 10);
-  const b = new Interval(-10, -20);
-  const result = a.union(b);
+test('Contains', t => {
+  const interval = new Interval(10, 20);
 
-  t.is(result.min, -20);
-  t.is(result.max, 10);
-});
+  t.is(interval.contains(0), false);
+  t.is(interval.contains(15), true);
+  t.is(interval.contains(20), true);
+  t.is(interval.contains(20.1), false);
 
-test('Intersection', t => {
-  const a = new Interval(5, 10);
-  const b = new Interval(-10, -20);
-  let result = a.intersection(b);
-  t.assert(result === undefined);
-
-  const c = new Interval(-2, 7);
-  result = a.intersection(c);
-  if (result === undefined) {
-    t.fail();
-    return;
-  }
-  t.is(result.t0, -2);
-  t.is(result.t1, 10);
+  t.is(interval.contains(10, true), false);
+  t.is(interval.contains(15, true), true);
+  t.is(interval.contains(20, true), false);
 });
 
 test('valueAt', t => {
@@ -112,11 +200,11 @@ test('valueAt', t => {
   t.is(interval.valueAt(0.9), 19);
 });
 
-test('includes', t => {
+test('remap', t => {
   const interval = new Interval(10, 20);
 
-  t.is(interval.includes(0), false);
-  t.is(interval.includes(15), true);
-  t.is(interval.includes(20), true);
-  t.is(interval.includes(20.1), false);
+  t.is(interval.remapToInterval(10), 0);
+  t.is(interval.remapToInterval(11), 0.1);
+  t.is(interval.remapToInterval(19), 0.9);
 });
+

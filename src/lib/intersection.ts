@@ -276,7 +276,7 @@ export class Intersection {
     const intersections = new Array<Point>();
 
     // The polylines can only intersect if the bounding boxes overlap
-    const result = BoundingBox.union(a.boundingBox, b.boundingBox);
+    const result = BoundingBox.intersection(a.boundingBox, b.boundingBox);
     if (result !== undefined) {
       for (const edgeA of a.getSegments()) {
         for (const edgeB of b.getSegments()) {

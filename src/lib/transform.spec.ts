@@ -1,6 +1,5 @@
 // tslint:disable:no-let
 import test from 'ava';
-import { Plane } from './plane';
 import { Point } from './point';
 import { shapetypesSettings } from './settings';
 import { Transform } from './transform';
@@ -17,6 +16,38 @@ test('Translate', t => {
   p = tran.transform(new Point(-10, -10));
   t.is(p.x, -14);
   t.is(p.y, 30);
+});
+
+test('Scale', t => {
+  const tran = Transform.scale(2);
+  let p = tran.transform(new Point(0, 0));
+  t.is(p.x, 0);
+  t.is(p.y, 0);
+
+  p = tran.transform(new Point(3, 8));
+  t.is(p.x, 6);
+  t.is(p.y, 16);
+});
+
+test('ScaleAboutPoint', t => {
+  let tran = Transform.scale(2, 2, new Point(0,0));
+  let p = tran.transform(new Point(0, 0));
+  t.is(p.x, 0);
+  t.is(p.y, 0);
+
+  p = tran.transform(new Point(3, 8));
+  t.is(p.x, 6);
+  t.is(p.y, 16);
+
+  tran = Transform.scale(2, 2, new Point(3,8));
+  p = tran.transform(new Point(0, 0));
+  t.is(p.x, -3);
+  t.is(p.y, -8);
+
+  p = tran.transform(new Point(3, 8));
+  t.is(p.x, 3);
+  t.is(p.y, 8);
+
 });
 
 test('Rotation', t => {
@@ -97,6 +128,7 @@ test('Rotation around point', t => {
   t.is(p.y, 1);
 });
 
+/*
 test('plane to plane', t => {
   let planeFrom = new Plane(new Point(0, 0), Vector.worldX());
 
@@ -166,7 +198,7 @@ test('plane to plane', t => {
   p = tran.transform(new Point(-7, -6));
   t.is(approximatelyEqual(p.x, -1), true);
   t.is(approximatelyEqual(p.y, 1), true);
-});
+});*/
 
 /*
 test('Change basis', t => {

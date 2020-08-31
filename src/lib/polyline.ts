@@ -243,7 +243,7 @@ export class Polyline {
     let closestPoint: Point = point;
 
     for (const line of this.getSegments()) {
-      const test = line.closestPoint(point);
+      const test = line.closestPoint(point, true);
       const length = point.distanceTo(test);
 
       if (closestLength === undefined || length < closestLength) {
@@ -268,7 +268,7 @@ export class Polyline {
     const edges = this.getSegments();
     for (let i = 0; i < edges.length; i++) {
       const edge = edges[i];
-      const test = edge.closestParameter(point);
+      const test = edge.closestParameter(point, true);
       const p = edge.pointAt(test);
       const length = point.distanceTo(p);
 
@@ -325,7 +325,7 @@ export class Polyline {
     const tolerance = 0.01;
 
     // 1. Before running any of the expensive calculations, quickly check to see if the point is even close to polyline
-    const bb = this.boundingBox.duplicate();
+    const bb = BoundingBox.fromExisting(this.boundingBox);
     bb.inflate(tolerance); // Need to inflate the bounding box slightly to account for points that are coincident but just slightly outside
     if (!bb.contains(point)) {
       return PointContainment.outside;

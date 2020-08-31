@@ -2,28 +2,43 @@
 // tslint:disable:no-let
 // FROM: https://github.com/mapbox/polylabel
 
-import { Polygon as ClipPolygon } from "polygon-clipping";
+import { Polygon as ClipPolygon } from 'polygon-clipping';
 import Queue from 'tinyqueue';
 
 // if (Queue.default) { Queue = Queue.default; } // temporary webpack fix
 // module.exports = polylabel;
 // module.exports.default = polylabel;
 
-export function polylabel(polygon: ClipPolygon, precision: number = 1.0): { x: number, y: number, distance: number } {
-
+export function polylabel(
+  polygon: ClipPolygon,
+  precision: number = 1.0
+): { x: number; y: number; distance: number } {
   // find the bounding box of the outer ring
   let minX: number | undefined;
   let minY: number | undefined;
   let maxX: number | undefined;
   let maxY: number | undefined;
-  for(const p of polygon[0]) {
-    if (minX === undefined || p[0] < minX) { minX = p[0]; }
-    if (minY === undefined || p[1] < minY) { minY = p[1]; }
-    if (maxX === undefined || p[0] > maxX) { maxX = p[0]; }
-    if (maxY === undefined || p[1] > maxY) { maxY = p[1]; }
+  for (const p of polygon[0]) {
+    if (minX === undefined || p[0] < minX) {
+      minX = p[0];
+    }
+    if (minY === undefined || p[1] < minY) {
+      minY = p[1];
+    }
+    if (maxX === undefined || p[0] > maxX) {
+      maxX = p[0];
+    }
+    if (maxY === undefined || p[1] > maxY) {
+      maxY = p[1];
+    }
   }
 
-  if(minX === undefined || minY === undefined || maxX === undefined || maxY === undefined) {
+  if (
+    minX === undefined ||
+    minY === undefined ||
+    maxX === undefined ||
+    maxY === undefined
+  ) {
     throw new Error("Couldn't define min/max");
   }
 
@@ -33,7 +48,7 @@ export function polylabel(polygon: ClipPolygon, precision: number = 1.0): { x: n
   let h = cellSize / 2;
 
   if (cellSize === 0) {
-    return { x: minX, y: minY, distance: 0};
+    return { x: minX, y: minY, distance: 0 };
   }
 
   // a priority queue of cells in order of their "potential" (max distance to polygon)
@@ -51,13 +66,15 @@ export function polylabel(polygon: ClipPolygon, precision: number = 1.0): { x: n
 
   // special case for rectangular polygons
   const bboxCell = new Cell(minX + width / 2, minY + height / 2, 0, polygon);
-  if (bboxCell.d > bestCell.d) { bestCell = bboxCell; }
+  if (bboxCell.d > bestCell.d) {
+    bestCell = bboxCell;
+  }
 
   while (cellQueue.length) {
     // pick the most promising cell from the queue
     const cell = cellQueue.pop();
 
-    if(cell === undefined) {
+    if (cell === undefined) {
       break;
     }
 
@@ -67,7 +84,9 @@ export function polylabel(polygon: ClipPolygon, precision: number = 1.0): { x: n
     }
 
     // do not drill down further if there's no chance of a better solution
-    if (cell.max - bestCell.d <= precision) { continue; }
+    if (cell.max - bestCell.d <= precision) {
+      continue;
+    }
 
     // split the cell into four cells
     h = cell.h / 2;
@@ -97,16 +116,19 @@ class Cell {
 }
 
 function compareMax(a: Cell, b: Cell): number {
- return b.max - a.max;
+  return b.max - a.max;
 }
 
-
 // signed distance from point to polygon outline (negative if point is outside)
-function pointToPolygonDist(x: number, y: number, polygon: ClipPolygon): number {
+function pointToPolygonDist(
+  x: number,
+  y: number,
+  polygon: ClipPolygon
+): number {
   let inside = false;
   let minDistSq = Infinity;
 
-  for(const ring of polygon) {
+  for (const ring of polygon) {
     for (let i = 0, len = ring.length, j = len - 1; i < len; j = i++) {
       const a = ring[i];
       const b = ring[j];
