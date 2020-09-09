@@ -3,20 +3,49 @@ import { Point } from './point';
 import { Transform } from './transform';
 import { Vector } from './vector';
 
+
+/**
+ * A Line is a straight edge between two points.
+ *
+ * ### Example
+ * ```js
+ * import { Line } from 'shapetypes'
+ *
+ * const diagonal = new Line(new Point(3,4), new Point(6,9));
+ * console.log(diagonal.length);
+ * // -> 5
+ * console.log(line.pointAt(0.5));
+ *
+ * console.log(line.closestPoint(new Point(4,5));
+ *
+ * console.log(line.unitTangent());
+ *
+ * TODO:
+ * ```
+ */
+
 export class Line {
   // -----------------------
   // STATIC
   // -----------------------
   /**
    * Creates a new line from a start point and a vector.
-   * @param from  The start point for the line
-   * @param direction The direction of the line
-   * @param length  The length of the line. If undefined, will use length of vector.
+   * @param from      The start point for the line.
+   * @param direction The direction of the line.
+   * @param length    The length of the line. If undefined, will use length of direction vector.
    */
   public static fromVector(from: Point, direction: Vector, length?: number): Line {
     const to = from.duplicate();
     to.translate(direction, length);
     return new Line(from, to);
+  }
+
+  /**
+   * Creates a new line by copying an existing one.
+   * @param existing
+   */
+  public static fromExisting(existing: Line): Line {
+    return new Line(existing.from.duplicate(), existing.to.duplicate());
   }
 
 
@@ -35,12 +64,12 @@ export class Line {
   // -----------------------
 
   /**
-   * A line is defined as a straight edge between two points.
-   * @param from  The start point of the line
-   * @param to: The end point of the line
+   * A line is a straight edge between two points.
+   * @param from  The start of the line
+   * @param to:   The end of the line
    */
   constructor(from: Point, to: Point) {
-    this.changePoints(from.duplicate(), to.duplicate());
+    this.changePoints(from, to);
   }
 
   // -----------------------
@@ -48,14 +77,14 @@ export class Line {
   // -----------------------
 
   /**
-   * The minimum bounding box around the line.
+   * The smallest bounding box that contains the line.
    */
   get boundingBox(): BoundingBox {
     return BoundingBox.fromCorners(this._from, this._to);
   }
 
   /**
-   * Direction of line going [[from]] -> [[to]]. The length of the vector is the length of the line.
+   * The vector between [[from]] and [[to]]. The length of the vector is the length of the line.
    */
   get direction(): Vector {
     if(this._internalCacheVector === undefined) {
@@ -91,8 +120,7 @@ export class Line {
     return this.direction.length;
   }
   /**
-   * @param distance  Will adjust the end point to make the line this distance.
-   * If the distance is set to a negative number, the end point will travel past the start point and the direciton of the line will be reversed, but the resulting length will still be a postive number.
+   * @param distance  Changing the length of the line by moving the [[to]] point. If the length is set to a negative number, the line will be reversed but the length will remain positive.
    */
   set length(distance: number) {
     const to = this._from.duplicate();
@@ -101,7 +129,7 @@ export class Line {
   }
 
   /**
-   * A vector tangent to the line. This is the vector perpendicular to [[direction]]. Will always have a length of 1.
+   * The line's tangent vector. This vector is perpendicular to [[direction]]. It is always has a length of 1. It is always points to the right side of the line if looking [[from]] -> [[to]].
    */
   get unitTangent(): Vector {
     const t = this.direction.perpendicular();
@@ -115,10 +143,10 @@ export class Line {
   // -----------------------
 
   /**
-   * Finds the parameter for the closest point on the line.
-   * @param point Will find the parameter for the point that is closest to this point.
-   * @param limitToFiniteSegment  If false, treats the line as infinite. If true, only considers points within the bounds of the line.
-   * @return The normalized parameter of the closest point. See: [[pointAt]].
+   * Finds the parameter of the closest point on the line.
+   * @param point                     Finds the parameter of the closest point relative to this point.
+   * @param limitToFiniteSegment      If true, the parameter must be for a point within the bounds of the line. If false, the line is treated as infinite.
+   * @return                          The normalized parameter of the closest point. To understand this value, see: [[pointAt]].
    */
   public closestParameter(point: Point, limitToFiniteSegment: boolean = true): number {
     // Based on: http://paulbourke.net/geometry/pointlineplane/
@@ -139,27 +167,52 @@ export class Line {
   }
 
   /**
-   * Finds the closest point on the line to a given point.
-   * @param point Will find the point on the Line that is closest to this point.
-   * @param limitToFiniteSegment  If false, treats the line as infinite. If true, only returns points within the bounds of the line.
+   * Finds the closest point on the line.
+   * @param point                 Finds the closest point relative to this point.
+   * @param limitToFiniteSegment  If true, the closest point must be within the bounds of the line. If false, the line is treated as infinite.
    */
   public closestPoint(point: Point, limitToFiniteSegment: boolean = true): Point {
-    return this.pointAt(this.closestParameter(point, limitToFiniteSegment));
+    return this.pointAt(this.closestParameter(point, limitToFiniteSegment), limitToFiniteSegment);
   }
 
   /**
-   * The smallest distance between this line and a given point.
-   * @param point
+   * The smallest distance between this line and a given point or line.
+   * @param geometry
+   * @param limitToFiniteSegment  If false, the line is treated as infinite.
    */
-  public distanceTo(point: Point): number {
-    const closest = this.closestPoint(point, true);
-    return closest.distanceTo(point);
+  public distanceTo(geometry: Point | Line, limitToFiniteSegment: boolean = true): number {
+    if(geometry instanceof Point) {
+      const closest = this.closestPoint(geometry, limitToFiniteSegment);
+      return closest.distanceTo(geometry);
+    } else {
+      // This is a naive calculation
+      const a = this.distanceTo(geometry.to, limitToFiniteSegment);
+      const b = this.distanceTo(geometry.from, limitToFiniteSegment);
+      const c = geometry.distanceTo(this._to, limitToFiniteSegment);
+      const d = geometry.distanceTo(this._from, limitToFiniteSegment);
+
+      return Math.min(a,b,c,d);
+    }
   }
 
   /**
-   *
-   * @param fromDistance
-   * @param toDistance
+   * Two lines are equal if [[from]] and [[to]] are identical in both lines.
+   * @param line        The line to test for equality
+   * @param tolerance   The distance the points can be apart and still considered identical
+   */
+  public equals(line: Line, tolerance: number = 0): boolean {
+    if(this._from.equals(line.from, tolerance)) {
+      if(this._to.equals(line.to, tolerance)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Increases or decreases the length of the line on either end. Moves end points to accommodate.
+   * @param fromDistance  Distance to move [[from]] point. If 0, [[from]] will remain in place. If greater than 0, the line will lengthen.
+   * @param toDistance    Distance to move [[to]] point. If 0, [[to]] will remain in place. If greater than 0, the line will lengthen.
    */
   public extend(fromDistance: number, toDistance: number): void {
     const extendedFrom = this._from.duplicate();
@@ -171,72 +224,61 @@ export class Line {
     this.changePoints(extendedFrom, extendedTo);
   }
 
+  /**
+   * Swaps [[from]] and [[to]].
+   */
   public flip(): void {
     this.changePoints(this._to, this._from);
   }
 
-  public maximumDistanceTo(geometry: Point | Line): number {
-    if(geometry instanceof Point) {
-      const from = geometry.distanceTo(this._from);
-      const to = geometry.distanceTo(this._to);
-      if(from > to) {
-        return from;
-      }
-      return to;
-    } else {
-      const from = this.maximumDistanceTo(geometry.from);
-      const to = this.maximumDistanceTo(geometry.from);
-      if(from > to) {
-        return from;
-      }
-      return to;
-    }
-  }
 
-  public minimumDistanceTo(geometry: Point | Line): number {
-    if(geometry instanceof Point) {
-      return this.distanceTo(geometry);
-    } else {
-      // This is a naive calculation
-      const a = this.distanceTo(geometry.to);
-      const b = this.distanceTo(geometry.from);
-      const c = geometry.distanceTo(this._to);
-      const d = geometry.distanceTo(this._from);
-
-      return Math.min(a,b,c,d);
+  /**
+   * Gets the point at a normalized parameter along the line.
+   *
+   * ### Example
+   * ```js
+   * let line = new Line(new Point(0, 0), new Point(10, 0));
+   * console.log(line.pointAt(0));
+   * // => 0,0
+   * console.log(line.pointAt(0.5));
+   * // => 5,0
+   * console.log(line.pointAt(1));
+   * // => 10,0
+   * ```
+   * @param u                     The normalized parameter. The parameter ranges from 0, which is the start of the line ([[from]]), through to 1, which is the end of the line ([[to]]). So 0.5 returns the mid point of the line. Values less than 0 or greater than 1 are outside the bounds of the line.
+   * @param limitToFiniteSegment  If true, will only return points within the bounds of the line. If false, the line is treated as infinite.
+   */
+  public pointAt(u: number, limitToFiniteSegment: boolean = true): Point {
+    if(limitToFiniteSegment) {
+      if(u <= 0) {
+        return this._from;
+      } else if(u >= 1) {
+        return this._to;
+      }
     }
+    const xDelta = this.direction.x;
+    const yDelta = this.direction.y;
+    return new Point(this._from.x + u * xDelta, this._from.y + u * yDelta);
   }
 
   /**
-   * Gets the point at a normalized parameter along the line
-   * @param u: a value between 0 & 1
-   * @return
+   * Gets point a set distance from the start of the line.
+   * @param distance:
+   * @param limitToFiniteSegment  If true, will only return points within the bounds of the line. If false, the line is treated as infinite.
    */
-  public pointAt(u: number): Point {
-    if (u <= 0) {
-      return this._from;
-    } else if (u >= 1) {
-      return this._to;
-    } else {
-      const xDelta = this.direction.x;
-      const yDelta = this.direction.y;
-      return new Point(this._from.x + u * xDelta, this._from.y + u * yDelta);
-    }
-  }
-
-  /**
-   * Gets point a set distance from the start of the line
-   * @param distance: distance in world units, greater than 0 and less than length of line
-   */
-  public pointAtLength(distance: number): Point {
+  public pointAtLength(distance: number, limitToFiniteSegment: boolean = true): Point {
     const u = distance / this.direction.length;
-    return this.pointAt(u);
+    return this.pointAt(u, limitToFiniteSegment);
   }
 
   public toString(): string {
     return "from: " + this._from.toString() + ", to:" + this._to.toString();
   }
 
+  /**
+   * Transforms the location of the line by moving the line's endpoints.
+   * @param change
+   */
   public transform(change: Transform): void {
     this.changePoints(change.transform(this._from), change.transform(this._to));
   }

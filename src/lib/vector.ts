@@ -161,6 +161,27 @@ export class Vector {
 
   }
 
+  public equals(comparison: Vector, tolerance: number = 0): boolean {
+    if (this.x === comparison.x && this.y === comparison.y) {
+      return true;
+    }
+
+    if (tolerance === 0) {
+      return false;
+    }
+
+    // Want to fail fast and exclude any points that are obviously too far away without running the distance calculation
+    if (Math.abs(this.x - comparison.x) > tolerance) {
+      return false;
+    }
+
+    if (Math.abs(this.y - comparison.y) > tolerance) {
+      return false;
+    }
+
+    return true;
+  }
+
   /**
    * Inverts the vector (1, 2) -> (-1, -2)
    */

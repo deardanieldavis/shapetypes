@@ -15,24 +15,17 @@ import { Transform } from './transform';
  * ```js
  * import { BoundingBox } from 'shapetypes'
  *
- * TODO:
- * const interval = new Interval(5, 10);
- * console.log(interval.length);
- * // => 5
- * console.log(interval.mid);
- * // => 7.5
- * console.log(interval.contains(8));
- * // => True
- * console.log(interval.isIncreasing);
+ * const bb = new BoundingBox(new Interval(0, 10), new Interval(5, 25));
+ * console.log(bb.area);
+ * // => 200
+ * console.log(bb.center);
+ * // => x: 5, y: 15
+ * console.log(bb.contains(new Point(5, 15));
  * // => True
  *
- * const interval = new Interval(10, 5);
- * console.log(interval.length);
- * // => -5
- * console.log(interval.contains(8));
- * // => True
- * console.log(interval.isIncreasing);
- * // => False
+ * bb.xRange = new Interval(0, 20);
+ * console.log(bb.area);
+ * // => 400
  * ```
  */
 
