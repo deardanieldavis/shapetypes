@@ -41,10 +41,11 @@ test('Constructor: Sets correct radius and location when specifying plane', t =>
   t.true(c.plane.xAxis.isParallelTo(new Vector(1,1)));
 });
 
+/*
 test('Constructor: Creating circle with 0 radius throws error', t => {
   t.throws(() => {new Circle(0)});
   t.throws(() => {new Circle(-1)});
-});
+});*/
 
 // -----------------------
 // STATIC
