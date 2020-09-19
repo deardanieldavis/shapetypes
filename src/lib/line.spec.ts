@@ -143,37 +143,37 @@ interface Points {
 const POINTS: readonly Points[] = [
   // Two ends
   {
-    p: new Point(0, 0),
-    finite: { t: 0, p: new Point(0, 0) },
-    infinite: { t: 0, p: new Point(0, 0) }
+    finite: { p: new Point(0, 0), t: 0 },
+    infinite: { t: 0, p: new Point(0, 0) },
+    p: new Point(0, 0)
   },
   {
-    p: new Point(10, 0),
     finite: { t: 1, p: new Point(10, 0) },
-    infinite: { t: 1, p: new Point(10, 0) }
+    infinite: { t: 1, p: new Point(10, 0) },
+    p: new Point(10, 0)
   },
   // Mid point
   {
-    p: new Point(5, 0),
     finite: { t: 0.5, p: new Point(5, 0) },
-    infinite: { t: 0.5, p: new Point(5, 0) }
+    infinite: { t: 0.5, p: new Point(5, 0) },
+    p: new Point(5, 0)
   },
   // Off end
   {
-    p: new Point(-10, 2),
     finite: { t: 0, p: new Point(0, 0) },
-    infinite: { t: -1, p: new Point(-10, 0) }
+    infinite: { t: -1, p: new Point(-10, 0) },
+    p: new Point(-10, 2)
   },
   {
-    p: new Point(20, -2),
     finite: { t: 1, p: new Point(10, 0) },
-    infinite: { t: 2, p: new Point(20, 0) }
+    infinite: { t: 2, p: new Point(20, 0) },
+    p: new Point(20, -2)
   },
   // Off mid
   {
-    p: new Point(5, 20),
     finite: { t: 0.5, p: new Point(5, 0) },
-    infinite: { t: 0.5, p: new Point(5, 0) }
+    infinite: { t: 0.5, p: new Point(5, 0) },
+    p: new Point(5, 20)
   }
 ];
 
