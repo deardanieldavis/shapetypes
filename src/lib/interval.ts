@@ -34,7 +34,7 @@ export class Interval {
   // -----------------------
 
   /**
-   * Creates a new interval that encompasses all the values in the array.
+   * Returns an Interval that encompasses all the values in the array.
    *
    * ### Example
    * ```js
@@ -53,19 +53,7 @@ export class Interval {
   }
 
   /**
-   * Creates a new interval by duplicating an existing interval
-   * @param interval
-   */
-  public static fromExisting(interval: Interval | IntervalSorted): Interval {
-    if (interval instanceof Interval) {
-      return new Interval(interval.T0, interval.T1);
-    } else {
-      return new Interval(interval.min, interval.max);
-    }
-  }
-
-  /**
-   * Creates a new interval that encompasses these two intervals.
+   * Returns an Interval that encompasses two intervals.
    * @param a First interval to encompass.
    * @param b Second interval to encompass.
    */
@@ -74,7 +62,7 @@ export class Interval {
   }
 
   /**
-   * Creates a new interval that is the overlapping portion of two intervals.
+   * Returns an Interval that represents the overlapping portion of two intervals.
    *
    * ### Example
    * ```js
@@ -117,9 +105,9 @@ export class Interval {
   // -----------------------
 
   /**
-   * The interval is defined two values, which are the min and max of the number range.
-   * @param T0  The start of the interval (either starts at the min or max value. If range is increasing, will be min).
-   * @param T1  The end of the interval (either ends at the min or max value. If range is increasing, will be max).
+   * An interval represents a number range between two values ([[T0]] & [[T1]]). This range can be increasing (when [[T0]] < [[T1]]) or decreasing (when [[T0]] > [[T1]]).
+   * @param T0  The start of the interval (Either the min or max value. If range is increasing, will be min).
+   * @param T1  The end of the interval (Either the min or max value. If range is increasing, will be max).
    */
   constructor(T0: number, T1: number) {
     this._T0 = T0;
@@ -131,7 +119,7 @@ export class Interval {
   // -----------------------
 
   /**
-   * The start of the interval (either starts at the min or max value).
+   * Returns the start of the interval.
    * @constructor
    */
   get T0(): number {
@@ -139,7 +127,7 @@ export class Interval {
   }
 
   /**
-   * The end of the interval (either ends at the min or max value).
+   * Returns the end of the interval.
    * @constructor
    */
   get T1(): number {
@@ -147,28 +135,28 @@ export class Interval {
   }
 
   /**
-   * True if [[T0]] > [[T1]].
+   * Returns true if [[T0]] > [[T1]].
    */
   get isDecreasing(): boolean {
     return this._T0 > this._T1;
   }
 
   /**
-   * True if [[T0]] < [[T1]].
+   * Returns true if [[T0]] < [[T1]].
    */
   get isIncreasing(): boolean {
     return this._T0 < this._T1;
   }
 
   /**
-   * True if [[T0]] and [[T1]] are the same value.
+   * Returns true if [[T0]] and [[T1]] are the same value.
    */
   get isSingleton(): boolean {
     return this._T0 === this._T1;
   }
 
   /**
-   * The smaller of [[T0]] and [[T1]].
+   * Returns the smaller of [[T0]] and [[T1]].
    */
   get min(): number {
     if (this._T0 <= this._T1) {
@@ -178,14 +166,14 @@ export class Interval {
   }
 
   /**
-   * The value at the middle of [[T0]] and [[T1]].
+   * Returns the value at the middle of [[T0]] and [[T1]].
    */
   get mid(): number {
     return (this._T0 + this._T1) / 2;
   }
 
   /**
-   * The larger of [[T0]] and [[T1]].
+   * Returns the larger of [[T0]] and [[T1]].
    */
   get max(): number {
     if (this._T0 <= this._T1) {
@@ -195,14 +183,14 @@ export class Interval {
   }
 
   /**
-   * The signed distance between [[T0]] and [[T1]]. If the interval is increasing, this will be positive. If the interval is decreasing, it will be negative.
+   * Returns the signed distance between [[T0]] and [[T1]]. If the interval is increasing, this will be positive. If the interval is decreasing, it will be negative.
    */
   get length(): number {
     return this._T1 - this._T0;
   }
 
   /**
-   * The absolute distance between [[T0]] and [[T1]]. Will be positive regardless of whether the interval is increasing or decreasing.
+   * Returns the absolute distance between [[T0]] and [[T1]]. Will be positive regardless of whether the interval is increasing or decreasing.
    */
   get lengthAbs(): number {
     if (this._T0 <= this._T1) {
@@ -216,14 +204,14 @@ export class Interval {
   // -----------------------
 
   /**
-   * Converts this interval into an IntervalSorted.
+   * Returns a copy of the interval as an [[IntervalSorted]].
    */
   public asSorted(): IntervalSorted {
     return new IntervalSorted(this.T0, this.T1);
   }
 
   /**
-   * True if the value is within the interval.
+   * Returns true if the value is within the interval.
    * @param value   Number to check for containment
    * @param strict  If true, the value has to be fully inside the interval and can't equal [[min]] or [[max]]. If false, the value has to be inside interval but can equal [[min]] or [[max]].
    */
@@ -243,7 +231,7 @@ export class Interval {
   }
 
   /**
-   * Two Intervals are equal if their T0 and T1 are identical.
+   * Returns true if two instances of IntervalSorted contain identical T0 and T1 values.
    * @param otherInterval  The interval to compare against
    */
   public equals(otherInterval: Interval): boolean {
@@ -251,7 +239,7 @@ export class Interval {
   }
 
   /**
-   * Creates a duplicate of this interval that has been expanded to contain a given value.
+   * Returns a copy of this interval expanded to contain a given value.
    *
    * ### Example
    * ```js
@@ -282,7 +270,8 @@ export class Interval {
   }
 
   /**
-   * Remaps a value into the normalized distance of the interval.
+   * Remaps a value from the global number system into the normalized parameters of this interval.
+   * See [[valueAt]] to understand how the parameters are calculated.
    *
    * ### Example
    * ```js
@@ -297,21 +286,25 @@ export class Interval {
   }
 
   /**
-   * Creates a new Interval equal to [-[[T1]], -[[T0]]]
+   * Returns a new Interval equal to [-[[T1]], -[[T0]]]
    */
   public reverse(): Interval {
     return new Interval(-1 * this._T1, -1 * this._T0);
   }
 
   /**
-   * Creates a new Interval equal to [[[T1]], [[T0]]]
+   * Returns a new Interval equal to [[[T1]], [[T0]]]
    */
   public swap(): Interval {
     return new Interval(this._T1, this._T0);
   }
 
   /**
-   * The value at a normalized distance along the interval
+   * Remaps a value from normalized parameters of this interval into the global number system.
+   * The interval's parameter range from 0 to 1.
+   * t=0 is the T0 value of the interval
+   * t=0.5 is the mid point of the interval
+   * t=1 os the T1 value of the interval
    *
    * ### Example
    * ```js
@@ -320,14 +313,15 @@ export class Interval {
    * // => 11
    * ```
    *
-   * @param t   A number between 0 & 1
+   * @param t   The parameter to remap
+   * @returns   The parameter remapped to the global number system
    */
   public valueAt(t: number): number {
     return this._T0 * (1 - t) + this._T1 * t;
   }
 
   /**
-   * Creates a duplicate of this interval with a different T0 value.
+   * Returns a copy of this interval with a different T0 value.
    * @param newT0
    */
   public withT0(newT0: number): Interval {
@@ -335,7 +329,7 @@ export class Interval {
   }
 
   /**
-   * Creates a duplicate of this interval with a different T1 value.
+   * Returns a copy of this interval with a different T1 value.
    * @param newT1
    */
   public withT1(newT1: number): Interval {
