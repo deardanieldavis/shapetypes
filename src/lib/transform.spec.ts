@@ -30,7 +30,7 @@ test('Scale', t => {
 });
 
 test('ScaleAboutPoint', t => {
-  let tran = Transform.scale(2, 2, new Point(0,0));
+  let tran = Transform.scale(2, 2, new Point(0, 0));
   let p = tran.transform(new Point(0, 0));
   t.is(p.x, 0);
   t.is(p.y, 0);
@@ -39,7 +39,7 @@ test('ScaleAboutPoint', t => {
   t.is(p.x, 6);
   t.is(p.y, 16);
 
-  tran = Transform.scale(2, 2, new Point(3,8));
+  tran = Transform.scale(2, 2, new Point(3, 8));
   p = tran.transform(new Point(0, 0));
   t.is(p.x, -3);
   t.is(p.y, -8);
@@ -47,7 +47,6 @@ test('ScaleAboutPoint', t => {
   p = tran.transform(new Point(3, 8));
   t.is(p.x, 3);
   t.is(p.y, 8);
-
 });
 
 test('Rotation', t => {

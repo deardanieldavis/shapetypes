@@ -57,7 +57,7 @@ export class Interval {
    * @param interval
    */
   public static fromExisting(interval: Interval | IntervalSorted): Interval {
-    if(interval instanceof Interval) {
+    if (interval instanceof Interval) {
       return new Interval(interval.T0, interval.T1);
     } else {
       return new Interval(interval.min, interval.max);
@@ -90,10 +90,7 @@ export class Interval {
    * @param b Second interval to intersect
    * @returns   An interval representing the overlap between intervals. If there is no overlap, returns undefined.
    */
-  public static intersection(
-    a: Interval,
-    b: Interval
-  ): Interval | undefined {
+  public static intersection(a: Interval, b: Interval): Interval | undefined {
     if (a.max < b.min) {
       // No overlap
       return;
@@ -103,8 +100,8 @@ export class Interval {
       return;
     }
 
-    const min = (a.min >= b.min) ? a.min : b.min; // want largest min value
-    const max = (a.max <= b.max) ? a.max : b.max; // want smallest max value
+    const min = a.min >= b.min ? a.min : b.min; // want largest min value
+    const max = a.max <= b.max ? a.max : b.max; // want smallest max value
 
     return new Interval(min, max);
   }
@@ -149,7 +146,6 @@ export class Interval {
     return this._T1;
   }
 
-
   /**
    * True if [[T0]] > [[T1]].
    */
@@ -175,7 +171,7 @@ export class Interval {
    * The smaller of [[T0]] and [[T1]].
    */
   get min(): number {
-    if(this._T0 <= this._T1) {
+    if (this._T0 <= this._T1) {
       return this._T0;
     }
     return this._T1;
@@ -192,7 +188,7 @@ export class Interval {
    * The larger of [[T0]] and [[T1]].
    */
   get max(): number {
-    if(this._T0 <= this._T1) {
+    if (this._T0 <= this._T1) {
       return this._T1;
     }
     return this._T0;
@@ -209,7 +205,7 @@ export class Interval {
    * The absolute distance between [[T0]] and [[T1]]. Will be positive regardless of whether the interval is increasing or decreasing.
    */
   get lengthAbs(): number {
-    if(this._T0 <= this._T1) {
+    if (this._T0 <= this._T1) {
       return this._T1 - this._T0;
     }
     return this._T0 - this._T1;
@@ -251,7 +247,7 @@ export class Interval {
    * @param otherInterval  The interval to compare against
    */
   public equals(otherInterval: Interval): boolean {
-    return (this._T0 === otherInterval._T0 && this._T1 === otherInterval._T1);
+    return this._T0 === otherInterval._T0 && this._T1 === otherInterval._T1;
   }
 
   /**
@@ -269,7 +265,7 @@ export class Interval {
    * @param toInclude
    */
   public grow(toInclude: number): Interval {
-    if(this.isIncreasing) {
+    if (this.isIncreasing) {
       if (toInclude < this._T0) {
         return new Interval(toInclude, this._T1);
       } else if (toInclude > this._T1) {

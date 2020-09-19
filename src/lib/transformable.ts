@@ -3,8 +3,7 @@ import { Point } from './point';
 import { Transform } from './transform';
 import { Vector } from './vector';
 
-export abstract class Transformable
-{
+export abstract class Transformable {
   // TODO: Mirror
   public abstract transform(change: Transform): this;
 

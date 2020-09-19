@@ -153,12 +153,11 @@ export class Vector {
    */
   public perpendicular(): Vector {
     // https://stackoverflow.com/questions/4780119/2d-euclidean-vector-rotations
-    if(shapetypesSettings.invertY) {
+    if (shapetypesSettings.invertY) {
       return new Vector(-this.y, this.x);
     } else {
       return new Vector(this.y, -this.x);
     }
-
   }
 
   public equals(comparison: Vector, tolerance: number = 0): boolean {

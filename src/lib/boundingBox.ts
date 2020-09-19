@@ -33,9 +33,6 @@ import { Transformable } from './transformable';
  * ```
  */
 
-
-
-
 export class BoundingBox extends Transformable {
   // -----------------------
   // STATIC
@@ -57,8 +54,8 @@ export class BoundingBox extends Transformable {
    * @param points  List of points to encapsulate in a BoundingBox.
    */
   public static fromPoints(points: readonly Point[]): BoundingBox {
-    const x = points.map( item => item.x ); // gets all x locations of points
-    const y = points.map( item => item.y );
+    const x = points.map(item => item.x); // gets all x locations of points
+    const y = points.map(item => item.y);
 
     const xRange = IntervalSorted.fromValues(x);
     const yRange = IntervalSorted.fromValues(y);
@@ -78,22 +75,24 @@ export class BoundingBox extends Transformable {
     return new BoundingBox(xRange, yRange);
   }
 
-
   /**
    * Returns a BoundingBox that represents the overlapping portion of two BoundingBoxes.
    * @param a First BoundingBox to intersect
    * @param b Second BoundingBox to intersect
    * @returns: A BoundingBox representing the overlap between these two boxes. If no overlap exists, returns undefined.
    */
-  public static intersection(a: BoundingBox, b: BoundingBox): BoundingBox | undefined {
+  public static intersection(
+    a: BoundingBox,
+    b: BoundingBox
+  ): BoundingBox | undefined {
     const xRange = IntervalSorted.intersection(a._xRange, b._xRange);
-    if(xRange === undefined) {
-      return undefined
+    if (xRange === undefined) {
+      return undefined;
     }
 
     const yRange = IntervalSorted.intersection(a._yRange, b._yRange);
-    if(yRange === undefined) {
-      return undefined
+    if (yRange === undefined) {
+      return undefined;
     }
 
     return new BoundingBox(xRange, yRange);
@@ -115,10 +114,15 @@ export class BoundingBox extends Transformable {
    * @param xRange: The dimensions of the BoundingBox along the x-axis. Eg. the box will be drawn from xRange.min to xRange.max.
    * @param yRange: The dimensions of the BoundingBox along the y-axis.
    */
-  constructor(xRange: IntervalSorted | Interval, yRange: IntervalSorted | Interval) {
+  constructor(
+    xRange: IntervalSorted | Interval,
+    yRange: IntervalSorted | Interval
+  ) {
     super();
-    this._xRange = (xRange instanceof IntervalSorted) ? xRange : xRange.asSorted();
-    this._yRange = (yRange instanceof IntervalSorted) ? yRange : yRange.asSorted();
+    this._xRange =
+      xRange instanceof IntervalSorted ? xRange : xRange.asSorted();
+    this._yRange =
+      yRange instanceof IntervalSorted ? yRange : yRange.asSorted();
   }
 
   // -----------------------
@@ -167,7 +171,6 @@ export class BoundingBox extends Transformable {
     return this._yRange;
   }
 
-
   // -----------------------
   // PUBLIC
   // -----------------------
@@ -177,9 +180,12 @@ export class BoundingBox extends Transformable {
    * @param testPoint Will find the point on the BoundingBox that is closest to this point.
    * @param includeInterior If true, the closest point can be within the BoundingBox. If false, the closest point can only be on the BoundingBox's outer edge.
    */
-  public closestPoint(testPoint: Point, includeInterior: boolean = true): Point {
-    if(includeInterior) {
-      if(this.contains(testPoint)) {
+  public closestPoint(
+    testPoint: Point,
+    includeInterior: boolean = true
+  ): Point {
+    if (includeInterior) {
+      if (this.contains(testPoint)) {
         return testPoint;
       }
     }
@@ -206,14 +212,14 @@ export class BoundingBox extends Transformable {
    * @param minY  If true, point will be at the min y value. If false, will be at max.
    */
   public corner(minX: boolean, minY: boolean): Point {
-    if(minX) {
-      if(minY) {
+    if (minX) {
+      if (minY) {
         return new Point(this._xRange.min, this._yRange.min);
       } else {
         return new Point(this._xRange.min, this._yRange.max);
       }
-    }else {
-      if(minY) {
+    } else {
+      if (minY) {
         return new Point(this._xRange.max, this._yRange.min);
       } else {
         return new Point(this._xRange.max, this._yRange.max);
@@ -226,7 +232,8 @@ export class BoundingBox extends Transformable {
    * Order is: [minX, minY], [maxX, minY], [maxX, maxY], [minX, maxY]
    */
   public getCorners(): Point[] {
-    return [ new Point(this._xRange.min, this._yRange.min),
+    return [
+      new Point(this._xRange.min, this._yRange.min),
       new Point(this._xRange.max, this._yRange.min),
       new Point(this._xRange.max, this._yRange.max),
       new Point(this._xRange.min, this._yRange.max)
@@ -250,12 +257,15 @@ export class BoundingBox extends Transformable {
    * Returns a copy of this BoundingBox where the size has been evenly increased in all directions.
    * @param amount
    */
-  public inflate(amount: number): BoundingBox
+  public inflate(amount: number): BoundingBox;
   // tslint:disable-next-line:unified-signatures
-  public inflate(amountX: number, amountY: number): BoundingBox
+  public inflate(amountX: number, amountY: number): BoundingBox;
   public inflate(amount: number, amountY?: number): BoundingBox {
     const xRange = this._xRange.inflate(amount);
-    const yRange = (amountY === undefined) ? this._yRange.inflate(amount) : this._yRange.inflate(amountY);
+    const yRange =
+      amountY === undefined
+        ? this._yRange.inflate(amount)
+        : this._yRange.inflate(amountY);
 
     return new BoundingBox(xRange, yRange);
   }
@@ -269,7 +279,10 @@ export class BoundingBox extends Transformable {
    * @returns         The uvPoint remapped to the global coordinate system
    */
   public pointAt(uvPoint: Point): Point {
-    return new Point(this._xRange.valueAt(uvPoint.x), this._yRange.valueAt(uvPoint.y));
+    return new Point(
+      this._xRange.valueAt(uvPoint.x),
+      this._yRange.valueAt(uvPoint.y)
+    );
   }
 
   /**
@@ -279,7 +292,10 @@ export class BoundingBox extends Transformable {
    * @returns       A point in the u-v coordinates of the BoundingBox. See [[pointAt]] for more details.
    */
   public remapToBox(point: Point): Point {
-    return new Point(this._xRange.remapToInterval(point.x), this._yRange.remapToInterval(point.y));
+    return new Point(
+      this._xRange.remapToInterval(point.x),
+      this._yRange.remapToInterval(point.y)
+    );
   }
 
   /**
@@ -287,7 +303,10 @@ export class BoundingBox extends Transformable {
    * @param otherBoundingBox  The BoundingBox to compare against
    */
   public equals(otherBoundingBox: BoundingBox): boolean {
-    return (this._xRange.equals(otherBoundingBox._xRange) && this._yRange.equals(otherBoundingBox._yRange));
+    return (
+      this._xRange.equals(otherBoundingBox._xRange) &&
+      this._yRange.equals(otherBoundingBox._yRange)
+    );
   }
 
   /**
@@ -326,7 +345,6 @@ export class BoundingBox extends Transformable {
     const corners = change.transform(this.getCorners());
     return BoundingBox.fromPoints(corners);
   }
-
 
   /**
    * Returns a copy of the BoundingBox with a different xRange

@@ -11,4 +11,3 @@ export * from './lib/rectangle';
 export * from './lib/settings';
 export * from './lib/transform';
 export * from './lib/vector';
-

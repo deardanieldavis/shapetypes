@@ -58,8 +58,8 @@ export class Plane {
   // -----------------------
 
   public equals(plane: Plane, tolerance: number = 0): boolean {
-    if(this.origin.equals(plane.origin, tolerance)) {
-      if(this.xAxis.equals(plane.xAxis, tolerance)) {
+    if (this.origin.equals(plane.origin, tolerance)) {
+      if (this.xAxis.equals(plane.xAxis, tolerance)) {
         return true;
       }
     }

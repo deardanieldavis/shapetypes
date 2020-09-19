@@ -2,7 +2,10 @@ import anyTest, { TestInterface } from 'ava';
 import { Interval } from './interval';
 import { IntervalSorted } from './intervalSorted';
 
-const test = anyTest as TestInterface<{interval: IntervalSorted; reverse: IntervalSorted}>;
+const test = anyTest as TestInterface<{
+  interval: IntervalSorted;
+  reverse: IntervalSorted;
+}>;
 
 test.beforeEach('Create test geometry', t => {
   t.context.interval = new IntervalSorted(5, 10);
@@ -28,7 +31,7 @@ test('constructor: creating an interval with values in reverse generates correct
 // STATIC
 // -----------------------
 test('fromValues: creates correct min and max values from range of numbers', t => {
-  const newInterval = IntervalSorted.fromValues([5,-2,3,4,5]);
+  const newInterval = IntervalSorted.fromValues([5, -2, 3, 4, 5]);
   t.is(newInterval.min, -2);
   t.is(newInterval.max, 5);
 });
@@ -46,7 +49,7 @@ test("fromIntersection: if two intervals don't overlap, returns undefined", t =>
   t.is(IntervalSorted.intersection(other, t.context.interval), undefined);
 });
 
-test("fromIntersection: two overlapping intervals returns new interval of overlapping part", t => {
+test('fromIntersection: two overlapping intervals returns new interval of overlapping part', t => {
   const other = new IntervalSorted(-2, 7);
   const result = IntervalSorted.intersection(t.context.interval, other);
   if (result === undefined) {
@@ -57,7 +60,7 @@ test("fromIntersection: two overlapping intervals returns new interval of overla
   t.is(result.max, 7);
 });
 
-test("fromIntersection: swapping the inputs returns the same result", t => {
+test('fromIntersection: swapping the inputs returns the same result', t => {
   const other = new Interval(-2, 7);
   const result1 = IntervalSorted.intersection(t.context.interval, other);
   const result2 = IntervalSorted.intersection(other, t.context.interval);
@@ -67,9 +70,6 @@ test("fromIntersection: swapping the inputs returns the same result", t => {
   }
   t.true(result1.equals(result2));
 });
-
-
-
 
 // -----------------------
 // GET AND SET
@@ -178,7 +178,9 @@ test('withMin: can set new value', t => {
 });
 
 test('withMin: if min value is set to be larger than max value, throws error', t => {
-  t.throws(() => {t.context.interval.withMin(22);});
+  t.throws(() => {
+    t.context.interval.withMin(22);
+  });
 });
 
 test('withMax: can set new value', t => {
@@ -188,5 +190,7 @@ test('withMax: can set new value', t => {
 });
 
 test('withMax: if max value is set to be smaller than min value, throws error', t => {
-  t.throws(() => {t.context.interval.withMax(-22);});
+  t.throws(() => {
+    t.context.interval.withMax(-22);
+  });
 });

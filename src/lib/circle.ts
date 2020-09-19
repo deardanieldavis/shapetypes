@@ -8,7 +8,6 @@ import { Transform } from './transform';
 import { approximatelyEqual } from './utilities';
 import { Vector } from './vector';
 
-
 export class Circle {
   // -----------------------
   // STATIC
@@ -17,8 +16,8 @@ export class Circle {
   public static fromCenterStart(center: Point, start: Point): Circle {
     const axis = Vector.fromPoints(center, start);
     const radius = axis.length;
-    if(radius <= 0) {
-      throw new Error("Radius must be greater than 0");
+    if (radius <= 0) {
+      throw new Error('Radius must be greater than 0');
     }
     const plane = new Plane(center, axis);
     return new Circle(radius, plane);
@@ -32,12 +31,12 @@ export class Circle {
     const det = (p1.x - p2.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p2.y);
 
     // Make sure points aren't in a line
-    if(approximatelyEqual(det, 0, shapetypesSettings.absoluteTolerance)) {
+    if (approximatelyEqual(det, 0, shapetypesSettings.absoluteTolerance)) {
       throw new Error("Points can't be in a line");
     }
 
     // Find center of circle
-    const cx = (bc*(p2.y - p3.y) - cd*(p1.y - p2.y)) / det;
+    const cx = (bc * (p2.y - p3.y) - cd * (p1.y - p2.y)) / det;
     const cy = ((p1.x - p2.x) * cd - (p2.x - p3.x) * bc) / det;
 
     const center = new Point(cx, cy);
@@ -56,27 +55,32 @@ export class Circle {
   // CONSTRUCTOR
   // -----------------------
   constructor(radius: number, position?: Plane | Point) {
-    if(radius <= 0) {
-      throw new Error("Radius must be greater than 0");
+    if (radius <= 0) {
+      throw new Error('Radius must be greater than 0');
     }
     this._radius = radius;
 
-    if(position === undefined) {
+    if (position === undefined) {
       this._plane = Plane.worldXY();
-    }else if(position instanceof Plane) {
+    } else if (position instanceof Plane) {
       this._plane = position;
-    }else {
+    } else {
       this._plane = new Plane(position, Vector.worldX());
     }
   }
-
 
   // -----------------------
   // GET AND SET
   // -----------------------
   get boundingBox(): BoundingBox {
-    const xRange = new Interval(this._plane.origin.x - this._radius, this._plane.origin.x + this._radius);
-    const yRange = new Interval(this._plane.origin.y - this._radius, this._plane.origin.y + this._radius);
+    const xRange = new Interval(
+      this._plane.origin.x - this._radius,
+      this._plane.origin.x + this._radius
+    );
+    const yRange = new Interval(
+      this._plane.origin.y - this._radius,
+      this._plane.origin.y + this._radius
+    );
     return new BoundingBox(xRange, yRange);
   }
 
@@ -99,7 +103,7 @@ export class Circle {
   }
   set radius(value: number) {
     if (value <= 0) {
-      throw new Error("Radius must be greater than 0");
+      throw new Error('Radius must be greater than 0');
     }
     this._radius = value;
   }
@@ -123,11 +127,10 @@ export class Circle {
   }
   set area(newArea: number) {
     if (newArea <= 0) {
-      throw new Error("Area must be greater than 0");
+      throw new Error('Area must be greater than 0');
     }
     this.radius = Math.sqrt(newArea / Math.PI);
   }
-
 
   // -----------------------
   // PUBLIC
@@ -136,10 +139,16 @@ export class Circle {
   public contains(testPoint: Point): PointContainment {
     const difference = Vector.fromPoints(this._plane.origin, testPoint);
     const distance = difference.length;
-    if(approximatelyEqual(distance, this._radius, shapetypesSettings.absoluteTolerance)) {
+    if (
+      approximatelyEqual(
+        distance,
+        this._radius,
+        shapetypesSettings.absoluteTolerance
+      )
+    ) {
       return PointContainment.coincident;
     }
-    if(distance <= this._radius) {
+    if (distance <= this._radius) {
       return PointContainment.inside;
     }
     return PointContainment.outside;
@@ -148,7 +157,7 @@ export class Circle {
   public closestParameter(testPoint: Point): number {
     const difference = Vector.fromPoints(this._plane.origin, testPoint);
     const angle = Vector.vectorAngleSigned(this._plane.xAxis, difference);
-    if(angle < 0) {
+    if (angle < 0) {
       // Because returned angle goes from -PI to PI and we want it to go from 0 to 2PI
       return 2 * Math.PI + angle;
     }
@@ -163,9 +172,12 @@ export class Circle {
     return Point.add(this._plane.origin, difference);
   }
 
-  public equals(otherCircle: Circle, tolerance: number = shapetypesSettings.absoluteTolerance): boolean {
-    if(approximatelyEqual(this.radius, otherCircle.radius, tolerance)) {
-      if(this.plane.equals(otherCircle.plane)) {
+  public equals(
+    otherCircle: Circle,
+    tolerance: number = shapetypesSettings.absoluteTolerance
+  ): boolean {
+    if (approximatelyEqual(this.radius, otherCircle.radius, tolerance)) {
+      if (this.plane.equals(otherCircle.plane)) {
         return true;
       }
     }
@@ -173,7 +185,10 @@ export class Circle {
   }
 
   public pointAt(t: number): Point {
-    return this._plane.pointAt(Math.cos(t) * this._radius, Math.sin(t) * this._radius);
+    return this._plane.pointAt(
+      Math.cos(t) * this._radius,
+      Math.sin(t) * this._radius
+    );
   }
 
   public pointAtLength(distance: number): Point {
@@ -193,12 +208,14 @@ export class Circle {
   }
 
   public toString(): string {
-    return "circle: " + this._plane.toString() + "r: " + this._radius;
+    return 'circle: ' + this._plane.toString() + 'r: ' + this._radius;
   }
 
   public transform(change: Transform): void {
-    if(change.M00 !== change.M11) {
-      throw new Error("Cant scale circle by uneven amounts in x and y direction");
+    if (change.M00 !== change.M11) {
+      throw new Error(
+        'Cant scale circle by uneven amounts in x and y direction'
+      );
     }
     this._radius = this._radius * change.M00;
     // TODO: this._plane.transform(change);

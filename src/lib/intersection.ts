@@ -331,10 +331,7 @@ export class Intersection {
       }
 
       if (isAbove && isBelow) {
-        const result = Intersection.HorizontalRayLineIntersection(
-          start,
-          line
-        );
+        const result = Intersection.HorizontalRayLineIntersection(start, line);
         if (result.success) {
           if (result.lineU >= 0 && result.lineU <= 1) {
             if (result.rayU > 0.0001) {

@@ -3,7 +3,6 @@ import { Point } from './point';
 import { Transform } from './transform';
 import { Vector } from './vector';
 
-
 /**
  * A Line is a straight edge between two points.
  *
@@ -34,7 +33,11 @@ export class Line {
    * @param direction The direction of the line.
    * @param length    The length of the line. If undefined, will use length of direction vector.
    */
-  public static fromVector(from: Point, direction: Vector, length?: number): Line {
+  public static fromVector(
+    from: Point,
+    direction: Vector,
+    length?: number
+  ): Line {
     const to = from.duplicate();
     to.translate(direction, length);
     return new Line(from, to);
@@ -47,7 +50,6 @@ export class Line {
   public static fromExisting(existing: Line): Line {
     return new Line(existing.from.duplicate(), existing.to.duplicate());
   }
-
 
   // -----------------------
   // VARS
@@ -87,7 +89,7 @@ export class Line {
    * The vector between [[from]] and [[to]]. The length of the vector is the length of the line.
    */
   get direction(): Vector {
-    if(this._internalCacheVector === undefined) {
+    if (this._internalCacheVector === undefined) {
       this._internalCacheVector = Vector.fromPoints(this._from, this._to);
     }
     return this._internalCacheVector;
@@ -137,7 +139,6 @@ export class Line {
     return t;
   }
 
-
   // -----------------------
   // PUBLIC
   // -----------------------
@@ -148,15 +149,19 @@ export class Line {
    * @param limitToFiniteSegment      If true, the parameter must be for a point within the bounds of the line. If false, the line is treated as infinite.
    * @return                          The normalized parameter of the closest point. To understand this value, see: [[pointAt]].
    */
-  public closestParameter(testPoint: Point, limitToFiniteSegment: boolean = true): number {
+  public closestParameter(
+    testPoint: Point,
+    limitToFiniteSegment: boolean = true
+  ): number {
     // Based on: http://paulbourke.net/geometry/pointlineplane/
     const xDelta = this.direction.x;
     const yDelta = this.direction.y;
     const u =
-      ((testPoint.x - this._from.x) * xDelta + (testPoint.y - this._from.y) * yDelta) /
+      ((testPoint.x - this._from.x) * xDelta +
+        (testPoint.y - this._from.y) * yDelta) /
       (xDelta * xDelta + yDelta * yDelta);
 
-    if(limitToFiniteSegment) {
+    if (limitToFiniteSegment) {
       if (u < 0) {
         return 0;
       } else if (u > 1) {
@@ -171,8 +176,14 @@ export class Line {
    * @param testPoint                 Finds the closest point relative to this point.
    * @param limitToFiniteSegment  If true, the closest point must be within the bounds of the line. If false, the line is treated as infinite.
    */
-  public closestPoint(testPoint: Point, limitToFiniteSegment: boolean = true): Point {
-    return this.pointAt(this.closestParameter(testPoint, limitToFiniteSegment), limitToFiniteSegment);
+  public closestPoint(
+    testPoint: Point,
+    limitToFiniteSegment: boolean = true
+  ): Point {
+    return this.pointAt(
+      this.closestParameter(testPoint, limitToFiniteSegment),
+      limitToFiniteSegment
+    );
   }
 
   /**
@@ -180,8 +191,11 @@ export class Line {
    * @param geometry
    * @param limitToFiniteSegment  If false, the line is treated as infinite.
    */
-  public distanceTo(geometry: Point | Line, limitToFiniteSegment: boolean = true): number {
-    if(geometry instanceof Point) {
+  public distanceTo(
+    geometry: Point | Line,
+    limitToFiniteSegment: boolean = true
+  ): number {
+    if (geometry instanceof Point) {
       const closest = this.closestPoint(geometry, limitToFiniteSegment);
       return closest.distanceTo(geometry);
     } else {
@@ -191,7 +205,7 @@ export class Line {
       const c = geometry.distanceTo(this._to, limitToFiniteSegment);
       const d = geometry.distanceTo(this._from, limitToFiniteSegment);
 
-      return Math.min(a,b,c,d);
+      return Math.min(a, b, c, d);
     }
   }
 
@@ -201,8 +215,8 @@ export class Line {
    * @param tolerance   The distance the points can be apart and still considered identical
    */
   public equals(otherLine: Line, tolerance: number = 0): boolean {
-    if(this._from.equals(otherLine.from, tolerance)) {
-      if(this._to.equals(otherLine.to, tolerance)) {
+    if (this._from.equals(otherLine.from, tolerance)) {
+      if (this._to.equals(otherLine.to, tolerance)) {
         return true;
       }
     }
@@ -231,7 +245,6 @@ export class Line {
     this.changePoints(this._to, this._from);
   }
 
-
   /**
    * Gets the point at a normalized parameter along the line.
    *
@@ -249,10 +262,10 @@ export class Line {
    * @param limitToFiniteSegment  If true, will only return points within the bounds of the line. If false, the line is treated as infinite.
    */
   public pointAt(u: number, limitToFiniteSegment: boolean = true): Point {
-    if(limitToFiniteSegment) {
-      if(u <= 0) {
+    if (limitToFiniteSegment) {
+      if (u <= 0) {
         return this._from;
-      } else if(u >= 1) {
+      } else if (u >= 1) {
         return this._to;
       }
     }
@@ -266,13 +279,16 @@ export class Line {
    * @param distance:
    * @param limitToFiniteSegment  If true, will only return points within the bounds of the line. If false, the line is treated as infinite.
    */
-  public pointAtLength(distance: number, limitToFiniteSegment: boolean = true): Point {
+  public pointAtLength(
+    distance: number,
+    limitToFiniteSegment: boolean = true
+  ): Point {
     const u = distance / this.direction.length;
     return this.pointAt(u, limitToFiniteSegment);
   }
 
   public toString(): string {
-    return "from: " + this._from.toString() + ", to:" + this._to.toString();
+    return 'from: ' + this._from.toString() + ', to:' + this._to.toString();
   }
 
   /**

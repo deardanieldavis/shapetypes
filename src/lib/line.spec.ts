@@ -1,20 +1,28 @@
 // tslint:disable:no-let
-import anyTest, {TestInterface} from 'ava';
+import anyTest, { TestInterface } from 'ava';
 import { Line } from './line';
 import { Point } from './point';
 import { shapetypesSettings } from './settings';
 import { Transform } from './transform';
 import { Vector } from './vector';
 
-const test = anyTest as TestInterface<{P00: Point; P100: Point; P35: Point; P69: Point; V34: Vector, diagonal: Line; horizontal: Line}>;
+const test = anyTest as TestInterface<{
+  P00: Point;
+  P100: Point;
+  P35: Point;
+  P69: Point;
+  V34: Vector;
+  diagonal: Line;
+  horizontal: Line;
+}>;
 
 test.beforeEach('Create test geometry', t => {
   // The diagonal line is used for testing because it's major components are whole numbers:
   // - It's length is 5 units
   // - It travels 3 units in the x direction
   // - It travels 4 units in the y direction
-  t.context.P35 = new Point(3, 5);  // Start of line
-  t.context.P69 = new Point(6, 9);  // End of line
+  t.context.P35 = new Point(3, 5); // Start of line
+  t.context.P69 = new Point(6, 9); // End of line
   t.context.V34 = new Vector(3, 4); // Vector along line
   t.context.diagonal = new Line(t.context.P35, t.context.P69);
 
@@ -34,7 +42,6 @@ test('Constructor: sets correct start and end point', t => {
   t.is(line.to.x, 6);
   t.is(line.to.y, 9);
 });
-
 
 // -----------------------
 // STATIC
@@ -60,7 +67,6 @@ test('fromExisting: correctly copies start and end of existing line', t => {
   t.true(line.to.equals(t.context.P69));
 });
 
-
 // -----------------------
 // GET AND SET
 // -----------------------
@@ -83,13 +89,13 @@ test('direction: the direction vector is the right size and length when line is 
 });
 
 test('from: can set "from" point', t => {
-  t.context.diagonal.from = new Point(2,3);
+  t.context.diagonal.from = new Point(2, 3);
   t.is(t.context.diagonal.from.x, 2);
   t.is(t.context.diagonal.from.y, 3);
 });
 
 test('from: can set "to" point', t => {
-  t.context.diagonal.to = new Point(2,3);
+  t.context.diagonal.to = new Point(2, 3);
   t.is(t.context.diagonal.to.x, 2);
   t.is(t.context.diagonal.to.y, 3);
 });
@@ -124,67 +130,105 @@ test('unitTangent: generates a correct unit vector when the y-axis is inverted',
   t.true(t.context.horizontal.unitTangent.equals(new Vector(0, 1)));
 });
 
-
-
 // -----------------------
 // PUBLIC
 // -----------------------
 
 // A set of points to test closest point and closest parameter
 interface Points {
-  p: Point;                       // The test point
-  finite: {t: number; p: Point};  // The closest point on the finite line (t= parameter, p = point)
-  infinite: {t: number; p: Point}; // The closest point on the infinite line (t= parameter, p = point)
+  p: Point; // The test point
+  finite: { t: number; p: Point }; // The closest point on the finite line (t= parameter, p = point)
+  infinite: { t: number; p: Point }; // The closest point on the infinite line (t= parameter, p = point)
 }
 const POINTS: readonly Points[] = [
   // Two ends
-  {p: new Point(0,0), finite: {t: 0, p: new Point(0,0)}, infinite: {t: 0, p: new Point(0,0)} },
-  {p: new Point(10,0), finite: {t: 1, p: new Point(10,0)}, infinite: {t: 1, p: new Point(10,0)} },
+  {
+    p: new Point(0, 0),
+    finite: { t: 0, p: new Point(0, 0) },
+    infinite: { t: 0, p: new Point(0, 0) }
+  },
+  {
+    p: new Point(10, 0),
+    finite: { t: 1, p: new Point(10, 0) },
+    infinite: { t: 1, p: new Point(10, 0) }
+  },
   // Mid point
-  {p: new Point(5,0), finite: {t: 0.5, p: new Point(5,0)}, infinite: {t: 0.5, p: new Point(5,0)} },
+  {
+    p: new Point(5, 0),
+    finite: { t: 0.5, p: new Point(5, 0) },
+    infinite: { t: 0.5, p: new Point(5, 0) }
+  },
   // Off end
-  {p: new Point(-10,2), finite: {t: 0, p: new Point(0,0)}, infinite: {t: -1, p: new Point(-10,0)} },
-  {p: new Point(20,-2), finite: {t: 1, p: new Point(10,0)}, infinite: {t: 2, p: new Point(20,0)} },
+  {
+    p: new Point(-10, 2),
+    finite: { t: 0, p: new Point(0, 0) },
+    infinite: { t: -1, p: new Point(-10, 0) }
+  },
+  {
+    p: new Point(20, -2),
+    finite: { t: 1, p: new Point(10, 0) },
+    infinite: { t: 2, p: new Point(20, 0) }
+  },
   // Off mid
-  {p: new Point(5,20), finite: {t: 0.5, p: new Point(5,0)}, infinite: {t: 0.5, p: new Point(5,0)} },
-]
+  {
+    p: new Point(5, 20),
+    finite: { t: 0.5, p: new Point(5, 0) },
+    infinite: { t: 0.5, p: new Point(5, 0) }
+  }
+];
 
 test('closestParameter: finds the closest parameter using a finite line', t => {
-  for(const point of POINTS) {
+  for (const point of POINTS) {
     t.is(t.context.horizontal.closestParameter(point.p), point.finite.t);
     t.is(t.context.horizontal.closestParameter(point.p, true), point.finite.t);
   }
 });
 
 test('closestParameter: finds the closest parameter using an infinite line', t => {
-  for(const point of POINTS) {
-    t.is(t.context.horizontal.closestParameter(point.p, false), point.infinite.t);
+  for (const point of POINTS) {
+    t.is(
+      t.context.horizontal.closestParameter(point.p, false),
+      point.infinite.t
+    );
   }
 });
 
 test('closestPoint: finds the closest parameter using a finite line', t => {
-  for(const point of POINTS) {
+  for (const point of POINTS) {
     t.true(t.context.horizontal.closestPoint(point.p).equals(point.finite.p));
-    t.true(t.context.horizontal.closestPoint(point.p, true).equals(point.finite.p));
+    t.true(
+      t.context.horizontal.closestPoint(point.p, true).equals(point.finite.p)
+    );
   }
 });
 
 test('closestPoint: finds the closest parameter using an infinite line', t => {
-  for(const point of POINTS) {
-    t.true(t.context.horizontal.closestPoint(point.p, false).equals(point.infinite.p));
+  for (const point of POINTS) {
+    t.true(
+      t.context.horizontal.closestPoint(point.p, false).equals(point.infinite.p)
+    );
   }
 });
 
 test('distanceTo: calculates minimum distance between point and finite line', t => {
-  for(const point of POINTS) {
-    t.true(t.context.horizontal.distanceTo(point.p) === point.p.distanceTo(point.finite.p));
-    t.true(t.context.horizontal.distanceTo(point.p, true) === point.p.distanceTo(point.finite.p));
+  for (const point of POINTS) {
+    t.true(
+      t.context.horizontal.distanceTo(point.p) ===
+        point.p.distanceTo(point.finite.p)
+    );
+    t.true(
+      t.context.horizontal.distanceTo(point.p, true) ===
+        point.p.distanceTo(point.finite.p)
+    );
   }
 });
 
 test('distanceTo: calculates minimum distance between point and infinite line', t => {
-  for(const point of POINTS) {
-    t.true(t.context.horizontal.distanceTo(point.p, false) === point.p.distanceTo(point.infinite.p));
+  for (const point of POINTS) {
+    t.true(
+      t.context.horizontal.distanceTo(point.p, false) ===
+        point.p.distanceTo(point.infinite.p)
+    );
   }
 });
 
@@ -194,10 +238,24 @@ test('distanceTo: calculates minimum distance between two lines', t => {
 });
 
 test('equals: can correctly identify lines that are exact matches', t => {
-  t.is(t.context.horizontal.equals(new Line(new Point(0,0), new Point(10, 0))), true);      // Exact match
-  t.is(t.context.horizontal.equals(new Line(new Point(10, 0), new Point(0,0))), false);      // Reversed
-  t.is(t.context.horizontal.equals(new Line(new Point(0,0.1), new Point(10.5, 0))), false); // Both off
-  t.is(t.context.horizontal.equals(new Line(new Point(0,0), new Point(10.1, 0))), false);   // End slightly off
+  t.is(
+    t.context.horizontal.equals(new Line(new Point(0, 0), new Point(10, 0))),
+    true
+  ); // Exact match
+  t.is(
+    t.context.horizontal.equals(new Line(new Point(10, 0), new Point(0, 0))),
+    false
+  ); // Reversed
+  t.is(
+    t.context.horizontal.equals(
+      new Line(new Point(0, 0.1), new Point(10.5, 0))
+    ),
+    false
+  ); // Both off
+  t.is(
+    t.context.horizontal.equals(new Line(new Point(0, 0), new Point(10.1, 0))),
+    false
+  ); // End slightly off
 });
 
 test('extend: correctly extends the lines and moves the end points', t => {
@@ -215,18 +273,27 @@ test('flip: correctly flips the line and switches the end points', t => {
 });
 
 test('pointAt: generates the correct point from a parameter when limited to a finite line', t => {
-  for(const point of POINTS) {
-    t.true(t.context.horizontal.pointAt(point.infinite.t).equals(point.finite.p));
-    t.true(t.context.horizontal.pointAt(point.infinite.t, true).equals(point.finite.p));
+  for (const point of POINTS) {
+    t.true(
+      t.context.horizontal.pointAt(point.infinite.t).equals(point.finite.p)
+    );
+    t.true(
+      t.context.horizontal
+        .pointAt(point.infinite.t, true)
+        .equals(point.finite.p)
+    );
   }
 });
 
 test('pointAt: generates the correct point from a parameter when limited to an infinite line', t => {
-  for(const point of POINTS) {
-    t.true(t.context.horizontal.pointAt(point.infinite.t, false).equals(point.infinite.p));
+  for (const point of POINTS) {
+    t.true(
+      t.context.horizontal
+        .pointAt(point.infinite.t, false)
+        .equals(point.infinite.p)
+    );
   }
 });
-
 
 test('pointAtLength: generates the correct point from a length', t => {
   t.is(t.context.horizontal.pointAtLength(0).x, 0);

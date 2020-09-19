@@ -6,9 +6,6 @@ import { shapetypesSettings } from './settings';
 import { isPointArray } from './utilities';
 import { Vector } from './vector';
 
-
-
-
 export class Transform {
   // -----------------------
   // STATIC
@@ -93,13 +90,13 @@ export class Transform {
 
     tran.M00 = x;
     // tslint:disable-next-line:prefer-conditional-expression
-    if(y === undefined) {
+    if (y === undefined) {
       tran.M11 = x;
     } else {
       tran.M11 = y;
     }
 
-    if(center !== undefined) {
+    if (center !== undefined) {
       tran.M20 = center.x * (1 - tran.M00);
       tran.M21 = center.y * (1 - tran.M11);
     }

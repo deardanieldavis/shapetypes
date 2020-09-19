@@ -1,10 +1,11 @@
-
 import anyTest, { TestInterface } from 'ava';
 import { Interval } from './interval';
 import { IntervalSorted } from './intervalSorted';
 
-
-const test = anyTest as TestInterface<{interval: Interval; reverse: Interval}>;
+const test = anyTest as TestInterface<{
+  interval: Interval;
+  reverse: Interval;
+}>;
 
 test.beforeEach('Create test geometry', t => {
   t.context.interval = new Interval(5, 10);
@@ -20,13 +21,11 @@ test('Constructor: creates interval and sets correct T0 and T1 values', t => {
   t.is(interval.T1, 10);
 });
 
-
-
 // -----------------------
 // STATIC
 // -----------------------
 test('fromValues: creates correct min and max values from range of numbers', t => {
-  const newInterval = Interval.fromValues([1,-2,3,4,5]);
+  const newInterval = Interval.fromValues([1, -2, 3, 4, 5]);
   t.is(newInterval.min, -2);
   t.is(newInterval.max, 5);
 });
@@ -56,7 +55,7 @@ test("fromIntersection: if two intervals don't overlap, returns undefined", t =>
   t.is(Interval.intersection(other, t.context.interval), undefined);
 });
 
-test("fromIntersection: two overlapping intervals returns new interval of overlapping part", t => {
+test('fromIntersection: two overlapping intervals returns new interval of overlapping part', t => {
   const other = new Interval(-2, 7);
   const result = Interval.intersection(t.context.interval, other);
   if (result === undefined) {
@@ -67,7 +66,7 @@ test("fromIntersection: two overlapping intervals returns new interval of overla
   t.is(result.T1, 7);
 });
 
-test("fromIntersection: swapping the inputs returns the same result", t => {
+test('fromIntersection: swapping the inputs returns the same result', t => {
   const other = new Interval(-2, 7);
   const result1 = Interval.intersection(t.context.interval, other);
   const result2 = Interval.intersection(other, t.context.interval);
@@ -77,10 +76,6 @@ test("fromIntersection: swapping the inputs returns the same result", t => {
   }
   t.true(result1.equals(result2));
 });
-
-
-
-
 
 // -----------------------
 // GET AND SET
@@ -132,8 +127,6 @@ test('length: calculates the correct absolute length for an interval when decrea
   t.is(t.context.reverse.lengthAbs, 5);
 });
 
-
-
 // -----------------------
 // PUBLIC
 // -----------------------
@@ -161,7 +154,6 @@ test('grow: expands to include a value lower', t => {
   t.is(grown.T0, -10);
   t.is(grown.T1, 10);
 });
-
 
 test('grow: expands to include a value higher when interval is decreasing', t => {
   const grown = t.context.reverse.grow(20);
@@ -224,6 +216,3 @@ test('withT1: can set value', t => {
   const interval = t.context.interval.withT1(20);
   t.is(interval.T1, 20);
 });
-
-
-

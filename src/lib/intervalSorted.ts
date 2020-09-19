@@ -48,7 +48,10 @@ export class IntervalSorted {
    * @param a First interval to encompass.
    * @param b Second interval to encompass.
    */
-  public static union(a: Interval | IntervalSorted, b: Interval | IntervalSorted): IntervalSorted {
+  public static union(
+    a: Interval | IntervalSorted,
+    b: Interval | IntervalSorted
+  ): IntervalSorted {
     return IntervalSorted.fromValues([a.min, a.max, b.min, b.max]);
   }
 
@@ -82,8 +85,8 @@ export class IntervalSorted {
       return;
     }
 
-    const min = (a.min >= b.min) ? a.min : b.min; // want largest min value
-    const max = (a.max <= b.max) ? a.max : b.max; // want smallest max value
+    const min = a.min >= b.min ? a.min : b.min; // want largest min value
+    const max = a.max <= b.max ? a.max : b.max; // want smallest max value
 
     return new IntervalSorted(min, max);
   }
@@ -105,7 +108,7 @@ export class IntervalSorted {
    * @param T1  Another end of the interval (the constructor works out whether T1 is the min or the max, so it could be either extreme).
    */
   constructor(T0: number, T1: number) {
-    if(T0 < T1) {
+    if (T0 < T1) {
       this._min = T0;
       this._max = T1;
     } else {
@@ -153,7 +156,6 @@ export class IntervalSorted {
     return this._min;
   }
 
-
   // -----------------------
   // PUBLIC
   // -----------------------
@@ -183,7 +185,7 @@ export class IntervalSorted {
    * @param otherInterval  The interval to compare against
    */
   public equals(otherInterval: IntervalSorted): boolean {
-    return (this._min === otherInterval._min && this._max === otherInterval._max);
+    return this._min === otherInterval._min && this._max === otherInterval._max;
   }
 
   /**
@@ -224,7 +226,7 @@ export class IntervalSorted {
    * @param amount  The distance to move the min and max values. If positive, the overall length of the interval will grow. If negative, the overall length will shrink.
    */
   public inflate(amount: number): IntervalSorted {
-    if(amount * -2 > this.length) {
+    if (amount * -2 > this.length) {
       // Will deflate in on itself.
       const mid = this.mid;
       return new IntervalSorted(mid, mid);
@@ -232,8 +234,6 @@ export class IntervalSorted {
       return new IntervalSorted(this._min - amount, this._max + amount);
     }
   }
-
-
 
   /**
    * Remaps a value from the global number system into the normalized parameters of this interval.
@@ -288,7 +288,7 @@ export class IntervalSorted {
    */
   public withMin(newMin: number): IntervalSorted {
     if (newMin > this._max) {
-      throw new RangeError("Min must be smaller than max");
+      throw new RangeError('Min must be smaller than max');
     }
     return new IntervalSorted(newMin, this._max);
   }
@@ -301,7 +301,7 @@ export class IntervalSorted {
    */
   public withMax(newMax: number): IntervalSorted {
     if (newMax < this._min) {
-      throw new RangeError("Max must be larger than min");
+      throw new RangeError('Max must be larger than min');
     }
     return new IntervalSorted(this._min, newMax);
   }
