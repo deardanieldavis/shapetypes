@@ -1,6 +1,5 @@
 import anyTest, { TestInterface } from 'ava';
 import { Interval } from './interval';
-import { IntervalSorted } from './intervalSorted';
 
 const test = anyTest as TestInterface<{
   interval: Interval;
@@ -28,18 +27,6 @@ test('fromValues: creates correct min and max values from range of numbers', t =
   const newInterval = Interval.fromValues([1, -2, 3, 4, 5]);
   t.is(newInterval.min, -2);
   t.is(newInterval.max, 5);
-});
-
-test('fromInterval: correctly copies T0 and T1 values from existing interval', t => {
-  const newInterval = Interval.fromExisting(t.context.interval);
-  t.is(newInterval.T0, 5);
-  t.is(newInterval.T1, 10);
-});
-
-test('fromInterval: correctly copies T0 and T1 values from existing IntervalSorted', t => {
-  const newInterval = Interval.fromExisting(new IntervalSorted(5, 10));
-  t.is(newInterval.T0, 5);
-  t.is(newInterval.T1, 10);
 });
 
 test('fromUnion: creates new interval that encompasses two existing ones', t => {
