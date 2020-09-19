@@ -8,7 +8,7 @@ export class Plane {
   // -----------------------
 
   public static worldXY(): Plane {
-    return new Plane(new Point(0, 0), new Vector(1, 0));
+    return new Plane(new Point(0, 0), Vector.worldX());
   }
 
   // -----------------------
@@ -41,6 +41,9 @@ export class Plane {
   get origin(): Point {
     return this._center;
   }
+  set origin(newOrigin: Point) {
+    this._center = newOrigin;
+  }
 
   get xAxis(): Vector {
     return this._xAxis;
@@ -53,6 +56,15 @@ export class Plane {
   // -----------------------
   // PUBLIC
   // -----------------------
+
+  public equals(plane: Plane, tolerance: number = 0): boolean {
+    if(this.origin.equals(plane.origin, tolerance)) {
+      if(this.xAxis.equals(plane.xAxis, tolerance)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   /**
    * Converts a point in the plane space (u, v) to the world space

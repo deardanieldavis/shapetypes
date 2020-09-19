@@ -6,6 +6,9 @@ import { shapetypesSettings } from './settings';
 import { isPointArray } from './utilities';
 import { Vector } from './vector';
 
+
+
+
 export class Transform {
   // -----------------------
   // STATIC

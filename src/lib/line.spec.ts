@@ -27,7 +27,7 @@ test.beforeEach('Create test geometry', t => {
 // -----------------------
 // CONSTRUCTOR
 // -----------------------
-test('Line constructor sets correct start and end point', t => {
+test('Constructor: sets correct start and end point', t => {
   const line = new Line(new Point(3, 5), new Point(6, 9));
   t.is(line.from.x, 3);
   t.is(line.from.y, 5);
@@ -39,14 +39,14 @@ test('Line constructor sets correct start and end point', t => {
 // -----------------------
 // STATIC
 // -----------------------
-test('Line from vector, sets correct start and end', t => {
+test('fromVector: sets correct start and end', t => {
   const line = Line.fromVector(t.context.P35, t.context.V34);
   t.true(line.from.equals(t.context.P35));
   t.true(line.to.equals(t.context.P69));
   t.is(line.length, 5);
 });
 
-test('Line from vector, sets correct start and end when using custom length', t => {
+test('fromVector: sets correct start and end when using custom length', t => {
   const line = Line.fromVector(t.context.P35, t.context.V34, 10);
   t.true(line.from.equals(t.context.P35));
   t.is(line.to.x, 9);
@@ -54,7 +54,7 @@ test('Line from vector, sets correct start and end when using custom length', t 
   t.is(line.length, 10);
 });
 
-test('Line from existing correctly copies start and end of existing line', t => {
+test('fromExisting: correctly copies start and end of existing line', t => {
   const line = Line.fromExisting(t.context.diagonal);
   t.true(line.from.equals(t.context.P35));
   t.true(line.to.equals(t.context.P69));
@@ -65,60 +65,60 @@ test('Line from existing correctly copies start and end of existing line', t => 
 // GET AND SET
 // -----------------------
 
-test('Correct bounding box size', t => {
+test('boundingBox: creates bounding box of correct size', t => {
   const bb = t.context.diagonal.boundingBox;
   t.true(bb.min.equals(t.context.P35));
   t.true(bb.max.equals(t.context.P69));
 });
 
-test('The direction of the line matches the lines vector', t => {
+test('direction: the direction vector is the right size', t => {
   t.true(t.context.diagonal.direction.equals(t.context.V34));
 });
 
-test('The direction of the line matches the lines vector when reversed', t => {
+test('direction: the direction vector is the right size and length when line is reversed', t => {
   const line = new Line(t.context.P69, t.context.P35);
   t.is(line.direction.length, 5);
   t.is(line.direction.x, -3);
   t.is(line.direction.y, -4);
 });
 
-test('Can change the "from" variable of the line', t => {
+test('from: can set "from" point', t => {
   t.context.diagonal.from = new Point(2,3);
   t.is(t.context.diagonal.from.x, 2);
   t.is(t.context.diagonal.from.y, 3);
 });
 
-test('Can change the "to" variable of the line', t => {
+test('from: can set "to" point', t => {
   t.context.diagonal.to = new Point(2,3);
   t.is(t.context.diagonal.to.x, 2);
   t.is(t.context.diagonal.to.y, 3);
 });
 
-test('The line is the correct length', t => {
+test('length: returns correct distance', t => {
   t.is(t.context.diagonal.length, 5);
 });
 
-test('Can change the length of the line and the end point moves correctly', t => {
+test('length: can set the length and have the end point move correctly', t => {
   t.context.diagonal.length = 10;
   t.is(t.context.diagonal.length, 10);
   t.is(t.context.diagonal.to.x, 9);
   t.is(t.context.diagonal.to.y, 13);
 });
 
-test('Can change the length of the line to a negative number and the end point moves correctly', t => {
+test('length: can set the length to a negative number and have the end point move correctly', t => {
   t.context.diagonal.length = -5;
   t.is(t.context.diagonal.length, 5);
   t.is(t.context.diagonal.to.x, 0);
   t.is(t.context.diagonal.to.y, 1);
 });
 
-test('Generates a correct unit vector when the y-axis is in normal orientation', t => {
+test('unitTangent: generates a correct unit vector when the y-axis is in normal orientation', t => {
   shapetypesSettings.invertY = false;
   t.is(t.context.horizontal.unitTangent.length, 1);
   t.true(t.context.horizontal.unitTangent.equals(new Vector(0, -1)));
 });
 
-test('Generates a correct unit vector when the y-axis is inverted', t => {
+test('unitTangent: generates a correct unit vector when the y-axis is inverted', t => {
   shapetypesSettings.invertY = true;
   t.is(t.context.horizontal.unitTangent.length, 1);
   t.true(t.context.horizontal.unitTangent.equals(new Vector(0, 1)));
@@ -149,58 +149,58 @@ const POINTS: readonly Points[] = [
   {p: new Point(5,20), finite: {t: 0.5, p: new Point(5,0)}, infinite: {t: 0.5, p: new Point(5,0)} },
 ]
 
-test('Finds the closest parameter of the test points on the finite line', t => {
+test('closestParameter: finds the closest parameter using a finite line', t => {
   for(const point of POINTS) {
     t.is(t.context.horizontal.closestParameter(point.p), point.finite.t);
     t.is(t.context.horizontal.closestParameter(point.p, true), point.finite.t);
   }
 });
 
-test('Finds the closest parameter of the test points on the infinite line', t => {
+test('closestParameter: finds the closest parameter using an infinite line', t => {
   for(const point of POINTS) {
     t.is(t.context.horizontal.closestParameter(point.p, false), point.infinite.t);
   }
 });
 
-test('Finds the closest point to the test points on the finite line', t => {
+test('closestPoint: finds the closest parameter using a finite line', t => {
   for(const point of POINTS) {
     t.true(t.context.horizontal.closestPoint(point.p).equals(point.finite.p));
     t.true(t.context.horizontal.closestPoint(point.p, true).equals(point.finite.p));
   }
 });
 
-test('Finds the closest point to the test points on the infinite line', t => {
+test('closestPoint: finds the closest parameter using an infinite line', t => {
   for(const point of POINTS) {
     t.true(t.context.horizontal.closestPoint(point.p, false).equals(point.infinite.p));
   }
 });
 
-test('Finds the distance between the closest point and the line when limited to the finite line', t => {
+test('distanceTo: calculates minimum distance between point and finite line', t => {
   for(const point of POINTS) {
     t.true(t.context.horizontal.distanceTo(point.p) === point.p.distanceTo(point.finite.p));
     t.true(t.context.horizontal.distanceTo(point.p, true) === point.p.distanceTo(point.finite.p));
   }
 });
 
-test('Finds the distance between the closest point and the line when limited to the infinite line', t => {
+test('distanceTo: calculates minimum distance between point and infinite line', t => {
   for(const point of POINTS) {
     t.true(t.context.horizontal.distanceTo(point.p, false) === point.p.distanceTo(point.infinite.p));
   }
 });
 
-test('Finds the minimal distance between two lines', t => {
+test('distanceTo: calculates minimum distance between two lines', t => {
   t.is(t.context.horizontal.distanceTo(t.context.P35), 5);
   t.is(t.context.horizontal.distanceTo(t.context.diagonal), 5);
 });
 
-test('Can correctly identify lines that are exact matches', t => {
+test('equals: can correctly identify lines that are exact matches', t => {
   t.is(t.context.horizontal.equals(new Line(new Point(0,0), new Point(10, 0))), true);      // Exact match
   t.is(t.context.horizontal.equals(new Line(new Point(10, 0), new Point(0,0))), false);      // Reversed
   t.is(t.context.horizontal.equals(new Line(new Point(0,0.1), new Point(10.5, 0))), false); // Both off
   t.is(t.context.horizontal.equals(new Line(new Point(0,0), new Point(10.1, 0))), false);   // End slightly off
 });
 
-test('Correctly extends the lines and moves the end points', t => {
+test('extend: correctly extends the lines and moves the end points', t => {
   t.context.horizontal.extend(1, 2);
   t.is(t.context.horizontal.from.x, -1);
   t.is(t.context.horizontal.from.y, 0);
@@ -208,27 +208,27 @@ test('Correctly extends the lines and moves the end points', t => {
   t.is(t.context.horizontal.to.y, 0);
 });
 
-test('Correctly flips the line and switches the end points', t => {
+test('flip: correctly flips the line and switches the end points', t => {
   t.context.horizontal.flip();
   t.true(t.context.horizontal.from.equals(t.context.P100));
   t.true(t.context.horizontal.to.equals(t.context.P00));
 });
 
-test('Generates the correct point from a parameter when limited to a finite line', t => {
+test('pointAt: generates the correct point from a parameter when limited to a finite line', t => {
   for(const point of POINTS) {
     t.true(t.context.horizontal.pointAt(point.infinite.t).equals(point.finite.p));
     t.true(t.context.horizontal.pointAt(point.infinite.t, true).equals(point.finite.p));
   }
 });
 
-test('Generates the correct point from a parameter when limited to an infinite line', t => {
+test('pointAt: generates the correct point from a parameter when limited to an infinite line', t => {
   for(const point of POINTS) {
     t.true(t.context.horizontal.pointAt(point.infinite.t, false).equals(point.infinite.p));
   }
 });
 
 
-test('Generates the correct point from a length', t => {
+test('pointAtLength: generates the correct point from a length', t => {
   t.is(t.context.horizontal.pointAtLength(0).x, 0);
   t.is(t.context.horizontal.pointAtLength(10).x, 10);
   t.is(t.context.horizontal.pointAtLength(5).x, 5);
@@ -237,11 +237,11 @@ test('Generates the correct point from a length', t => {
   t.is(t.context.horizontal.pointAtLength(20, false).x, 20);
 });
 
-test('Converts the line to a string', t => {
+test('toString: returns a string', t => {
   t.true(t.context.horizontal.toString().length > 0);
 });
 
-test('Translates the line and repositions the end points correctly', t => {
+test('transform: translates the line and repositions the end points correctly', t => {
   t.context.horizontal.transform(Transform.translate(new Vector(2, 1)));
   t.is(t.context.horizontal.from.x, 2);
   t.is(t.context.horizontal.from.y, 1);
@@ -249,7 +249,7 @@ test('Translates the line and repositions the end points correctly', t => {
   t.is(t.context.horizontal.to.y, 1);
 });
 
-test('Rotates the line and repositions the end points correctly', t => {
+test('transform: rotates the line and repositions the end points correctly', t => {
   shapetypesSettings.invertY = false;
   t.context.horizontal.transform(Transform.rotate(Math.PI / 2));
   t.is(t.context.horizontal.from.x, 0);

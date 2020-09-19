@@ -1,77 +1,84 @@
-// tslint:disable:no-let
-import test from 'ava';
+
+import anyTest, { TestInterface } from 'ava';
 import { Interval } from './interval';
 import { IntervalSorted } from './intervalSorted';
 
-// -----------------------
-// STATIC
-// -----------------------
-test('fromValues', t => {
-  const a = Interval.fromValues([1,2,3,4,5]);
-  t.is(a.min, 1);
-  t.is(a.max, 5);
 
-  const b = Interval.fromValues([5,-2,3,4,5]);
-  t.is(b.min, -2);
-  t.is(b.max, 5);
+const test = anyTest as TestInterface<{interval: Interval; reverse: Interval}>;
+
+test.beforeEach('Create test geometry', t => {
+  t.context.interval = new Interval(5, 10);
+  t.context.reverse = new Interval(10, 5);
 });
-
-test('fromInterval', t => {
-  const a = Interval.fromExisting(new Interval(5, 10));
-  t.is(a.T0, 5);
-  t.is(a.T1, 10);
-
-  const b = Interval.fromExisting(new IntervalSorted(5, 10));
-  t.is(b.T0, 5);
-  t.is(b.T1, 10);
-});
-
-test('fromUnion', t => {
-  const a = new Interval(5, 10);
-  const b = new Interval(-10, -20);
-  const result = Interval.union(a, b);
-
-  t.is(result.min, -20);
-  t.is(result.max, 10);
-});
-
-test('fromIntersection', t => {
-  // No overlap
-  const a = new Interval(5, 10);
-  const b = new Interval(-10, -20);
-  let result = Interval.intersection(a, b);
-  t.assert(result === undefined);
-  result = Interval.intersection(b, a);
-  t.assert(result === undefined);
-
-  // Overlap
-  const c = new Interval(-2, 7);
-  result = Interval.intersection(a, c);
-  if (result === undefined) {
-    t.fail();
-    return;
-  }
-  t.is(result.T0, 5);
-  t.is(result.T1, 7);
-
-  result = Interval.intersection(c, a);
-  if (result === undefined) {
-    t.fail();
-    return;
-  }
-  t.is(result.T0, 5);
-  t.is(result.T1, 7);
-});
-
 
 // -----------------------
 // CONSTRUCTOR
 // -----------------------
-test('Creating interval', t => {
+test('Constructor: creates interval and sets correct T0 and T1 values', t => {
   const interval = new Interval(5, 10);
   t.is(interval.T0, 5);
   t.is(interval.T1, 10);
 });
+
+
+
+// -----------------------
+// STATIC
+// -----------------------
+test('fromValues: creates correct min and max values from range of numbers', t => {
+  const newInterval = Interval.fromValues([1,-2,3,4,5]);
+  t.is(newInterval.min, -2);
+  t.is(newInterval.max, 5);
+});
+
+test('fromInterval: correctly copies T0 and T1 values from existing interval', t => {
+  const newInterval = Interval.fromExisting(t.context.interval);
+  t.is(newInterval.T0, 5);
+  t.is(newInterval.T1, 10);
+});
+
+test('fromInterval: correctly copies T0 and T1 values from existing IntervalSorted', t => {
+  const newInterval = Interval.fromExisting(new IntervalSorted(5, 10));
+  t.is(newInterval.T0, 5);
+  t.is(newInterval.T1, 10);
+});
+
+test('fromUnion: creates new interval that encompasses two existing ones', t => {
+  const other = new Interval(-10, -20);
+  const result = Interval.union(t.context.interval, other);
+  t.is(result.min, -20);
+  t.is(result.max, 10);
+});
+
+test("fromIntersection: if two intervals don't overlap, returns undefined", t => {
+  const other = new Interval(-10, -20);
+  t.is(Interval.intersection(t.context.interval, other), undefined);
+  t.is(Interval.intersection(other, t.context.interval), undefined);
+});
+
+test("fromIntersection: two overlapping intervals returns new interval of overlapping part", t => {
+  const other = new Interval(-2, 7);
+  const result = Interval.intersection(t.context.interval, other);
+  if (result === undefined) {
+    t.fail();
+    return;
+  }
+  t.is(result.T0, 5);
+  t.is(result.T1, 7);
+});
+
+test("fromIntersection: swapping the inputs returns the same result", t => {
+  const other = new Interval(-2, 7);
+  const result1 = Interval.intersection(t.context.interval, other);
+  const result2 = Interval.intersection(other, t.context.interval);
+  if (result1 === undefined || result2 === undefined) {
+    t.fail();
+    return;
+  }
+  t.true(result1.equals(result2));
+});
+
+
 
 
 
@@ -79,132 +86,144 @@ test('Creating interval', t => {
 // GET AND SET
 // -----------------------
 
-test('T0', t => {
-  const interval = new Interval(5, 10);
-  t.is(interval.T0, 5);
-  interval.T0 = 20;
-  t.is(interval.T0, 20);
+test('isIncreasing: correctly identifies that an interval is increasing', t => {
+  t.is(t.context.interval.isIncreasing, true);
+  t.is(t.context.interval.isDecreasing, false);
 });
 
-test('T1', t => {
-  const interval = new Interval(5, 10);
-  t.is(interval.T1, 10);
-  interval.T1 = 20;
-  t.is(interval.T1, 20);
+test('isDecreasing: correctly identifies that an interval is decreasing', t => {
+  t.is(t.context.reverse.isIncreasing, false);
+  t.is(t.context.reverse.isDecreasing, true);
 });
 
-test('Increasing', t => {
-  const interval = new Interval(5, 10);
-  t.is(interval.isIncreasing, true);
-  t.is(interval.isDecreasing, false);
-});
-
-test('Decreasing', t => {
-  const interval = new Interval(10, 5);
-  t.is(interval.isIncreasing, false);
-  t.is(interval.isDecreasing, true);
-});
-
-test('Singleton', t => {
+test('isSingleton: correctly identifies singletons', t => {
   const interval = new Interval(10, 10);
   t.is(interval.isSingleton, true);
-
-  const notSingle = new Interval(5, 10);
-  t.is(notSingle.isSingleton, false);
+  t.is(t.context.interval.isSingleton, false);
 });
 
-test('Min & max', t => {
-  let interval = new Interval(5, 10);
-  t.is(interval.min, 5);
-  t.is(interval.max, 10);
+test('min & max: correctly returns min and max value of an interval', t => {
+  t.is(t.context.interval.min, 5);
+  t.is(t.context.interval.max, 10);
+});
 
-  interval = new Interval(10, 5);
-  t.is(interval.min, 5);
-  t.is(interval.max, 10);
+test('min & max: correctly returns min and max value of an interval, even when T0 and T1 are reversed', t => {
+  t.is(t.context.reverse.min, 5);
+  t.is(t.context.reverse.max, 10);
+});
+
+test('mid: calculates mid value of interval', t => {
+  t.is(t.context.interval.mid, 7.5);
+});
+
+test('length: calculates the correct signed length for an interval', t => {
+  t.is(t.context.interval.length, 5);
+});
+
+test('length: calculates the correct signed length for an interval when decreasing', t => {
+  t.is(t.context.reverse.length, -5);
+});
+
+test('lengthAbs: calculates the correct absolute length for an interval', t => {
+  t.is(t.context.interval.lengthAbs, 5);
+});
+
+test('length: calculates the correct absolute length for an interval when decreasing', t => {
+  t.is(t.context.reverse.lengthAbs, 5);
 });
 
 
-test('Mid', t => {
-  const interval = new Interval(5, 10);
-  t.is(interval.mid, 7.5);
-});
-
-test('Length', t => {
-  let interval = new Interval(5, 10);
-  t.is(interval.length, 5);
-  t.is(interval.lengthAbs, 5);
-
-  interval = new Interval(10, 5);
-  t.is(interval.length, -5);
-  t.is(interval.lengthAbs, 5);
-});
 
 // -----------------------
 // PUBLIC
 // -----------------------
 
-test('Reverse', t => {
-  const interval = new Interval(5, 10);
-  interval.reverse();
-  t.is(interval.T0, -10);
-  t.is(interval.T1, -5);
+test('reverse: reverse correctly swaps and inverts T0 and T1', t => {
+  const reversed = t.context.interval.reverse();
+  t.is(reversed.T0, -10);
+  t.is(reversed.T1, -5);
 });
 
-test('Swap', t => {
-  const interval = new Interval(5, 10);
-  interval.swap();
-  t.is(interval.T0, 10);
-  t.is(interval.T1, 5);
+test('swap: correctly swaps T0 and T1', t => {
+  const swapped = t.context.interval.swap();
+  t.is(swapped.T0, 10);
+  t.is(swapped.T1, 5);
 });
 
-test('Grow', t => {
-  let interval = new Interval(5, 10);
-  interval.grow(20);
-  t.is(interval.T0, 5);
-  t.is(interval.T1, 20);
+test('grow: expands to include a value higher', t => {
+  const grown = t.context.interval.grow(20);
+  t.is(grown.T0, 5);
+  t.is(grown.T1, 20);
+});
 
-  interval = new Interval(5, 10);
-  interval.grow(-10);
-  t.is(interval.T0, -10);
-  t.is(interval.T1, 10);
+test('grow: expands to include a value lower', t => {
+  const grown = t.context.interval.grow(-10);
+  t.is(grown.T0, -10);
+  t.is(grown.T1, 10);
+});
 
-  interval = new Interval(10, 5);
-  interval.grow(20);
+
+test('grow: expands to include a value higher when interval is decreasing', t => {
+  const grown = t.context.reverse.grow(20);
+  t.is(grown.T0, 20);
+  t.is(grown.T1, 5);
+});
+
+test('grow: expands to include a value lower when interval is decreasing', t => {
+  const grown = t.context.reverse.grow(-10);
+  t.is(grown.T0, 10);
+  t.is(grown.T1, -10);
+});
+
+test('grow: interval not changed when given value it already contains', t => {
+  const grown = t.context.interval.grow(7);
+  t.is(grown.T0, 5);
+  t.is(grown.T1, 10);
+});
+
+test('contains: correctly identifies which values are within the interval', t => {
+  t.is(t.context.interval.contains(0), false);
+  t.is(t.context.interval.contains(5), true);
+  t.is(t.context.interval.contains(7.5), true);
+  t.is(t.context.interval.contains(10), true);
+  t.is(t.context.interval.contains(10.1), false);
+});
+
+test('contains: correctly identifies which values are within the interval when containment is strict', t => {
+  t.is(t.context.interval.contains(0, true), false);
+  t.is(t.context.interval.contains(5, true), false);
+  t.is(t.context.interval.contains(7.5, true), true);
+  t.is(t.context.interval.contains(10, true), false);
+  t.is(t.context.interval.contains(10.1, true), false);
+});
+
+test('valueAt: correctly turns a parameter on the interval into a value', t => {
+  t.is(t.context.interval.valueAt(0), 5);
+  t.is(t.context.interval.valueAt(0.2), 6);
+  t.is(t.context.interval.valueAt(1), 10);
+});
+
+test('remap: correctly remaps a value to the parameter space of interval', t => {
+  t.is(t.context.interval.remapToInterval(5), 0);
+  t.is(t.context.interval.remapToInterval(6), 0.2);
+  t.is(t.context.interval.remapToInterval(10), 1);
+});
+
+test('equals: correctly identifies intervals that are exact matches', t => {
+  t.is(t.context.interval.equals(new Interval(5, 10)), true);
+  t.is(t.context.interval.equals(new Interval(5.1, 10)), false);
+  t.is(t.context.interval.equals(new Interval(5, 10.1)), false);
+});
+
+test('withT0: can set value', t => {
+  const interval = t.context.interval.withT0(20);
   t.is(interval.T0, 20);
-  t.is(interval.T1, 5);
-
-  interval = new Interval(10, 5);
-  interval.grow(-10);
-  t.is(interval.T0, 10);
-  t.is(interval.T1, -10);
 });
 
-test('Contains', t => {
-  const interval = new Interval(10, 20);
-
-  t.is(interval.contains(0), false);
-  t.is(interval.contains(15), true);
-  t.is(interval.contains(20), true);
-  t.is(interval.contains(20.1), false);
-
-  t.is(interval.contains(10, true), false);
-  t.is(interval.contains(15, true), true);
-  t.is(interval.contains(20, true), false);
+test('withT1: can set value', t => {
+  const interval = t.context.interval.withT1(20);
+  t.is(interval.T1, 20);
 });
 
-test('valueAt', t => {
-  const interval = new Interval(10, 20);
 
-  t.is(interval.valueAt(0), 10);
-  t.is(interval.valueAt(0.1), 11);
-  t.is(interval.valueAt(0.9), 19);
-});
-
-test('remap', t => {
-  const interval = new Interval(10, 20);
-
-  t.is(interval.remapToInterval(10), 0);
-  t.is(interval.remapToInterval(11), 0.1);
-  t.is(interval.remapToInterval(19), 0.9);
-});
 

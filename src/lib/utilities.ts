@@ -3,6 +3,7 @@
 import { Point } from './point';
 import { Polygon } from './polygon';
 import { Polyline } from './polyline';
+import { shapetypesSettings } from './settings';
 
 /**
  * Checks whether two values are equal within a set tolerance
@@ -15,7 +16,7 @@ import { Polyline } from './polyline';
 export function approximatelyEqual(
   value1: number,
   value2: number,
-  epsilon: number = 0.001
+  epsilon: number = shapetypesSettings.absoluteTolerance
 ): boolean {
   return Math.abs(value1 - value2) < epsilon;
 }

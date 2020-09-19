@@ -325,8 +325,7 @@ export class Polyline {
     const tolerance = 0.01;
 
     // 1. Before running any of the expensive calculations, quickly check to see if the point is even close to polyline
-    const bb = BoundingBox.fromExisting(this.boundingBox);
-    bb.inflate(tolerance); // Need to inflate the bounding box slightly to account for points that are coincident but just slightly outside
+    const bb = this.boundingBox.inflate(tolerance); // Need to inflate the bounding box slightly to account for points that are coincident but just slightly outside
     if (!bb.contains(point)) {
       return PointContainment.outside;
     }

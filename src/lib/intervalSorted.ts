@@ -1,10 +1,7 @@
-// tslint:disable:no-let
-// tslint:disable:readonly-array
-
 import { Interval } from './interval';
 
 /**
- * An IntervalSorted represents a number range between two values ([[min]] & [[max]]). Unlike Interval, it doesn't have a direction -- it is always increasing.
+ * An IntervalSorted represents a number range between two values ([[min]] & [[max]]). Unlike [[Interval]], it doesn't have a direction.
  *
  * ### Example
  * ```js
@@ -28,7 +25,7 @@ export class IntervalSorted {
   // -----------------------
 
   /**
-   * Creates a new interval that encompasses all the values in the array.
+   * Returns an IntervalSorted that encompasses all the values in the array.
    *
    * ### Example
    * ```js
@@ -40,26 +37,14 @@ export class IntervalSorted {
    * ```
    * @param values  Numbers to contain within the interval.
    */
-  public static fromValues(values: number[]): IntervalSorted {
+  public static fromValues(values: readonly number[]): IntervalSorted {
     const min = Math.min(...values);
     const max = Math.max(...values);
     return new IntervalSorted(min, max);
   }
 
   /**
-   * Creates a new IntervalSorted by duplicating an existing interval
-   * @param interval
-   */
-  public static fromExisting(interval: Interval | IntervalSorted): IntervalSorted {
-    if(interval instanceof Interval) {
-      return new IntervalSorted(interval.T0, interval.T1);
-    } else {
-      return new IntervalSorted(interval.min, interval.max);
-    }
-  }
-
-  /**
-   * Creates a new interval that encompasses these two intervals.
+   * Returns an IntervalSorted that encompasses two intervals.
    * @param a First interval to encompass.
    * @param b Second interval to encompass.
    */
@@ -68,7 +53,7 @@ export class IntervalSorted {
   }
 
   /**
-   * Creates a new interval that is the overlapping portion of two intervals.
+   * Returns an IntervalSorted that represents the overlapping portion of two intervals.
    *
    * ### Example
    * ```js
@@ -93,18 +78,12 @@ export class IntervalSorted {
       return;
     }
     if (b.max < a.min) {
+      // No overlap
       return;
     }
 
-    let min = a.min;
-    if (b.min > a.min) {
-      min = b.min;
-    }
-
-    let max = a.max;
-    if (b.max < a.max) {
-      max = b.max;
-    }
+    const min = (a.min >= b.min) ? a.min : b.min; // want largest min value
+    const max = (a.max <= b.max) ? a.max : b.max; // want smallest max value
 
     return new IntervalSorted(min, max);
   }
@@ -112,17 +91,18 @@ export class IntervalSorted {
   // -----------------------
   // VARS
   // -----------------------
-  private _min: number;
-  private _max: number;
+  private readonly _min: number;
+  private readonly _max: number;
 
   // -----------------------
   // CONSTRUCTOR
   // -----------------------
 
   /**
-   * The interval is defined two values, which are the min and max of the number range.
-   * @param T0  One end of the interval (could be the min or max value).
-   * @param T1  Another end of the interval (could be the min or max value).
+   * An IntervalSorted represents a number range between two values ([[min]] & [[max]]).
+   *
+   * @param T0  One end of the interval (the constructor works out whether T0 is the min or the max, so it could be either extreme).
+   * @param T1  Another end of the interval (the constructor works out whether T1 is the min or the max, so it could be either extreme).
    */
   constructor(T0: number, T1: number) {
     if(T0 < T1) {
@@ -139,50 +119,38 @@ export class IntervalSorted {
   // -----------------------
 
   /**
-   * True if [[min]] and [[max]] are the same value.
+   * Returns true if [[min]] and [[max]] are the same value.
    */
   get isSingleton(): boolean {
     return this._min === this._max;
   }
 
   /**
-   * The minimum value of the interval.
+   * Returns the distance between [[min]] and [[max]].
    */
-  get min(): number {
-    return this._min;
-  }
-  set min(value: number) {
-    if (value > this._max) {
-      throw new Error("Min must be smaller than max");
-    }
-    this._min = value;
+  get length(): number {
+    return this._max - this._min;
   }
 
   /**
-   * The value at the middle of [[T0]] and [[T1]].
+   * Returns the maximum value of the interval.
+   */
+  get max(): number {
+    return this._max;
+  }
+
+  /**
+   * Returns the value at the middle of [[min]] and [[max]].
    */
   get mid(): number {
     return (this._min + this._max) / 2;
   }
 
   /**
-   * The maximum value of the interval.
+   * Returns the minimum value of the interval.
    */
-  get max(): number {
-    return this._max;
-  }
-  set max(value: number) {
-    if (value < this._min) {
-      throw new Error("Max must be larger than min");
-    }
-    this._max = value;
-  }
-
-  /**
-   * The distance between [[min]] and [[max]].
-   */
-  get length(): number {
-    return this._max - this._min;
+  get min(): number {
+    return this._min;
   }
 
 
@@ -191,64 +159,7 @@ export class IntervalSorted {
   // -----------------------
 
   /**
-   * Changes interval to [-[[max]], -[[min]]]
-   */
-  public reverse(): void {
-    const temp = this._min;
-    this._min = -1 * this._max;
-    this._max = -1 * temp;
-  }
-
-  /**
-   * Expands the interval to include the new value.
-   *
-   * ### Example
-   * ```js
-   * const interval = new IntervalSorted(5, 10);
-   * interval.grow(20);
-   * console.log(interval.min);
-   * // => 5
-   * console.log(interval.max);
-   * // => 20
-   * ```
-   * @param toInclude
-   */
-  public grow(toInclude: number): void {
-    if (toInclude < this._min) {
-      this._min = toInclude;
-    } else if (toInclude > this._max) {
-      this._max = toInclude;
-    }
-  }
-
-  /**
-   * Expands the min and max values of the interval by set amount.
-   *
-   * ### Example
-   * ```js
-   * const interval = new IntervalSorted(5, 10);
-   * interval.inflate(2);
-   * console.log(interval.min);
-   * // => 3
-   * console.log(interval.max);
-   * // => 12
-   * ```
-   * @param amount
-   */
-  public inflate(amount: number): void {
-    if(amount * -2 > this.length) {
-      // Will deflate in on itself.
-      const mid = this.mid;
-      this._min = mid;
-      this._max = mid;
-    } else {
-      this._min = this._min - amount;
-      this._max = this._max + amount;
-    }
-  }
-
-  /**
-   * True if the value is within the interval.
+   * Returns true if a given value is within the interval.
    * @param value   Number to check for containment
    * @param strict  If true, the value has to be fully inside the interval and can't equal [[min]] or [[max]]. If false, the value has to be inside interval but can equal [[min]] or [[max]].
    */
@@ -264,12 +175,96 @@ export class IntervalSorted {
         return true;
       }
     }
-
     return false;
   }
 
   /**
-   * The value at a normalized distance along the interval
+   * Returns true if two instances of IntervalSorted contain identical min and max values.
+   * @param otherInterval  The interval to compare against
+   */
+  public equals(otherInterval: IntervalSorted): boolean {
+    return (this._min === otherInterval._min && this._max === otherInterval._max);
+  }
+
+  /**
+   * Returns a copy of this interval expanded to contain a given value.
+   *
+   * ### Example
+   * ```js
+   * const interval = new IntervalSorted(5, 10);
+   * const grown = interval.grow(20);
+   * console.log(grown.min);
+   * // => 5
+   * console.log(grown.max);
+   * // => 20
+   * ```
+   * @param toInclude The number to contain within the new interval
+   */
+  public grow(toInclude: number): IntervalSorted {
+    if (toInclude < this._min) {
+      return new IntervalSorted(toInclude, this._max);
+    } else if (toInclude > this._max) {
+      return new IntervalSorted(this._min, toInclude);
+    }
+    return this;
+  }
+
+  /**
+   * Returns a copy of this interval where the min and max have been moved apart by a set amount.
+   *
+   * ### Example
+   * ```js
+   * const interval = new IntervalSorted(5, 10);
+   * const expanded = interval.inflate(2);
+   * console.log(expanded.min);
+   * // => 3
+   * console.log(expanded.max);
+   * // => 12
+   * ```
+   * @param amount  The distance to move the min and max values. If positive, the overall length of the interval will grow. If negative, the overall length will shrink.
+   */
+  public inflate(amount: number): IntervalSorted {
+    if(amount * -2 > this.length) {
+      // Will deflate in on itself.
+      const mid = this.mid;
+      return new IntervalSorted(mid, mid);
+    } else {
+      return new IntervalSorted(this._min - amount, this._max + amount);
+    }
+  }
+
+
+
+  /**
+   * Remaps a value from the global number system into the normalized parameters of this interval.
+   * See [[valueAt]] to understand how the parameters are calculated.
+   *
+   * ### Example
+   * ```js
+   * let interval = new IntervalSorted(10, 20)
+   * console.log(interval.remapToInterval(11))
+   * // => 0.1
+   * ```
+   * @param value   The number to remap
+   * @returns       The number remapped to the normalized parameters of this interval
+   */
+  public remapToInterval(value: number): number {
+    return (value - this._min) / (this._max - this._min);
+  }
+
+  /**
+   * Returns a new IntervalSorted equal to [-[[max]], -[[min]]]
+   */
+  public reverse(): IntervalSorted {
+    return new IntervalSorted(-1 * this._max, -1 * this._min);
+  }
+
+  /**
+   * Remaps a value from normalized parameters of this interval into the global number system.
+   * The interval's parameter range from 0 to 1.
+   * t=0 is the min value of the interval
+   * t=0.5 is the mid point of the interval
+   * t=1 os the max value of the interval
    *
    * ### Example
    * ```js
@@ -278,25 +273,36 @@ export class IntervalSorted {
    * // => 11
    * ```
    *
-   * @param t   A number between 0 & 1
+   * @param t   The parameter to remap
+   * @returns   The parameter remapped to the global number system
    */
   public valueAt(t: number): number {
     return this._min * (1 - t) + this._max * t;
   }
 
   /**
-   * Remaps a value into the normalized distance of the interval.
+   * Returns a copy of this interval with a different min value.
    *
-   * ### Example
-   * ```js
-   * let interval = new IntervalSorted(10, 20)
-   * console.log(interval.remapToInterval(11))
-   * // => 0.1
-   * ```
-   * @param value
+   * @param newMin    New min value for the new interval
+   * @note            Throws an error if the new minimum is greater than the current maximum.
    */
-  public remapToInterval(value: number): number {
-    const t = (value - this._min) / (this._max - this._min);
-    return t;
+  public withMin(newMin: number): IntervalSorted {
+    if (newMin > this._max) {
+      throw new RangeError("Min must be smaller than max");
+    }
+    return new IntervalSorted(newMin, this._max);
+  }
+
+  /**
+   * Returns a copy of this interval with a different max value.
+   *
+   * @param newMax    New max value for the new interval
+   * @note            Throws an error if the new maximum is less than the current minimum.
+   */
+  public withMax(newMax: number): IntervalSorted {
+    if (newMax < this._min) {
+      throw new RangeError("Max must be larger than min");
+    }
+    return new IntervalSorted(this._min, newMax);
   }
 }

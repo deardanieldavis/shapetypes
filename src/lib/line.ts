@@ -144,16 +144,16 @@ export class Line {
 
   /**
    * Finds the parameter of the closest point on the line.
-   * @param point                     Finds the parameter of the closest point relative to this point.
+   * @param testPoint                     Finds the parameter of the closest point relative to this point.
    * @param limitToFiniteSegment      If true, the parameter must be for a point within the bounds of the line. If false, the line is treated as infinite.
    * @return                          The normalized parameter of the closest point. To understand this value, see: [[pointAt]].
    */
-  public closestParameter(point: Point, limitToFiniteSegment: boolean = true): number {
+  public closestParameter(testPoint: Point, limitToFiniteSegment: boolean = true): number {
     // Based on: http://paulbourke.net/geometry/pointlineplane/
     const xDelta = this.direction.x;
     const yDelta = this.direction.y;
     const u =
-      ((point.x - this._from.x) * xDelta + (point.y - this._from.y) * yDelta) /
+      ((testPoint.x - this._from.x) * xDelta + (testPoint.y - this._from.y) * yDelta) /
       (xDelta * xDelta + yDelta * yDelta);
 
     if(limitToFiniteSegment) {
@@ -168,11 +168,11 @@ export class Line {
 
   /**
    * Finds the closest point on the line.
-   * @param point                 Finds the closest point relative to this point.
+   * @param testPoint                 Finds the closest point relative to this point.
    * @param limitToFiniteSegment  If true, the closest point must be within the bounds of the line. If false, the line is treated as infinite.
    */
-  public closestPoint(point: Point, limitToFiniteSegment: boolean = true): Point {
-    return this.pointAt(this.closestParameter(point, limitToFiniteSegment), limitToFiniteSegment);
+  public closestPoint(testPoint: Point, limitToFiniteSegment: boolean = true): Point {
+    return this.pointAt(this.closestParameter(testPoint, limitToFiniteSegment), limitToFiniteSegment);
   }
 
   /**
@@ -197,12 +197,12 @@ export class Line {
 
   /**
    * Two lines are equal if [[from]] and [[to]] are identical in both lines.
-   * @param line        The line to test for equality
+   * @param otherLine   The line to compare against
    * @param tolerance   The distance the points can be apart and still considered identical
    */
-  public equals(line: Line, tolerance: number = 0): boolean {
-    if(this._from.equals(line.from, tolerance)) {
-      if(this._to.equals(line.to, tolerance)) {
+  public equals(otherLine: Line, tolerance: number = 0): boolean {
+    if(this._from.equals(otherLine.from, tolerance)) {
+      if(this._to.equals(otherLine.to, tolerance)) {
         return true;
       }
     }

@@ -1,6 +1,3 @@
-// tslint:disable:no-let
-// tslint:disable:readonly-array
-
 import { IntervalSorted } from './intervalSorted';
 
 /**
@@ -49,7 +46,7 @@ export class Interval {
    * ```
    * @param values  Numbers to contain within the interval.
    */
-  public static fromValues(values: number[]): Interval {
+  public static fromValues(values: readonly number[]): Interval {
     const min = Math.min(...values);
     const max = Math.max(...values);
     return new Interval(min, max);
@@ -102,18 +99,12 @@ export class Interval {
       return;
     }
     if (b.max < a.min) {
+      // No overlap
       return;
     }
 
-    let min = a.min;
-    if (b.min > a.min) {
-      min = b.min;
-    }
-
-    let max = a.max;
-    if (b.max < a.max) {
-      max = b.max;
-    }
+    const min = (a.min >= b.min) ? a.min : b.min; // want largest min value
+    const max = (a.max <= b.max) ? a.max : b.max; // want smallest max value
 
     return new Interval(min, max);
   }
@@ -121,8 +112,8 @@ export class Interval {
   // -----------------------
   // VARS
   // -----------------------
-  private _T0: number;
-  private _T1: number;
+  private readonly _T0: number;
+  private readonly _T1: number;
 
   // -----------------------
   // CONSTRUCTOR
@@ -149,9 +140,6 @@ export class Interval {
   get T0(): number {
     return this._T0;
   }
-  set T0(value: number) {
-    this._T0 = value;
-  }
 
   /**
    * The end of the interval (either ends at the min or max value).
@@ -160,9 +148,7 @@ export class Interval {
   get T1(): number {
     return this._T1;
   }
-  set T1(value: number) {
-    this._T1 = value;
-  }
+
 
   /**
    * True if [[T0]] > [[T1]].
@@ -234,52 +220,10 @@ export class Interval {
   // -----------------------
 
   /**
-   * Changes interval to [-[[T1]], -[[T0]]]
+   * Converts this interval into an IntervalSorted.
    */
-  public reverse(): void {
-    const temp = this._T0;
-    this._T0 = -1 * this._T1;
-    this._T1 = -1 * temp;
-  }
-
-  /**
-   * Changes interval to [[[T1]], [[T0]]]
-   */
-  public swap(): void {
-    const temp = this._T0;
-    this._T0 = this._T1;
-    this._T1 = temp;
-  }
-
-  /**
-   * Expands the interval to include the new value.
-   *
-   * ### Example
-   * ```js
-   * const interval = new Interval(5, 10);
-   * interval.grow(20);
-   * console.log(interval.min);
-   * // => 5
-   * console.log(interval.max);
-   * // => 20
-   * ```
-   * @param toInclude
-   */
-  public grow(toInclude: number): void {
-    if(this.isIncreasing) {
-      if (toInclude < this._T0) {
-        this._T0 = toInclude;
-      } else if (toInclude > this._T1) {
-        this._T1 = toInclude;
-      }
-    } else {
-      if (toInclude < this._T1) {
-        this._T1 = toInclude;
-      } else if (toInclude > this._T0) {
-        this._T0 = toInclude;
-      }
-    }
-
+  public asSorted(): IntervalSorted {
+    return new IntervalSorted(this.T0, this.T1);
   }
 
   /**
@@ -299,8 +243,75 @@ export class Interval {
         return true;
       }
     }
-
     return false;
+  }
+
+  /**
+   * Two Intervals are equal if their T0 and T1 are identical.
+   * @param otherInterval  The interval to compare against
+   */
+  public equals(otherInterval: Interval): boolean {
+    return (this._T0 === otherInterval._T0 && this._T1 === otherInterval._T1);
+  }
+
+  /**
+   * Creates a duplicate of this interval that has been expanded to contain a given value.
+   *
+   * ### Example
+   * ```js
+   * const interval = new Interval(5, 10);
+   * const grown = interval.grow(20);
+   * console.log(grown.min);
+   * // => 5
+   * console.log(grown.max);
+   * // => 20
+   * ```
+   * @param toInclude
+   */
+  public grow(toInclude: number): Interval {
+    if(this.isIncreasing) {
+      if (toInclude < this._T0) {
+        return new Interval(toInclude, this._T1);
+      } else if (toInclude > this._T1) {
+        return new Interval(this._T0, toInclude);
+      }
+    } else {
+      if (toInclude < this._T1) {
+        return new Interval(this._T0, toInclude);
+      } else if (toInclude > this._T0) {
+        return new Interval(toInclude, this._T1);
+      }
+    }
+    return this;
+  }
+
+  /**
+   * Remaps a value into the normalized distance of the interval.
+   *
+   * ### Example
+   * ```js
+   * let interval = new Interval(10, 20)
+   * console.log(interval.remapToInterval(11))
+   * // => 0.1
+   * ```
+   * @param value
+   */
+  public remapToInterval(value: number): number {
+    return (value - this._T0) / (this._T1 - this._T0);
+  }
+
+  /**
+   * Creates a new Interval equal to [-[[T1]], -[[T0]]]
+   */
+  public reverse(): Interval {
+    return new Interval(-1 * this._T1, -1 * this._T0);
+  }
+
+  /**
+   * Creates a new Interval equal to [[[T1]], [[T0]]]
+   */
+  public swap(): Interval {
+    return new Interval(this._T1, this._T0);
   }
 
   /**
@@ -320,18 +331,18 @@ export class Interval {
   }
 
   /**
-   * Remaps a value into the normalized distance of the interval.
-   *
-   * ### Example
-   * ```js
-   * let interval = new Interval(10, 20)
-   * console.log(interval.remapToInterval(11))
-   * // => 0.1
-   * ```
-   * @param value
+   * Creates a duplicate of this interval with a different T0 value.
+   * @param newT0
    */
-  public remapToInterval(value: number): number {
-    const t = (value - this._T0) / (this._T1 - this._T0);
-    return t;
+  public withT0(newT0: number): Interval {
+    return new Interval(newT0, this._T1);
+  }
+
+  /**
+   * Creates a duplicate of this interval with a different T1 value.
+   * @param newT1
+   */
+  public withT1(newT1: number): Interval {
+    return new Interval(this._T0, newT1);
   }
 }
