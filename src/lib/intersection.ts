@@ -108,6 +108,7 @@ export class Intersection {
         }
       }
     }
+    // tslint:disable-next-line:only-arrow-functions typedef
     const sortedIntersections = intersections.sort(function(a, b) {
       return a - b;
     });
@@ -131,6 +132,7 @@ export class Intersection {
       );
     }
 
+    // tslint:disable-next-line:only-arrow-functions typedef
     const sortedIntersections = intersections.sort(function(a, b) {
       return a - b;
     });
@@ -256,7 +258,7 @@ export class Intersection {
   ): readonly number[] {
     const intersections = new Array<number>();
     for (const edge of polyline.getSegments()) {
-      const result = IntersectionHelpers.HorizontalRayLine(start, edge);
+      const result = Intersection.HorizontalRayLine(start, edge);
       if (result.success) {
         intersections.push(result.rayU);
       }
@@ -280,19 +282,16 @@ export class Intersection {
     if (result !== undefined) {
       for (const edgeA of a.getSegments()) {
         for (const edgeB of b.getSegments()) {
-          const result = Intersection.LineLine(edgeA, edgeB);
-          if (result.success) {
-            intersections.push(edgeA.pointAt(result.lineAu));
+          const result2 = Intersection.LineLine(edgeA, edgeB);
+          if (result2.success) {
+            intersections.push(edgeA.pointAt(result2.lineAu));
           }
         }
       }
     }
     return intersections;
   }
-}
 
-// THESE METHODS SHOULDN'T BE USED OUTSIDE THE INTERSECTION CLASS
-export class IntersectionHelpers {
   /**
    * Calculates the intersection between a horizontal ray starting at [start] and intersecting with [line].
    *
@@ -322,7 +321,7 @@ export class IntersectionHelpers {
         isBelow = true;
       }
 
-      if (line.to.y == start.y) {
+      if (line.to.y === start.y) {
         isAbove = true;
         isBelow = true;
       } else if (line.to.y > start.y) {
@@ -332,7 +331,7 @@ export class IntersectionHelpers {
       }
 
       if (isAbove && isBelow) {
-        const result = IntersectionHelpers.HorizontalRayLineIntersection(
+        const result = Intersection.HorizontalRayLineIntersection(
           start,
           line
         );

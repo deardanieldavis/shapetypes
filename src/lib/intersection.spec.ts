@@ -1,6 +1,6 @@
 // tslint:disable:no-let
 import test from 'ava';
-import { Intersection, IntersectionHelpers } from './intersection';
+import { Intersection } from './intersection';
 import { Line } from './line';
 import { Plane } from './plane';
 import { Point } from './point';
@@ -126,7 +126,7 @@ test('HorizontalRayPolyline', t => {
   results = Intersection.HorizontalRayPolyline(new Point(0, 20), polyline);
   t.is(results.length, 0);
 });
-
+/*
 test('HorizontalRayLine', t => {
   const line = new Line(new Point(0, 0), new Point(0, 10));
 
@@ -138,7 +138,7 @@ test('HorizontalRayLine', t => {
   result = IntersectionHelpers.HorizontalRayLine(new Point(-10, 0), line);
   t.is(result.success, true);
   t.is(result.rayU, 10);
-});
+});*/
 
 test('PolylinePolyline', t => {
   const polylineA = new Rectangle(Plane.worldXY(), 20, 20).toPolyline();
