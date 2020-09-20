@@ -1,6 +1,7 @@
 import anyTest, { TestInterface } from 'ava';
 import { Point } from './point';
 import { shapetypesSettings } from './settings';
+import { Transform } from './transform';
 import { approximatelyEqual } from './utilities';
 import { Vector } from './vector';
 
@@ -214,9 +215,9 @@ test('perpendicular: returns perpendicular vector in correct direction', t => {
   const perp = t.context.diagonal.perpendicular();
   t.true(perp.isPerpendicularTo(t.context.diagonal));
 
-  // Has to be on the right side of the vector 10,10
-  t.is(perp.x, 10);
-  t.is(perp.y, -10);
+  // Has to be on the left side of the vector 10,10
+  t.is(perp.x, -10);
+  t.is(perp.y, 10);
 });
 test('perpendicular: returns perpendicular vector in correct direction when y axis inverted', t => {
   shapetypesSettings.invertY = true;
@@ -256,11 +257,81 @@ test('withLength: correctly changes length of vector', t => {
   t.true(vector.isParallelTo(t.context.basic));
 });
 
+
+
+// -----------------------
+// TRANSFORMABLE
+// -----------------------
+
+test('transform: correctly applies transformation and changes x and y components', t => {
+  const tran = Transform.scale(2);
+  const vector = t.context.basic.transform(tran);
+  t.is(vector.x, 3 * 2);
+  t.is(vector.y, 4 * 2);
+});
+test("transform: translate doesn't change the vector (because a vector can't be moved)", t => {
+  const tran = Transform.translate(new Vector(20, 30));
+  const vector = t.context.basic.transform(tran);
+  t.is(vector.x, 3);
+  t.is(vector.y, 4);
+});
+test("transform: rotate not impacted by pivot point", t => {
+  shapetypesSettings.invertY = false;
+  const tran = Transform.rotate(Math.PI / 2, new Point(20, 30));
+  const vector = t.context.basic.transform(tran);
+  t.true(approximatelyEqual(vector.x, 4));
+  t.true(approximatelyEqual(vector.y, -3));
+});
+test('transform: scale isnt affected by point location', t => {
+  const tran = Transform.scale(2, 3, new Point(20, 20));
+  const vector = t.context.basic.transform(tran);
+  t.is(vector.x, 3 * 2);
+  t.is(vector.y, 4 * 3);
+});
+
+
+test("rotate: rotating 90 degrees changes x and y values correctly", t => {
+  shapetypesSettings.invertY = false;
+  const vector = t.context.basic.rotate(Math.PI / 2);
+  t.true(approximatelyEqual(vector.x, 4));
+  t.true(approximatelyEqual(vector.y, -3));
+});
+test("rotate: inverting y-axis rotates in other direction", t => {
+  shapetypesSettings.invertY = true;
+  const vector = t.context.basic.rotate(Math.PI / 2);
+  t.true(approximatelyEqual(vector.x, -4));
+  t.true(approximatelyEqual(vector.y, 3));
+});
+
+test('scale: applies uniform scale to x and y components', t => {
+  const vector = t.context.basic.scale(2);
+  t.is(vector.x, 3 * 2);
+  t.is(vector.y, 4 * 2);
+});
+test('scale: unevenly scales x and y components', t => {
+  const vector = t.context.basic.scale(2, 3);
+  t.is(vector.x, 3 * 2);
+  t.is(vector.y, 4 * 3);
+});
+
 /*
+test('planeToPlane: unevenly scales x and y components', t => {
+  shapetypesSettings.invertY = false;
+  const before = new Plane(new Point(0,0), Vector.worldX());
+  const after = new Plane(new Point(0, 0), Vector.worldY());
+  const vector = t.context.basic.planeToPlane(before, after);
+  t.is(vector.x, -4);
+  t.is(vector.y, 3);
+});*/
 
 
 
 
+
+
+
+
+/*
 test('Rotate', t => {
   // rotate 180
   let vector = new Vector(1, 0);

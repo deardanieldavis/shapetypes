@@ -5,11 +5,10 @@ import { Point } from './point';
 import { PointContainment } from './polyline';
 import { shapetypesSettings } from './settings';
 import { Transform } from './transform';
-import { Transformable } from './transformable';
 import { approximatelyEqual } from './utilities';
 import { Vector } from './vector';
 
-export class Circle extends Transformable {
+export class Circle {
   // -----------------------
   // STATIC
   // -----------------------
@@ -56,7 +55,6 @@ export class Circle extends Transformable {
   // CONSTRUCTOR
   // -----------------------
   constructor(radius: number, position?: Plane | Point) {
-    super();
     if (radius <= 0) {
       throw new Error('Radius must be greater than 0');
     }
@@ -163,10 +161,12 @@ export class Circle extends Transformable {
   }
 
   public pointAt(t: number): Point {
-    return this._plane.pointAt(
-      Math.cos(t) * this._radius,
-      Math.sin(t) * this._radius
-    );
+    const u = Math.cos(t) * this._radius;
+    const v = Math.sin(t) * this._radius;
+    if(shapetypesSettings.invertY) {
+      return this._plane.pointAt(u, v);
+    }
+    return this._plane.pointAt(u, -v);
   }
 
   public pointAtLength(distance: number): Point {

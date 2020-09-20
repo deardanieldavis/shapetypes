@@ -1,6 +1,7 @@
-
+import { Plane } from './plane';
 import { Point } from './point';
 import { shapetypesSettings } from './settings';
+import { Transform } from './transform';
 import { approximatelyEqual } from './utilities';
 
 export class Vector {
@@ -271,15 +272,12 @@ export class Vector {
   }
 
   /**
-   * Returns a new Vector perpendicular to this one. Will always be to the right side of the vector.
+   * Returns a new Vector perpendicular to this one.
+   * If shapetypesSettings.invertY is true, will be on the right side of the Vector.
+   * If shapetypesSettings.invertY is false (the default value), will be on the left side of the Vector.
    */
   public perpendicular(): Vector {
-    // https://stackoverflow.com/questions/4780119/2d-euclidean-vector-rotations
-    if (shapetypesSettings.invertY) {
-      return new Vector(-this.y, this.x);
-    } else {
-      return new Vector(this.y, -this.x);
-    }
+    return new Vector(-this.y, this.x);
   }
 
   /**
@@ -306,8 +304,6 @@ export class Vector {
     return '⟨' + this._x + ',' + this._y + '⟩';
   }
 
-
-
   /**
    * Returns a copy of this vector where the length is equal to 1.
    */
@@ -319,33 +315,6 @@ export class Vector {
     return new Vector(this._x / length, this._y / length);
   }
 
-
-
-
-
-
-
-  /*
-   * Rotates the vector about 0,0
-   * @param angle: rotation in radians
-   *
-  public rotate(angle: number): void {
-    let x: number;
-    let y: number;
-
-    if (shapetypesSettings.invertY) {
-      x = this.x * Math.cos(angle) - this.y * Math.sin(angle);
-      y = this.x * Math.sin(angle) + this.y * Math.cos(angle);
-    } else {
-      x = this.x * Math.cos(angle) + this.y * Math.sin(angle);
-      y = -1 * this.x * Math.sin(angle) + this.y * Math.cos(angle);
-    }
-
-    this._x = x;
-    this._y = y;
-  }*/
-
-
   /**
    * Returns a copy of this vector with the x and y components scaled to a given length.
    * @param newLength Length of new vector. If negative, the vector will be inverted but the resulting length will be positive.
@@ -354,5 +323,69 @@ export class Vector {
     const oldLength = this.length;
     const factor = newLength / oldLength;
     return new Vector(this.x * factor, this.y * factor);
+  }
+
+  // -----------------------
+  // TRANSFORMABLE
+  // -----------------------
+
+  /**
+   * Returns a copy of the Vector transformed by a [[transform]] matrix.
+   * Since the vector doesn't have a position in space, transformations that involve
+   * moving, such as translate, have no affect.
+   *
+   * ### Example
+   * ```js
+   * const vector = new Vector(3, 4);
+   * console.log(vector.length);
+   * // => 5
+   *
+   * const scaled = vector.transform(Transform.scale(2));
+   * console.log(vector.length);
+   * // => 10
+   *
+   * // Direct method
+   * const otherScaled = vector.scale(2);
+   * console.log(otherScaled.length);
+   * // => 10
+   * ```
+   *
+   * Note: If you're applying the same transformation a lot of geometry,
+   * creating the matrix and calling this function is faster than using the direct methods.
+   *
+   * @param change  A [[transform]] matrix to apply to the Vector
+   */
+  public transform(change: Transform): Vector {
+      return change.transformVector(this);
+  }
+
+  /**
+   * Returns a rotated copy of the Vector
+   * @param angle   Angle to rotate the Vector in radians.
+   */
+  public rotate(angle: number): Vector {
+    const tran = Transform.rotate(angle);
+    return this.transform(tran);
+  }
+
+  /**
+   * Returns a scaled copy of the Vector
+   * @param x       Magnitude to scale in x direction
+   * @param y       Magnitude to scale in y direction. If not specified, will use x.
+   */
+  public scale(x: number, y?: number): Vector {
+    const tran = Transform.scale(x, y);
+    return this.transform(tran);
+  }
+
+  /**
+   * Returns a copy of the Vector transferred from one plane to another.
+   * @param planeFrom   The plane the Vector is currently in.
+   * @param planeTo     The plane the Vector will move to.
+   * @returns           A copy of the Vector in the same relative angle on [[planeTo]] as it was on [[planeFrom]].
+   */
+  public planeToPlane(planeFrom: Plane, planeTo: Plane): Vector {
+    const tran = Transform.planeToPlane(planeFrom, planeTo);
+    return this.transform(tran);
   }
 }

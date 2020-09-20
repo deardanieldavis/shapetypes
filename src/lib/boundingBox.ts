@@ -3,10 +3,11 @@
 import { Interval } from './interval';
 import { IntervalSorted } from './intervalSorted';
 import { Line } from './line';
+import { Plane } from './plane';
 import { Point } from './point';
 import { Polyline } from './polyline';
 import { Transform } from './transform';
-import { Transformable } from './transformable';
+import { Vector } from './vector';
 
 /**
  * A BoundingBox is a rectangle aligned to the X-Y axis. It is defined by two [[IntervalSorted]]s, which give the dimensions of the rectangle along the x and y axis.
@@ -33,7 +34,7 @@ import { Transformable } from './transformable';
  * ```
  */
 
-export class BoundingBox extends Transformable {
+export class BoundingBox {
   // -----------------------
   // STATIC
   // -----------------------
@@ -118,7 +119,6 @@ export class BoundingBox extends Transformable {
     xRange: IntervalSorted | Interval,
     yRange: IntervalSorted | Interval
   ) {
-    super();
     this._xRange =
       xRange instanceof IntervalSorted ? xRange : xRange.asSorted();
     this._yRange =
@@ -319,8 +319,27 @@ export class BoundingBox extends Transformable {
   }
 
   /**
-   * Returns a copy of the BoundingBox transformed in specified way.
-   * Note: BoundingBox extends [[transformable]] and also be directly transformed using those methods
+   * Returns a copy of the BoundingBox with a different xRange
+   * @param newXRange The xRagne of the new BoundingBox
+   */
+  public withXRange(newXRange: IntervalSorted): BoundingBox {
+    return new BoundingBox(newXRange, this._yRange);
+  }
+
+  /**
+   * Returns a copy of the BoundingBox with a different yRange
+   * @param newYRange The yRange of the new BoundingBox
+   */
+  public withYRange(newYRange: IntervalSorted): BoundingBox {
+    return new BoundingBox(this._xRange, newYRange);
+  }
+
+  // -----------------------
+  // TRANSFORMABLE
+  // -----------------------
+
+  /**
+   * Returns a copy of the BoundingBox transformed by a [[transform]] matrix.
    *
    * ### Example
    * ```js
@@ -338,27 +357,55 @@ export class BoundingBox extends Transformable {
    * // => 800
    * ```
    *
+   * Note: If you're applying the same transformation a lot of geometry,
+   * creating the matrix and calling this function is faster than using the direct methods.
+   *
    * @param change  A [[transform]] matrix to apply to the BoundingBox
    */
-  // @ts-ignore - I don't know why returning 'this' throws an error
   public transform(change: Transform): BoundingBox {
     const corners = change.transform(this.getCorners());
     return BoundingBox.fromPoints(corners);
   }
 
   /**
-   * Returns a copy of the BoundingBox with a different xRange
-   * @param newXRange The xRagne of the new BoundingBox
+   * Returns a rotated copy of the BoundingBox
+   * @param angle   Angle to rotate the BoundingBox in radians.
+   * @param pivot   Point to pivot the BoundingBox about. Defaults to 0,0.
    */
-  public withXRange(newXRange: IntervalSorted): BoundingBox {
-    return new BoundingBox(newXRange, this._yRange);
+  public rotate(angle: number, pivot?: Point | undefined): BoundingBox {
+    const tran = Transform.rotate(angle, pivot);
+    return this.transform(tran);
   }
 
   /**
-   * Returns a copy of the BoundingBox with a different yRange
-   * @param newYRange The yRange of the new BoundingBox
+   * Returns a scaled copy of the BoundingBox
+   * @param x       Magnitude to scale in x direction
+   * @param y       Magnitude to scale in y direction. If not specified, will use x.
+   * @param center  Center of scaling. Everything will shrink or expand away from this point.
    */
-  public withYRange(newYRange: IntervalSorted): BoundingBox {
-    return new BoundingBox(this._xRange, newYRange);
+  public scale(x: number, y?: number, center?: Point): BoundingBox {
+    const tran = Transform.scale(x, y, center);
+    return this.transform(tran);
+  }
+
+  /**
+   * Returns a copy of the BoundingBox transferred from one plane to another.
+   * @param planeFrom   The plane the BoundingBox is currently in.
+   * @param planeTo     The plane the BoundingBox will move to.
+   * @returns           A copy of the BoundingBox in the same relative position on [[planeTo]] as it was on [[planeFrom]].
+   */
+  public planeToPlane(planeFrom: Plane, planeTo: Plane): BoundingBox {
+    const tran = Transform.planeToPlane(planeFrom, planeTo);
+    return this.transform(tran);
+  }
+
+  /**
+   * Returns a translated copy of the BoundingBox
+   * @param move      Direction to move the BoundingBox.
+   * @param distance  Distance to move the BoundingBox. If not specified, will use length of move vector.
+   */
+  public translate(move: Vector, distance?: number | undefined): BoundingBox {
+    const tran = Transform.translate(move, distance);
+    return this.transform(tran);
   }
 }

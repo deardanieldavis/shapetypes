@@ -6,6 +6,8 @@ import { shapetypesSettings } from './settings';
 import { isPointArray } from './utilities';
 import { Vector } from './vector';
 
+// TODO: Mirror
+
 export class Transform {
   // -----------------------
   // STATIC
@@ -73,6 +75,12 @@ export class Transform {
 
     return tran;
   }
+
+  /*
+  public static reflect(line: Line): Transform {
+    // https://math.stackexchange.com/questions/2359462/reflection-across-a-line
+    // https://yutsumura.com/the-matrix-for-the-linear-transformation-of-the-reflection-across-a-line-in-the-plane/
+  }*/
 
   /**
    * https://www.javatpoint.com/computer-graphics-3d-scaling
@@ -323,6 +331,12 @@ export class Transform {
     }
   }
 
+  public transformVector(vector: Vector): Vector {
+    const x = this.M00 * vector.x + this.M10 * vector.y;
+    const y = this.M01 * vector.x + this.M11 * vector.y;
+    return new Vector(x, y);
+  }
+
   // -----------------------
   // PRIVATE
   // -----------------------
@@ -336,4 +350,6 @@ export class Transform {
     const y = this.M01 * point.x + this.M11 * point.y + this.M21;
     return new Point(x, y);
   }
+
+
 }

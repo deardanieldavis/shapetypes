@@ -267,7 +267,23 @@ test('toPolyline: Converts box to polyline that is the right size', t => {
   t.is(poly.points[2].y, 25);
 });
 
-test('transform: Translates the bounding box', t => {
+test('withXRange: can change interval', t => {
+  const bb = t.context.bb.withXRange(new IntervalSorted(-10, 5));
+  t.is(bb.xRange.min, -10);
+  t.is(bb.xRange.max, 5);
+});
+
+test('withYRange: can change interval', t => {
+  const bb = t.context.bb.withYRange(new IntervalSorted(-10, 5));
+  t.is(bb.yRange.min, -10);
+  t.is(bb.yRange.max, 5);
+});
+
+// -----------------------
+// TRANSFORMABLE
+// -----------------------
+
+test('transform: Translates the bounding box and updates x and y ranges', t => {
   const trans = Transform.translate(new Vector(1, 2));
   const bb = t.context.bb.transform(trans);
 
@@ -278,7 +294,7 @@ test('transform: Translates the bounding box', t => {
   t.is(bb.yRange.max, 27);
 });
 
-test('translate: Translates the bounding box', t => {
+test('translate: Translates the bounding box and updates x and y ranges', t => {
   const bb = t.context.bb.translate(new Vector(1, 2));
 
   t.is(bb.area, 200);
@@ -286,18 +302,6 @@ test('translate: Translates the bounding box', t => {
   t.is(bb.xRange.max, 11);
   t.is(bb.yRange.min, 7);
   t.is(bb.yRange.max, 27);
-});
-
-test('transform: Rotates the bounding box 90 degrees', t => {
-  shapetypesSettings.invertY = false;
-  const trans = Transform.rotate(Math.PI / 2);
-  const bb = t.context.bb.transform(trans);
-
-  t.is(approximatelyEqual(bb.area, 200), true);
-  t.is(approximatelyEqual(bb.xRange.min, 5), true);
-  t.is(approximatelyEqual(bb.xRange.max, 25), true);
-  t.is(approximatelyEqual(bb.yRange.min, -10), true);
-  t.is(approximatelyEqual(bb.yRange.max, 0), true);
 });
 
 test('rotate: Rotates the bounding box 90 degrees', t => {
@@ -311,15 +315,21 @@ test('rotate: Rotates the bounding box 90 degrees', t => {
   t.is(approximatelyEqual(bb.yRange.max, 0), true);
 });
 
-test('transform: Scales the bounding box', t => {
-  const trans = Transform.scale(2, 3, new Point(0, 5));
-  const bb = t.context.bb.transform(trans);
+/*
+test('planeToPlane: Moves boundingBox from one plane to another', t => {
+  const before = new Plane(new Point(0,0), Vector.worldY());
+  const after = new Plane(new Point(0, 0), Vector.worldX());
+  const bb = t.context.bb.planeToPlane(before, after);
 
-  t.is(bb.xRange.min, 0);
-  t.is(bb.xRange.max, 20);
-  t.is(bb.yRange.min, 5);
-  t.is(bb.yRange.max, 65);
-});
+  // before = (0, 10), (5, 25)
+  // after = (5 + 2, 25 + 2), (-10, 0)
+
+  t.is(approximatelyEqual(bb.area, 200), true);
+  t.is(approximatelyEqual(bb.xRange.min, 5 + 2), true);
+  t.is(approximatelyEqual(bb.xRange.max, 25 + 2), true);
+  t.is(approximatelyEqual(bb.yRange.min, -10), true);
+  t.is(approximatelyEqual(bb.yRange.max, 0), true);
+});*/
 
 test('scale: Scales the bounding box', t => {
   const bb = t.context.bb.scale(2, 3, new Point(0, 5));
@@ -330,14 +340,6 @@ test('scale: Scales the bounding box', t => {
   t.is(bb.yRange.max, 65);
 });
 
-test('withXRange: can change interval', t => {
-  const bb = t.context.bb.withXRange(new IntervalSorted(-10, 5));
-  t.is(bb.xRange.min, -10);
-  t.is(bb.xRange.max, 5);
-});
 
-test('withYRange: can change interval', t => {
-  const bb = t.context.bb.withYRange(new IntervalSorted(-10, 5));
-  t.is(bb.yRange.min, -10);
-  t.is(bb.yRange.max, 5);
-});
+
+

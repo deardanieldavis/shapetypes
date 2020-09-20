@@ -121,7 +121,7 @@ test('length: can set the length to a negative number and have the end point mov
 test('unitTangent: generates a correct unit vector when the y-axis is in normal orientation', t => {
   shapetypesSettings.invertY = false;
   t.is(t.context.horizontal.unitTangent.length, 1);
-  t.true(t.context.horizontal.unitTangent.equals(new Vector(0, -1)));
+  t.true(t.context.horizontal.unitTangent.equals(new Vector(0, 1)));
 });
 
 test('unitTangent: generates a correct unit vector when the y-axis is inverted', t => {
