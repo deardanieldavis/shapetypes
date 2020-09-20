@@ -163,7 +163,7 @@ export class Circle {
   public pointAt(t: number): Point {
     const u = Math.cos(t) * this._radius;
     const v = Math.sin(t) * this._radius;
-    if(shapetypesSettings.invertY) {
+    if (shapetypesSettings.invertY) {
       return this._plane.pointAt(u, v);
     }
     return this._plane.pointAt(u, -v);

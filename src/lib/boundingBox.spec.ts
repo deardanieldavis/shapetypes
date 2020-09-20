@@ -339,7 +339,3 @@ test('scale: Scales the bounding box', t => {
   t.is(bb.yRange.min, 5);
   t.is(bb.yRange.max, 65);
 });
-
-
-
-

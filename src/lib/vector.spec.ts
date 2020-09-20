@@ -6,8 +6,8 @@ import { approximatelyEqual } from './utilities';
 import { Vector } from './vector';
 
 const test = anyTest as TestInterface<{
-  basic: Vector,
-  diagonal: Vector,
+  basic: Vector;
+  diagonal: Vector;
 }>;
 
 test.beforeEach('Create test geometry', t => {
@@ -29,7 +29,7 @@ test('constructor: sets correct x and y values', t => {
 // STATIC
 // -----------------------
 test('fromPoints: creates correct vector', t => {
-  const vector = Vector.fromPoints(new Point(1,2), new Point(4,6));
+  const vector = Vector.fromPoints(new Point(1, 2), new Point(4, 6));
   t.true(vector.equals(t.context.basic));
 });
 
@@ -95,39 +95,42 @@ interface Vectors {
   v: Vector; // The test vector
 }
 const VECTORS: readonly Vectors[] = [
-  { angle: 0, signed: 0, v: new Vector(1, 0) },                             // 0 degree
-  { angle: Math.PI / 4, signed: Math.PI / 4, v: new Vector(1, -1) },        // 45 degree
-  { angle: Math.PI / 2, signed: Math.PI / 2, v: new Vector(0, -1) },        // 90 degree
-  { angle: 3 * Math.PI / 4, signed: 3 * Math.PI / 4, v: new Vector(-1, -1) }, // 135 degree
-  { angle: Math.PI / 2, signed: -1 * Math.PI / 2, v: new Vector(0, 1) }, // 90 degree
-  { angle: Math.PI / 4, signed: -1 * Math.PI / 4, v: new Vector(1, 1) }, // 45 degree
-  ];
-
+  { angle: 0, signed: 0, v: new Vector(1, 0) }, // 0 degree
+  { angle: Math.PI / 4, signed: Math.PI / 4, v: new Vector(1, -1) }, // 45 degree
+  { angle: Math.PI / 2, signed: Math.PI / 2, v: new Vector(0, -1) }, // 90 degree
+  {
+    angle: (3 * Math.PI) / 4,
+    signed: (3 * Math.PI) / 4,
+    v: new Vector(-1, -1)
+  }, // 135 degree
+  { angle: Math.PI / 2, signed: (-1 * Math.PI) / 2, v: new Vector(0, 1) }, // 90 degree
+  { angle: Math.PI / 4, signed: (-1 * Math.PI) / 4, v: new Vector(1, 1) } // 45 degree
+];
 
 test('angle: calculates correct angle between x-axis and another vector', t => {
   shapetypesSettings.invertY = false;
-  for(const v of VECTORS) {
+  for (const v of VECTORS) {
     t.true(approximatelyEqual(Vector.worldX().angle(v.v), v.angle));
   }
 });
 
 test('angle: inverting the y axis doesnt change the angles calculated', t => {
   shapetypesSettings.invertY = true;
-  for(const v of VECTORS) {
+  for (const v of VECTORS) {
     t.true(approximatelyEqual(Vector.worldX().angle(v.v), v.angle));
   }
 });
 
 test('angleSigned: calculates correct signed angle between x-axis and another vector', t => {
   shapetypesSettings.invertY = false;
-  for(const v of VECTORS) {
+  for (const v of VECTORS) {
     t.true(approximatelyEqual(Vector.worldX().angleSigned(v.v), v.signed));
   }
 });
 
 test('angleSigned: inverting the y axis inverts the signedAngle', t => {
   shapetypesSettings.invertY = true;
-  for(const v of VECTORS) {
+  for (const v of VECTORS) {
     t.true(approximatelyEqual(Vector.worldX().angleSigned(v.v), -1 * v.signed));
   }
 });
@@ -187,7 +190,10 @@ test('isPerpendicularTo: returns true even when vectors are slightly off', t => 
   t.true(t.context.diagonal.isPerpendicularTo(new Vector(-1.000001, 1)));
 });
 test('isPerpendicularTo: returns false when vectors are slightly off and there is no tolerance', t => {
-  t.is(t.context.diagonal.isPerpendicularTo(new Vector(-1.000001, 1), 0), false);
+  t.is(
+    t.context.diagonal.isPerpendicularTo(new Vector(-1.000001, 1), 0),
+    false
+  );
 });
 test('isPerpendicularTo: returns false when vectors are slightly off and it is outside the tolerance', t => {
   t.is(t.context.diagonal.isPerpendicularTo(new Vector(-1.1, 1)), false);
@@ -242,7 +248,7 @@ test('subtract: correctly subtracts x and y values', t => {
 });
 
 test('toString: creates string in correct format', t => {
-  t.is(t.context.basic.toString(), "⟨3,4⟩");
+  t.is(t.context.basic.toString(), '⟨3,4⟩');
 });
 
 test('unitize: shortens vector length to 1', t => {
@@ -256,8 +262,6 @@ test('withLength: correctly changes length of vector', t => {
   t.is(vector.length, 20);
   t.true(vector.isParallelTo(t.context.basic));
 });
-
-
 
 // -----------------------
 // TRANSFORMABLE
@@ -275,7 +279,7 @@ test("transform: translate doesn't change the vector (because a vector can't be 
   t.is(vector.x, 3);
   t.is(vector.y, 4);
 });
-test("transform: rotate not impacted by pivot point", t => {
+test('transform: rotate not impacted by pivot point', t => {
   shapetypesSettings.invertY = false;
   const tran = Transform.rotate(Math.PI / 2, new Point(20, 30));
   const vector = t.context.basic.transform(tran);
@@ -289,14 +293,13 @@ test('transform: scale isnt affected by point location', t => {
   t.is(vector.y, 4 * 3);
 });
 
-
-test("rotate: rotating 90 degrees changes x and y values correctly", t => {
+test('rotate: rotating 90 degrees changes x and y values correctly', t => {
   shapetypesSettings.invertY = false;
   const vector = t.context.basic.rotate(Math.PI / 2);
   t.true(approximatelyEqual(vector.x, 4));
   t.true(approximatelyEqual(vector.y, -3));
 });
-test("rotate: inverting y-axis rotates in other direction", t => {
+test('rotate: inverting y-axis rotates in other direction', t => {
   shapetypesSettings.invertY = true;
   const vector = t.context.basic.rotate(Math.PI / 2);
   t.true(approximatelyEqual(vector.x, -4));
@@ -323,13 +326,6 @@ test('planeToPlane: unevenly scales x and y components', t => {
   t.is(vector.x, -4);
   t.is(vector.y, 3);
 });*/
-
-
-
-
-
-
-
 
 /*
 test('Rotate', t => {

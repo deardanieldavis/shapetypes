@@ -28,7 +28,7 @@ export class Plane {
 
   constructor(center: Point, xAxis?: Vector) {
     this._center = center;
-    this._xAxis = (xAxis === undefined) ? Vector.worldX() : xAxis.unitize();
+    this._xAxis = xAxis === undefined ? Vector.worldX() : xAxis.unitize();
     this._yAxis = this._xAxis.perpendicular();
   }
 

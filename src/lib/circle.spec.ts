@@ -43,7 +43,6 @@ test('Constructor: Sets correct radius and location when specifying plane', t =>
   t.true(c.plane.xAxis.isParallelTo(new Vector(1, 1)));
 });
 
-
 test('Constructor: Creating circle with 0 radius throws error', t => {
   t.throws(() => {
     // tslint:disable-next-line:no-unused-expression
@@ -121,7 +120,6 @@ test('radius: returns correct length', t => {
   t.is(t.context.basic.radius, 10);
 });
 
-
 test('diameter: returns correct length', t => {
   t.is(t.context.basic.diameter, 20);
 });
@@ -129,7 +127,6 @@ test('diameter: returns correct length', t => {
 test('circumference: returns correct length', t => {
   t.true(approximatelyEqual(t.context.basic.circumference, 62.83, 0.01)); // 2 * pi * r
 });
-
 
 test('area: returns correct area', t => {
   t.true(approximatelyEqual(t.context.basic.area, 314.16, 0.01)); // pi * r^2
@@ -157,14 +154,31 @@ test('closestParameter: identifies points on edge of circle', t => {
   t.is(t.context.basic.closestParameter(new Point(10, 0)), 0);
   t.is(t.context.basic.closestParameter(new Point(0, -10)), Math.PI / 2);
   t.is(t.context.basic.closestParameter(new Point(-10, 0)), Math.PI);
-  t.is(t.context.basic.closestParameter(new Point(0, 10)), 3 * Math.PI / 2);
+  t.is(t.context.basic.closestParameter(new Point(0, 10)), (3 * Math.PI) / 2);
 });
 test('closestParameter: identifies points on edge of circle with inverted axis', t => {
   shapetypesSettings.invertY = true;
-  t.true(approximatelyEqual(t.context.basic.closestParameter(new Point(10, 0)), 0));
-  t.true(approximatelyEqual(t.context.basic.closestParameter(new Point(0, -10)), 3 * Math.PI / 2));
-  t.true(approximatelyEqual(t.context.basic.closestParameter(new Point(-10, 0)), Math.PI));
-  t.true(approximatelyEqual(t.context.basic.closestParameter(new Point(0, 10)), Math.PI / 2));
+  t.true(
+    approximatelyEqual(t.context.basic.closestParameter(new Point(10, 0)), 0)
+  );
+  t.true(
+    approximatelyEqual(
+      t.context.basic.closestParameter(new Point(0, -10)),
+      (3 * Math.PI) / 2
+    )
+  );
+  t.true(
+    approximatelyEqual(
+      t.context.basic.closestParameter(new Point(-10, 0)),
+      Math.PI
+    )
+  );
+  t.true(
+    approximatelyEqual(
+      t.context.basic.closestParameter(new Point(0, 10)),
+      Math.PI / 2
+    )
+  );
 });
 test('closestParameter: if point is off edge, still finds closest parameter', t => {
   shapetypesSettings.invertY = false;
@@ -173,13 +187,19 @@ test('closestParameter: if point is off edge, still finds closest parameter', t 
 });
 test('closestParameter: identifies points on edges of moved circle', t => {
   shapetypesSettings.invertY = false;
-  t.is(t.context.moved.closestParameter(new Point(13,4)), Math.PI / 4);
+  t.is(t.context.moved.closestParameter(new Point(13, 4)), Math.PI / 4);
 });
 
 test('closestPoint: if point is off edge, still finds closest parameter', t => {
-  t.true(t.context.basic.closestPoint(new Point(10, 0)).equals(new Point(10, 0)));
-  t.true(t.context.basic.closestPoint(new Point(-9, 0)).equals(new Point(-10, 0)));
-  t.true(t.context.basic.closestPoint(new Point(-900, 0)).equals(new Point(-10, 0)));
+  t.true(
+    t.context.basic.closestPoint(new Point(10, 0)).equals(new Point(10, 0))
+  );
+  t.true(
+    t.context.basic.closestPoint(new Point(-9, 0)).equals(new Point(-10, 0))
+  );
+  t.true(
+    t.context.basic.closestPoint(new Point(-900, 0)).equals(new Point(-10, 0))
+  );
 });
 
 test('equals: can identify circles that are identical', t => {
@@ -243,7 +263,6 @@ test('toString: returns a string', t => {
   t.true(t.context.basic.toString().length > 0);
 });
 
-
 test('withRadius: creates new circle with correct radius', t => {
   const c = t.context.basic.withRadius(5);
   t.is(c.radius, 5);
@@ -293,8 +312,9 @@ test('withCenter: creates a new circle with the correct center', t => {
 });
 
 test('withPlane: creates a new circle with the correct plane', t => {
-  const c = t.context.moved.withPlane(new Plane(new Point(20, 30), new Vector(2, 3)));
+  const c = t.context.moved.withPlane(
+    new Plane(new Point(20, 30), new Vector(2, 3))
+  );
   t.true(c.plane.origin.equals(new Point(20, 30)));
   t.true(c.plane.xAxis.isParallelTo(new Vector(2, 3)));
 });
-

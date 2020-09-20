@@ -26,15 +26,12 @@ export class Vector {
     return Vector._worldX;
   }
 
-
   /**
    * Returns a unit vector of the world's y-axis. Equal to Vector(0, 1).
    */
   public static worldY(): Vector {
     return Vector._worldY;
   }
-
-
 
   // -----------------------
   // VARS
@@ -84,7 +81,7 @@ export class Vector {
    * Returns the length of the vector
    */
   get length(): number {
-    if(this._cacheLength === undefined) {
+    if (this._cacheLength === undefined) {
       this._cacheLength = Math.sqrt(this.x * this.x + this.y * this.y);
     }
     return this._cacheLength;
@@ -118,7 +115,6 @@ export class Vector {
     return Vector.worldY().withLength(this.y);
   }
 
-
   // -----------------------
   // PUBLIC
   // -----------------------
@@ -141,7 +137,9 @@ export class Vector {
    */
   public angle(other: Vector): number {
     // https://stackoverflow.com/questions/21483999/using-atan2-to-find-angle-between-two-vectors
-    return Math.abs(Math.atan2(this.crossProduct(other), this.dotProduct(other)));
+    return Math.abs(
+      Math.atan2(this.crossProduct(other), this.dotProduct(other))
+    );
   }
 
   /**
@@ -159,7 +157,6 @@ export class Vector {
     }
     return angle;
   }
-
 
   /**
    * Returns the cross product between this vector and another vector.
@@ -190,7 +187,10 @@ export class Vector {
    * @param comparison    Vector to compare to
    * @param tolerance     Amount of error that is acceptable
    */
-  public equals(comparison: Vector, tolerance: number = shapetypesSettings.absoluteTolerance): boolean {
+  public equals(
+    comparison: Vector,
+    tolerance: number = shapetypesSettings.absoluteTolerance
+  ): boolean {
     if (this.x === comparison.x && this.y === comparison.y) {
       return true;
     }
@@ -214,16 +214,19 @@ export class Vector {
    * @param test              Vector to compare against
    * @param angleTolerance    Acceptable deviation from parallel, measured as the angle between vectors, in radians.
    */
-  public isParallelTo(test: Vector, angleTolerance: number = shapetypesSettings.angleTolerance): boolean {
+  public isParallelTo(
+    test: Vector,
+    angleTolerance: number = shapetypesSettings.angleTolerance
+  ): boolean {
     const angle = this.angle(test);
-    if(angle === 0) {
+    if (angle === 0) {
       return true;
     }
 
     // In some scenarios, the angle between vectors may be 179 degrees,
     // which means the vectors are only 1 degree apart, but running in opposite
     // directions. This calculation fixes that.
-    const convexAngle = (angle < Math.PI / 2) ? angle : Math.PI - angle;
+    const convexAngle = angle < Math.PI / 2 ? angle : Math.PI - angle;
     if (approximatelyEqual(convexAngle, 0, angleTolerance)) {
       return true;
     }
@@ -235,7 +238,10 @@ export class Vector {
    * @param test              Vector to compare against
    * @param angleTolerance    Acceptable deviation from perpendicular, measured as the angle between vectors, in radians.
    */
-  public isPerpendicularTo(test: Vector, angleTolerance: number = shapetypesSettings.angleTolerance): boolean {
+  public isPerpendicularTo(
+    test: Vector,
+    angleTolerance: number = shapetypesSettings.angleTolerance
+  ): boolean {
     const angle = this.angle(test);
     if (approximatelyEqual(angle, Math.PI / 2, angleTolerance)) {
       return true;
@@ -247,7 +253,7 @@ export class Vector {
    * Returns true if the vector is parallel to the [[worldX]].
    */
   public isXAxis(): boolean {
-    if(this.x !== 0 && this.y === 0) {
+    if (this.x !== 0 && this.y === 0) {
       return true;
     }
     return this.isParallelTo(Vector.worldX());
@@ -257,7 +263,7 @@ export class Vector {
    * Returns true if the vector is parallel to the [[worldY]].
    */
   public isYAxis(): boolean {
-    if(this.x === 0 && this.y !== 0) {
+    if (this.x === 0 && this.y !== 0) {
       return true;
     }
     return this.isParallelTo(Vector.worldY());
@@ -309,7 +315,7 @@ export class Vector {
    */
   public unitize(): Vector {
     const length = this.length;
-    if(approximatelyEqual(length, 1)) {
+    if (approximatelyEqual(length, 1)) {
       return this;
     }
     return new Vector(this._x / length, this._y / length);
@@ -356,7 +362,7 @@ export class Vector {
    * @param change  A [[transform]] matrix to apply to the Vector
    */
   public transform(change: Transform): Vector {
-      return change.transformVector(this);
+    return change.transformVector(this);
   }
 
   /**

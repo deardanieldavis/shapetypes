@@ -39,7 +39,8 @@ export class Transform {
     distance?: number | undefined
   ): Transform {
     const tran = new Transform(1);
-    const actualMove = (distance === undefined) ? move : move.withLength(distance);
+    const actualMove =
+      distance === undefined ? move : move.withLength(distance);
 
     tran.M20 = actualMove.x;
     tran.M21 = actualMove.y;
@@ -350,6 +351,4 @@ export class Transform {
     const y = this.M01 * point.x + this.M11 * point.y + this.M21;
     return new Point(x, y);
   }
-
-
 }

@@ -56,7 +56,8 @@ export class Point {
    * @param distance: Distance to move point. If undefined, will use distance from [move] vector.
    */
   public translate(move: Vector, distance?: number | undefined): void {
-    const actualMove = (distance === undefined) ? move : move.withLength(distance);
+    const actualMove =
+      distance === undefined ? move : move.withLength(distance);
     this._x += actualMove.x;
     this._y += actualMove.y;
   }
@@ -93,6 +94,6 @@ export class Point {
   }
 
   public toString(): string {
-    return "(" + this._x + ',' + this._y + ")";
+    return '(' + this._x + ',' + this._y + ')';
   }
 }
