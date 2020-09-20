@@ -26,11 +26,9 @@ export class Plane {
   // CONSTRUCTOR
   // -----------------------
 
-  constructor(center: Point, xAxis: Vector) {
-    this._center = center.duplicate();
-
-    this._xAxis = xAxis.duplicate();
-    this._xAxis.unitize();
+  constructor(center: Point, xAxis?: Vector) {
+    this._center = center;
+    this._xAxis = (xAxis === undefined) ? Vector.worldX() : xAxis.unitize();
     this._yAxis = this._xAxis.perpendicular();
   }
 
@@ -102,6 +100,14 @@ export class Plane {
     const result = this._cacheRemap.transform(point);
 
     return { u: result.x, v: result.y };
+  }
+
+  public withOrigin(newOrigin: Point): Plane {
+    return new Plane(newOrigin, this._xAxis);
+  }
+
+  public toString(): string {
+    return this._center.toString() + this._xAxis.toString();
   }
 
   // -----------------------

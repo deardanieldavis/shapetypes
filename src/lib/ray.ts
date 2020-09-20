@@ -7,8 +7,7 @@ export class Ray {
 
   constructor(from: Point, direction: Vector) {
     this._from = from.duplicate();
-    this._direction = direction.duplicate();
-    this._direction.unitize();
+    this._direction = direction.unitize();
   }
 
   /***************************

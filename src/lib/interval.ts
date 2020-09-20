@@ -231,7 +231,7 @@ export class Interval {
   }
 
   /**
-   * Returns true if two instances of IntervalSorted contain identical T0 and T1 values.
+   * Returns true if this Interval and another contain identical T0 and T1 values.
    * @param otherInterval  The interval to compare against
    */
   public equals(otherInterval: Interval): boolean {

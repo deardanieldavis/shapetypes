@@ -135,8 +135,7 @@ export class Line {
    */
   get unitTangent(): Vector {
     const t = this.direction.perpendicular();
-    t.unitize();
-    return t;
+    return t.unitize();
   }
 
   // -----------------------

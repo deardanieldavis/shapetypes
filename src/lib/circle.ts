@@ -1,14 +1,15 @@
 import { BoundingBox } from './boundingBox';
-import { Interval } from './interval';
+import { IntervalSorted } from './intervalSorted';
 import { Plane } from './plane';
 import { Point } from './point';
 import { PointContainment } from './polyline';
 import { shapetypesSettings } from './settings';
 import { Transform } from './transform';
+import { Transformable } from './transformable';
 import { approximatelyEqual } from './utilities';
 import { Vector } from './vector';
 
-export class Circle {
+export class Circle extends Transformable {
   // -----------------------
   // STATIC
   // -----------------------
@@ -48,13 +49,14 @@ export class Circle {
   // -----------------------
   // VARS
   // -----------------------
-  private _plane: Plane;
-  private _radius: number;
+  private readonly _plane: Plane;
+  private readonly _radius: number;
 
   // -----------------------
   // CONSTRUCTOR
   // -----------------------
   constructor(radius: number, position?: Plane | Point) {
+    super();
     if (radius <= 0) {
       throw new Error('Radius must be greater than 0');
     }
@@ -73,11 +75,11 @@ export class Circle {
   // GET AND SET
   // -----------------------
   get boundingBox(): BoundingBox {
-    const xRange = new Interval(
+    const xRange = new IntervalSorted(
       this._plane.origin.x - this._radius,
       this._plane.origin.x + this._radius
     );
-    const yRange = new Interval(
+    const yRange = new IntervalSorted(
       this._plane.origin.y - this._radius,
       this._plane.origin.y + this._radius
     );
@@ -87,49 +89,25 @@ export class Circle {
   get center(): Point {
     return this._plane.origin;
   }
-  set center(newPoint: Point) {
-    this._plane.origin = newPoint;
-  }
 
   get plane(): Plane {
     return this._plane;
-  }
-  set plane(newPlane: Plane) {
-    this._plane = newPlane;
   }
 
   get radius(): number {
     return this._radius;
   }
-  set radius(value: number) {
-    if (value <= 0) {
-      throw new Error('Radius must be greater than 0');
-    }
-    this._radius = value;
-  }
 
   get diameter(): number {
     return this._radius * 2;
-  }
-  set diameter(value: number) {
-    this.radius = value / 2;
   }
 
   get circumference(): number {
     return 2 * this._radius * Math.PI;
   }
-  set circumference(value: number) {
-    this.radius = value / (2 * Math.PI);
-  }
 
   get area(): number {
     return Math.PI * this._radius * this._radius;
-  }
-  set area(newArea: number) {
-    if (newArea <= 0) {
-      throw new Error('Area must be greater than 0');
-    }
-    this.radius = Math.sqrt(newArea / Math.PI);
   }
 
   // -----------------------
@@ -156,7 +134,7 @@ export class Circle {
 
   public closestParameter(testPoint: Point): number {
     const difference = Vector.fromPoints(this._plane.origin, testPoint);
-    const angle = Vector.vectorAngleSigned(this._plane.xAxis, difference);
+    const angle = this._plane.xAxis.angleSigned(difference);
     if (angle < 0) {
       // Because returned angle goes from -PI to PI and we want it to go from 0 to 2PI
       return 2 * Math.PI + angle;
@@ -168,8 +146,8 @@ export class Circle {
     // The closest point will always lie on a vector between the circle's center and the testPoint.
     // By scaling this vector to the circle's radius, we get the point on the circumference
     const difference = Vector.fromPoints(this._plane.origin, testPoint);
-    difference.length = this._radius;
-    return Point.add(this._plane.origin, difference);
+    const sized = difference.withLength(this._radius);
+    return Point.add(this._plane.origin, sized);
   }
 
   public equals(
@@ -198,26 +176,55 @@ export class Circle {
   public tangentAt(t: number): Vector {
     const r0 = this._radius * -Math.sin(t);
     const r1 = this._radius * Math.cos(t);
-    const x = this._plane.xAxis.duplicate();
-    x.length = r0;
 
-    const y = this._plane.yAxis.duplicate();
-    y.length = r1;
+    const x = this._plane.xAxis.withLength(r0);
+    const y = this._plane.yAxis.withLength(r1);
 
-    return Vector.add(x, y);
+    return x.add(y);
   }
 
   public toString(): string {
     return 'circle: ' + this._plane.toString() + 'r: ' + this._radius;
   }
 
-  public transform(change: Transform): void {
+  // @ts-ignore - I don't know why returning 'this' throws an error
+  public transform(change: Transform): Circle {
     if (change.M00 !== change.M11) {
       throw new Error(
         'Cant scale circle by uneven amounts in x and y direction'
       );
     }
-    this._radius = this._radius * change.M00;
+    // const radius = this._radius * change.M00;
     // TODO: this._plane.transform(change);
+  }
+
+  public withArea(newArea: number): Circle {
+    if (newArea <= 0) {
+      throw new Error('Area must be greater than 0');
+    }
+    const radius = Math.sqrt(newArea / Math.PI);
+    return this.withRadius(radius);
+  }
+
+  public withCircumference(newCircumference: number): Circle {
+    const radius = newCircumference / (2 * Math.PI);
+    return this.withRadius(radius);
+  }
+  public withDiameter(newDiameter: number): Circle {
+    const radius = newDiameter / 2;
+    return this.withRadius(radius);
+  }
+  public withRadius(newRadius: number): Circle {
+    if (newRadius <= 0) {
+      throw new Error('Radius must be greater than 0');
+    }
+    return new Circle(newRadius, this._plane);
+  }
+  public withPlane(newPlane: Plane): Circle {
+    return new Circle(this._radius, newPlane);
+  }
+
+  public withCenter(newCenter: Point): Circle {
+    return new Circle(this._radius, this._plane.withOrigin(newCenter));
   }
 }

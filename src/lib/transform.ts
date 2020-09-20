@@ -37,11 +37,7 @@ export class Transform {
     distance?: number | undefined
   ): Transform {
     const tran = new Transform(1);
-    const actualMove = move.duplicate();
-
-    if (distance !== undefined) {
-      actualMove.length = distance;
-    }
+    const actualMove = (distance === undefined) ? move : move.withLength(distance);
 
     tran.M20 = actualMove.x;
     tran.M21 = actualMove.y;
@@ -128,7 +124,7 @@ export class Transform {
 
     const tran = Transform.translate(delta);
 
-    const angle = Vector.vectorAngleSigned(planeTo.xAxis, planeFrom.xAxis);
+    const angle = planeTo.xAxis.angleSigned(planeFrom.xAxis);
     const rotate = Transform.rotate(angle);
 
     const combined = Transform.multiply(rotate, tran);
@@ -160,8 +156,7 @@ export class Transform {
     const delta = new Vector(-planeTo.origin.x, -planeTo.origin.y);
     const tran = Transform.translate(delta);
 
-    const axis = planeTo.xAxis.duplicate();
-    axis.unitize();
+    const axis = planeTo.xAxis.unitize();
     const perpendicular = axis.perpendicular();
 
     const rotate = Transform.fromValues([

@@ -391,21 +391,18 @@ export class Polyline {
       const pointCenter = points[i];
       const pointAfter = points[after];
 
-      const v1 = Vector.fromPoints(pointBefore, pointCenter);
-      const v2 = Vector.fromPoints(pointAfter, pointCenter);
-
-      v1.unitize();
-      v2.unitize();
+      const v1 = Vector.fromPoints(pointBefore, pointCenter).unitize();
+      const v2 = Vector.fromPoints(pointAfter, pointCenter).unitize();
 
       // The offset point must lie on the bisector between the two lines that join this point
-      const bisector = Vector.add(v1, v2);
+      const bisector = v1.add(v2);
 
       // Want to offset the point the [distance] parallel to the edges
       // This can be calculated by finding the angle between the bisector and the edge
       // removing 90 degrees, so it's the angle between a perpendicular line the the bisector
       // Then using tri to move point along the bisector
-      v1.reverse();
-      let angle = Vector.vectorAngle(v1, bisector);
+      const reversed = v1.reverse();
+      let angle = reversed.angle(bisector);
       angle = angle - Math.PI / 2;
 
       const length = distance / Math.cos(angle);

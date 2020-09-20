@@ -181,7 +181,7 @@ export class IntervalSorted {
   }
 
   /**
-   * Returns true if two instances of IntervalSorted contain identical min and max values.
+   * Returns true if this IntervalSorted and another contain identical min and max values.
    * @param otherInterval  The interval to compare against
    */
   public equals(otherInterval: IntervalSorted): boolean {
