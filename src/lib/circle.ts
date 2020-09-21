@@ -145,7 +145,7 @@ export class Circle {
     // By scaling this vector to the circle's radius, we get the point on the circumference
     const difference = Vector.fromPoints(this._plane.origin, testPoint);
     const sized = difference.withLength(this._radius);
-    return Point.add(this._plane.origin, sized);
+    return this._plane.origin.add(sized);
   }
 
   public equals(

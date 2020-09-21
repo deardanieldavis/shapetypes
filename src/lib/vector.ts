@@ -60,7 +60,7 @@ export class Vector {
   }
 
   // -----------------------
-  // GET AND SET
+  // GET
   // -----------------------
 
   /**
@@ -329,6 +329,22 @@ export class Vector {
     const oldLength = this.length;
     const factor = newLength / oldLength;
     return new Vector(this.x * factor, this.y * factor);
+  }
+
+  /**
+   * Returns a copy of this vector a difference x value.
+   * @param newX New value for x.
+   */
+  public withX(newX: number): Vector {
+    return new Vector(newX, this._y);
+  }
+
+  /**
+   * Returns a copy of this vector a difference y value.
+   * @param newY New value for y.
+   */
+  public withY(newY: number): Vector {
+    return new Vector(this._x, newY);
   }
 
   // -----------------------

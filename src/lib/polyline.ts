@@ -177,7 +177,7 @@ export class Polyline {
   public duplicate(): Polyline {
     const newPoints = Array<Point>(this._points.length);
     for (let i = 0; i < this._points.length; i++) {
-      newPoints[i] = this._points[i].duplicate();
+      newPoints[i] = this._points[i];
     }
     return new Polyline(newPoints);
   }
@@ -189,7 +189,7 @@ export class Polyline {
     if (this.isClosed) {
       return;
     }
-    this._points.push(this._points[0].duplicate());
+    this._points.push(this._points[0]);
   }
 
   /**
@@ -407,8 +407,7 @@ export class Polyline {
 
       const length = distance / Math.cos(angle);
 
-      const offsetPoint = pointCenter.duplicate();
-      offsetPoint.translate(bisector, length);
+      const offsetPoint = pointCenter.translate(bisector, length);
       offsetPoints.push(offsetPoint);
     }
     return new Polyline(offsetPoints);

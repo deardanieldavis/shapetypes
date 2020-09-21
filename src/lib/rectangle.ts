@@ -33,7 +33,7 @@ export class Rectangle {
     const p1 = this._plane.pointAt(this._xWidth.max, this._yWidth.min);
     const p2 = this._plane.pointAt(this._xWidth.max, this._yWidth.max);
     const p3 = this._plane.pointAt(this._xWidth.min, this._yWidth.max);
-    const p4 = p0.duplicate();
+    const p4 = p0;
 
     return new Polyline([p0, p1, p2, p3, p4]);
   }

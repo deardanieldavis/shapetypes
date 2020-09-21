@@ -38,8 +38,7 @@ export class Line {
     direction: Vector,
     length?: number
   ): Line {
-    const to = from.duplicate();
-    to.translate(direction, length);
+    const to = from.translate(direction, length);
     return new Line(from, to);
   }
 
@@ -48,7 +47,7 @@ export class Line {
    * @param existing
    */
   public static fromExisting(existing: Line): Line {
-    return new Line(existing.from.duplicate(), existing.to.duplicate());
+    return new Line(existing.from, existing.to);
   }
 
   // -----------------------
@@ -125,8 +124,7 @@ export class Line {
    * @param distance  Changing the length of the line by moving the [[to]] point. If the length is set to a negative number, the line will be reversed but the length will remain positive.
    */
   set length(distance: number) {
-    const to = this._from.duplicate();
-    to.translate(this.direction, distance);
+    const to = this._from.translate(this.direction, distance);
     this.changePoints(this._from, to);
   }
 
@@ -231,11 +229,9 @@ export class Line {
    * @param toDistance    Distance to move [[to]] point. If 0, [[to]] will remain in place. If greater than 0, the line will lengthen.
    */
   public extend(fromDistance: number, toDistance: number): void {
-    const extendedFrom = this._from.duplicate();
-    extendedFrom.translate(this.direction, -fromDistance);
+    const extendedFrom = this._from.translate(this.direction, -fromDistance);
 
-    const extendedTo = this._from.duplicate();
-    extendedTo.translate(this.direction, this.length + toDistance);
+    const extendedTo = this._from.translate(this.direction, this.length + toDistance);
 
     this.changePoints(extendedFrom, extendedTo);
   }

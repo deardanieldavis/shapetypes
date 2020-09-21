@@ -263,6 +263,16 @@ test('withLength: correctly changes length of vector', t => {
   t.true(vector.isParallelTo(t.context.basic));
 });
 
+test('withX: creates new vector with correct x value', t => {
+  t.is(t.context.basic.withX(20).x, 20);
+  t.is(t.context.basic.withX(20).y, 4);
+});
+
+test('withY: creates new vector with correct y value', t => {
+  t.is(t.context.basic.withY(20).x, 3);
+  t.is(t.context.basic.withY(20).y, 20);
+});
+
 // -----------------------
 // TRANSFORMABLE
 // -----------------------
