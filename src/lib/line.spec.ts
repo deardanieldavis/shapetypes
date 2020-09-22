@@ -302,13 +302,14 @@ test('withFrom: returns copy of line with updated from point', t => {
   t.is(line.from.y, 3);
 });
 
-
 // -----------------------
 // TRANSFORMABLE
 // -----------------------
 
 test('transform: translates the line and repositions the end points correctly', t => {
-  const line = t.context.horizontal.transform(Transform.translate(new Vector(2, 1)));
+  const line = t.context.horizontal.transform(
+    Transform.translate(new Vector(2, 1))
+  );
   t.is(line.from.x, 2);
   t.is(line.from.y, 1);
   t.is(line.to.x, 12);
@@ -322,6 +323,3 @@ test('transform: rotates the line and repositions the end points correctly', t =
   t.is(line.from.y, 0);
   t.true(line.to.equals(new Point(0, -10), 0.001));
 });
-
-
-

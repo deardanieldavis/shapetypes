@@ -124,7 +124,6 @@ test('transform: correctly applies transformation and changes x and y components
   t.is(point.y, 4 * 2);
 });
 
-
 test('rotate: rotating 90 degrees changes x and y values correctly', t => {
   shapetypesSettings.invertY = false;
   const point = t.context.basic.rotate(Math.PI / 2);
@@ -139,7 +138,7 @@ test('rotate: inverting y-axis rotates in other direction', t => {
 });
 test('rotate: rotating about a point changes x and y values correctly', t => {
   shapetypesSettings.invertY = false;
-  const point = t.context.diagonal.rotate(Math.PI / 2, new Point(9,9));
+  const point = t.context.diagonal.rotate(Math.PI / 2, new Point(9, 9));
   t.true(approximatelyEqual(point.x, 9 + 1));
   t.true(approximatelyEqual(point.y, 9 - 1));
 });

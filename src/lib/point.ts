@@ -111,7 +111,10 @@ export class Point {
    * @param comparison  Point to compare to
    * @param tolerance   Amount of error that is acceptable for either coordinate
    */
-  public equals(comparison: Point, tolerance: number = shapetypesSettings.absoluteTolerance): boolean {
+  public equals(
+    comparison: Point,
+    tolerance: number = shapetypesSettings.absoluteTolerance
+  ): boolean {
     if (this.x === comparison.x && this.y === comparison.y) {
       return true;
     }
@@ -185,7 +188,6 @@ export class Point {
     return new Point(this._x, newY);
   }
 
-
   // -----------------------
   // TRANSFORMABLE
   // -----------------------
@@ -255,7 +257,8 @@ export class Point {
    */
   public translate(move: Vector, distance?: number | undefined): Point {
     // This is faster than using the translate matrix
-    const actualMove = distance === undefined ? move : move.withLength(distance);
+    const actualMove =
+      distance === undefined ? move : move.withLength(distance);
     return new Point(this._x + actualMove.x, this._y + actualMove.y);
   }
 }

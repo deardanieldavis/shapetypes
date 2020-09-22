@@ -75,7 +75,7 @@ export class Line {
    * Returns the smallest bounding box that contains the line.
    */
   get boundingBox(): BoundingBox {
-    if(this._cahceBoundingBox === undefined) {
+    if (this._cahceBoundingBox === undefined) {
       this._cahceBoundingBox = BoundingBox.fromCorners(this._from, this._to);
     }
     return this._cahceBoundingBox;
@@ -198,7 +198,10 @@ export class Line {
    * @param otherLine   The line to compare against
    * @param tolerance   The distance the points can be apart and still considered identical
    */
-  public equals(otherLine: Line, tolerance: number = shapetypesSettings.absoluteTolerance): boolean {
+  public equals(
+    otherLine: Line,
+    tolerance: number = shapetypesSettings.absoluteTolerance
+  ): boolean {
     if (this._from.equals(otherLine.from, tolerance)) {
       if (this._to.equals(otherLine.to, tolerance)) {
         return true;
@@ -215,7 +218,10 @@ export class Line {
   public extend(fromDistance: number, toDistance: number): Line {
     const extendedFrom = this._from.translate(this.direction, -fromDistance);
 
-    const extendedTo = this._from.translate(this.direction, this.length + toDistance);
+    const extendedTo = this._from.translate(
+      this.direction,
+      this.length + toDistance
+    );
 
     return new Line(extendedFrom, extendedTo);
   }
@@ -372,12 +378,9 @@ export class Line {
    */
   public translate(move: Vector, distance?: number | undefined): Line {
     // This is faster than creating a translation matrix
-    return new Line(this._from.translate(move, distance), this._to.translate(move, distance));
+    return new Line(
+      this._from.translate(move, distance),
+      this._to.translate(move, distance)
+    );
   }
-
-
-
-
-
-
 }
