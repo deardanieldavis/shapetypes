@@ -4,13 +4,32 @@ import { Transform } from './transform';
 import { approximatelyEqual } from './utilities';
 import { Vector } from './vector';
 
+/**
+ * A two dimensional point.
+ *
+ * ### Example
+ * ```js
+ * import { Point } from 'shapetypes'
+ *
+ * const p = new Point(3, 4);
+ * console.log(p.x);
+ * // => 3
+ * console.log(p.distanceTo(new Point(0,0)));
+ * // => 5
+ *
+ * const shifted = p.translate(new Vector(10, 20));
+ * console.log(shifted.toString());
+ * // => '(13,24)'
+ * ```
+ */
+
 export class Point {
   // -----------------------
   // STATIC
   // -----------------------
 
   /**
-   * Returns point at 0,0.
+   * Returns the point at 0,0.
    */
   public static origin(): Point {
     return Point._origin;
@@ -29,6 +48,11 @@ export class Point {
   // CONSTRUCTOR
   // -----------------------
 
+  /**
+   * Creates a two dimensional point
+   * @param x   Coordinate of the point on the x-axis
+   * @param y   Coordinate of the point on the y-axis
+   */
   constructor(x: number, y: number) {
     this._x = x;
     this._y = y;
@@ -38,10 +62,16 @@ export class Point {
   // GET
   // -----------------------
 
+  /**
+   * Returns the x coordinate of the point
+   */
   get x(): number {
     return this._x;
   }
 
+  /**
+   * Returns the y coordinate of the point
+   */
   get y(): number {
     return this._y;
   }
@@ -50,24 +80,36 @@ export class Point {
   // PUBLIC
   // -----------------------
 
+  /**
+   * Returns a copy of this point added to another point or vector.
+   * @param addend  Point or vector to add
+   */
   public add(addend: Point | Vector): Point {
     return new Point(this._x + addend.x, this._y + addend.y);
   }
 
+  /**
+   * Returns the distance from this point to another.
+   * @param point
+   */
   public distanceTo(point: Point): number {
     const vector = Vector.fromPoints(this, point);
     return vector.length;
   }
 
+  /**
+   * Returns a copy of this point where the coordinates have been divided by a set amount.
+   * @param denominator Amount to divide the vector by
+   */
   public divide(denominator: number): Point {
     return new Point(this._x / denominator, this._y / denominator);
   }
 
   /**
-   * Returns true if two points are in the same location.
+   * Returns true if this Point and another contain identical x and y values.
    *
-   * @param comparison
-   * @param tolerance: Optional. If set, will include points within this tolerance of each other.
+   * @param comparison  Point to compare to
+   * @param tolerance   Amount of error that is acceptable for either coordinate
    */
   public equals(comparison: Point, tolerance: number = shapetypesSettings.absoluteTolerance): boolean {
     if (this.x === comparison.x && this.y === comparison.y) {
@@ -88,61 +130,96 @@ export class Point {
     return false;
   }
 
+  /**
+   * Returns a copy of this point where the coordinates have been multiplied by a set amount.
+   * @param factor  Amount to multiply by
+   */
   public multiply(factor: number): Point {
     return new Point(this._x * factor, this._y * factor);
   }
 
+  /**
+   * Returns a copy of this point with another point or vector subtracted from it.
+   * @param subtrahend  Point or vector to take away
+   */
   public subtract(subtrahend: Point | Vector): Point {
     return new Point(this._x - subtrahend.x, this._y - subtrahend.y);
   }
 
+  /**
+   * Returns a string in the format '(x,y)'
+   */
   public toString(): string {
     return '(' + this._x + ',' + this._y + ')';
   }
 
+  /**
+   * Returns a copy of this point with another value added to the x coordinate.
+   * @param addX  Value to add to x coordinate
+   */
+  public withAddX(addX: number): Point {
+    return new Point(this._x + addX, this._y);
+  }
+
+  /**
+   * Returns a copy of this point with another value added to the y coordinate.
+   * @param addY  Value to add to y coordinate
+   */
+  public withAddY(addY: number): Point {
+    return new Point(this._x, this._y + addY);
+  }
+
+  /**
+   * Returns a copy of this point a difference x value.
+   * @param newX New value for x.
+   */
   public withX(newX: number): Point {
     return new Point(newX, this._y);
   }
+
+  /**
+   * Returns a copy of this point a difference y value.
+   * @param newY New value for y.
+   */
   public withY(newY: number): Point {
     return new Point(this._x, newY);
   }
+
 
   // -----------------------
   // TRANSFORMABLE
   // -----------------------
 
   /**
-   * Returns a copy of the BoundingBox transformed by a [[transform]] matrix.
+   * Returns a copy of the Point transformed by a [[transform]] matrix.
    *
    * ### Example
    * ```js
-   * const bb = new BoundingBox(new IntervalSorted(0, 10), new IntervalSorted(5, 25));
-   * console.log(bb.area);
-   * // => 200
+   * const p = new Point(3, 4);
    *
-   * const scaled = bb.transform(Transform.scale(2));
-   * console.log(scaled.area);
-   * // => 800
+   * const transformed = p.transform(Transform.translate(new Vector(10, 20)));
+   * console.log(transformed.toString());
+   * // => '(13,24)'
    *
    * // Direct method
-   * const otherScaled = bb.scale(2);
-   * console.log(otherScaled.area);
-   * // => 800
+   * const direct = p.translate(new Vector(10, 20));
+   * console.log(p.toString());
+   * // => '(13,24)'
    * ```
    *
    * Note: If you're applying the same transformation a lot of geometry,
    * creating the matrix and calling this function is faster than using the direct methods.
    *
-   * @param change  A [[transform]] matrix to apply to the BoundingBox
+   * @param change  A [[transform]] matrix to apply to the Point
    */
   public transform(change: Transform): Point {
     return change.transform(this);
   }
 
   /**
-   * Returns a rotated copy of the BoundingBox
-   * @param angle   Angle to rotate the BoundingBox in radians.
-   * @param pivot   Point to pivot the BoundingBox about. Defaults to 0,0.
+   * Returns a rotated copy of the Point
+   * @param angle   Angle to rotate the Point in radians.
+   * @param pivot   Point to pivot the Point about. Defaults to 0,0.
    */
   public rotate(angle: number, pivot?: Point | undefined): Point {
     const tran = Transform.rotate(angle, pivot);
@@ -150,7 +227,7 @@ export class Point {
   }
 
   /**
-   * Returns a scaled copy of the BoundingBox
+   * Returns a scaled copy of the Point
    * @param x       Magnitude to scale in x direction
    * @param y       Magnitude to scale in y direction. If not specified, will use x.
    * @param center  Center of scaling. Everything will shrink or expand away from this point.
@@ -161,10 +238,10 @@ export class Point {
   }
 
   /**
-   * Returns a copy of the BoundingBox transferred from one plane to another.
-   * @param planeFrom   The plane the BoundingBox is currently in.
-   * @param planeTo     The plane the BoundingBox will move to.
-   * @returns           A copy of the BoundingBox in the same relative position on [[planeTo]] as it was on [[planeFrom]].
+   * Returns a copy of the Point transferred from one plane to another.
+   * @param planeFrom   The plane the Point is currently in.
+   * @param planeTo     The plane the Point will move to.
+   * @returns           A copy of the Point in the same relative position on [[planeTo]] as it was on [[planeFrom]].
    */
   public planeToPlane(planeFrom: Plane, planeTo: Plane): Point {
     const tran = Transform.planeToPlane(planeFrom, planeTo);
@@ -172,18 +249,13 @@ export class Point {
   }
 
   /**
-   * Returns a translated copy of the BoundingBox
-   * @param move      Direction to move the BoundingBox.
-   * @param distance  Distance to move the BoundingBox. If not specified, will use length of move vector.
+   * Returns a translated copy of the Point
+   * @param move      Direction to move the Point.
+   * @param distance  Distance to move the Point. If not specified, will use length of move vector.
    */
   public translate(move: Vector, distance?: number | undefined): Point {
-    const tran = Transform.translate(move, distance);
-    return this.transform(tran);
-
-    // TODO: Is this faster?
-    /*const actualMove =
-      distance === undefined ? move : move.withLength(distance);
-    this._x += actualMove.x;
-    this._y += actualMove.y;*/
+    // This is faster than using the translate matrix
+    const actualMove = distance === undefined ? move : move.withLength(distance);
+    return new Point(this._x + actualMove.x, this._y + actualMove.y);
   }
 }

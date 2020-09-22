@@ -1,6 +1,8 @@
 import anyTest, { TestInterface } from 'ava';
 import { Point } from './point';
+import { shapetypesSettings } from './settings';
 import { Transform } from './transform';
+import { approximatelyEqual } from './utilities';
 import { Vector } from './vector';
 
 const test = anyTest as TestInterface<{
@@ -122,27 +124,41 @@ test('transform: correctly applies transformation and changes x and y components
   t.is(point.y, 4 * 2);
 });
 
-/*
+
 test('rotate: rotating 90 degrees changes x and y values correctly', t => {
   shapetypesSettings.invertY = false;
-  const vector = t.context.basic.rotate(Math.PI / 2);
-  t.true(approximatelyEqual(vector.x, 4));
-  t.true(approximatelyEqual(vector.y, -3));
+  const point = t.context.basic.rotate(Math.PI / 2);
+  t.true(approximatelyEqual(point.x, 4));
+  t.true(approximatelyEqual(point.y, -3));
 });
 test('rotate: inverting y-axis rotates in other direction', t => {
   shapetypesSettings.invertY = true;
-  const vector = t.context.basic.rotate(Math.PI / 2);
-  t.true(approximatelyEqual(vector.x, -4));
-  t.true(approximatelyEqual(vector.y, 3));
+  const point = t.context.basic.rotate(Math.PI / 2);
+  t.true(approximatelyEqual(point.x, -4));
+  t.true(approximatelyEqual(point.y, 3));
+});
+test('rotate: rotating about a point changes x and y values correctly', t => {
+  shapetypesSettings.invertY = false;
+  const point = t.context.diagonal.rotate(Math.PI / 2, new Point(9,9));
+  t.true(approximatelyEqual(point.x, 9 + 1));
+  t.true(approximatelyEqual(point.y, 9 - 1));
 });
 
 test('scale: applies uniform scale to x and y components', t => {
-  const vector = t.context.basic.scale(2);
-  t.is(vector.x, 3 * 2);
-  t.is(vector.y, 4 * 2);
+  const point = t.context.basic.scale(2);
+  t.is(point.x, 3 * 2);
+  t.is(point.y, 4 * 2);
 });
 test('scale: unevenly scales x and y components', t => {
-  const vector = t.context.basic.scale(2, 3);
-  t.is(vector.x, 3 * 2);
-  t.is(vector.y, 4 * 3);
-});*/
+  const point = t.context.basic.scale(2, 3);
+  t.is(point.x, 3 * 2);
+  t.is(point.y, 4 * 3);
+});
+test('scale: scales to x and y components using pivot point', t => {
+  const point = Point.origin().scale(2, 2, new Point(1, 1));
+  t.is(point.x, -1);
+  t.is(point.y, -1);
+});
+
+// TODO: Point to point
+// TODO: Translate - need to test both my method and the matrix

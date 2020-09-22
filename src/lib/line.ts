@@ -1,5 +1,7 @@
 import { BoundingBox } from './boundingBox';
+import { Plane } from './plane';
 import { Point } from './point';
+import { shapetypesSettings } from './settings';
 import { Transform } from './transform';
 import { Vector } from './vector';
 
@@ -42,23 +44,14 @@ export class Line {
     return new Line(from, to);
   }
 
-  /**
-   * Creates a new line by copying an existing one.
-   * @param existing
-   */
-  public static fromExisting(existing: Line): Line {
-    return new Line(existing.from, existing.to);
-  }
-
   // -----------------------
   // VARS
   // -----------------------
 
-  // @ts-ignore - set with this.changePoints
-  private _from: Point;
-  // @ts-ignore - set with this.changePoints
-  private _to: Point;
-  private _internalCacheVector: Vector | undefined;
+  private readonly _from: Point;
+  private readonly _to: Point;
+  private _cacheVector: Vector | undefined;
+  private _cahceBoundingBox: BoundingBox | undefined;
 
   // -----------------------
   // CONSTRUCTOR
@@ -70,7 +63,8 @@ export class Line {
    * @param to:   The end of the line
    */
   constructor(from: Point, to: Point) {
-    this.changePoints(from, to);
+    this._from = from;
+    this._to = to;
   }
 
   // -----------------------
@@ -78,58 +72,48 @@ export class Line {
   // -----------------------
 
   /**
-   * The smallest bounding box that contains the line.
+   * Returns the smallest bounding box that contains the line.
    */
   get boundingBox(): BoundingBox {
-    return BoundingBox.fromCorners(this._from, this._to);
+    if(this._cahceBoundingBox === undefined) {
+      this._cahceBoundingBox = BoundingBox.fromCorners(this._from, this._to);
+    }
+    return this._cahceBoundingBox;
   }
 
   /**
-   * The vector between [[from]] and [[to]]. The length of the vector is the length of the line.
+   * Returns the vector between [[from]] and [[to]]. The length of the vector is the length of the line.
    */
   get direction(): Vector {
-    if (this._internalCacheVector === undefined) {
-      this._internalCacheVector = Vector.fromPoints(this._from, this._to);
+    if (this._cacheVector === undefined) {
+      this._cacheVector = Vector.fromPoints(this._from, this._to);
     }
-    return this._internalCacheVector;
+    return this._cacheVector;
   }
 
   /**
-   * The start point of the line.
+   * Returns the start point of the line.
    */
   get from(): Point {
     return this._from;
   }
-  set from(point: Point) {
-    this.changePoints(point, this._to);
-  }
 
   /**
-   * The end point of the line.
+   * Returns the end point of the line.
    */
   get to(): Point {
     return this._to;
   }
-  set to(point: Point) {
-    this.changePoints(this._from, point);
-  }
 
   /**
-   * The length of the line.
+   * Returns the length of the line.
    */
   get length(): number {
     return this.direction.length;
   }
-  /**
-   * @param distance  Changing the length of the line by moving the [[to]] point. If the length is set to a negative number, the line will be reversed but the length will remain positive.
-   */
-  set length(distance: number) {
-    const to = this._from.translate(this.direction, distance);
-    this.changePoints(this._from, to);
-  }
 
   /**
-   * The line's tangent vector. This vector is perpendicular to [[direction]].
+   * Returns the line's tangent vector. This vector is perpendicular to [[direction]].
    * It is always has a length of 1.
    * If shapetypesSettings.invertY is true, will be on the right side of the Line if looking [[from]] -> [[to]].
    * If shapetypesSettings.invertY is false (the default), will be on the left side of the Line.
@@ -144,7 +128,7 @@ export class Line {
   // -----------------------
 
   /**
-   * Finds the parameter of the closest point on the line.
+   * Returns the parameter of the closest point on the line.
    * @param testPoint                     Finds the parameter of the closest point relative to this point.
    * @param limitToFiniteSegment      If true, the parameter must be for a point within the bounds of the line. If false, the line is treated as infinite.
    * @return                          The normalized parameter of the closest point. To understand this value, see: [[pointAt]].
@@ -172,7 +156,7 @@ export class Line {
   }
 
   /**
-   * Finds the closest point on the line.
+   * Returns the closest point on the line relative to a given point.
    * @param testPoint                 Finds the closest point relative to this point.
    * @param limitToFiniteSegment  If true, the closest point must be within the bounds of the line. If false, the line is treated as infinite.
    */
@@ -187,8 +171,8 @@ export class Line {
   }
 
   /**
-   * The smallest distance between this line and a given point or line.
-   * @param geometry
+   * Returns the smallest distance between this line and a given point or line.
+   * @param geometry              Line or point to measure the distance to
    * @param limitToFiniteSegment  If false, the line is treated as infinite.
    */
   public distanceTo(
@@ -210,11 +194,11 @@ export class Line {
   }
 
   /**
-   * Two lines are equal if [[from]] and [[to]] are identical in both lines.
+   * Returns true if this line and another have identical [[from]] and [[to]] points.
    * @param otherLine   The line to compare against
    * @param tolerance   The distance the points can be apart and still considered identical
    */
-  public equals(otherLine: Line, tolerance: number = 0): boolean {
+  public equals(otherLine: Line, tolerance: number = shapetypesSettings.absoluteTolerance): boolean {
     if (this._from.equals(otherLine.from, tolerance)) {
       if (this._to.equals(otherLine.to, tolerance)) {
         return true;
@@ -224,27 +208,27 @@ export class Line {
   }
 
   /**
-   * Increases or decreases the length of the line on either end. Moves end points to accommodate.
+   * Returns a copy of this Line where the ends have been moved to increase or decrease the length of the line.
    * @param fromDistance  Distance to move [[from]] point. If 0, [[from]] will remain in place. If greater than 0, the line will lengthen.
    * @param toDistance    Distance to move [[to]] point. If 0, [[to]] will remain in place. If greater than 0, the line will lengthen.
    */
-  public extend(fromDistance: number, toDistance: number): void {
+  public extend(fromDistance: number, toDistance: number): Line {
     const extendedFrom = this._from.translate(this.direction, -fromDistance);
 
     const extendedTo = this._from.translate(this.direction, this.length + toDistance);
 
-    this.changePoints(extendedFrom, extendedTo);
+    return new Line(extendedFrom, extendedTo);
   }
 
   /**
-   * Swaps [[from]] and [[to]].
+   * Returns a copy of this Line where [[from]] and [[to]] have been swapped.
    */
-  public flip(): void {
-    this.changePoints(this._to, this._from);
+  public flip(): Line {
+    return new Line(this._to, this._from);
   }
 
   /**
-   * Gets the point at a normalized parameter along the line.
+   * Returns the point at a normalized parameter along the line.
    *
    * ### Example
    * ```js
@@ -273,8 +257,8 @@ export class Line {
   }
 
   /**
-   * Gets point a set distance from the start of the line.
-   * @param distance:
+   * Returns the point a set distance from the start of the line.
+   * @param distance              Distance along the line from the [[from]] point.
    * @param limitToFiniteSegment  If true, will only return points within the bounds of the line. If false, the line is treated as infinite.
    */
   public pointAtLength(
@@ -285,24 +269,115 @@ export class Line {
     return this.pointAt(u, limitToFiniteSegment);
   }
 
+  /**
+   * Returns the line as a string in the format '((x,y),(x,y))'
+   */
   public toString(): string {
-    return 'from: ' + this._from.toString() + ', to:' + this._to.toString();
+    return '(' + this._from.toString() + ',' + this._to.toString() + ')';
   }
 
   /**
-   * Transforms the location of the line by moving the line's endpoints.
-   * @param change
+   * Returns a copy of this Line with a different [[from]] point.
+   * @param newFrom
    */
-  public transform(change: Transform): void {
-    this.changePoints(change.transform(this._from), change.transform(this._to));
+  public withFrom(newFrom: Point): Line {
+    return new Line(newFrom, this._to);
+  }
+
+  /**
+   * Returns a copy of this Line where the [[to]] point has been moved to make the line a certain length.
+   * @param distance  New length for the line. Note: if the length is set to a negative number, the line will be reversed but the length will remain positive.
+   */
+  public withLength(distance: number): Line {
+    const to = this._from.translate(this.direction, distance);
+    return new Line(this._from, to);
+  }
+
+  /**
+   * Returns a copy of this Line with a different [[to]] point.
+   * @param newTo
+   */
+  public withTo(newTo: Point): Line {
+    return new Line(this._from, newTo);
   }
 
   // -----------------------
-  // PRIVATE
+  // TRANSFORMABLE
   // -----------------------
-  private changePoints(from: Point, to: Point): void {
-    this._from = from;
-    this._to = to;
-    this._internalCacheVector = undefined;
+
+  /**
+   * Returns a copy of the Line transformed by a [[transform]] matrix.
+   *
+   * ### Example
+   * ```js
+   * const line = new Line(new Point(0,0), new Point(10,0));
+   * console.log(line.toString());
+   * // => '((0,0),(10,0))'
+   *
+   * const moved = line.transform(Transform.translate(new Vector(5, 4)));
+   * console.log(moved.toString());
+   * // => '((5,4),(15,4))'
+   *
+   * // Direct method
+   * const otherMoved = line.translate(5, 4);
+   * console.log(otherMoved.toString());
+   * // => '((5,4),(15,4))'
+   * ```
+   *
+   * Note: If you're applying the same transformation a lot of geometry,
+   * creating the matrix and calling this function is faster than using the direct methods.
+   *
+   * @param change  A [[transform]] matrix to apply to the Line
+   */
+  public transform(change: Transform): Line {
+    return new Line(change.transform(this._from), change.transform(this._to));
   }
+
+  /**
+   * Returns a rotated copy of the Line
+   * @param angle   Angle to rotate the BLine in radians.
+   * @param pivot   Point to pivot the Line about. Defaults to 0,0.
+   */
+  public rotate(angle: number, pivot?: Point | undefined): Line {
+    const tran = Transform.rotate(angle, pivot);
+    return this.transform(tran);
+  }
+
+  /**
+   * Returns a scaled copy of the Line
+   * @param x       Magnitude to scale in x direction
+   * @param y       Magnitude to scale in y direction. If not specified, will use x.
+   * @param center  Center of scaling. Everything will shrink or expand away from this point.
+   */
+  public scale(x: number, y?: number, center?: Point): Line {
+    const tran = Transform.scale(x, y, center);
+    return this.transform(tran);
+  }
+
+  /**
+   * Returns a copy of the Line transferred from one plane to another.
+   * @param planeFrom   The plane the Line is currently in.
+   * @param planeTo     The plane the Line will move to.
+   * @returns           A copy of the Line in the same relative position on [[planeTo]] as it was on [[planeFrom]].
+   */
+  public planeToPlane(planeFrom: Plane, planeTo: Plane): Line {
+    const tran = Transform.planeToPlane(planeFrom, planeTo);
+    return this.transform(tran);
+  }
+
+  /**
+   * Returns a translated copy of the Line
+   * @param move      Direction to move the Line.
+   * @param distance  Distance to move the Line. If not specified, will use length of move vector.
+   */
+  public translate(move: Vector, distance?: number | undefined): Line {
+    // This is faster than creating a translation matrix
+    return new Line(this._from.translate(move, distance), this._to.translate(move, distance));
+  }
+
+
+
+
+
+
 }

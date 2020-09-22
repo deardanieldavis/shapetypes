@@ -61,12 +61,6 @@ test('fromVector: sets correct start and end when using custom length', t => {
   t.is(line.length, 10);
 });
 
-test('fromExisting: correctly copies start and end of existing line', t => {
-  const line = Line.fromExisting(t.context.diagonal);
-  t.true(line.from.equals(t.context.P35));
-  t.true(line.to.equals(t.context.P69));
-});
-
 // -----------------------
 // GET AND SET
 // -----------------------
@@ -88,34 +82,8 @@ test('direction: the direction vector is the right size and length when line is 
   t.is(line.direction.y, -4);
 });
 
-test('from: can set "from" point', t => {
-  t.context.diagonal.from = new Point(2, 3);
-  t.is(t.context.diagonal.from.x, 2);
-  t.is(t.context.diagonal.from.y, 3);
-});
-
-test('from: can set "to" point', t => {
-  t.context.diagonal.to = new Point(2, 3);
-  t.is(t.context.diagonal.to.x, 2);
-  t.is(t.context.diagonal.to.y, 3);
-});
-
 test('length: returns correct distance', t => {
   t.is(t.context.diagonal.length, 5);
-});
-
-test('length: can set the length and have the end point move correctly', t => {
-  t.context.diagonal.length = 10;
-  t.is(t.context.diagonal.length, 10);
-  t.is(t.context.diagonal.to.x, 9);
-  t.is(t.context.diagonal.to.y, 13);
-});
-
-test('length: can set the length to a negative number and have the end point move correctly', t => {
-  t.context.diagonal.length = -5;
-  t.is(t.context.diagonal.length, 5);
-  t.is(t.context.diagonal.to.x, 0);
-  t.is(t.context.diagonal.to.y, 1);
 });
 
 test('unitTangent: generates a correct unit vector when the y-axis is in normal orientation', t => {
@@ -259,17 +227,17 @@ test('equals: can correctly identify lines that are exact matches', t => {
 });
 
 test('extend: correctly extends the lines and moves the end points', t => {
-  t.context.horizontal.extend(1, 2);
-  t.is(t.context.horizontal.from.x, -1);
-  t.is(t.context.horizontal.from.y, 0);
-  t.is(t.context.horizontal.to.x, 12);
-  t.is(t.context.horizontal.to.y, 0);
+  const line = t.context.horizontal.extend(1, 2);
+  t.is(line.from.x, -1);
+  t.is(line.from.y, 0);
+  t.is(line.to.x, 12);
+  t.is(line.to.y, 0);
 });
 
 test('flip: correctly flips the line and switches the end points', t => {
-  t.context.horizontal.flip();
-  t.true(t.context.horizontal.from.equals(t.context.P100));
-  t.true(t.context.horizontal.to.equals(t.context.P00));
+  const line = t.context.horizontal.flip();
+  t.true(line.from.equals(t.context.P100));
+  t.true(line.to.equals(t.context.P00));
 });
 
 test('pointAt: generates the correct point from a parameter when limited to a finite line', t => {
@@ -305,21 +273,55 @@ test('pointAtLength: generates the correct point from a length', t => {
 });
 
 test('toString: returns a string', t => {
-  t.true(t.context.horizontal.toString().length > 0);
+  t.is(t.context.horizontal.toString(), '((0,0),(10,0))');
 });
 
+test('withTo: returns copy of line with updated to point', t => {
+  const line = t.context.diagonal.withTo(new Point(2, 3));
+  t.is(line.to.x, 2);
+  t.is(line.to.y, 3);
+});
+
+test('length: can set the length and have the end point move correctly', t => {
+  const line = t.context.diagonal.withLength(10);
+  t.is(line.length, 10);
+  t.is(line.to.x, 9);
+  t.is(line.to.y, 13);
+});
+
+test('length: can set the length to a negative number and have the end point move correctly', t => {
+  const line = t.context.diagonal.withLength(-5);
+  t.is(line.length, 5);
+  t.is(line.to.x, 0);
+  t.is(line.to.y, 1);
+});
+
+test('withFrom: returns copy of line with updated from point', t => {
+  const line = t.context.diagonal.withFrom(new Point(2, 3));
+  t.is(line.from.x, 2);
+  t.is(line.from.y, 3);
+});
+
+
+// -----------------------
+// TRANSFORMABLE
+// -----------------------
+
 test('transform: translates the line and repositions the end points correctly', t => {
-  t.context.horizontal.transform(Transform.translate(new Vector(2, 1)));
-  t.is(t.context.horizontal.from.x, 2);
-  t.is(t.context.horizontal.from.y, 1);
-  t.is(t.context.horizontal.to.x, 12);
-  t.is(t.context.horizontal.to.y, 1);
+  const line = t.context.horizontal.transform(Transform.translate(new Vector(2, 1)));
+  t.is(line.from.x, 2);
+  t.is(line.from.y, 1);
+  t.is(line.to.x, 12);
+  t.is(line.to.y, 1);
 });
 
 test('transform: rotates the line and repositions the end points correctly', t => {
   shapetypesSettings.invertY = false;
-  t.context.horizontal.transform(Transform.rotate(Math.PI / 2));
-  t.is(t.context.horizontal.from.x, 0);
-  t.is(t.context.horizontal.from.y, 0);
-  t.true(t.context.horizontal.to.equals(new Point(0, -10), 0.001));
+  const line = t.context.horizontal.transform(Transform.rotate(Math.PI / 2));
+  t.is(line.from.x, 0);
+  t.is(line.from.y, 0);
+  t.true(line.to.equals(new Point(0, -10), 0.001));
 });
+
+
+

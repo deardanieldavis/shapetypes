@@ -49,7 +49,7 @@ export class Vector {
   // -----------------------
 
   /**
-   * Creates a two dimensional Euclidean vector. Has two components, a magnitude
+   * Creates a two dimensional Euclidean vector. Has two components: a magnitude
    * in the x direction, and a magnitude in the y direction.
    * @param x   Magnitude of vector in x direction
    * @param y   Magnitude of vector in x direction
@@ -185,7 +185,7 @@ export class Vector {
   /**
    * Returns true if this Vector and another contain identical x and y values.
    * @param comparison    Vector to compare to
-   * @param tolerance     Amount of error that is acceptable
+   * @param tolerance     Amount of error that is acceptable for either x or y values.
    */
   public equals(
     comparison: Vector,
