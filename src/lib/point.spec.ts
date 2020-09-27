@@ -49,13 +49,18 @@ test('y: returns correct value', t => {
 // PUBLIC
 // -----------------------
 
-test('add: correctly adds x and y values', t => {
+test('add: correctly adds a point', t => {
   const point = t.context.basic.add(new Point(1, 2));
   t.is(point.x, 3 + 1);
   t.is(point.y, 4 + 2);
 });
 test('add: can add vector', t => {
   const point = t.context.basic.add(new Vector(1, 2));
+  t.is(point.x, 3 + 1);
+  t.is(point.y, 4 + 2);
+});
+test('add: can add x and y values', t => {
+  const point = t.context.basic.add(1, 2);
   t.is(point.x, 3 + 1);
   t.is(point.y, 4 + 2);
 });
@@ -68,6 +73,10 @@ test('distance: calculates correct length', t => {
 test('divide: correctly divides x and y components of point', t => {
   t.is(t.context.diagonal.divide(2).x, 5);
   t.is(t.context.diagonal.divide(2).y, 5);
+});
+test('divide: can divide by different x and y values', t => {
+  t.is(t.context.diagonal.divide(2, 5).x, 5);
+  t.is(t.context.diagonal.divide(2, 5).y, 2);
 });
 
 test('equals: returns true when points are exact match', t => {
@@ -87,14 +96,23 @@ test('multiply: correctly multiplies the x and y components of point', t => {
   t.is(t.context.diagonal.multiply(2).x, 20);
   t.is(t.context.diagonal.multiply(2).y, 20);
 });
+test('multiply: can multiply by different x and y values', t => {
+  t.is(t.context.diagonal.multiply(2, 5).x, 20);
+  t.is(t.context.diagonal.multiply(2, 5).y, 50);
+});
 
-test('subtract: correctly subtracts x and y values', t => {
+test('subtract: can subtract a point', t => {
   const point = t.context.basic.subtract(new Point(1, 2));
   t.is(point.x, 3 - 1);
   t.is(point.y, 4 - 2);
 });
 test('subtract: can subtract vector', t => {
   const point = t.context.basic.subtract(new Vector(1, 2));
+  t.is(point.x, 3 - 1);
+  t.is(point.y, 4 - 2);
+});
+test('subtract: can subtract x and y values', t => {
+  const point = t.context.basic.subtract(1, 2);
   t.is(point.x, 3 - 1);
   t.is(point.y, 4 - 2);
 });

@@ -333,10 +333,11 @@ export class Line {
    * Note: If you're applying the same transformation a lot of geometry,
    * creating the matrix and calling this function is faster than using the direct methods.
    *
+   *
    * @param change  A [[transform]] matrix to apply to the Line
    */
   public transform(change: Transform): Line {
-    return new Line(change.transform(this._from), change.transform(this._to));
+    return new Line(change.transformPoint(this._from), change.transformPoint(this._to));
   }
 
   /**
@@ -361,13 +362,13 @@ export class Line {
   }
 
   /**
-   * Returns a copy of the Line transferred from one plane to another.
+   * Returns a copy of the Line transferred from one coordinate system to another.
    * @param planeFrom   The plane the Line is currently in.
    * @param planeTo     The plane the Line will move to.
    * @returns           A copy of the Line in the same relative position on [[planeTo]] as it was on [[planeFrom]].
    */
-  public planeToPlane(planeFrom: Plane, planeTo: Plane): Line {
-    const tran = Transform.planeToPlane(planeFrom, planeTo);
+  public changeBasis(planeFrom: Plane, planeTo: Plane): Line {
+    const tran = Transform.changeBasis(planeFrom, planeTo);
     return this.transform(tran);
   }
 

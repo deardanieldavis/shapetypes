@@ -273,15 +273,33 @@ export class BoundingBox {
   /**
    * Remaps a point from the u-v space of the BoundingBox to the global coordinate system.
    * This is the opposite of [[remapToBox]].
+   * @param u         The normalized distance along the x-axis of the BoundingBox
+   * @param v         The normalized distance along the y-axis of the BoundingBox
+   * @returns         The uvPoint remapped to the global coordinate system
+   */
+  public pointAt(u: number, v: number): Point;
+  /**
+   * Remaps a point from the u-v space of the BoundingBox to the global coordinate system.
+   * This is the opposite of [[remapToBox]].
    * @param uvPoint   A point in the u-v coordinates of the BoundingBox.
    *                  The point's x value is the normalized distance along the x-axis of the BoundingBox (u direction).
    *                  The point's y value is the normalized distance along the y-axis of the BoundingBox (y direction).
    * @returns         The uvPoint remapped to the global coordinate system
    */
-  public pointAt(uvPoint: Point): Point {
+  public pointAt(uvPoint: Point): Point;
+  public pointAt(uvPointorU: Point | number, v?: number): Point{
+    if(uvPointorU instanceof Point) {
+      return new Point(
+        this._xRange.valueAt(uvPointorU.x),
+        this._yRange.valueAt(uvPointorU.y)
+      );
+    }
+    if(v === undefined) {
+      throw new Error("Shouldn't be possible");
+    }
     return new Point(
-      this._xRange.valueAt(uvPoint.x),
-      this._yRange.valueAt(uvPoint.y)
+      this._xRange.valueAt(uvPointorU),
+      this._yRange.valueAt(v)
     );
   }
 
@@ -363,7 +381,7 @@ export class BoundingBox {
    * @param change  A [[transform]] matrix to apply to the BoundingBox
    */
   public transform(change: Transform): BoundingBox {
-    const corners = change.transform(this.getCorners());
+    const corners = change.transformPoints(this.getCorners());
     return BoundingBox.fromPoints(corners);
   }
 
@@ -389,13 +407,13 @@ export class BoundingBox {
   }
 
   /**
-   * Returns a copy of the BoundingBox transferred from one plane to another.
+   * Returns a copy of the BoundingBox transferred from one coordinate system to another.
    * @param planeFrom   The plane the BoundingBox is currently in.
    * @param planeTo     The plane the BoundingBox will move to.
    * @returns           A copy of the BoundingBox in the same relative position on [[planeTo]] as it was on [[planeFrom]].
    */
-  public planeToPlane(planeFrom: Plane, planeTo: Plane): BoundingBox {
-    const tran = Transform.planeToPlane(planeFrom, planeTo);
+  public changeBasis(planeFrom: Plane, planeTo: Plane): BoundingBox {
+    const tran = Transform.changeBasis(planeFrom, planeTo);
     return this.transform(tran);
   }
 

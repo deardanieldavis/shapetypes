@@ -83,8 +83,13 @@ test('yAxis: returns correct y axis', t => {
 // PUBLIC
 // -----------------------
 
-test('add: correctly adds x and y values', t => {
+test('add: correctly adds another vector', t => {
   const vector = t.context.basic.add(new Vector(1, 2));
+  t.is(vector.x, 3 + 1);
+  t.is(vector.y, 4 + 2);
+});
+test('add: correctly adds x and y values', t => {
+  const vector = t.context.basic.add(1, 2);
   t.is(vector.x, 3 + 1);
   t.is(vector.y, 4 + 2);
 });
@@ -112,12 +117,20 @@ test('angle: calculates correct angle between x-axis and another vector', t => {
   for (const v of VECTORS) {
     t.true(approximatelyEqual(Vector.worldX().angle(v.v), v.angle));
   }
+  // reverse order shouldn't have any impact
+  for (const v of VECTORS) {
+    t.true(approximatelyEqual(v.v.angle(Vector.worldX()), v.angle));
+  }
 });
 
 test('angle: inverting the y axis doesnt change the angles calculated', t => {
   shapetypesSettings.invertY = true;
   for (const v of VECTORS) {
     t.true(approximatelyEqual(Vector.worldX().angle(v.v), v.angle));
+  }
+  // reverse order should return same value
+  for (const v of VECTORS) {
+    t.true(approximatelyEqual(v.v.angle(Vector.worldX()), v.angle));
   }
 });
 
@@ -126,6 +139,10 @@ test('angleSigned: calculates correct signed angle between x-axis and another ve
   for (const v of VECTORS) {
     t.true(approximatelyEqual(Vector.worldX().angleSigned(v.v), v.signed));
   }
+  // Reverse order, reverse angle direction
+  for (const v of VECTORS) {
+    t.true(approximatelyEqual(v.v.angleSigned(Vector.worldX()), -v.signed));
+  }
 });
 
 test('angleSigned: inverting the y axis inverts the signedAngle', t => {
@@ -133,18 +150,19 @@ test('angleSigned: inverting the y axis inverts the signedAngle', t => {
   for (const v of VECTORS) {
     t.true(approximatelyEqual(Vector.worldX().angleSigned(v.v), -1 * v.signed));
   }
+  // Reverse order, reverse angle direction
+  for (const v of VECTORS) {
+    t.true(approximatelyEqual(v.v.angleSigned(Vector.worldX()), v.signed));
+  }
 });
-
-// TODO: This value is wrong
-/*
-test('crossProduct: inverting the y axis inverts the signedAngle', t => {
-  t.is(t.context.basic.crossProduct(new Vector(1, 2)), 11);
-});
-*/
 
 test('divide: correctly divides x and y components of vector', t => {
   t.is(t.context.diagonal.divide(2).x, 5);
   t.is(t.context.diagonal.divide(2).y, 5);
+});
+test('divide: can divide by different x and y values', t => {
+  t.is(t.context.diagonal.divide(2, 5).x, 5);
+  t.is(t.context.diagonal.divide(2, 5).y, 2);
 });
 
 test('dotProduct: calculates correct dot product', t => {
@@ -215,6 +233,10 @@ test('multiply: correctly multiplies the x and y components of vector', t => {
   t.is(t.context.diagonal.multiply(2).x, 20);
   t.is(t.context.diagonal.multiply(2).y, 20);
 });
+test('multiply: can multiply by different x and y values', t => {
+  t.is(t.context.diagonal.multiply(2, 5).x, 20);
+  t.is(t.context.diagonal.multiply(2, 5).y, 50);
+});
 
 test('perpendicular: returns perpendicular vector in correct direction', t => {
   shapetypesSettings.invertY = false;
@@ -241,8 +263,13 @@ test('reverse: correctly inverts x and y values', t => {
   t.is(vector.y, -4);
 });
 
-test('subtract: correctly subtracts x and y values', t => {
+test('subtract: correctly subtracts another vector', t => {
   const vector = t.context.basic.subtract(new Vector(1, 2));
+  t.is(vector.x, 3 - 1);
+  t.is(vector.y, 4 - 2);
+});
+test('subtract: correctly subtracts x and y values', t => {
+  const vector = t.context.basic.subtract(1, 2);
   t.is(vector.x, 3 - 1);
   t.is(vector.y, 4 - 2);
 });

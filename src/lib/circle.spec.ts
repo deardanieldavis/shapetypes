@@ -149,6 +149,7 @@ test('contains: identifies points on edges of circle', t => {
   t.is(t.context.moved.contains(new Point(13, 4)), PointContainment.coincident);
 });
 
+
 test('closestParameter: identifies points on edge of circle', t => {
   shapetypesSettings.invertY = false;
   t.is(t.context.basic.closestParameter(new Point(10, 0)), 0);

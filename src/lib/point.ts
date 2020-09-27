@@ -82,10 +82,24 @@ export class Point {
 
   /**
    * Returns a copy of this point added to another point or vector.
-   * @param addend  Point or vector to add
+   * @param addend  Point or vector to add to the point
    */
-  public add(addend: Point | Vector): Point {
-    return new Point(this._x + addend.x, this._y + addend.y);
+  public add(addend: Point | Vector): Point;
+  /**
+   * Returns a copy of this point with an x and y value added.
+   * @param x       Value to add to the x coordinate
+   * @param y       Value to add to the y coordinate
+   */
+  public add(x: number, y: number): Point;
+  public add(addendOrX: Point | Vector | number, y?: number): Point {
+    if(addendOrX instanceof Point || addendOrX instanceof Vector) {
+      return new Point(this._x + addendOrX.x, this._y + addendOrX.y);
+    }
+    if(y === undefined) {
+      /* istanbul ignore next */
+      return new Point(this._x + addendOrX, this._y + addendOrX);
+    }
+    return new Point(this._x + addendOrX, this._y + y);
   }
 
   /**
@@ -99,10 +113,22 @@ export class Point {
 
   /**
    * Returns a copy of this point where the coordinates have been divided by a set amount.
-   * @param denominator Amount to divide the vector by
+   * @param denominator Amount to divide the point by
    */
-  public divide(denominator: number): Point {
-    return new Point(this._x / denominator, this._y / denominator);
+  public divide(denominator: number): Point;
+  /**
+   * Returns a copy of this point where the coordinates have been divided by a set amount.
+   * @param denominatorX    Amount to divide the x coordinate by
+   * @param denominatorY    Amount to divide the y coordinate by
+   */
+  // tslint:disable-next-line:unified-signatures
+  public divide(denominatorX: number, denominatorY: number): Point;
+  public divide(denominatorX: number, denominatorY?: number): Point
+  {
+    if(denominatorY === undefined) {
+      return new Point(this._x / denominatorX, this._y / denominatorX);
+    }
+    return new Point(this._x / denominatorX, this._y / denominatorY);
   }
 
   /**
@@ -137,16 +163,41 @@ export class Point {
    * Returns a copy of this point where the coordinates have been multiplied by a set amount.
    * @param factor  Amount to multiply by
    */
-  public multiply(factor: number): Point {
-    return new Point(this._x * factor, this._y * factor);
+  public multiply(factor: number): Point;
+  /**
+   * Returns a copy of this point where the coordinates have been multiplied by a set amount.
+   * @param factorX   Amount to multiply x coordinate by
+   * @param factorY   Amount to multiply y coordinate by
+   */
+  // tslint:disable-next-line:unified-signatures
+  public multiply(factorX: number, factorY: number): Point;
+  public multiply(factorX: number, factorY?: number): Point {
+    if(factorY === undefined) {
+      return new Point(this._x * factorX, this._y * factorX);
+    }
+    return new Point(this._x * factorX, this._y * factorY);
   }
 
   /**
    * Returns a copy of this point with another point or vector subtracted from it.
-   * @param subtrahend  Point or vector to take away
+   * @param subtrahend Point or vector to subtract from the point
    */
-  public subtract(subtrahend: Point | Vector): Point {
-    return new Point(this._x - subtrahend.x, this._y - subtrahend.y);
+  public subtract(subtrahend: Point | Vector): Point;
+  /**
+   * Returns a copy of this point with an x and y value subtracted.
+   * @param x       Value to subtract from the x coordinate
+   * @param y       Value to subtract from the y coordinate
+   */
+  public subtract(x: number, y: number): Point;
+  public subtract(subtrahendOrX: Point | Vector | number, y?: number): Point {
+    if(subtrahendOrX instanceof Point || subtrahendOrX instanceof Vector) {
+      return new Point(this._x - subtrahendOrX.x, this._y - subtrahendOrX.y);
+    }
+    if(y === undefined) {
+      /* istanbul ignore next */
+      return new Point(this._x - subtrahendOrX, this._y - subtrahendOrX);
+    }
+    return new Point(this._x - subtrahendOrX, this._y - y);
   }
 
   /**
@@ -154,22 +205,6 @@ export class Point {
    */
   public toString(): string {
     return '(' + this._x + ',' + this._y + ')';
-  }
-
-  /**
-   * Returns a copy of this point with another value added to the x coordinate.
-   * @param addX  Value to add to x coordinate
-   */
-  public withAddX(addX: number): Point {
-    return new Point(this._x + addX, this._y);
-  }
-
-  /**
-   * Returns a copy of this point with another value added to the y coordinate.
-   * @param addY  Value to add to y coordinate
-   */
-  public withAddY(addY: number): Point {
-    return new Point(this._x, this._y + addY);
   }
 
   /**
@@ -215,7 +250,7 @@ export class Point {
    * @param change  A [[transform]] matrix to apply to the Point
    */
   public transform(change: Transform): Point {
-    return change.transform(this);
+    return change.transformPoint(this);
   }
 
   /**
@@ -240,13 +275,13 @@ export class Point {
   }
 
   /**
-   * Returns a copy of the Point transferred from one plane to another.
+   * Returns a copy of the Point transferred from one coordinate system to another.
    * @param planeFrom   The plane the Point is currently in.
    * @param planeTo     The plane the Point will move to.
    * @returns           A copy of the Point in the same relative position on [[planeTo]] as it was on [[planeFrom]].
    */
-  public planeToPlane(planeFrom: Plane, planeTo: Plane): Point {
-    const tran = Transform.planeToPlane(planeFrom, planeTo);
+  public changeBasis(planeFrom: Plane, planeTo: Plane): Point {
+    const tran = Transform.changeBasis(planeFrom, planeTo);
     return this.transform(tran);
   }
 

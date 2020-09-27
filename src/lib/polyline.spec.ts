@@ -162,6 +162,7 @@ test('Area', t => {
   t.is(polyline.area, 10 * 20);
 });
 
+/*
 test('Offset points', t => {
   const polyline = new Rectangle(Plane.worldXY(), 20, 20).toPolyline();
   const offset = polyline.offset(10);
@@ -171,7 +172,7 @@ test('Offset points', t => {
   for (const edge of offset.getSegments()) {
     t.is(edge.length, 40);
   }
-});
+});*/
 
 /*
 test('Clockwise', t => {

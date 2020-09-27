@@ -123,9 +123,24 @@ export class Vector {
    * Returns a copy of this vector added to another vector.
    * @param addend  Vector to add
    */
-  public add(addend: Vector): Vector {
-    return new Vector(this._x + addend.x, this._y + addend.y);
+  public add(addend: Vector): Vector;
+  /**
+   * Returns a copy of this vector with an x and y value added.
+   * @param x       Value to add to the x coordinate
+   * @param y       Value to add to the y coordinate
+   */
+  public add(x: number, y: number): Vector;
+  public add(addendOrX: Vector | number, y?: number): Vector {
+    if(addendOrX instanceof Vector) {
+      return new Vector(this._x + addendOrX.x, this._y + addendOrX.y);
+    }
+    if(y === undefined) {
+      /* istanbul ignore next */
+      return new Vector(this._x + addendOrX, this._y + addendOrX);
+    }
+    return new Vector(this._x + addendOrX, this._y + y);
   }
+
 
   /**
    * Returns the angle between this vector an another vector. Measured in radians.
@@ -136,9 +151,10 @@ export class Vector {
    * @returns       The smallest angle in radians
    */
   public angle(other: Vector): number {
-    // https://stackoverflow.com/questions/21483999/using-atan2-to-find-angle-between-two-vectors
+    // Based on: https://stackoverflow.com/questions/21483999/using-atan2-to-find-angle-between-two-vectors
+    const cross = this._x * other.y - this._y * other.x;
     return Math.abs(
-      Math.atan2(this.crossProduct(other), this.dotProduct(other))
+      Math.atan2(cross, this.dotProduct(other))
     );
   }
 
@@ -146,12 +162,12 @@ export class Vector {
    * Returns the angle between this vector and another vector. Measured in radians.
    * Angle will be positive if the second vector is clockwise form this vector.
    * Will be negative if the second vector is anti-clockwise from this vector.
-   * @param other   The vetor to measure against.
+   * @param other   The vector to measure against.
    * @returns       The smallest angle in radians
    */
   public angleSigned(other: Vector): number {
-    const angle = Math.atan2(other.crossProduct(this), other.dotProduct(this));
-
+    const cross = other.x * this._y - other.y * this.x;
+    const angle = Math.atan2(cross, other.dotProduct(this));
     if (shapetypesSettings.invertY) {
       return -1 * angle;
     }
@@ -159,19 +175,23 @@ export class Vector {
   }
 
   /**
-   * Returns the cross product between this vector and another vector.
-   * @param other Vector to calculate cross product with
+   * Returns a copy of this vector where the coordinates have been divided by a set amount.
+   * @param denominator Amount to divide the point by
    */
-  public crossProduct(other: Vector): number {
-    return this._x * other.y - this._y * other.x;
-  }
-
+  public divide(denominator: number): Vector;
   /**
-   * Returns a copy of this vector divided by a set amount.
-   * @param denominator Amount to divide the vector by
+   * Returns a copy of this vector where the coordinates have been divided by a set amount.
+   * @param denominatorX    Amount to divide the x coordinate by
+   * @param denominatorY    Amount to divide the y coordinate by
    */
-  public divide(denominator: number): Vector {
-    return new Vector(this._x / denominator, this._y / denominator);
+  // tslint:disable-next-line:unified-signatures
+  public divide(denominatorX: number, denominatorY: number): Vector;
+  public divide(denominatorX: number, denominatorY?: number): Vector
+  {
+    if(denominatorY === undefined) {
+      return new Vector(this._x / denominatorX, this._y / denominatorX);
+    }
+    return new Vector(this._x / denominatorX, this._y / denominatorY);
   }
 
   /**
@@ -270,11 +290,22 @@ export class Vector {
   }
 
   /**
-   * Returns a copy of this vector multiplied by a set amount.
-   * @param factor Amount to multiple the vector by
+   * Returns a copy of this vector where the coordinates have been multiplied by a set amount.
+   * @param factor  Amount to multiply by
    */
-  public multiply(factor: number): Vector {
-    return new Vector(this._x * factor, this._y * factor);
+  public multiply(factor: number): Vector;
+  /**
+   * Returns a copy of this vector where the coordinates have been multiplied by a set amount.
+   * @param factorX   Amount to multiply x coordinate by
+   * @param factorY   Amount to multiply y coordinate by
+   */
+  // tslint:disable-next-line:unified-signatures
+  public multiply(factorX: number, factorY: number): Vector;
+  public multiply(factorX: number, factorY?: number): Vector {
+    if(factorY === undefined) {
+      return new Vector(this._x * factorX, this._y * factorX);
+    }
+    return new Vector(this._x * factorX, this._y * factorY);
   }
 
   /**
@@ -297,10 +328,24 @@ export class Vector {
 
   /**
    * Returns a copy of this vector with another vector subtracted from it.
-   * @param subtrahend  Vector to take away
+   * @param subtrahend Vector to subtract
    */
-  public subtract(subtrahend: Vector): Vector {
-    return new Vector(this._x - subtrahend.x, this._y - subtrahend.y);
+  public subtract(subtrahend: Vector): Vector;
+  /**
+   * Returns a copy of this vector with an x and y value subtracted.
+   * @param x       Value to subtract from the x coordinate
+   * @param y       Value to subtract from the y coordinate
+   */
+  public subtract(x: number, y: number): Vector;
+  public subtract(subtrahendOrX: Vector | number, y?: number): Vector {
+    if(subtrahendOrX instanceof Vector) {
+      return new Vector(this._x - subtrahendOrX.x, this._y - subtrahendOrX.y);
+    }
+    if(y === undefined) {
+      /* istanbul ignore next */
+      return new Vector(this._x - subtrahendOrX, this._y - subtrahendOrX);
+    }
+    return new Vector(this._x - subtrahendOrX, this._y - y);
   }
 
   /**
@@ -401,13 +446,13 @@ export class Vector {
   }
 
   /**
-   * Returns a copy of the Vector transferred from one plane to another.
+   * Returns a copy of the Vector transferred from one coordinate system to another.
    * @param planeFrom   The plane the Vector is currently in.
    * @param planeTo     The plane the Vector will move to.
    * @returns           A copy of the Vector in the same relative angle on [[planeTo]] as it was on [[planeFrom]].
    */
-  public planeToPlane(planeFrom: Plane, planeTo: Plane): Vector {
-    const tran = Transform.planeToPlane(planeFrom, planeTo);
+  public changeBasis(planeFrom: Plane, planeTo: Plane): Vector {
+    const tran = Transform.changeBasis(planeFrom, planeTo);
     return this.transform(tran);
   }
 }
