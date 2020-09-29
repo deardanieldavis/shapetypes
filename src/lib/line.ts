@@ -337,7 +337,10 @@ export class Line {
    * @param change  A [[transform]] matrix to apply to the Line
    */
   public transform(change: Transform): Line {
-    return new Line(change.transformPoint(this._from), change.transformPoint(this._to));
+    return new Line(
+      change.transformPoint(this._from),
+      change.transformPoint(this._to)
+    );
   }
 
   /**

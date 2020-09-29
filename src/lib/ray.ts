@@ -73,8 +73,8 @@ export class Ray {
       ((point.x - this._from.x) * xDelta + (point.y - this._from.y) * yDelta) /
       (xDelta * xDelta + yDelta * yDelta);
 
-    if(onlyPositive) {
-      if(u < 0) {
+    if (onlyPositive) {
+      if (u < 0) {
         return 0;
       }
     }

@@ -131,16 +131,15 @@ export class Vector {
    */
   public add(x: number, y: number): Vector;
   public add(addendOrX: Vector | number, y?: number): Vector {
-    if(addendOrX instanceof Vector) {
+    if (addendOrX instanceof Vector) {
       return new Vector(this._x + addendOrX.x, this._y + addendOrX.y);
     }
-    if(y === undefined) {
+    if (y === undefined) {
       /* istanbul ignore next */
       return new Vector(this._x + addendOrX, this._y + addendOrX);
     }
     return new Vector(this._x + addendOrX, this._y + y);
   }
-
 
   /**
    * Returns the angle between this vector an another vector. Measured in radians.
@@ -153,9 +152,7 @@ export class Vector {
   public angle(other: Vector): number {
     // Based on: https://stackoverflow.com/questions/21483999/using-atan2-to-find-angle-between-two-vectors
     const cross = this._x * other.y - this._y * other.x;
-    return Math.abs(
-      Math.atan2(cross, this.dotProduct(other))
-    );
+    return Math.abs(Math.atan2(cross, this.dotProduct(other)));
   }
 
   /**
@@ -186,9 +183,8 @@ export class Vector {
    */
   // tslint:disable-next-line:unified-signatures
   public divide(denominatorX: number, denominatorY: number): Vector;
-  public divide(denominatorX: number, denominatorY?: number): Vector
-  {
-    if(denominatorY === undefined) {
+  public divide(denominatorX: number, denominatorY?: number): Vector {
+    if (denominatorY === undefined) {
       return new Vector(this._x / denominatorX, this._y / denominatorX);
     }
     return new Vector(this._x / denominatorX, this._y / denominatorY);
@@ -302,7 +298,7 @@ export class Vector {
   // tslint:disable-next-line:unified-signatures
   public multiply(factorX: number, factorY: number): Vector;
   public multiply(factorX: number, factorY?: number): Vector {
-    if(factorY === undefined) {
+    if (factorY === undefined) {
       return new Vector(this._x * factorX, this._y * factorX);
     }
     return new Vector(this._x * factorX, this._y * factorY);
@@ -338,10 +334,10 @@ export class Vector {
    */
   public subtract(x: number, y: number): Vector;
   public subtract(subtrahendOrX: Vector | number, y?: number): Vector {
-    if(subtrahendOrX instanceof Vector) {
+    if (subtrahendOrX instanceof Vector) {
       return new Vector(this._x - subtrahendOrX.x, this._y - subtrahendOrX.y);
     }
-    if(y === undefined) {
+    if (y === undefined) {
       /* istanbul ignore next */
       return new Vector(this._x - subtrahendOrX, this._y - subtrahendOrX);
     }

@@ -92,10 +92,10 @@ export class Point {
    */
   public add(x: number, y: number): Point;
   public add(addendOrX: Point | Vector | number, y?: number): Point {
-    if(addendOrX instanceof Point || addendOrX instanceof Vector) {
+    if (addendOrX instanceof Point || addendOrX instanceof Vector) {
       return new Point(this._x + addendOrX.x, this._y + addendOrX.y);
     }
-    if(y === undefined) {
+    if (y === undefined) {
       /* istanbul ignore next */
       return new Point(this._x + addendOrX, this._y + addendOrX);
     }
@@ -123,9 +123,8 @@ export class Point {
    */
   // tslint:disable-next-line:unified-signatures
   public divide(denominatorX: number, denominatorY: number): Point;
-  public divide(denominatorX: number, denominatorY?: number): Point
-  {
-    if(denominatorY === undefined) {
+  public divide(denominatorX: number, denominatorY?: number): Point {
+    if (denominatorY === undefined) {
       return new Point(this._x / denominatorX, this._y / denominatorX);
     }
     return new Point(this._x / denominatorX, this._y / denominatorY);
@@ -172,7 +171,7 @@ export class Point {
   // tslint:disable-next-line:unified-signatures
   public multiply(factorX: number, factorY: number): Point;
   public multiply(factorX: number, factorY?: number): Point {
-    if(factorY === undefined) {
+    if (factorY === undefined) {
       return new Point(this._x * factorX, this._y * factorX);
     }
     return new Point(this._x * factorX, this._y * factorY);
@@ -190,10 +189,10 @@ export class Point {
    */
   public subtract(x: number, y: number): Point;
   public subtract(subtrahendOrX: Point | Vector | number, y?: number): Point {
-    if(subtrahendOrX instanceof Point || subtrahendOrX instanceof Vector) {
+    if (subtrahendOrX instanceof Point || subtrahendOrX instanceof Vector) {
       return new Point(this._x - subtrahendOrX.x, this._y - subtrahendOrX.y);
     }
-    if(y === undefined) {
+    if (y === undefined) {
       /* istanbul ignore next */
       return new Point(this._x - subtrahendOrX, this._y - subtrahendOrX);
     }

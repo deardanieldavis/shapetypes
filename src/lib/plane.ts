@@ -48,7 +48,10 @@ export class Plane {
   // VARS
   // -----------------------
 
-  private static readonly _worldXY: Plane = new Plane(Point.origin(), Vector.worldX());
+  private static readonly _worldXY: Plane = new Plane(
+    Point.origin(),
+    Vector.worldX()
+  );
 
   private readonly _origin: Point;
   private readonly _xAxis: Vector;
@@ -97,7 +100,7 @@ export class Plane {
   get yAxis(): Vector {
     // We don't always need the yAxis, so it isn't generated in the constructor.
     // When this function is called, the first time, it generates the yAxis and caches it.
-    if(this._cacheYAxis === undefined) {
+    if (this._cacheYAxis === undefined) {
       this._cacheYAxis = this._xAxis.perpendicular();
     }
     return this._cacheYAxis;
@@ -112,7 +115,10 @@ export class Plane {
    * @param plane       The plane to compare against.
    * @param tolerance   Amount of error that is acceptable for either coordinate of the [[origin]] point.
    */
-  public equals(plane: Plane, tolerance: number = shapetypesSettings.absoluteTolerance): boolean {
+  public equals(
+    plane: Plane,
+    tolerance: number = shapetypesSettings.absoluteTolerance
+  ): boolean {
     if (this.origin.equals(plane.origin, tolerance)) {
       if (this.xAxis.equals(plane.xAxis, shapetypesSettings.angleTolerance)) {
         return true;
@@ -151,11 +157,11 @@ export class Plane {
    * @returns         The point at uv remapped to the global coordinate system.
    */
   public pointAt(uvPoint: Point): Point;
-  public pointAt(uvPointorU: Point | number, v?: number): Point{
+  public pointAt(uvPointorU: Point | number, v?: number): Point {
     // Sort out what inputs we were given
     const realU = uvPointorU instanceof Point ? uvPointorU.x : uvPointorU;
     const realV = uvPointorU instanceof Point ? uvPointorU.y : v;
-    if(realV === undefined) {
+    if (realV === undefined) {
       /* istanbul ignore next */
       throw new Error("Shouldn't be possible");
     }
@@ -210,7 +216,7 @@ export class Plane {
    * `[origin,xAxis]`.
    */
   public toString(): string {
-    return "[" + this._origin.toString() + "," + this._xAxis.toString() + "]";
+    return '[' + this._origin.toString() + ',' + this._xAxis.toString() + ']';
   }
 
   // -----------------------
@@ -290,7 +296,7 @@ export class Plane {
   // -----------------------
 
   private getRemapTransform(): Transform {
-    if(this._cacheRemap === undefined) {
+    if (this._cacheRemap === undefined) {
       this._cacheRemap = Transform.changeBasis(Plane.worldXY(), this);
     }
     return this._cacheRemap;

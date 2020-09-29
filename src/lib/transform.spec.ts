@@ -11,7 +11,7 @@ const test = anyTest as TestInterface<{
 }>;
 
 test.beforeEach('Create test geometry', t => {
-  t.context.abc = new Transform(1,2,3,4,5,6,7,8,9);
+  t.context.abc = new Transform(1, 2, 3, 4, 5, 6, 7, 8, 9);
 });
 
 // -----------------------
@@ -19,10 +19,9 @@ test.beforeEach('Create test geometry', t => {
 // -----------------------
 
 test('Constructor: sets first value', t => {
-  const tran = new Transform(1,2,3,4,5,6,7,8,9);
+  const tran = new Transform(1, 2, 3, 4, 5, 6, 7, 8, 9);
   t.is(tran.M00, 1);
 });
-
 
 // -----------------------
 // STATIC
@@ -30,143 +29,138 @@ test('Constructor: sets first value', t => {
 
 test('fromDiagonal: Returns correct matrix with base and diagonal values', t => {
   const tran = Transform.fromDiagonal(2, 3);
-  t.true(tran.equals(new Transform(3,2,2,
-    2,3,2,
-    2,2,3)));
+  t.true(tran.equals(new Transform(3, 2, 2, 2, 3, 2, 2, 2, 3)));
 });
 
 test('Identity: Returns correct matrix with diagonal 1s', t => {
-  t.true(Transform.identity().equals(new Transform(1,0,0,
-    0,1,0,
-    0,0,1)));
+  t.true(Transform.identity().equals(new Transform(1, 0, 0, 0, 1, 0, 0, 0, 1)));
 });
-
 
 test('changeBasis: no rotation, no movement, doesnt move point', t => {
   const tran = Transform.changeBasis(Plane.worldXY(), Plane.worldXY());
-  const point = tran.transformPoint(new Point(3,4));
-  t.true(point.equals(new Point(3,4)));
+  const point = tran.transformPoint(new Point(3, 4));
+  t.true(point.equals(new Point(3, 4)));
 });
 test('changeBasis: no rotation, no movement, doesnt move vector', t => {
   const tran = Transform.changeBasis(Plane.worldXY(), Plane.worldXY());
-  const vector = tran.transformVector(new Vector(3,4));
-  t.true(vector.equals(new Vector(3,4)));
+  const vector = tran.transformVector(new Vector(3, 4));
+  t.true(vector.equals(new Vector(3, 4)));
 });
 test('changeBasis: no rotation, translation to world, returns correct point', t => {
-  const from = new Plane(new Point(3,4), Vector.worldX());
+  const from = new Plane(new Point(3, 4), Vector.worldX());
   const tran = Transform.changeBasis(from, Plane.worldXY());
-  const point = tran.transformPoint(new Point(3,4));
-  t.true(point.equals(new Point(6,8)));
+  const point = tran.transformPoint(new Point(3, 4));
+  t.true(point.equals(new Point(6, 8)));
 });
 test('changeBasis: no rotation, translation to world, doesnt change the vector', t => {
-  const from = new Plane(new Point(3,4), Vector.worldX());
+  const from = new Plane(new Point(3, 4), Vector.worldX());
   const tran = Transform.changeBasis(from, Plane.worldXY());
-  const vector = tran.transformVector(new Vector(3,4));
-  t.true(vector.equals(new Vector(3,4)));
+  const vector = tran.transformVector(new Vector(3, 4));
+  t.true(vector.equals(new Vector(3, 4)));
 });
 test('changeBasis: no rotation, translation to other plane, returns correct point', t => {
-  const from = new Plane(new Point(3,4), Vector.worldX());
-  const to = new Plane(new Point(-3,-4), Vector.worldX());
+  const from = new Plane(new Point(3, 4), Vector.worldX());
+  const to = new Plane(new Point(-3, -4), Vector.worldX());
   const tran = Transform.changeBasis(from, to);
-  const point = tran.transformPoint(new Point(3,4));
-  t.true(point.equals(new Point(9,12)));
+  const point = tran.transformPoint(new Point(3, 4));
+  t.true(point.equals(new Point(9, 12)));
 });
 test('changeBasis: rotated 90 degrees, no translation, returns correct point', t => {
   shapetypesSettings.invertY = false;
   const from = new Plane(Point.origin(), new Vector(0, -1));
   const tran = Transform.changeBasis(from, Plane.worldXY());
-  const point = tran.transformPoint(new Point(3,4));
-  t.true(point.equals(new Point(4,-3)));
+  const point = tran.transformPoint(new Point(3, 4));
+  t.true(point.equals(new Point(4, -3)));
 });
 test('changeBasis: rotated 90 degrees, no translation, returns rotated vector', t => {
   shapetypesSettings.invertY = false;
   const from = new Plane(Point.origin(), new Vector(0, -1));
   const tran = Transform.changeBasis(from, Plane.worldXY());
-  const vector = tran.transformVector(new Vector(3,4));
-  t.true(vector.equals(new Vector(4,-3)));
+  const vector = tran.transformVector(new Vector(3, 4));
+  t.true(vector.equals(new Vector(4, -3)));
 });
 test('changeBasis: rotated 90 degrees with inverted y, no translation, returns correct point', t => {
   shapetypesSettings.invertY = true;
   const from = new Plane(Point.origin(), new Vector(0, -1));
   const tran = Transform.changeBasis(from, Plane.worldXY());
-  const point = tran.transformPoint(new Point(3,4));
-  t.true(point.equals(new Point(4,-3)));
+  const point = tran.transformPoint(new Point(3, 4));
+  t.true(point.equals(new Point(4, -3)));
 });
 test('changeBasis: rotated 90 degrees with inverted y, no translation, returns rotated vector', t => {
   shapetypesSettings.invertY = true;
   const from = new Plane(Point.origin(), new Vector(0, -1));
   const tran = Transform.changeBasis(from, Plane.worldXY());
-  const vector = tran.transformVector(new Vector(3,4));
-  t.true(vector.equals(new Vector(4,-3)));
+  const vector = tran.transformVector(new Vector(3, 4));
+  t.true(vector.equals(new Vector(4, -3)));
 });
 test('changeBasis: rotated 90 degrees, and translate to world, returns correct point', t => {
   shapetypesSettings.invertY = false;
-  const from = new Plane(new Point(3,4), new Vector(0, -1));
+  const from = new Plane(new Point(3, 4), new Vector(0, -1));
   const tran = Transform.changeBasis(from, Plane.worldXY());
-  const point = tran.transformPoint(new Point(3,4));
-  t.true(point.equals(new Point(7,1)));
+  const point = tran.transformPoint(new Point(3, 4));
+  t.true(point.equals(new Point(7, 1)));
 });
 test('changeBasis: rotated 90 degrees with inverted, and translate to world, returns correct point', t => {
   shapetypesSettings.invertY = true;
-  const from = new Plane(new Point(3,4), new Vector(0, -1));
+  const from = new Plane(new Point(3, 4), new Vector(0, -1));
   const tran = Transform.changeBasis(from, Plane.worldXY());
-  const point = tran.transformPoint(new Point(3,4));
-  t.true(point.equals(new Point(7,1)));
+  const point = tran.transformPoint(new Point(3, 4));
+  t.true(point.equals(new Point(7, 1)));
 });
 test('changeBasis: rotated and translate to different rotated and translated plane, returns correct point', t => {
   shapetypesSettings.invertY = false;
-  const from = new Plane(new Point(3,4), new Vector(0, -1));
-  const to = new Plane(new Point(-3,-4), new Vector(0, 1));
+  const from = new Plane(new Point(3, 4), new Vector(0, -1));
+  const to = new Plane(new Point(-3, -4), new Vector(0, 1));
   const tran = Transform.changeBasis(from, to);
-  const point = tran.transformPoint(new Point(3,4));
-  t.true(point.equals(new Point(5,-10)));
+  const point = tran.transformPoint(new Point(3, 4));
+  t.true(point.equals(new Point(5, -10)));
 });
 test('changeBasis: rotated and translate to different rotated and translated plane, returns correct vector', t => {
   shapetypesSettings.invertY = false;
-  const from = new Plane(new Point(3,4), new Vector(0, -1));
-  const to = new Plane(new Point(-3,-4), new Vector(0, 1));
+  const from = new Plane(new Point(3, 4), new Vector(0, -1));
+  const to = new Plane(new Point(-3, -4), new Vector(0, 1));
   const tran = Transform.changeBasis(from, to);
-  const vector = tran.transformVector(new Vector(3,4));
-  t.true(vector.equals(new Vector(-3,-4)));
+  const vector = tran.transformVector(new Vector(3, 4));
+  t.true(vector.equals(new Vector(-3, -4)));
 });
 test('changeBasis: rotated and translate to different rotated and translated plane, with inverted axis, returns correct point', t => {
   shapetypesSettings.invertY = true;
-  const from = new Plane(new Point(3,4), new Vector(0, -1));
-  const to = new Plane(new Point(-3,-4), new Vector(0, 1));
+  const from = new Plane(new Point(3, 4), new Vector(0, -1));
+  const to = new Plane(new Point(-3, -4), new Vector(0, 1));
   const tran = Transform.changeBasis(from, to);
-  const point = tran.transformPoint(new Point(3,4));
-  t.true(point.equals(new Point(5,-10)));
+  const point = tran.transformPoint(new Point(3, 4));
+  t.true(point.equals(new Point(5, -10)));
 });
 test('changeBasis: rotated and translate to different rotated and translated plane, with inverted axis, returns correct vector', t => {
   shapetypesSettings.invertY = true;
-  const from = new Plane(new Point(3,4), new Vector(0, -1));
-  const to = new Plane(new Point(-3,-4), new Vector(0, 1));
+  const from = new Plane(new Point(3, 4), new Vector(0, -1));
+  const to = new Plane(new Point(-3, -4), new Vector(0, 1));
   const tran = Transform.changeBasis(from, to);
-  const vector = tran.transformVector(new Vector(3,4));
-  t.true(vector.equals(new Vector(-3,-4)));
+  const vector = tran.transformVector(new Vector(3, 4));
+  t.true(vector.equals(new Vector(-3, -4)));
 });
 
-
-
-
-
 interface ROTATEPOINT {
-  angle: number;  // Angle of rotation
+  angle: number; // Angle of rotation
   normalY: Point; // Location of point in plane's UV coordinates
   invertY: Point; // Location of point in world's xy coordinates
 }
 const ROTATEPOINTS: readonly ROTATEPOINT[] = [
-  { angle: 0,               normalY: new Point(1, 0), invertY: new Point(1, 0)},
-  { angle: Math.PI / 2,     normalY: new Point(0, -1), invertY: new Point(0, 1)},
-  { angle: Math.PI,         normalY: new Point(-1, 0), invertY: new Point(-1, 0)},
-  { angle: Math.PI * 3 / 2, normalY: new Point(0, 1), invertY: new Point(0, -1)},
-  { angle: Math.PI * 2,     normalY: new Point(1, 0), invertY: new Point(1, 0)},
+  { angle: 0, normalY: new Point(1, 0), invertY: new Point(1, 0) },
+  { angle: Math.PI / 2, normalY: new Point(0, -1), invertY: new Point(0, 1) },
+  { angle: Math.PI, normalY: new Point(-1, 0), invertY: new Point(-1, 0) },
+  {
+    angle: (Math.PI * 3) / 2,
+    invertY: new Point(0, -1),
+    normalY: new Point(0, 1)
+  },
+  { angle: Math.PI * 2, normalY: new Point(1, 0), invertY: new Point(1, 0) }
 ];
 test('rotate: rotates clockwise', t => {
   shapetypesSettings.invertY = false;
   for (const p of ROTATEPOINTS) {
     const tran = Transform.rotate(p.angle);
-    const point = tran.transformPoint(new Point(1,0));
+    const point = tran.transformPoint(new Point(1, 0));
     t.true(point.equals(p.normalY));
   }
 });
@@ -174,7 +168,7 @@ test('rotate: rotates clockwise with inverted y-axis', t => {
   shapetypesSettings.invertY = true;
   for (const p of ROTATEPOINTS) {
     const tran = Transform.rotate(p.angle);
-    const point = tran.transformPoint(new Point(1,0));
+    const point = tran.transformPoint(new Point(1, 0));
     t.true(point.equals(p.invertY));
   }
 });
@@ -189,7 +183,7 @@ test('rotate: rotates vector clockwise', t => {
   shapetypesSettings.invertY = false;
   for (const p of ROTATEPOINTS) {
     const tran = Transform.rotate(p.angle);
-    const vector = tran.transformVector(new Vector(1,0));
+    const vector = tran.transformVector(new Vector(1, 0));
     t.true(approximatelyEqual(vector.x, p.normalY.x));
     t.true(approximatelyEqual(vector.y, p.normalY.y));
   }
@@ -198,7 +192,7 @@ test('rotate: rotates vector clockwise with inverted y axis', t => {
   shapetypesSettings.invertY = true;
   for (const p of ROTATEPOINTS) {
     const tran = Transform.rotate(p.angle);
-    const vector = tran.transformVector(new Vector(1,0));
+    const vector = tran.transformVector(new Vector(1, 0));
     t.true(approximatelyEqual(vector.x, p.invertY.x));
     t.true(approximatelyEqual(vector.y, p.invertY.y));
   }
@@ -211,74 +205,70 @@ test('rotate: rotating about a vector about a point ignores pivot point', t => {
   t.true(approximatelyEqual(vector.y, -10));
 });
 
-
 test('Scale: correctly scales a point', t => {
   const tran = Transform.scale(2);
-  const p = tran.transformPoint(new Point(3,4));
+  const p = tran.transformPoint(new Point(3, 4));
   t.is(p.x, 6);
   t.is(p.y, 8);
 });
 test('Scale: unevenly scales a point', t => {
   const tran = Transform.scale(2, 3);
-  const p = tran.transformPoint(new Point(3,4));
+  const p = tran.transformPoint(new Point(3, 4));
   t.is(p.x, 6);
   t.is(p.y, 12);
 });
 test('Scale: correctly scales from a pivot point', t => {
   const tran = Transform.scale(2, 2, new Point(6, 8));
-  const p = tran.transformPoint(new Point(3,4));
+  const p = tran.transformPoint(new Point(3, 4));
   t.is(p.x, 0);
   t.is(p.y, 0);
 });
 test('Scale: correctly scales a vector', t => {
   const tran = Transform.scale(2);
-  const p = tran.transformVector(new Vector(3,4));
+  const p = tran.transformVector(new Vector(3, 4));
   t.is(p.x, 6);
   t.is(p.y, 8);
 });
 test('Scale: unevenly scales a vector', t => {
   const tran = Transform.scale(2, 3);
-  const p = tran.transformVector(new Vector(3,4));
+  const p = tran.transformVector(new Vector(3, 4));
   t.is(p.x, 6);
   t.is(p.y, 12);
 });
 test('Scale: correctly scales vector and ignores pivot point', t => {
   const tran = Transform.scale(2, 2, new Point(6, 8));
-  const p = tran.transformVector(new Vector(3,4));
+  const p = tran.transformVector(new Vector(3, 4));
   t.is(p.x, 6);
   t.is(p.y, 8);
 });
 
-
 test('Translate: correctly moves a point', t => {
-  const tran = Transform.translate(new Vector(3,4));
-  const p = tran.transformPoint(new Point(3,4));
+  const tran = Transform.translate(new Vector(3, 4));
+  const p = tran.transformPoint(new Point(3, 4));
   t.is(p.x, 6);
   t.is(p.y, 8);
 });
 test('Translate: correctly moves a point set distance', t => {
-  const tran = Transform.translate(new Vector(3,4), 10);
-  const p = tran.transformPoint(new Point(3,4));
+  const tran = Transform.translate(new Vector(3, 4), 10);
+  const p = tran.transformPoint(new Point(3, 4));
   t.is(p.x, 9);
   t.is(p.y, 12);
 });
 test('Translate: doesnt move a vector because vectors cant move', t => {
-  const tran = Transform.translate(new Vector(3,4));
-  const p = tran.transformVector(new Vector(3,4));
+  const tran = Transform.translate(new Vector(3, 4));
+  const p = tran.transformVector(new Vector(3, 4));
   t.is(p.x, 3);
   t.is(p.y, 4);
 });
-
 
 // -----------------------
 // GET
 // -----------------------
 test('determinant: returns correct value', t => {
   // Example from: https://www.mathsisfun.com/algebra/matrix-determinant.html
-  const tran = new Transform(6,1,1,4,-2,5,2,8,7);
+  const tran = new Transform(6, 1, 1, 4, -2, 5, 2, 8, 7);
   t.is(tran.determinant, -306);
 });
-
 
 test('get m: values mapped between matrix and getters correctly', t => {
   t.is(t.context.abc.M00, 1);
@@ -294,16 +284,15 @@ test('get m: values mapped between matrix and getters correctly', t => {
   t.is(t.context.abc.M22, 9);
 });
 
-
 // -----------------------
 // PUBLIC
 // -----------------------
 test('equals: identifies identical matrices', t => {
-  const tran = new Transform(1,2,3,4,5,6,7,8,9);
+  const tran = new Transform(1, 2, 3, 4, 5, 6, 7, 8, 9);
   t.true(t.context.abc.equals(tran));
 });
 test('equals: identifies different matrices', t => {
-  const tran = new Transform(1.5,2,3,4,5,6,7,8,9);
+  const tran = new Transform(1.5, 2, 3, 4, 5, 6, 7, 8, 9);
   t.is(t.context.abc.equals(tran), false);
 });
 
@@ -351,14 +340,24 @@ test('multiply: correctly multiplies to matrix', t => {
 // TODO: Transforms
 
 test('toString: returns correctly formatted string', t => {
-  t.is(t.context.abc.toString(), "[1,2,3,4,5,6,7,8,9]");
+  t.is(t.context.abc.toString(), '[1,2,3,4,5,6,7,8,9]');
 });
 
 test('withValues: can override all values', t => {
-  const tran = t.context.abc.withValues(11,12,13,14,15,16,17,18,19);
-  t.true(tran.equals(new Transform(11, 12,13,14,15,16,17,18,19)));
+  const tran = t.context.abc.withValues(11, 12, 13, 14, 15, 16, 17, 18, 19);
+  t.true(tran.equals(new Transform(11, 12, 13, 14, 15, 16, 17, 18, 19)));
 });
 test('withValues: can override select values', t => {
-  const tran = t.context.abc.withValues(undefined,12,13,14,15,16,undefined,18,undefined);
-  t.true(tran.equals(new Transform(1, 12,13,14,15,16,7,18,9)));
+  const tran = t.context.abc.withValues(
+    undefined,
+    12,
+    13,
+    14,
+    15,
+    16,
+    undefined,
+    18,
+    undefined
+  );
+  t.true(tran.equals(new Transform(1, 12, 13, 14, 15, 16, 7, 18, 9)));
 });

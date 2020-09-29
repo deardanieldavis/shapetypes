@@ -287,20 +287,17 @@ export class BoundingBox {
    * @returns         The uvPoint remapped to the global coordinate system
    */
   public pointAt(uvPoint: Point): Point;
-  public pointAt(uvPointorU: Point | number, v?: number): Point{
-    if(uvPointorU instanceof Point) {
+  public pointAt(uvPointorU: Point | number, v?: number): Point {
+    if (uvPointorU instanceof Point) {
       return new Point(
         this._xRange.valueAt(uvPointorU.x),
         this._yRange.valueAt(uvPointorU.y)
       );
     }
-    if(v === undefined) {
+    if (v === undefined) {
       throw new Error("Shouldn't be possible");
     }
-    return new Point(
-      this._xRange.valueAt(uvPointorU),
-      this._yRange.valueAt(v)
-    );
+    return new Point(this._xRange.valueAt(uvPointorU), this._yRange.valueAt(v));
   }
 
   /**

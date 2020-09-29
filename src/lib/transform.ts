@@ -31,9 +31,17 @@ export class Transform {
    * @param diagonal    Value for elements M00, M11, M22
    */
   public static fromDiagonal(base: number = 0, diagonal = 1): Transform {
-    return new Transform(diagonal, base, base,
-      base, diagonal, base,
-      base, base, diagonal);
+    return new Transform(
+      diagonal,
+      base,
+      base,
+      base,
+      diagonal,
+      base,
+      base,
+      base,
+      diagonal
+    );
   }
 
   /**
@@ -52,7 +60,8 @@ export class Transform {
    * @param planeTo     The coordinate system to describe the geometry relative to.
    */
   public static changeBasis(planeFrom: Plane, planeTo: Plane): Transform {
-    if (planeFrom.origin.equals(Point.origin()) &&
+    if (
+      planeFrom.origin.equals(Point.origin()) &&
       planeFrom.xAxis.equals(Vector.worldX())
     ) {
       // Plane from is the worldXY plane, can just use the more simple worldToPlane
@@ -97,12 +106,22 @@ export class Transform {
     const M01 = -1 * sin;
     const M11 = cos;
 
-    const M20 = pivot !== undefined ? pivot.x * (1 - cos) - pivot.y * sin : undefined;
-    const M21 = pivot !== undefined ? pivot.y * (1 - cos) + pivot.x * sin : undefined;
+    const M20 =
+      pivot !== undefined ? pivot.x * (1 - cos) - pivot.y * sin : undefined;
+    const M21 =
+      pivot !== undefined ? pivot.y * (1 - cos) + pivot.x * sin : undefined;
 
-    return tran.withValues(M00, M10, M20,
-      M01, M11, M21,
-      undefined, undefined, undefined);
+    return tran.withValues(
+      M00,
+      M10,
+      M20,
+      M01,
+      M11,
+      M21,
+      undefined,
+      undefined,
+      undefined
+    );
   }
 
   /**
@@ -121,11 +140,18 @@ export class Transform {
     const M20 = center !== undefined ? center.x * (1 - M00) : undefined;
     const M21 = center !== undefined ? center.y * (1 - M11) : undefined;
 
-    return tran.withValues(M00, undefined, M20,
-      undefined, M11, M21,
-      undefined, undefined, undefined);
+    return tran.withValues(
+      M00,
+      undefined,
+      M20,
+      undefined,
+      M11,
+      M21,
+      undefined,
+      undefined,
+      undefined
+    );
   }
-
 
   /**
    * Returns a new Transform matrix that moves an object along a vector
@@ -140,9 +166,17 @@ export class Transform {
     const actualMove =
       distance === undefined ? move : move.withLength(distance);
 
-    return tran.withValues(undefined, undefined, actualMove.x,
-      undefined, undefined, actualMove.y,
-      undefined, undefined, undefined);
+    return tran.withValues(
+      undefined,
+      undefined,
+      actualMove.x,
+      undefined,
+      undefined,
+      actualMove.y,
+      undefined,
+      undefined,
+      undefined
+    );
   }
 
   // -----------------------
@@ -163,9 +197,16 @@ export class Transform {
     const axis = planeTo.xAxis.unitize();
     const perpendicular = axis.perpendicular();
 
-    const rotate = new Transform(axis.x, axis.y, 0,
-      perpendicular.x, perpendicular.y, 0,
-      0, 0, 1
+    const rotate = new Transform(
+      axis.x,
+      axis.y,
+      0,
+      perpendicular.x,
+      perpendicular.y,
+      0,
+      0,
+      0,
+      1
     );
 
     return rotate.multiply(tran);
@@ -199,9 +240,17 @@ export class Transform {
    * @param M12
    * @param M22
    */
-  constructor(M00: number, M10: number, M20: number,
-              M01: number, M11: number, M21: number,
-              M02: number, M12: number, M22: number) {
+  constructor(
+    M00: number,
+    M10: number,
+    M20: number,
+    M01: number,
+    M11: number,
+    M21: number,
+    M02: number,
+    M12: number,
+    M22: number
+  ) {
     this._matrix = [M00, M10, M20, M01, M11, M21, M02, M12, M22];
   }
 
@@ -213,9 +262,11 @@ export class Transform {
    * Returns the determinant for the matrix
    */
   get determinant(): number {
-    return this.M00 * (this.M11 * this.M22 - this.M21 * this.M12) -
-    this.M01 * (this.M10 * this.M22 - this.M12 * this.M20) +
-    this.M02 * (this.M10 * this.M21 - this.M11 * this.M20);
+    return (
+      this.M00 * (this.M11 * this.M22 - this.M21 * this.M12) -
+      this.M01 * (this.M10 * this.M22 - this.M12 * this.M20) +
+      this.M02 * (this.M10 * this.M21 - this.M11 * this.M20)
+    );
   }
 
   get M00(): number {
@@ -255,17 +306,17 @@ export class Transform {
    * @param otherMatrix
    */
   public equals(otherMatrix: Transform): boolean {
-    return this.M00 === otherMatrix.M00 &&
+    return (
+      this.M00 === otherMatrix.M00 &&
       this.M10 === otherMatrix.M10 &&
       this.M20 === otherMatrix.M20 &&
-
       this.M01 === otherMatrix.M01 &&
       this.M11 === otherMatrix.M11 &&
       this.M21 === otherMatrix.M21 &&
-
       this.M02 === otherMatrix.M02 &&
       this.M12 === otherMatrix.M12 &&
-      this.M22 === otherMatrix.M22;
+      this.M22 === otherMatrix.M22
+    );
   }
 
   /**
@@ -285,20 +336,21 @@ export class Transform {
     const invdet = 1 / determinant;
 
     const M00 = (this.M11 * this.M22 - this.M21 * this.M12) * invdet;
-    const M10 =(this.M20 * this.M12 - this.M10 * this.M22) * invdet;
-    const M20 =(this.M10 * this.M21 - this.M20 * this.M11) * invdet;
+    const M10 = (this.M20 * this.M12 - this.M10 * this.M22) * invdet;
+    const M20 = (this.M10 * this.M21 - this.M20 * this.M11) * invdet;
 
-    const M01 =(this.M21 * this.M02 - this.M01 * this.M22) * invdet;
-    const M11 =(this.M00 * this.M22 - this.M20 * this.M02) * invdet;
-    const M21 =(this.M20 * this.M01 - this.M00 * this.M21) * invdet;
+    const M01 = (this.M21 * this.M02 - this.M01 * this.M22) * invdet;
+    const M11 = (this.M00 * this.M22 - this.M20 * this.M02) * invdet;
+    const M21 = (this.M20 * this.M01 - this.M00 * this.M21) * invdet;
 
-    const M02 =(this.M01 * this.M12 - this.M11 * this.M02) * invdet;
-    const M12 =(this.M10 * this.M02 - this.M00 * this.M12) * invdet;
+    const M02 = (this.M01 * this.M12 - this.M11 * this.M02) * invdet;
+    const M12 = (this.M10 * this.M02 - this.M00 * this.M12) * invdet;
     const M22 = (this.M00 * this.M11 - this.M10 * this.M01) * invdet;
 
-    return { result: new Transform(M00, M10, M20,
-        M01, M11, M21,
-        M02, M12, M22), success: true};
+    return {
+      result: new Transform(M00, M10, M20, M01, M11, M21, M02, M12, M22),
+      success: true
+    };
   }
 
   /**
@@ -306,21 +358,28 @@ export class Transform {
    * @param factor    Transform matrix to multiply by.
    */
   public multiply(factor: Transform): Transform {
-    const M00 = this.M00 * factor.M00 + this.M10 * factor.M01 + this.M20 * factor.M02;
-    const M10 = this.M00 * factor.M10 + this.M10 * factor.M11 + this.M20 * factor.M12;
-    const M20 = this.M00 * factor.M20 + this.M10 * factor.M21 + this.M20 * factor.M22;
+    const M00 =
+      this.M00 * factor.M00 + this.M10 * factor.M01 + this.M20 * factor.M02;
+    const M10 =
+      this.M00 * factor.M10 + this.M10 * factor.M11 + this.M20 * factor.M12;
+    const M20 =
+      this.M00 * factor.M20 + this.M10 * factor.M21 + this.M20 * factor.M22;
 
-    const M01 = this.M01 * factor.M00 + this.M11 * factor.M01 + this.M21 * factor.M02;
-    const M11 = this.M01 * factor.M10 + this.M11 * factor.M11 + this.M21 * factor.M12;
-    const M21 = this.M01 * factor.M20 + this.M11 * factor.M21 + this.M21 * factor.M22;
+    const M01 =
+      this.M01 * factor.M00 + this.M11 * factor.M01 + this.M21 * factor.M02;
+    const M11 =
+      this.M01 * factor.M10 + this.M11 * factor.M11 + this.M21 * factor.M12;
+    const M21 =
+      this.M01 * factor.M20 + this.M11 * factor.M21 + this.M21 * factor.M22;
 
-    const M02 = this.M02 * factor.M00 + this.M12 * factor.M01 + this.M22 * factor.M02;
-    const M12 = this.M02 * factor.M10 + this.M12 * factor.M11 + this.M22 * factor.M12;
-    const M22 = this.M02 * factor.M20 + this.M12 * factor.M21 + this.M22 * factor.M22;
+    const M02 =
+      this.M02 * factor.M00 + this.M12 * factor.M01 + this.M22 * factor.M02;
+    const M12 =
+      this.M02 * factor.M10 + this.M12 * factor.M11 + this.M22 * factor.M12;
+    const M22 =
+      this.M02 * factor.M20 + this.M12 * factor.M21 + this.M22 * factor.M22;
 
-    return new Transform(M00, M10, M20,
-      M01, M11, M21,
-      M02, M12, M22);
+    return new Transform(M00, M10, M20, M01, M11, M21, M02, M12, M22);
   }
 
   /**
@@ -328,9 +387,27 @@ export class Transform {
    * '[M00,M10,M20,M01,M11,M21,M02,M12,M22]'
    */
   public toString(): string {
-    return "[" + this.M00 + "," + this.M10 + "," + this.M20 + "," +
-      this.M01 + "," + this.M11 + "," + this.M21 + "," +
-      this.M02 + "," + this.M12 + "," + this.M22 + "]";
+    return (
+      '[' +
+      this.M00 +
+      ',' +
+      this.M10 +
+      ',' +
+      this.M20 +
+      ',' +
+      this.M01 +
+      ',' +
+      this.M11 +
+      ',' +
+      this.M21 +
+      ',' +
+      this.M02 +
+      ',' +
+      this.M12 +
+      ',' +
+      this.M22 +
+      ']'
+    );
   }
 
   /**
@@ -345,10 +422,17 @@ export class Transform {
    * @param M12
    * @param M22
    */
-  public withValues (M00: number | undefined, M10: number | undefined, M20: number | undefined,
-                               M01: number | undefined, M11: number | undefined, M21: number | undefined,
-                               M02: number | undefined, M12: number| undefined, M22: number | undefined): Transform {
-
+  public withValues(
+    M00: number | undefined,
+    M10: number | undefined,
+    M20: number | undefined,
+    M01: number | undefined,
+    M11: number | undefined,
+    M21: number | undefined,
+    M02: number | undefined,
+    M12: number | undefined,
+    M22: number | undefined
+  ): Transform {
     const m00 = M00 === undefined ? this.M00 : M00;
     const m10 = M10 === undefined ? this.M10 : M10;
     const m20 = M20 === undefined ? this.M20 : M20;
@@ -403,6 +487,4 @@ export class Transform {
     const y = this.M01 * vector.x + this.M11 * vector.y;
     return new Vector(x, y);
   }
-
-
 }
