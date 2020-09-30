@@ -74,11 +74,15 @@ export class Ray {
    *                      If false, the ray is treated as an infinite line and the parameter
    *                      could be a for a point in either direction (it could be either positive or negative).
    */
-  public closestParameter(testPoint: Point, onlyForward: boolean = false): number {
+  public closestParameter(
+    testPoint: Point,
+    onlyForward: boolean = false
+  ): number {
     const xDelta = this._direction.x;
     const yDelta = this._direction.y;
     const u =
-      ((testPoint.x - this._from.x) * xDelta + (testPoint.y - this._from.y) * yDelta) /
+      ((testPoint.x - this._from.x) * xDelta +
+        (testPoint.y - this._from.y) * yDelta) /
       (xDelta * xDelta + yDelta * yDelta);
 
     if (onlyForward) {
