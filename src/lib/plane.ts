@@ -248,7 +248,7 @@ export class Plane {
    * ```
    *
    * @category Transform
-   * @param change  A [[transform]] matrix to apply to the BoundingBox.
+   * @param change  A [[transform]] matrix to apply to the ray.
    */
   public transform(change: Transform): Plane {
     const origin = change.transformPoint(this._origin);

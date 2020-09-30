@@ -263,7 +263,7 @@ export class Line {
   }
 
   /**
-   * Returns the point a set distance from the start of the line.
+   * Returns the point on the line that is a given distance from the start of the line ([[from]]).
    * @param distance              Distance along the line from the [[from]] point.
    * @param limitToFiniteSegment  If true, will only return points within the bounds of the line. If false, the line is treated as infinite.
    */
