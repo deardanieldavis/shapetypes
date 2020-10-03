@@ -30,6 +30,18 @@ test('constructor: creating an interval with values in reverse generates correct
 // -----------------------
 // STATIC
 // -----------------------
+test('fromCenter: creates correct min and max values', t => {
+  const newInterval = IntervalSorted.fromCenter(10, 6);
+  t.is(newInterval.min, 7);
+  t.is(newInterval.max, 13);
+});
+test('fromCenter: throws error when width is less than zero', t => {
+  t.throws(() => {
+    // tslint:disable-next-line:no-unused-expression
+    IntervalSorted.fromCenter(10, -1);
+  });
+});
+
 test('fromValues: creates correct min and max values from range of numbers', t => {
   const newInterval = IntervalSorted.fromValues([5, -2, 3, 4, 5]);
   t.is(newInterval.min, -2);

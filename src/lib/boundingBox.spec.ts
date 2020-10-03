@@ -138,13 +138,11 @@ test('closestPoint: works when point is outside the box', t => {
   t.is(t.context.bb.closestPoint(point).x, 5);
   t.is(t.context.bb.closestPoint(point).y, 5);
 });
-
 test('closestPoint: works when point is inside the box', t => {
   const point = new Point(5, 6);
   t.is(t.context.bb.closestPoint(point).x, 5);
   t.is(t.context.bb.closestPoint(point).y, 6);
 });
-
 test("closestPoint: works when point is inside the box but interior isn't included", t => {
   const point = new Point(5, 6);
   t.is(t.context.bb.closestPoint(point, false).x, 5);

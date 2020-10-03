@@ -44,6 +44,18 @@ export class IntervalSorted {
   }
 
   /**
+   * Returns a new IntervalSorted of a given `width` and centered on `center`.
+   * @param center    The mid point of the IntervalSorted
+   * @param width     The width of the IntervalSorted
+   */
+  public static fromCenter(center: number, width: number): IntervalSorted {
+    if(width < 0) {
+      throw new RangeError("Width must be greater than 0");
+    }
+    return new IntervalSorted(center - width / 2, center + width / 2);
+  }
+
+  /**
    * Returns an IntervalSorted that encompasses two intervals.
    * @param a First interval to encompass.
    * @param b Second interval to encompass.

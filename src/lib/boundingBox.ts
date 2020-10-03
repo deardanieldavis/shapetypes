@@ -295,6 +295,7 @@ export class BoundingBox {
       );
     }
     if (v === undefined) {
+      /* istanbul ignore next */
       throw new Error("Shouldn't be possible");
     }
     return new Point(this._xRange.valueAt(uvPointorU), this._yRange.valueAt(v));
