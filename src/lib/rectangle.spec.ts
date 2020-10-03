@@ -8,7 +8,6 @@ import { shapetypesSettings } from './settings';
 import { approximatelyEqual } from './utilities';
 import { Vector } from './vector';
 
-
 const test = anyTest as TestInterface<{
   basicPlane: Plane;
   basic: Rectangle;
@@ -21,13 +20,12 @@ test.beforeEach('Create test geometry', t => {
   t.context.basicPlane = new Plane(new Point(0, 5), Vector.worldX());
   t.context.basic = new Rectangle(t.context.basicPlane, 10, 20);
   t.context.basicX = new IntervalSorted(0, 10);
-  t.context.basicY = new IntervalSorted(0,20);
+  t.context.basicY = new IntervalSorted(0, 20);
 
-  const angledPlane = new Plane(new Point(1,0), new Vector(1,1));
+  const angledPlane = new Plane(new Point(1, 0), new Vector(1, 1));
   const angledUnit = Math.sqrt(2);
   t.context.angled = new Rectangle(angledPlane, 3 * angledUnit, angledUnit);
 });
-
 
 // -----------------------
 // CONSTRUCTOR
@@ -39,12 +37,20 @@ test('Constructor: Sets correct interval ranges with number input', t => {
   t.true(r.y.equals(t.context.basicY));
 });
 test('Constructor: Sets correct interval ranges with SortedInterval', t => {
-  const r = new Rectangle(t.context.basicPlane, new IntervalSorted(0, 10), new IntervalSorted(0, 20));
+  const r = new Rectangle(
+    t.context.basicPlane,
+    new IntervalSorted(0, 10),
+    new IntervalSorted(0, 20)
+  );
   t.true(r.x.equals(t.context.basicX));
   t.true(r.y.equals(t.context.basicY));
 });
 test('Constructor: Sets correct interval ranges with Interval', t => {
-  const r = new Rectangle(t.context.basicPlane, new Interval(0, 10), new Interval(0, 20));
+  const r = new Rectangle(
+    t.context.basicPlane,
+    new Interval(0, 10),
+    new Interval(0, 20)
+  );
   t.true(r.x.equals(t.context.basicX));
   t.true(r.y.equals(t.context.basicY));
 });
@@ -53,7 +59,11 @@ test('Constructor: Sets correct interval ranges with Interval', t => {
 // STATIC
 // -----------------------
 test('fromCorners: Sets correct interval ranges', t => {
-  const r = Rectangle.fromCorners(new Point(0, 5), new Point(10, 25), t.context.basicPlane);
+  const r = Rectangle.fromCorners(
+    new Point(0, 5),
+    new Point(10, 25),
+    t.context.basicPlane
+  );
   t.true(r.x.equals(t.context.basicX));
   t.true(r.y.equals(t.context.basicY));
 });
@@ -74,12 +84,12 @@ test('area: calculates', t => {
 
 test('boundingBox: creates correct bounding box even on angle', t => {
   const bb = t.context.angled.boundingBox;
-  t.true(bb.min.equals(new Point(0,0)));
-  t.true(bb.max.equals(new Point(4,4)));
+  t.true(bb.min.equals(new Point(0, 0)));
+  t.true(bb.max.equals(new Point(4, 4)));
 });
 
 test('center: returns correct center', t => {
-  t.true(t.context.angled.center.equals(new Point(2,2)));
+  t.true(t.context.angled.center.equals(new Point(2, 2)));
 });
 
 test('circumference: calculates', t => {
@@ -87,7 +97,9 @@ test('circumference: calculates', t => {
 });
 
 test('plane: returns correct plane', t => {
-  t.true(t.context.angled.plane.equals(new Plane(new Point(1,0), new Vector(1,1))));
+  t.true(
+    t.context.angled.plane.equals(new Plane(new Point(1, 0), new Vector(1, 1)))
+  );
 });
 
 test('widthX: calculates', t => {
@@ -159,10 +171,16 @@ test('equals: can identify when rectangles are exactly identical and slightly di
   t.context.basicPlane = new Plane(new Point(5, 15), Vector.worldX());
   t.context.basic = new Rectangle(t.context.basicPlane, 10, 20);
   t.is(
-    t.context.basic.equals(new Rectangle(new Plane(new Point(5, 15), Vector.worldX()), 10, 20)), true
+    t.context.basic.equals(
+      new Rectangle(new Plane(new Point(5, 15), Vector.worldX()), 10, 20)
+    ),
+    true
   ); // Totally the same
   t.is(
-    t.context.basic.equals(new Rectangle(new Plane(new Point(5, 15), Vector.worldX()), 10.1, 20)), false
+    t.context.basic.equals(
+      new Rectangle(new Plane(new Point(5, 15), Vector.worldX()), 10.1, 20)
+    ),
+    false
   ); // Slightly different
 });
 
@@ -229,15 +247,15 @@ test('withY: Correctly replaces y interval', t => {
 
 test('translate: Translates the rectangle. Updates the plane and corners.', t => {
   const rect = t.context.basic.translate(new Vector(1, 2));
-  t.true(rect.plane.origin.equals(new Point(0+1, 5+2)));
-  t.true(rect.corner(true, true).equals(new Point(0+1, 5+2)));
-  t.true(rect.corner(false, false).equals(new Point(10+1, 25+2)));
+  t.true(rect.plane.origin.equals(new Point(0 + 1, 5 + 2)));
+  t.true(rect.corner(true, true).equals(new Point(0 + 1, 5 + 2)));
+  t.true(rect.corner(false, false).equals(new Point(10 + 1, 25 + 2)));
 });
 test('translate: Translates the angled rectangle. Updates the plane and corners.', t => {
   const rect = t.context.angled.translate(new Vector(1, 2));
-  t.true(rect.plane.origin.equals(new Point(1+1, 0+2)));
-  t.true(rect.corner(true, true).equals(new Point(1+1, 0+2)));
-  t.true(rect.corner(false, false).equals(new Point(3+1, 4+2)));
+  t.true(rect.plane.origin.equals(new Point(1 + 1, 0 + 2)));
+  t.true(rect.corner(true, true).equals(new Point(1 + 1, 0 + 2)));
+  t.true(rect.corner(false, false).equals(new Point(3 + 1, 4 + 2)));
 });
 
 test('rotate: Rotates the rectangle 90 degrees', t => {
@@ -248,7 +266,6 @@ test('rotate: Rotates the rectangle 90 degrees', t => {
   t.true(rect.corner(true, true).equals(new Point(5, 0)));
   t.true(rect.corner(false, false).equals(new Point(25, -10)));
 });
-
 
 test('scale: Scales the rectangle', t => {
   const rect = t.context.basic.scale(2, 3, new Point(0, 5));

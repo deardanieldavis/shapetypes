@@ -67,7 +67,11 @@ test('Closest point', t => {
 });
 
 test('Difference', t => {
-  const aPolyline = Rectangle.fromCenter(Plane.worldXY(), 100, 100).toPolyline();
+  const aPolyline = Rectangle.fromCenter(
+    Plane.worldXY(),
+    100,
+    100
+  ).toPolyline();
   const aPolygon = new Polygon(aPolyline);
 
   // Remove single polyline

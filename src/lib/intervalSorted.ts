@@ -49,8 +49,8 @@ export class IntervalSorted {
    * @param width     The width of the IntervalSorted
    */
   public static fromCenter(center: number, width: number): IntervalSorted {
-    if(width < 0) {
-      throw new RangeError("Width must be greater than 0");
+    if (width < 0) {
+      throw new RangeError('Width must be greater than 0');
     }
     return new IntervalSorted(center - width / 2, center + width / 2);
   }

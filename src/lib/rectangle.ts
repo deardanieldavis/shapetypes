@@ -10,7 +10,6 @@ import { Transform } from './transform';
 import { Vector } from './vector';
 
 export class Rectangle {
-
   // -----------------------
   // STATIC
   // -----------------------
@@ -19,7 +18,11 @@ export class Rectangle {
    *
    * @category Create
    */
-  public static fromCorners(cornerA: Point, cornerB: Point, plane: Plane = Plane.worldXY()): Rectangle {
+  public static fromCorners(
+    cornerA: Point,
+    cornerB: Point,
+    plane: Plane = Plane.worldXY()
+  ): Rectangle {
     const a = plane.remapToPlaneSpace(cornerA);
     const b = plane.remapToPlaneSpace(cornerB);
     const x = new IntervalSorted(a.x, b.x);
@@ -32,10 +35,12 @@ export class Rectangle {
    * @category Create
    */
   public static fromCenter(center: Plane, x: number, y: number): Rectangle {
-    return new Rectangle(center, IntervalSorted.fromCenter(0, x), IntervalSorted.fromCenter(0, y));
+    return new Rectangle(
+      center,
+      IntervalSorted.fromCenter(0, x),
+      IntervalSorted.fromCenter(0, y)
+    );
   }
-
-
 
   // -----------------------
   // VARS
@@ -44,13 +49,16 @@ export class Rectangle {
   private readonly _x: IntervalSorted;
   private readonly _y: IntervalSorted;
 
-
   // -----------------------
   // CONSTRUCTOR
   // -----------------------
 
   constructor(plane: Plane, x: number, y: number);
-  constructor(plane: Plane, x: Interval | IntervalSorted, y: Interval | IntervalSorted)
+  constructor(
+    plane: Plane,
+    x: Interval | IntervalSorted,
+    y: Interval | IntervalSorted
+  );
   constructor(
     plane: Plane,
     x: Interval | IntervalSorted | number,
@@ -60,7 +68,7 @@ export class Rectangle {
 
     if (x instanceof Interval) {
       this._x = x.asSorted();
-    } else if(x instanceof IntervalSorted) {
+    } else if (x instanceof IntervalSorted) {
       this._x = x;
     } else {
       this._x = new IntervalSorted(0, x);
@@ -68,7 +76,7 @@ export class Rectangle {
 
     if (y instanceof Interval) {
       this._y = y.asSorted();
-    } else if(y instanceof IntervalSorted) {
+    } else if (y instanceof IntervalSorted) {
       this._y = y;
     } else {
       this._y = new IntervalSorted(0, y);
@@ -160,10 +168,13 @@ export class Rectangle {
     }
   }
 
-  public equals(otherRectangle: Rectangle, tolerance: number = shapetypesSettings.absoluteTolerance): boolean {
-    if(this._plane.equals(otherRectangle.plane, tolerance)) {
-      if(this._x.equals(otherRectangle.x)) {
-        if(this._y.equals(otherRectangle.y)) {
+  public equals(
+    otherRectangle: Rectangle,
+    tolerance: number = shapetypesSettings.absoluteTolerance
+  ): boolean {
+    if (this._plane.equals(otherRectangle.plane, tolerance)) {
+      if (this._x.equals(otherRectangle.x)) {
+        if (this._y.equals(otherRectangle.y)) {
           return true;
         }
       }
@@ -213,7 +224,10 @@ export class Rectangle {
   public pointAt(uvPoint: Point): Point;
   public pointAt(uvPointorU: Point | number, v?: number): Point {
     if (uvPointorU instanceof Point) {
-      return this._plane.pointAt(this._x.valueAt(uvPointorU.x), this._y.valueAt(uvPointorU.y));
+      return this._plane.pointAt(
+        this._x.valueAt(uvPointorU.x),
+        this._y.valueAt(uvPointorU.y)
+      );
     }
     if (v === undefined) {
       /* istanbul ignore next */
@@ -223,7 +237,9 @@ export class Rectangle {
   }
 
   public toString(): string {
-    return "[" + this._plane.toString() + "," + this.widthX + "," + this.widthY + "]";
+    return (
+      '[' + this._plane.toString() + ',' + this.widthX + ',' + this.widthY + ']'
+    );
   }
 
   public toPolyline(): Polyline {
@@ -320,5 +336,4 @@ export class Rectangle {
     const tran = Transform.translate(move, distance);
     return this.transform(tran);
   }
-
 }

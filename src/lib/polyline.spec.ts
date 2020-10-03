@@ -130,7 +130,11 @@ test('polyline contains point', t => {
 
 test('Contains polyline', t => {
   let polylineInside = Rectangle.fromCenter(Plane.worldXY(), 3, 3).toPolyline();
-  const polylineOutside = Rectangle.fromCenter(Plane.worldXY(), 3.5, 3.5).toPolyline();
+  const polylineOutside = Rectangle.fromCenter(
+    Plane.worldXY(),
+    3.5,
+    3.5
+  ).toPolyline();
 
   t.is(polylineOutside.containsPolyline(polylineInside), true);
 
