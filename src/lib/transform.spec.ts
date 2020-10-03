@@ -36,6 +36,7 @@ test('Identity: Returns correct matrix with diagonal 1s', t => {
   t.true(Transform.identity().equals(new Transform(1, 0, 0, 0, 1, 0, 0, 0, 1)));
 });
 
+
 test('changeBasis: no rotation, no movement, doesnt move point', t => {
   const tran = Transform.changeBasis(Plane.worldXY(), Plane.worldXY());
   const point = tran.transformPoint(new Point(3, 4));
@@ -139,6 +140,114 @@ test('changeBasis: rotated and translate to different rotated and translated pla
   const vector = tran.transformVector(new Vector(3, 4));
   t.true(vector.equals(new Vector(-3, -4)));
 });
+test('changeBasis: matches Rhino', t => {
+  /*
+  a = Plane(Point3d(1,2,0), Vector3d(1,0,0), Vector3d(0,1,0))
+  b = Plane(Point3d(4,4,0), Vector3d(0,-1,0), Vector3d(1,0,0))
+  p = Point3d(2,4,0)
+  basis = Transform.ChangeBasis(a, b)
+  p.Transform(basis)
+  print(p) #-2,-1,0
+   */
+  const a = new Plane(new Point(1,2), new Vector(1,0));
+  const b = new Plane(new Point(4,4), new Vector(0,-1));
+  const p = new Point(2,4);
+  const basis = Transform.changeBasis(a, b);
+  const output = basis.transformPoint(p);
+  t.true(approximatelyEqual(output.x, -2));
+  t.true(approximatelyEqual(output.y, -1));
+});
+
+
+test('planeToPlane: no rotation, no movement, doesnt move point', t => {
+  const tran = Transform.planeToPlane(Plane.worldXY(), Plane.worldXY());
+  const point = tran.transformPoint(new Point(3, 4));
+  t.true(point.equals(new Point(3, 4)));
+});
+test('planeToPlane: no rotation, no movement, doesnt move vector', t => {
+  const tran = Transform.planeToPlane(Plane.worldXY(), Plane.worldXY());
+  const vector = tran.transformVector(new Vector(3, 4));
+  t.true(vector.equals(new Vector(3, 4)));
+});
+test('planeToPlane: no rotation, translation to world, returns correct point', t => {
+  const from = new Plane(new Point(3, 4), Vector.worldX());
+  const tran = Transform.planeToPlane(from, Plane.worldXY());
+  const point = tran.transformPoint(new Point(3, 4));
+  t.true(point.equals(new Point(0, 0)));
+});
+test('planeToPlane: no rotation, translation to world, doesnt change the vector', t => {
+  const from = new Plane(new Point(3, 4), Vector.worldX());
+  const tran = Transform.planeToPlane(from, Plane.worldXY());
+  const vector = tran.transformVector(new Vector(3, 4));
+  t.true(vector.equals(new Vector(3, 4)));
+});
+test('planeToPlane: rotated 90 degrees, no translation, returns correct point', t => {
+  shapetypesSettings.invertY = false;
+  const from = new Plane(Point.origin(), new Vector(0, -1));
+  const tran = Transform.planeToPlane(from, Plane.worldXY());
+  const point = tran.transformPoint(new Point(0, -1));
+  t.true(point.equals(new Point(1, 0)));
+});
+test('planeToPlane: rotated 90 degrees, no translation, returns rotated vector', t => {
+  shapetypesSettings.invertY = false;
+  const from = new Plane(Point.origin(), new Vector(0, -1));
+  const tran = Transform.planeToPlane(from, Plane.worldXY());
+  const vector = tran.transformVector(new Vector(0, -1));
+  t.true(vector.equals(new Vector(1, 0)));
+});
+test('planeToPlane: rotated 90 degrees with inverted y, no translation, returns correct point', t => {
+  shapetypesSettings.invertY = true;
+  const from = new Plane(Point.origin(), new Vector(0, -1));
+  const tran = Transform.planeToPlane(from, Plane.worldXY());
+  const point = tran.transformPoint(new Point(0, -1));
+  t.true(point.equals(new Point(1, 0)));
+});
+test('planeToPlane: rotated 90 degrees with inverted y, no translation, returns rotated vector', t => {
+  shapetypesSettings.invertY = true;
+  const from = new Plane(Point.origin(), new Vector(0, -1));
+  const tran = Transform.planeToPlane(from, Plane.worldXY());
+  const vector = tran.transformVector(new Vector(0, -1));
+  t.true(vector.equals(new Vector(1, 0)));
+});
+
+test('planeToPlane: rotated and translate to different rotated and translated plane, returns correct point', t => {
+  shapetypesSettings.invertY = false;
+  const from = new Plane(new Point(3, 4), new Vector(0, -1));
+  const to = new Plane(new Point(-3, -4), new Vector(0, 1));
+  const tran = Transform.planeToPlane(from, to);
+  const point = tran.transformPoint(new Point(4, 3));
+  t.true(point.equals(new Point(-4, -3)));
+});
+test('planeToPlane: rotated and translate to different rotated and translated plane, returns correct vector', t => {
+  shapetypesSettings.invertY = false;
+  const from = new Plane(new Point(3, 4), new Vector(0, -1));
+  const to = new Plane(new Point(-3, -4), new Vector(0, 1));
+  const tran = Transform.planeToPlane(from, to);
+  const vector = tran.transformVector(new Vector(3, 4));
+  t.true(vector.equals(new Vector(-3, -4)));
+});
+
+test('planeToPlane: matches Rhino', t => {
+  /*
+  a = Plane(Point3d(1,2,0), Vector3d(1,0,0), Vector3d(0,1,0))
+  b = Plane(Point3d(4,4,0), Vector3d(0,-1,0), Vector3d(1,0,0))
+  p = Point3d(2,4,0)
+  tran = Transform.PlaneToPlane(a, b)
+  p.Transform(tran)
+  print(p) #6,3,0
+   */
+  const a = new Plane(new Point(1,2), new Vector(1,0));
+  const b = new Plane(new Point(4,4), new Vector(0,-1));
+  const p = new Point(2,4);
+
+  const tran = Transform.planeToPlane(a, b);
+  const output = tran.transformPoint(p);
+  t.true(approximatelyEqual(output.x, 6));
+  t.true(approximatelyEqual(output.y, 3));
+});
+
+
+
 
 interface ROTATEPOINT {
   angle: number; // Angle of rotation

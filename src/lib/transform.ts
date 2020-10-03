@@ -24,11 +24,11 @@ export class Transform {
   // -----------------------
 
   /**
-   * Returns a new Transform matrix where the diagonal elements (M00, M11, M22) are
+   * Returns a new transform matrix where the diagonal elements ([[M00]], [[M11]], [[M22]]) are
    * set to `diagonal` and the other elements are set to `base`.
    *
-   * @param base        Value for all elements except M00, M11, M22
-   * @param diagonal    Value for elements M00, M11, M22
+   * @param base        Value for all elements except [[M00]], [[M11]], [[M22]]
+   * @param diagonal    Value for elements [[M00]], [[M11]], [[M22]]
    */
   public static fromDiagonal(base: number = 0, diagonal = 1): Transform {
     return new Transform(
@@ -45,7 +45,7 @@ export class Transform {
   }
 
   /**
-   * Returns a new Transfrom matrix where the diagonal elements (M00, M11, M22) are
+   * Returns a new transform matrix where the diagonal elements ([[M00]], [[M11]], [[M22]]) are
    * set to 1 and the other elements are set to 0.
    */
   public static identity(): Transform {
@@ -53,9 +53,21 @@ export class Transform {
   }
 
   /**
-   * Returns a new Transform matrix that translates an object from one planar coordinate system to another.
+   * Returns a new transform matrix that takes an object described in one coordinate system and describes it in another.
    * In other words, if the geometry is described relative to `planeFrom`, after
-   * translation, it will be described relative to `planeTo`.
+   * translation, it will be in the same position but described relative to `planeTo`.
+   *
+   * ### Example
+   * ```js
+   * const from = new Plane(new Point(3, 4), Vector.worldX());
+   * const to = Plane.worldX();
+   * const tran = Transform.changeBasis(from, to);
+   * const p = new Point(1, 2);
+   * const after = tran.transformPoint(p);
+   * console.log(after.toString());
+   * // => [4,6]
+   * ```
+   *
    * @param planeFrom   The coordinate system the geometry is described relative to.
    * @param planeTo     The coordinate system to describe the geometry relative to.
    */
@@ -86,6 +98,36 @@ export class Transform {
 
     // Multiply to combine the translation and rotation
     return rotate.multiply(tran);
+  }
+
+  /**
+   * Returns a new transform matrix that takes an object relative to one plane and moves it into the same position relative to another plane.
+   *
+   * ### Example
+   * ```js
+   * const from = new Plane(new Point(3, 4), Vector.worldX());
+   * const to = Plane.worldX();
+   * const tran = Transform.changeBasis(from, to);
+   * const p = new Point(4, 6);
+   * const after = tran.transformPoint(p);
+   * console.log(after.toString());
+   * // => [1,2]
+   * ```
+   *
+   * @param planeFrom   The plane to move from
+   * @param planeTo     The plane to move relative to
+   */
+  public static planeToPlane(planeFrom: Plane, planeTo: Plane): Transform {
+    const translate = Transform.translate(Vector.fromPoints(planeFrom.origin, planeTo.origin));
+    const angle = planeFrom.xAxis.angleSigned(planeTo.xAxis);
+
+    if(angle === 0) {
+      // Planes have same orientation, object just needs to be moved
+      return translate;
+    }
+
+    const rotate = Transform.rotate(angle, planeFrom.origin);
+    return translate.multiply(rotate);
   }
 
   /**
