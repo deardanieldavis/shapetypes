@@ -22,7 +22,7 @@ test('Area', t => {
 
 test('Point of Inaccessibility', t => {
   // Simple square
-  let polyline = new Rectangle(Plane.worldXY(), 20, 20).toPolyline();
+  let polyline = Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline();
   let polygon = new Polygon(polyline);
   let p = polygon.pointOfInaccessibility();
   t.is(approximatelyEqual(p.x, 0), true);
@@ -36,8 +36,8 @@ test('Point of Inaccessibility', t => {
   t.is(approximatelyEqual(p.y, 1), true);
 
   // Polygon with a hole
-  const outer = new Rectangle(Plane.worldXY(), 8, 8).toPolyline();
-  const hole = new Rectangle(
+  const outer = Rectangle.fromCenter(Plane.worldXY(), 8, 8).toPolyline();
+  const hole = Rectangle.fromCenter(
     new Plane(new Point(1, 1), Vector.worldX()),
     2,
     2
@@ -50,7 +50,7 @@ test('Point of Inaccessibility', t => {
 
 test('Closest point', t => {
   // Simple square
-  const polyline = new Rectangle(Plane.worldXY(), 20, 20).toPolyline();
+  const polyline = Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline();
   let polygon = new Polygon(polyline);
 
   let p = polygon.closestPoint(new Point(5, 0));
@@ -58,7 +58,7 @@ test('Closest point', t => {
   t.is(approximatelyEqual(p.y, 0), true);
 
   // Square with a hole in the center
-  const hole = new Rectangle(Plane.worldXY(), 8, 8).toPolyline();
+  const hole = Rectangle.fromCenter(Plane.worldXY(), 8, 8).toPolyline();
   polygon = new Polygon(polyline, [hole]);
 
   p = polygon.closestPoint(new Point(5, 0));
@@ -67,11 +67,11 @@ test('Closest point', t => {
 });
 
 test('Difference', t => {
-  const aPolyline = new Rectangle(Plane.worldXY(), 100, 100).toPolyline();
+  const aPolyline = Rectangle.fromCenter(Plane.worldXY(), 100, 100).toPolyline();
   const aPolygon = new Polygon(aPolyline);
 
   // Remove single polyline
-  const shapeB = new Rectangle(Plane.worldXY(), 50, 50).toPolyline();
+  const shapeB = Rectangle.fromCenter(Plane.worldXY(), 50, 50).toPolyline();
   let result = aPolygon.difference(shapeB);
   t.is(result.length, 1);
   t.is(result[0].area, 100 * 100 - 50 * 50);
@@ -102,7 +102,7 @@ test('Difference', t => {
 
   // Remove a polyline from a polygon with an existing hole
   const bPolygon = new Polygon(aPolyline, [shapeB]);
-  const shapeE = new Rectangle(
+  const shapeE = Rectangle.fromCenter(
     new Plane(new Point(25, 0), Vector.worldX()),
     10,
     10

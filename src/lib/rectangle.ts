@@ -27,6 +27,15 @@ export class Rectangle {
     return new Rectangle(plane, x, y);
   }
 
+  /**
+   *
+   * @category Create
+   */
+  public static fromCenter(center: Plane, x: number, y: number): Rectangle {
+    return new Rectangle(center, IntervalSorted.fromCenter(0, x), IntervalSorted.fromCenter(0, y));
+  }
+
+
 
   // -----------------------
   // VARS
@@ -54,7 +63,7 @@ export class Rectangle {
     } else if(x instanceof IntervalSorted) {
       this._x = x;
     } else {
-      this._x = IntervalSorted.fromCenter(0, x);
+      this._x = new IntervalSorted(0, x);
     }
 
     if (y instanceof Interval) {
@@ -62,7 +71,7 @@ export class Rectangle {
     } else if(y instanceof IntervalSorted) {
       this._y = y;
     } else {
-      this._y = IntervalSorted.fromCenter(0, y);
+      this._y = new IntervalSorted(0, y);
     }
   }
 

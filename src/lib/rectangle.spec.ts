@@ -18,12 +18,12 @@ const test = anyTest as TestInterface<{
 }>;
 
 test.beforeEach('Create test geometry', t => {
-  t.context.basicPlane = new Plane(new Point(5, 15), Vector.worldX());
+  t.context.basicPlane = new Plane(new Point(0, 5), Vector.worldX());
   t.context.basic = new Rectangle(t.context.basicPlane, 10, 20);
-  t.context.basicX = new IntervalSorted(-5, 5);
-  t.context.basicY = new IntervalSorted(-10,10);
+  t.context.basicX = new IntervalSorted(0, 10);
+  t.context.basicY = new IntervalSorted(0,20);
 
-  const angledPlane = new Plane(new Point(2,2), new Vector(1,1));
+  const angledPlane = new Plane(new Point(1,0), new Vector(1,1));
   const angledUnit = Math.sqrt(2);
   t.context.angled = new Rectangle(angledPlane, 3 * angledUnit, angledUnit);
 });
@@ -38,19 +38,13 @@ test('Constructor: Sets correct interval ranges with number input', t => {
   t.true(r.x.equals(t.context.basicX));
   t.true(r.y.equals(t.context.basicY));
 });
-test('Constructor: negative width throws an error', t => {
-  t.throws(() => {
-    // tslint:disable-next-line:no-unused-expression
-    new Rectangle(Plane.worldXY(), -1, 10);
-  });
-});
 test('Constructor: Sets correct interval ranges with SortedInterval', t => {
-  const r = new Rectangle(t.context.basicPlane, new IntervalSorted(-5, 5), new IntervalSorted(-10, 10));
+  const r = new Rectangle(t.context.basicPlane, new IntervalSorted(0, 10), new IntervalSorted(0, 20));
   t.true(r.x.equals(t.context.basicX));
   t.true(r.y.equals(t.context.basicY));
 });
 test('Constructor: Sets correct interval ranges with Interval', t => {
-  const r = new Rectangle(t.context.basicPlane, new Interval(-5, 5), new Interval(-10, 10));
+  const r = new Rectangle(t.context.basicPlane, new Interval(0, 10), new Interval(0, 20));
   t.true(r.x.equals(t.context.basicX));
   t.true(r.y.equals(t.context.basicY));
 });
@@ -64,6 +58,11 @@ test('fromCorners: Sets correct interval ranges', t => {
   t.true(r.y.equals(t.context.basicY));
 });
 
+test('fromCenter: Sets correct interval ranges', t => {
+  const r = Rectangle.fromCenter(Plane.worldXY(), 10, 20);
+  t.true(r.x.equals(new IntervalSorted(-5, 5)));
+  t.true(r.y.equals(new IntervalSorted(-10, 10)));
+});
 
 // -----------------------
 // GET
@@ -88,7 +87,7 @@ test('circumference: calculates', t => {
 });
 
 test('plane: returns correct plane', t => {
-  t.true(t.context.angled.plane.equals(new Plane(new Point(2,2), new Vector(1,1))));
+  t.true(t.context.angled.plane.equals(new Plane(new Point(1,0), new Vector(1,1))));
 });
 
 test('widthX: calculates', t => {
@@ -208,7 +207,7 @@ test('pointAt: Can use UV numbers instead of point', t => {
 });
 
 test('toString: Returns string in correct format', t => {
-  t.is(t.context.basic.toString(), '[[(5,15),⟨1,0⟩],10,20]');
+  t.is(t.context.basic.toString(), '[[(0,5),⟨1,0⟩],10,20]');
 });
 
 test('withPlane: Correctly replaces plane', t => {
@@ -230,13 +229,13 @@ test('withY: Correctly replaces y interval', t => {
 
 test('translate: Translates the rectangle. Updates the plane and corners.', t => {
   const rect = t.context.basic.translate(new Vector(1, 2));
-  t.true(rect.plane.origin.equals(new Point(5+1, 15+2)));
+  t.true(rect.plane.origin.equals(new Point(0+1, 5+2)));
   t.true(rect.corner(true, true).equals(new Point(0+1, 5+2)));
   t.true(rect.corner(false, false).equals(new Point(10+1, 25+2)));
 });
 test('translate: Translates the angled rectangle. Updates the plane and corners.', t => {
   const rect = t.context.angled.translate(new Vector(1, 2));
-  t.true(rect.plane.origin.equals(new Point(2+1, 2+2)));
+  t.true(rect.plane.origin.equals(new Point(1+1, 0+2)));
   t.true(rect.corner(true, true).equals(new Point(1+1, 0+2)));
   t.true(rect.corner(false, false).equals(new Point(3+1, 4+2)));
 });

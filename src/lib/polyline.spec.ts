@@ -8,7 +8,7 @@ import { Vector } from './vector';
 
 /*
 test('Get points', t => {
-  const polyline = new Rectangle(Plane.worldXY(), 2, 2).toPolyline();
+  const polyline = Rectangle.fromCenter(Plane.worldXY(), 2, 2).toPolyline();
   const points = polyline.points;
 
   t.is(points.length, 5);
@@ -20,14 +20,14 @@ test('Get points', t => {
 });*/
 
 test('Get edges', t => {
-  const polyline = new Rectangle(Plane.worldXY(), 2, 2).toPolyline();
+  const polyline = Rectangle.fromCenter(Plane.worldXY(), 2, 2).toPolyline();
   const edges = polyline.getSegments();
 
   t.is(edges.length, 4);
 });
 
 test('Closest point', t => {
-  const polyline = new Rectangle(Plane.worldXY(), 2, 2).toPolyline();
+  const polyline = Rectangle.fromCenter(Plane.worldXY(), 2, 2).toPolyline();
 
   let point = polyline.closestPoint(new Point(1, 1));
   if (point === undefined) {
@@ -86,7 +86,7 @@ test('Closest parameter', t => {
 
 /*
 test('Inward normal', t => {
-  const polyline = new Rectangle(Plane.worldXY(), 2, 2).toPolyline();
+  const polyline = Rectangle.fromCenter(Plane.worldXY(), 2, 2).toPolyline();
 
   let point = new Point(1, 0);
   let u = polyline.closestParameter(point);
@@ -108,7 +108,7 @@ test('Inward normal', t => {
 });*/
 
 test('polyline contains point', t => {
-  const polyline = new Rectangle(Plane.worldXY(), 20, 20).toPolyline();
+  const polyline = Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline();
 
   t.is(polyline.contains(new Point(0, 0)), PointContainment.inside);
   t.is(polyline.contains(new Point(100, 100)), PointContainment.outside);
@@ -129,26 +129,26 @@ test('polyline contains point', t => {
 });
 
 test('Contains polyline', t => {
-  let polylineInside = new Rectangle(Plane.worldXY(), 3, 3).toPolyline();
-  const polylineOutside = new Rectangle(Plane.worldXY(), 3.5, 3.5).toPolyline();
+  let polylineInside = Rectangle.fromCenter(Plane.worldXY(), 3, 3).toPolyline();
+  const polylineOutside = Rectangle.fromCenter(Plane.worldXY(), 3.5, 3.5).toPolyline();
 
   t.is(polylineOutside.containsPolyline(polylineInside), true);
 
   let center = new Plane(new Point(1, 0), Vector.worldX());
-  polylineInside = new Rectangle(center, 3, 3).toPolyline();
+  polylineInside = Rectangle.fromCenter(center, 3, 3).toPolyline();
   t.is(polylineOutside.containsPolyline(polylineInside), false);
 
   center = new Plane(new Point(10, 0), Vector.worldX());
-  polylineInside = new Rectangle(center, 3, 3).toPolyline();
+  polylineInside = Rectangle.fromCenter(center, 3, 3).toPolyline();
   t.is(polylineOutside.containsPolyline(polylineInside), false);
 });
 
 test('Area', t => {
-  let polyline = new Rectangle(Plane.worldXY(), 20, 20).toPolyline();
+  let polyline = Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline();
   t.is(polyline.area, 20 * 20);
 
   // rectangle
-  polyline = new Rectangle(Plane.worldXY(), 10, 20).toPolyline();
+  polyline = Rectangle.fromCenter(Plane.worldXY(), 10, 20).toPolyline();
   t.is(polyline.area, 10 * 20);
 
   // triangle
@@ -158,13 +158,13 @@ test('Area', t => {
 
   // negative values
   const center = new Plane(new Point(-100, -50), Vector.worldX());
-  polyline = new Rectangle(center, 10, 20).toPolyline();
+  polyline = Rectangle.fromCenter(center, 10, 20).toPolyline();
   t.is(polyline.area, 10 * 20);
 });
 
 /*
 test('Offset points', t => {
-  const polyline = new Rectangle(Plane.worldXY(), 20, 20).toPolyline();
+  const polyline = Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline();
   const offset = polyline.offset(10);
 
   t.is(offset.area, 40 * 40);
@@ -190,9 +190,9 @@ test('Clockwise', t => {
 });*/
 
 test('Union', t => {
-  const shapeA = new Rectangle(Plane.worldXY(), 100, 100).toPolyline();
+  const shapeA = Rectangle.fromCenter(Plane.worldXY(), 100, 100).toPolyline();
   const center = new Plane(new Point(100, 0), Vector.worldX());
-  let shapeB = new Rectangle(center, 100, 100).toPolyline();
+  let shapeB = Rectangle.fromCenter(center, 100, 100).toPolyline();
   let result = shapeA.union(shapeB);
 
   // Adjacent
@@ -204,7 +204,7 @@ test('Union', t => {
   t.is(result[0].segmentCount, 4);
 
   // Inside the other shape
-  shapeB = new Rectangle(Plane.worldXY(), 50, 50).toPolyline();
+  shapeB = Rectangle.fromCenter(Plane.worldXY(), 50, 50).toPolyline();
   result = shapeA.union(shapeB);
 
   t.is(result.length, 1);
@@ -216,8 +216,8 @@ test('Union', t => {
 });
 
 test('Intersection', t => {
-  const shapeA = new Rectangle(Plane.worldXY(), 100, 100).toPolyline();
-  let shapeB = new Rectangle(Plane.worldXY(), 10, 10).toPolyline();
+  const shapeA = Rectangle.fromCenter(Plane.worldXY(), 100, 100).toPolyline();
+  let shapeB = Rectangle.fromCenter(Plane.worldXY(), 10, 10).toPolyline();
   let result = shapeA.intersection(shapeB);
 
   // Inside larger shape
@@ -230,7 +230,7 @@ test('Intersection', t => {
 
   // Side by size
   const center = new Plane(new Point(50, 0), Vector.worldX());
-  shapeB = new Rectangle(center, 100, 100).toPolyline();
+  shapeB = Rectangle.fromCenter(center, 100, 100).toPolyline();
   result = shapeA.intersection(shapeB);
   t.is(result.length, 1);
   t.is(result[0].area, 50 * 100);
@@ -241,9 +241,9 @@ test('Intersection', t => {
 });
 
 test('Difference', t => {
-  const shapeA = new Rectangle(Plane.worldXY(), 100, 100).toPolyline();
+  const shapeA = Rectangle.fromCenter(Plane.worldXY(), 100, 100).toPolyline();
   const center = new Plane(new Point(50, 0), Vector.worldX());
-  const shapeB = new Rectangle(center, 100, 100).toPolyline();
+  const shapeB = Rectangle.fromCenter(center, 100, 100).toPolyline();
   const result = shapeA.difference(shapeB);
 
   // Inside larger shape

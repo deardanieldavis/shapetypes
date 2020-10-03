@@ -52,7 +52,7 @@ test('RayLine', t => {
 
 test('RayPolyline', t => {
   const ray = new Ray(new Point(-10, 0), new Vector(10, 0));
-  const polyline = new Rectangle(Plane.worldXY(), 20, 20).toPolyline();
+  const polyline = Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline();
 
   // Line through middle of square
   let intersections = Intersection.RayPolyline(ray, polyline);
@@ -98,7 +98,7 @@ test('LineLineInfinite', t => {
 
 test('LinePolyline', t => {
   const line = new Line(new Point(-20, 0), new Point(20, 0));
-  const polyline = new Rectangle(Plane.worldXY(), 20, 20).toPolyline();
+  const polyline = Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline();
 
   // Line through middle of square
   const intersections = Intersection.LinePolyline(line, polyline);
@@ -107,7 +107,7 @@ test('LinePolyline', t => {
 });
 
 test('HorizontalRayPolyline', t => {
-  const polyline = new Rectangle(Plane.worldXY(), 20, 20).toPolyline();
+  const polyline = Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline();
 
   // To right of polyline
   let results = Intersection.HorizontalRayPolyline(new Point(20, 0), polyline);
