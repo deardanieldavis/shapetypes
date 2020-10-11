@@ -12,4 +12,5 @@ export * from './lib/ray';
 export * from './lib/rectangle';
 export * from './lib/settings';
 export * from './lib/transform';
+export { PointContainment, CurveOrientation } from './lib/utilities';
 export * from './lib/vector';
