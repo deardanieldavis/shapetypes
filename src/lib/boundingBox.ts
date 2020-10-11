@@ -197,7 +197,11 @@ export class BoundingBox {
    * @param testPoint Point to test for containment
    * @param strict  If true, points coincident with the edge of the box won't be counted as contained
    */
-  public contains(testPoint: Point, strict: boolean = false, tolerance: number =0): boolean {
+  public contains(
+    testPoint: Point,
+    strict: boolean = false,
+    tolerance: number = 0
+  ): boolean {
     if (this._xRange.contains(testPoint.x, strict, tolerance)) {
       if (this._yRange.contains(testPoint.y, strict, tolerance)) {
         return true;

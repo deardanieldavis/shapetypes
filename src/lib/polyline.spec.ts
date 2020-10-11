@@ -18,10 +18,16 @@ const test = anyTest as TestInterface<{
 }>;
 
 test.beforeEach('Create test geometry', t => {
-  t.context.triangle = new Polyline([new Point(0,0), new Point(1,1), new Point(2, 0)], true);
-  t.context.triangleReversed = new Polyline([new Point(0,0), new Point(2,0), new Point(1, 1)], true);
+  t.context.triangle = new Polyline(
+    [new Point(0, 0), new Point(1, 1), new Point(2, 0)],
+    true
+  );
+  t.context.triangleReversed = new Polyline(
+    [new Point(0, 0), new Point(2, 0), new Point(1, 1)],
+    true
+  );
   t.context.rect = Rectangle.fromCenter(Plane.worldXY(), 10, 20).toPolyline();
-  t.context.elbow = Polyline.fromCoords([10, 0, 0,0, 0,10]);
+  t.context.elbow = Polyline.fromCoords([10, 0, 0, 0, 0, 10]);
 });
 
 // -----------------------
@@ -29,29 +35,36 @@ test.beforeEach('Create test geometry', t => {
 // -----------------------
 
 test('Constructor: Sets the points correctly', t => {
-  const poly = new Polyline([new Point(0,0), new Point(1,1), new Point(2, 0)]);
+  const poly = new Polyline([
+    new Point(0, 0),
+    new Point(1, 1),
+    new Point(2, 0)
+  ]);
   t.is(poly.points.length, 3);
-  t.true(poly.from.equals(new Point(0,0)));
-  t.true(poly.to.equals(new Point(2,0)));
+  t.true(poly.from.equals(new Point(0, 0)));
+  t.true(poly.to.equals(new Point(2, 0)));
 });
 test('Constructor: Sets the points correctly in closed polyline', t => {
-  const poly = new Polyline([new Point(0,0), new Point(1,1), new Point(2, 0)], true);
+  const poly = new Polyline(
+    [new Point(0, 0), new Point(1, 1), new Point(2, 0)],
+    true
+  );
   t.is(poly.points.length, 4);
-  t.true(poly.from.equals(new Point(0,0)));
-  t.true(poly.to.equals(new Point(0,0)));
+  t.true(poly.from.equals(new Point(0, 0)));
+  t.true(poly.to.equals(new Point(0, 0)));
 });
 
 // -----------------------
 // STATIC
 // -----------------------
 test('fromCoords: Sets the points correctly', t => {
-  const poly = Polyline.fromCoords([0,0,1,1,2,0]);
+  const poly = Polyline.fromCoords([0, 0, 1, 1, 2, 0]);
   t.is(poly.points.length, 3);
-  t.true(poly.from.equals(new Point(0,0)));
-  t.true(poly.to.equals(new Point(2,0)));
+  t.true(poly.from.equals(new Point(0, 0)));
+  t.true(poly.to.equals(new Point(2, 0)));
 });
 test('fromCoords: Sets the points correctly in closed polyline', t => {
-  const poly = Polyline.fromCoords([0,0,1,1,2,0], true);
+  const poly = Polyline.fromCoords([0, 0, 1, 1, 2, 0], true);
   t.true(t.context.triangle.equals(poly));
 });
 
@@ -80,8 +93,8 @@ test('count: returns correct number of points in polyline', t => {
 });
 
 test('from: returns correct point', t => {
-  t.true(t.context.triangle.from.equals(new Point(0,0)));
-  t.true(t.context.elbow.from.equals(new Point(10,0)));
+  t.true(t.context.triangle.from.equals(new Point(0, 0)));
+  t.true(t.context.elbow.from.equals(new Point(10, 0)));
 });
 
 test('isClosed: correctly identifies closed and open polylines', t => {
@@ -100,7 +113,10 @@ test('orientation: an unclosed polyline cant have an orientation', t => {
 test('orientation: triangle is clockwise', t => {
   shapetypesSettings.invertY = false;
   t.is(t.context.triangle.orientation, CurveOrientation.clockwise);
-  t.is(t.context.triangleReversed.orientation, CurveOrientation.counterclockwise);
+  t.is(
+    t.context.triangleReversed.orientation,
+    CurveOrientation.counterclockwise
+  );
 });
 test('orientation: triangle is counterclockwise if inverted', t => {
   shapetypesSettings.invertY = true;
@@ -110,10 +126,10 @@ test('orientation: triangle is counterclockwise if inverted', t => {
 
 test('points: returns correct points', t => {
   t.is(t.context.triangle.points.length, 4);
-  t.true(t.context.triangle.points[0].equals(new Point(0,0)));
-  t.true(t.context.triangle.points[1].equals(new Point(1,1)));
-  t.true(t.context.triangle.points[2].equals(new Point(2,0)));
-  t.true(t.context.triangle.points[3].equals(new Point(0,0)));
+  t.true(t.context.triangle.points[0].equals(new Point(0, 0)));
+  t.true(t.context.triangle.points[1].equals(new Point(1, 1)));
+  t.true(t.context.triangle.points[2].equals(new Point(2, 0)));
+  t.true(t.context.triangle.points[3].equals(new Point(0, 0)));
 });
 
 test('segmentCount: returns correct number of segments', t => {
@@ -123,17 +139,17 @@ test('segmentCount: returns correct number of segments', t => {
 
 test('segments: returns correct segments', t => {
   t.is(t.context.triangle.segments.length, 3);
-  const a = new Point(0,0);
-  const b = new Point(1,1);
+  const a = new Point(0, 0);
+  const b = new Point(1, 1);
   const c = new Point(2, 0);
-  t.true(t.context.triangle.segments[0].equals(new Line(a,b)));
-  t.true(t.context.triangle.segments[1].equals(new Line(b,c)));
-  t.true(t.context.triangle.segments[2].equals(new Line(c,a)));
+  t.true(t.context.triangle.segments[0].equals(new Line(a, b)));
+  t.true(t.context.triangle.segments[1].equals(new Line(b, c)));
+  t.true(t.context.triangle.segments[2].equals(new Line(c, a)));
 });
 
 test('to: returns correct point', t => {
-  t.true(t.context.triangle.to.equals(new Point(0,0)));
-  t.true(t.context.elbow.to.equals(new Point(0,10)));
+  t.true(t.context.triangle.to.equals(new Point(0, 0)));
+  t.true(t.context.elbow.to.equals(new Point(0, 10)));
 });
 
 // -----------------------
@@ -141,17 +157,17 @@ test('to: returns correct point', t => {
 // -----------------------
 
 test('center: returns correct point', t => {
-  t.true(t.context.rect.center().equals(new Point(0,0)));
-  t.true(t.context.elbow.center().equals(new Point(2.5,2.5)));
+  t.true(t.context.rect.center().equals(new Point(0, 0)));
+  t.true(t.context.elbow.center().equals(new Point(2.5, 2.5)));
   t.is(t.context.triangle.center().x, 1);
 });
 
 // A set of points to test closestPoint, closestIndex, and closestParameter
 interface Points {
-  p: Point;           // The test point
-  index: number;      // Index of closest point
-  closest: Point;     // Closest point
-  parameter: number;  // Parameter of closest point
+  p: Point; // The test point
+  index: number; // Index of closest point
+  closest: Point; // Closest point
+  parameter: number; // Parameter of closest point
 }
 const POINTS: readonly Points[] = [
   // Start point
@@ -159,10 +175,20 @@ const POINTS: readonly Points[] = [
   // Other corner
   { closest: new Point(2, 0), index: 2, parameter: 2, p: new Point(2, 0) },
   // Middle of line
-  { closest: new Point(1.5, 0), index: 2, parameter: 2.25, p: new Point(1.5, 0) },
+  {
+    closest: new Point(1.5, 0),
+    index: 2,
+    p: new Point(1.5, 0),
+    parameter: 2.25
+  },
   // Off middle of line
-  { closest: new Point(1.5, 0), index: 2, parameter: 2.25, p: new Point(1.5, -10) },
-  ]
+  {
+    closest: new Point(1.5, 0),
+    index: 2,
+    p: new Point(1.5, -10),
+    parameter: 2.25
+  }
+];
 
 test('closestIndex: returns index of closest point', t => {
   for (const point of POINTS) {
@@ -191,22 +217,34 @@ test('deleteShortSegments: doesnt change a polyline without short segments', t =
   t.is(result.segmentCount, 3);
 });
 test('deleteShortSegments: removes short segment in middle', t => {
-  const line = new Polyline([new Point(0,0), new Point(2,0), new Point(2.1, 0), new Point(4, 0)], false);
+  const line = new Polyline(
+    [new Point(0, 0), new Point(2, 0), new Point(2.1, 0), new Point(4, 0)],
+    false
+  );
   const result = line.deleteShortSegments(0.2);
   t.is(result.segmentCount, 2);
 });
 test('deleteShortSegments: removes short segment at end', t => {
-  const line = new Polyline([new Point(0,0), new Point(3.8,0), new Point(3.9, 0), new Point(4, 0)], false);
+  const line = new Polyline(
+    [new Point(0, 0), new Point(3.8, 0), new Point(3.9, 0), new Point(4, 0)],
+    false
+  );
   const result = line.deleteShortSegments(0.2);
   t.is(result.segmentCount, 2);
 });
 
 test('equals: correctly identifies two identical shapes', t => {
-  const triangle = new Polyline([new Point(0,0), new Point(1,1), new Point(2, 0)], true);
+  const triangle = new Polyline(
+    [new Point(0, 0), new Point(1, 1), new Point(2, 0)],
+    true
+  );
   t.true(t.context.triangle.equals(triangle));
 });
 test('equals: correctly identifies that one shape has a point in slightly the wrong spot', t => {
-  const triangle = new Polyline([new Point(0,0), new Point(2.1,0), new Point(1, 1)], true);
+  const triangle = new Polyline(
+    [new Point(0, 0), new Point(2.1, 0), new Point(1, 1)],
+    true
+  );
   t.is(t.context.triangle.equals(triangle), false);
 });
 test('equals: polylines with different numbers of points arent equal', t => {
@@ -224,28 +262,37 @@ test('makeClosed: if curve is already closed, returns same curve', t => {
 });
 
 test('mergeColinear: joins the two colinear segments', t => {
-  const line = new Polyline([new Point(0,0), new Point(1,0), new Point(2, 0), new Point(2, 2)], false);
+  const line = new Polyline(
+    [new Point(0, 0), new Point(1, 0), new Point(2, 0), new Point(2, 2)],
+    false
+  );
   const result = line.mergeColinearSegments();
   t.is(result.segmentCount, 2);
-  t.true(result.points[0].equals(new Point(0,0)));
-  t.true(result.points[1].equals(new Point(2,0)));
-  t.true(result.points[2].equals(new Point(2,2)));
+  t.true(result.points[0].equals(new Point(0, 0)));
+  t.true(result.points[1].equals(new Point(2, 0)));
+  t.true(result.points[2].equals(new Point(2, 2)));
 });
 test('mergeColinear: merges segments that are slightly off', t => {
-  const line = new Polyline([new Point(0,0), new Point(1,0.00001), new Point(2, 0), new Point(2, 2)], false);
+  const line = new Polyline(
+    [new Point(0, 0), new Point(1, 0.00001), new Point(2, 0), new Point(2, 2)],
+    false
+  );
   const result = line.mergeColinearSegments();
   t.is(result.segmentCount, 2);
-  t.true(result.points[0].equals(new Point(0,0)));
-  t.true(result.points[1].equals(new Point(2,0)));
-  t.true(result.points[2].equals(new Point(2,2)));
+  t.true(result.points[0].equals(new Point(0, 0)));
+  t.true(result.points[1].equals(new Point(2, 0)));
+  t.true(result.points[2].equals(new Point(2, 2)));
 });
 test('mergeColinear: on closed polylines, merges final points if needed', t => {
-  const line = new Polyline([new Point(0,0), new Point(1,0), new Point(0, 2), new Point(-1, 0)], true);
+  const line = new Polyline(
+    [new Point(0, 0), new Point(1, 0), new Point(0, 2), new Point(-1, 0)],
+    true
+  );
   const result = line.mergeColinearSegments();
   t.is(result.segmentCount, 3);
-  t.true(result.points[0].equals(new Point(1,0)));
-  t.true(result.points[1].equals(new Point(0,2)));
-  t.true(result.points[2].equals(new Point(-1,0)));
+  t.true(result.points[0].equals(new Point(1, 0)));
+  t.true(result.points[1].equals(new Point(0, 2)));
+  t.true(result.points[2].equals(new Point(-1, 0)));
 });
 
 test('normalAt: returns inward vector on closed shape', t => {
@@ -285,10 +332,9 @@ test('pointAt: returns correct point', t => {
   }
 });
 
-
 test('segmentAt: returns correct line', t => {
   const segment = t.context.triangle.segmentAt(1);
-  t.true(segment.equals(new Line(new Point(1,1), new Point(2, 0))));
+  t.true(segment.equals(new Line(new Point(1, 1), new Point(2, 0))));
 });
 test('segmentAt: throws error if out of bounds', t => {
   t.throws(() => {
@@ -300,7 +346,7 @@ test('segmentAt: throws error if out of bounds', t => {
 });
 
 test('trim: shortens a line', t => {
-  const line = new Polyline([new Point(0,0), new Point(1,0)]);
+  const line = new Polyline([new Point(0, 0), new Point(1, 0)]);
   const trimmed = line.trim(new IntervalSorted(0.25, 0.75));
   t.true(trimmed.from.equals(new Point(0.25, 0)));
   t.true(trimmed.to.equals(new Point(0.75, 0)));
@@ -321,39 +367,42 @@ test('reverse: reverses a polyline', t => {
 });
 
 test('toString: returns string in correct format', t => {
-  t.is(t.context.triangle.toString(), "[(0,0),(1,1),(2,0),(0,0)]");
+  t.is(t.context.triangle.toString(), '[(0,0),(1,1),(2,0),(0,0)]');
 });
-
 
 // -----------------------
 // CLOSED
 // -----------------------
 test('contains: a point a long way outside isnt contained', t => {
-  t.is(t.context.rect.contains(new Point(100,0)), PointContainment.outside);
+  t.is(t.context.rect.contains(new Point(100, 0)), PointContainment.outside);
 });
 test('contains: point on edge', t => {
-  t.is(t.context.rect.contains(new Point(5,0)), PointContainment.coincident);
+  t.is(t.context.rect.contains(new Point(5, 0)), PointContainment.coincident);
 });
 test('contains: point inside', t => {
-  t.is(t.context.rect.contains(new Point(4,0)), PointContainment.inside);
+  t.is(t.context.rect.contains(new Point(4, 0)), PointContainment.inside);
 });
 test('contains: point inside bounding box but outside curve is still outside', t => {
-  t.is(t.context.triangle.contains(new Point(0,1)), PointContainment.outside);
+  t.is(t.context.triangle.contains(new Point(0, 1)), PointContainment.outside);
 });
 test('contains: throws error if applied to an open curve', t => {
   t.throws(() => {
-    t.context.elbow.contains(new Point(0,0));
+    t.context.elbow.contains(new Point(0, 0));
   });
 });
 
 test('withOrientation: returns same curve when orienting in current direction', t => {
   shapetypesSettings.invertY = false;
-  const oriented = t.context.triangle.withOrientation(CurveOrientation.clockwise);
+  const oriented = t.context.triangle.withOrientation(
+    CurveOrientation.clockwise
+  );
   t.true(oriented.equals(t.context.triangle));
 });
 test('withOrientation: reverses direction of curve', t => {
   shapetypesSettings.invertY = false;
-  const oriented = t.context.triangle.withOrientation(CurveOrientation.counterclockwise);
+  const oriented = t.context.triangle.withOrientation(
+    CurveOrientation.counterclockwise
+  );
   t.true(oriented.equals(t.context.triangleReversed));
 });
 test('withOrientation: setting open curve to undefiend returns same curve', t => {
@@ -365,7 +414,6 @@ test('withOrientation: throws error if applied to an open curve', t => {
     t.context.elbow.withOrientation(CurveOrientation.clockwise);
   });
 });
-
 
 test('Union: two rectangles that dont overlap, wont union', t => {
   const center = new Plane(new Point(100, 0), Vector.worldX());
@@ -388,7 +436,7 @@ test('Union: two adjacent rectangles join to become one', t => {
   if (!(result[0] instanceof Polyline)) {
     throw new Error('Should be polyline');
   }
-  t.is(result[0].area,20 * 20);
+  t.is(result[0].area, 20 * 20);
 });
 test('Union: one rectangle inside another returns the larger one', t => {
   const center = new Plane(new Point(0, 0), Vector.worldX());
@@ -462,7 +510,7 @@ test('difference: cuts corner out of one of them', t => {
   if (!(result[0] instanceof Polyline)) {
     throw new Error('Should be polyline');
   }
-  t.is(result[0].area, 10 * 20 - (5 * 10));
+  t.is(result[0].area, 10 * 20 - 5 * 10);
 });
 test('difference: throws error if applied to an open curve', t => {
   t.throws(() => {
@@ -470,30 +518,29 @@ test('difference: throws error if applied to an open curve', t => {
   });
 });
 
-
 // -----------------------
 // TRANSFORMABLE
 // -----------------------
 test('changeBasis: can shift polyline', t => {
   const from = Plane.worldXY();
-  const to = new Plane(new Point(3,4), Vector.worldX());
+  const to = new Plane(new Point(3, 4), Vector.worldX());
   const changed = t.context.rect.changeBasis(from, to);
   t.is(changed.area, 10 * 20);
-  t.true(changed.center().equals(new Point(-3,-4)));
+  t.true(changed.center().equals(new Point(-3, -4)));
 });
 
 test('planeToPlane: can shift polyline', t => {
   const from = Plane.worldXY();
-  const to = new Plane(new Point(3,4), Vector.worldX());
+  const to = new Plane(new Point(3, 4), Vector.worldX());
   const planed = t.context.rect.planeToPlane(from, to);
   t.is(planed.area, 10 * 20);
-  t.true(planed.center().equals(new Point(3,4)));
+  t.true(planed.center().equals(new Point(3, 4)));
 });
 
 test('rotate: can rotate the polyline', t => {
   const rotated = t.context.rect.rotate(Math.PI / 2);
   t.is(rotated.area, 10 * 20);
-  t.true(rotated.center().equals(new Point(0,0)));
+  t.true(rotated.center().equals(new Point(0, 0)));
 });
 
 test('scale: can unevenly scale the polyline', t => {
@@ -504,5 +551,5 @@ test('scale: can unevenly scale the polyline', t => {
 
 test('translate: can move the polyline', t => {
   const moved = t.context.rect.translate(new Vector(3, 4));
-  t.true(moved.center().equals(new Point(3,4)));
+  t.true(moved.center().equals(new Point(3, 4)));
 });

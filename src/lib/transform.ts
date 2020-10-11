@@ -94,7 +94,7 @@ export class Transform {
     const tran = Transform.translate(delta);
 
     const angle = planeTo.xAxis.angleSigned(planeFrom.xAxis);
-    if(angle === 0) {
+    if (angle === 0) {
       return tran;
     }
     const rotate = Transform.rotate(angle);
@@ -121,10 +121,12 @@ export class Transform {
    * @param planeTo     The plane to move relative to
    */
   public static planeToPlane(planeFrom: Plane, planeTo: Plane): Transform {
-    const translate = Transform.translate(Vector.fromPoints(planeFrom.origin, planeTo.origin));
+    const translate = Transform.translate(
+      Vector.fromPoints(planeFrom.origin, planeTo.origin)
+    );
     const angle = planeFrom.xAxis.angleSigned(planeTo.xAxis);
 
-    if(angle === 0) {
+    if (angle === 0) {
       // Planes have same orientation, object just needs to be moved
       return translate;
     }

@@ -36,7 +36,6 @@ test('Identity: Returns correct matrix with diagonal 1s', t => {
   t.true(Transform.identity().equals(new Transform(1, 0, 0, 0, 1, 0, 0, 0, 1)));
 });
 
-
 test('changeBasis: no rotation, no movement, doesnt move point', t => {
   const tran = Transform.changeBasis(Plane.worldXY(), Plane.worldXY());
   const point = tran.transformPoint(new Point(3, 4));
@@ -149,15 +148,14 @@ test('changeBasis: matches Rhino', t => {
   p.Transform(basis)
   print(p) #-2,-1,0
    */
-  const a = new Plane(new Point(1,2), new Vector(1,0));
-  const b = new Plane(new Point(4,4), new Vector(0,-1));
-  const p = new Point(2,4);
+  const a = new Plane(new Point(1, 2), new Vector(1, 0));
+  const b = new Plane(new Point(4, 4), new Vector(0, -1));
+  const p = new Point(2, 4);
   const basis = Transform.changeBasis(a, b);
   const output = basis.transformPoint(p);
   t.true(approximatelyEqual(output.x, -2));
   t.true(approximatelyEqual(output.y, -1));
 });
-
 
 test('planeToPlane: no rotation, no movement, doesnt move point', t => {
   const tran = Transform.planeToPlane(Plane.worldXY(), Plane.worldXY());
@@ -236,18 +234,15 @@ test('planeToPlane: matches Rhino', t => {
   p.Transform(tran)
   print(p) #6,3,0
    */
-  const a = new Plane(new Point(1,2), new Vector(1,0));
-  const b = new Plane(new Point(4,4), new Vector(0,-1));
-  const p = new Point(2,4);
+  const a = new Plane(new Point(1, 2), new Vector(1, 0));
+  const b = new Plane(new Point(4, 4), new Vector(0, -1));
+  const p = new Point(2, 4);
 
   const tran = Transform.planeToPlane(a, b);
   const output = tran.transformPoint(p);
   t.true(approximatelyEqual(output.x, 6));
   t.true(approximatelyEqual(output.y, 3));
 });
-
-
-
 
 interface ROTATEPOINT {
   angle: number; // Angle of rotation

@@ -131,7 +131,7 @@ test('closestPoint: works when point is inside the rectangle', t => {
   t.is(t.context.basic.closestPoint(point).x, 5);
   t.is(t.context.basic.closestPoint(point).y, 5);
 });
-test("closestPoint: works when point is inside the rectangle and interior is included", t => {
+test('closestPoint: works when point is inside the rectangle and interior is included', t => {
   const point = new Point(5, 6);
   t.is(t.context.basic.closestPoint(point, true).x, 5);
   t.is(t.context.basic.closestPoint(point, true).y, 6);

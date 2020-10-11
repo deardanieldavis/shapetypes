@@ -18,7 +18,6 @@ export enum CurveOrientation {
   counterclockwise
 }
 
-
 /**
  * Checks whether two values are equal within a set tolerance
  *

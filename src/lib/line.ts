@@ -112,8 +112,6 @@ export class Line {
     return this._to;
   }
 
-
-
   /**
    * Returns the line's tangent vector. This vector is perpendicular to [[direction]].
    * It is always has a length of 1.
