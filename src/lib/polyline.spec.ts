@@ -1,4 +1,5 @@
 import anyTest, { TestInterface } from 'ava';
+import { Interval } from './interval';
 import { IntervalSorted } from './intervalSorted';
 import { Line } from './line';
 import { Plane } from './plane';
@@ -344,6 +345,10 @@ test('segmentAt: throws error if out of bounds', t => {
   });
 });
 
+test('trim: if domain of full line, should return original line', t => {
+  const trimmed = t.context.triangle.trim(new IntervalSorted(0, 3));
+  t.true(trimmed.equals(t.context.triangle));
+});
 test('trim: shortens a line', t => {
   const line = new Polyline([new Point(0, 0), new Point(1, 0)]);
   const trimmed = line.trim(new IntervalSorted(0.25, 0.75));
@@ -358,6 +363,10 @@ test('trim: works on a closed polyline', t => {
   t.true(trimmed.points[1].equals(new Point(1, 1)));
   t.true(trimmed.points[2].equals(new Point(2, 0)));
   t.true(trimmed.points[3].equals(new Point(1, 0)));
+});
+test('trim: reverses line if descending', t => {
+  const trimmed = t.context.triangle.trim(new Interval(3, 0));
+  t.true(trimmed.equals(t.context.triangleReversed));
 });
 
 test('reverse: reverses a polyline', t => {
