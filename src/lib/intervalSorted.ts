@@ -177,15 +177,15 @@ export class IntervalSorted {
    * @param value   Number to check for containment
    * @param strict  If true, the value has to be fully inside the interval and can't equal [[min]] or [[max]]. If false, the value has to be inside interval but can equal [[min]] or [[max]].
    */
-  public contains(value: number, strict: boolean = false): boolean {
+  public contains(value: number, strict: boolean = false, tolerance: number = 0): boolean {
     if (strict) {
       // Must be fully inside
-      if (this.min < value && value < this.max) {
+      if (this.min - tolerance < value && value < this.max + tolerance) {
         return true;
       }
     } else {
       // Can equal the extremes
-      if (this.min <= value && value <= this.max) {
+      if (this.min - tolerance <= value && value <= this.max + tolerance) {
         return true;
       }
     }

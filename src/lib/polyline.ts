@@ -1,36 +1,59 @@
-// tslint:disable:no-let
-// tslint:disable:readonly-array
+/* tslint:disable:no-let */
 import { BoundingBox } from './boundingBox';
 import { Intersection } from './intersection';
+import { IntervalSorted } from './intervalSorted';
 import { Line } from './line';
+import { Plane } from './plane';
 import { Point } from './point';
 import { fromGeoJSON, Polygon } from './polygon';
 import { shapetypesSettings } from './settings';
-import { isNumberArray, isPointArray } from './utilities';
+import { Transform } from './transform';
+import { CurveOrientation, PointContainment } from './utilities';
 import { Vector } from './vector';
 
 import * as PolygonClipping from 'polygon-clipping';
 // tslint:disable-next-line:no-duplicate-imports
 import { Pair, Ring } from 'polygon-clipping';
 
-export enum PointContainment {
-  unset,
-  inside,
-  outside,
-  coincident
-}
-
-export enum CurveOrientation {
-  undefined,
-  clockwise,
-  counterclockwise
-}
-
 export class Polyline {
-  private _boundingBox: BoundingBox | undefined;
-  private _points: Point[];
-  private _cacheGeoJSON: Ring | undefined;
 
+  // -----------------------
+  // STATIC
+  // -----------------------
+  public static fromCoords(points: readonly number[], makeClosed: boolean = false): Polyline {
+    const newPoints = new Array<Point>();
+    // tslint:disable-next-line:no-let
+    for (let i = 0; i < points.length; i += 2) {
+      const x = points[i];
+      const y = points[i + 1];
+      newPoints.push(new Point(x, y));
+    }
+    if(makeClosed) {
+      if(! newPoints[0].equals(newPoints[newPoints.length - 1])) {
+        newPoints.push(newPoints[0]);
+      }
+    }
+    return new Polyline(newPoints, false);
+  }
+
+  // -----------------------
+  // VARS
+  // -----------------------
+
+  private readonly _points: readonly Point[];
+
+  // Cache
+  private _cacheBoundingBox: BoundingBox | undefined;
+  private _cacheGeoJSON: Ring | undefined;
+  private _cacheArea: number | undefined;
+  private _cacheClosed: boolean | undefined;
+  private _cacheLength: number | undefined;
+  private _cacheOrientation: CurveOrientation | undefined;
+  private _cacheSegments: readonly Line[] | undefined;
+
+  // -----------------------
+  // CONSTRUCTOR
+  // -----------------------
   /**
    * Polyline can either be constructed from:
    * 1. a list of points [p1, p2, p3]
@@ -38,95 +61,98 @@ export class Polyline {
    *
    * @param points
    */
-  constructor(points: readonly Point[] | readonly number[]) {
-    if (isNumberArray(points)) {
-      const newPoints = new Array<Point>();
-      for (let i = 0; i < points.length; i += 2) {
-        const x = points[i];
-        const y = points[i + 1];
-        newPoints.push(new Point(x, y));
+  constructor(points: readonly Point[], makeClosed: boolean = false) {
+    if(makeClosed) {
+      if(! points[0].equals(points[points.length - 1])) {
+        // If the start point is different from the final point
+        let finalPoints = new Array<Point>();
+        finalPoints = points.concat();
+        finalPoints.push(points[0]);
+        this._points = finalPoints;
+        return;
       }
-      this._points = newPoints;
-    } else if (isPointArray(points)) {
-      this._points = points;
-    } else {
-      throw new Error("Couldn't cast point constructor");
     }
+    this._points = points;
   }
 
   // -----------------------
-  // GET & SET
+  // GET
   // -----------------------
 
   /**
-   * List of points that make the corners of this polyline.
-   */
-  get points(): readonly Point[] {
-    return this._points;
-  }
-
-  /**
-   * @returns: True if end point is the same as the start point.
-   */
-  get isClosed(): boolean {
-    if (this._points[0].equals(this._points[this._points.length - 1])) {
-      return true;
-    }
-    return false;
-  }
-
-  get segmentCount(): number {
-    return this._points.length - 1;
-  }
-
-  /**
-   * Generates a list of edges that makeup this polyline.
-   */
-  public getSegments(): readonly Line[] {
-    const lines = new Array<Line>(this._points.length - 1);
-
-    for (let i = 0; i < this.points.length - 1; i++) {
-      const next = i + 1;
-      const line = new Line(this.points[i], this.points[next]);
-      lines[i] = line;
-    }
-    return lines;
-  }
-
-  /**
-   * Area of the polyline
-   * Uses formula from: https://stackoverflow.com/questions/451426/how-do-i-calculate-the-area-of-a-2d-polygon
+   * Returns area of closed polyline. If polyline isn't closed, returns 0.
    */
   get area(): number {
     if (this.isClosed === false) {
       return 0;
     }
 
-    const points = this.points;
-    let area = 0;
-    for (let i = 1; i + 1 < points.length; i++) {
-      const a = Vector.fromPoints(points[0], points[i]);
-      const b = Vector.fromPoints(points[0], points[i + 1]);
-      area += a.x * b.y - a.y * b.x;
+    if(this._cacheArea === undefined) {
+      // Based on: https://stackoverflow.com/questions/451426/how-do-i-calculate-the-area-of-a-2d-polygon
+      let area = 0;
+      for (let i = 1; i < this._points.length - 1; i++) {
+        const a = Vector.fromPoints(this._points[0], this._points[i]);
+        const b = Vector.fromPoints(this._points[0], this._points[i + 1]);
+        area += a.x * b.y - a.y * b.x;
+      }
+      this._cacheArea = Math.abs(area / 2.0);
     }
-    return Math.abs(area / 2.0);
+
+    return this._cacheArea;
   }
 
   /**
-   * Calculates the bounding box of the polyline
+   * Returns the smallest bounding box that contains the polyline.
    */
   get boundingBox(): BoundingBox {
-    if (this._boundingBox === undefined) {
-      this._boundingBox = BoundingBox.fromPoints(this.points);
+    if (this._cacheBoundingBox === undefined) {
+      this._cacheBoundingBox = BoundingBox.fromPoints(this.points);
     }
-    return this._boundingBox;
+    return this._cacheBoundingBox;
   }
 
   /**
-   * Checks whether the points in the polyline are in a clockwise order
-   *
-   * Based on: https://stackoverflow.com/questions/46763647/how-to-reverse-the-array-in-typescript-for-the-following-data
-   * @returns: CurveOrientation.clockwise if the points in the polyline are in a clockwise order
+   * Returns number of points in the polyline.
+   */
+  get count(): number {
+    return this._points.length;
+  }
+
+  /**
+   * Returns starting point of polyline.
+   */
+  get from(): Point {
+    return this._points[0];
+  }
+
+  /**
+   * Returns true if [[from]] is the same as [[to]].
+   */
+  get isClosed(): boolean {
+    if (this._cacheClosed === undefined) {
+      this._cacheClosed = this.from.equals(this.to);
+    }
+    return this._cacheClosed;
+
+  }
+
+  /**
+   * Returns the length of the polyline.
+   */
+  get length(): number {
+    if(this._cacheLength === undefined) {
+      let length = 0;
+      for(const segment of this.segments) {
+        length += segment.length;
+      }
+      this._cacheLength = length;
+    }
+    return this._cacheLength;
+  }
+
+  /**
+   * Returns whether a closed polyline is in a clockwise or counterclockwise orientation.
+   * If the polyline is not closed, returns CurveOrientation.undefined.
    */
   get orientation(): CurveOrientation {
     if (this.isClosed === false) {
@@ -134,140 +160,116 @@ export class Polyline {
       return CurveOrientation.undefined;
     }
 
-    let result = 0;
-    for (const edge of this.getSegments()) {
-      result += (edge.to.x - edge.from.x) * (edge.to.y + edge.from.y);
-    }
-    if (shapetypesSettings.invertY) {
-      // When the y-axis is inverted, the rotation is opposite as well.
-      if (result > 0) {
-        return CurveOrientation.counterclockwise;
+    if(this._cacheOrientation === undefined) {
+      // Based on: https://stackoverflow.com/questions/46763647/how-to-reverse-the-array-in-typescript-for-the-following-data
+      let result = 0;
+      for (const segment of this.segments) {
+        result += (segment.to.x - segment.from.x) * (segment.to.y + segment.from.y);
       }
-      return CurveOrientation.clockwise;
-    } else {
-      if (result > 0) {
-        return CurveOrientation.clockwise;
+      // tslint:disable-next-line:prefer-conditional-expression
+      if (shapetypesSettings.invertY) {
+        // When the y-axis is inverted, the rotation is opposite as well.
+        this._cacheOrientation = result > 0 ? CurveOrientation.counterclockwise : CurveOrientation.clockwise;
+      } else {
+        this._cacheOrientation = result > 0 ? CurveOrientation.clockwise : CurveOrientation.counterclockwise;
       }
-      return CurveOrientation.counterclockwise;
     }
+
+    return this._cacheOrientation;
   }
 
   /**
-   * Ensures the points in the polyline are in a clockwise order
+   * Returns the list of points that make the corners of this polyline.
    */
-  set orientation(goal: CurveOrientation) {
-    if (this.isClosed === false && goal !== CurveOrientation.undefined) {
-      throw new Error('Polyline must be closed to have an orientation');
-    }
-
-    const current = this.orientation;
-    if (current === goal || current === CurveOrientation.undefined) {
-      return;
-    }
-    this.reverse();
+  get points(): readonly Point[] {
+    return this._points;
   }
+
+  /**
+   * Returns the number of segments (edges between corners) that makeup this polyline.
+   */
+  get segmentCount(): number {
+    return this._points.length - 1;
+  }
+
+  /**
+   * Returns the list of segments that makeup the edges of this polyline.
+   */
+  get segments(): readonly Line[] {
+    if(this._cacheSegments === undefined) {
+      const lines = new Array<Line>(this._points.length - 1);
+
+      for (let i = 0; i < this.points.length - 1; i++) {
+        const next = i + 1;
+        const line = new Line(this.points[i], this.points[next]);
+        lines[i] = line;
+      }
+      this._cacheSegments = lines;
+    }
+    return this._cacheSegments;
+  }
+
+  /**
+   * Returns final point of the polyline.
+   */
+  get to(): Point {
+    return this._points[this._points.length - 1];
+  }
+
 
   // -----------------------
   // PUBLIC
   // -----------------------
 
   /**
-   * Creates a deep copy of this polyline.
+   * Returns the weighted average of all segments.
    */
-  public duplicate(): Polyline {
-    const newPoints = Array<Point>(this._points.length);
-    for (let i = 0; i < this._points.length; i++) {
-      newPoints[i] = this._points[i];
+  public center(): Point {
+    let x = 0;
+    let y = 0;
+
+    for(const segment of this.segments) {
+      const mid = segment.pointAt(0.5);
+      x += mid.x * segment.length;
+      y += mid.y * segment.length;
     }
-    return new Polyline(newPoints);
+
+    x = x / this.length;
+    y = y / this.length;
+
+    return new Point(x, y);
   }
 
   /**
-   * Closes the polyline by drawing a line between the end point and the start point.
+   * Returns the index of closest point in the list of [[points]].
+   * @param testPoint   The point to get closest to.
    */
-  public makeClosed(): void {
-    if (this.isClosed) {
-      return;
-    }
-    this._points.push(this._points[0]);
-  }
+  public closestIndex(testPoint: Point): number {
+    let bestIndex: number = 0;
+    let bestDistance: number | undefined;
 
-  /**
-   * Gets the point at the parameter on the polyline
-   * The integer is the segment, and the fraction is the normalized paramter of the segment.
-   *
-   * Eg.
-   * pointAt(2.5)
-   * Will get the point in the middle of the second line segment (or segmentAt(2))
-   *
-   * @param u
-   */
-  public pointAt(u: number): Point | undefined {
-    const index = Math.floor(u);
-    const segment = this.segmentAt(index);
-    if (segment === undefined) {
-      return undefined;
-    }
-
-    const parameter = u - index;
-    return segment.pointAt(parameter);
-  }
-
-  /**
-   * Gets a segment of the polyline
-   *
-   * Eg.
-   * segmentAt(0) will return the line between point[0] and point[1]
-   * segmentAt(3) will return the line between point[3] and point[4]
-   * @param index: An integer representing the index of the segment
-   */
-  public segmentAt(index: number): Line | undefined {
-    const i = Math.floor(index);
-
-    if (i >= this.points.length) {
-      return undefined;
-    }
-
-    const next = i + 1;
-    const line = new Line(this.points[i], this.points[next]);
-    return line;
-  }
-
-  /**
-   * Finds the closest point on the polyline from a given point
-   * @param point: Point to search from
-   * @return The closest point on the polyline.
-   */
-  public closestPoint(point: Point): Point {
-    let closestLength: number | undefined;
-    let closestPoint: Point = point;
-
-    for (const line of this.getSegments()) {
-      const test = line.closestPoint(point, true);
-      const length = point.distanceTo(test);
-
-      if (closestLength === undefined || length < closestLength) {
-        closestLength = length;
-        closestPoint = test;
+    for(let i = 0; i < this._points.length; i++) {
+      const distance = testPoint.distanceTo(this._points[i]);
+      if(bestDistance === undefined || distance < bestDistance) {
+        bestDistance = distance;
+        bestIndex = i;
       }
     }
-
-    return closestPoint;
+    return bestIndex;
   }
 
   /**
-   * Gets the parameter of the point closest to a given point.
+   * Returns the parameter of the closest point on the polyline. Parameter can
+   * be used in [[pointAt]] to return the point.
    *
-   * @param point
-   * @return: The parameter of the closest point. Undefined if no point is found.
+   * @param point   The point to get closest to.
    */
   public closestParameter(point: Point): number {
     let closestLength: number | undefined;
     let closestParameter = 0;
 
-    const edges = this.getSegments();
-    for (let i = 0; i < edges.length; i++) {
-      const edge = edges[i];
+    for (let i = 0; i < this.segments.length; i++) {
+      const edge = this.segments[i];
       const test = edge.closestParameter(point, true);
       const p = edge.pointAt(test);
       const length = point.distanceTo(p);
@@ -282,30 +284,233 @@ export class Polyline {
   }
 
   /**
-   * Returns the normal to the polyline at a given parameter.
-   * If the polyline is closed, will always return the normal that points towards the inside.
-   * If the polyline is open, will always return the normal that points towards the right of the polyline.
-   * @param u: Disance along polyline to take the normal
+   * Returns the closest point on the edge of the polyline
+   * @param point  The point to get closest to.
    */
-  public normalAt(u: number): Vector | undefined {
-    const index = Math.floor(u);
-    const segment = this.segmentAt(index);
-    if (segment === undefined) {
-      return undefined;
-    }
-
-    if (this.isClosed) {
-      if (this.orientation === CurveOrientation.clockwise) {
-        return segment.unitTangent;
-      } else {
-        const normal = segment.unitTangent;
-        normal.reverse();
-        return normal;
+  public closestPoint(testPoint: Point, includeInterior: boolean = false): Point {
+    if (includeInterior) {
+      if(this.isClosed){
+        if (this.contains(testPoint)) {
+          return testPoint;
+        }
       }
     }
 
-    return segment.unitTangent;
+    let closestLength: number | undefined;
+    let closestPoint: Point = testPoint;
+
+    for (const line of this.segments) {
+      const test = line.closestPoint(testPoint, true);
+      const distance = line.distanceTo(testPoint, true);
+
+      if (closestLength === undefined || distance < closestLength) {
+        closestLength = distance;
+        closestPoint = test;
+      }
+    }
+
+    return closestPoint;
   }
+
+  /**
+   * Returns a copy of the polyline with short segments removed. Moves along length
+   * of polyline and removes any point closer to the previous point than the
+   * `tolerance`. Does not remove start or end points.
+   * @param tolerance   The minimum allowable distance between points
+   */
+  public deleteShortSegments(tolerance: number = shapetypesSettings.absoluteTolerance): Polyline {
+    const points = Array<Point>();
+    points.push(this.from);
+
+    // Start at 1 and end at -1 because the `from` and `to` points are added separately.
+    for(let i = 1; i < this._points.length - 1; i++) {
+      const last = points[points.length - 1]; // last point added
+      const next = this._points[i];
+      const distance = last.distanceTo(next);
+      if(distance > tolerance) {
+        const distanceToEnd = this.to.distanceTo(next);
+        if(distanceToEnd > tolerance) {
+          points.push(next);
+        }
+      }
+    }
+
+    points.push(this.to);
+    return new Polyline(points);
+  }
+
+
+  /**
+   * Returns true if two polylines have the equal number of points in the same position.
+   * @param otherPolyline
+   */
+  public equals(otherPolyline: Polyline): boolean {
+    if(this._points.length !== otherPolyline.points.length) {
+      return false;
+    }
+
+    for(let i = 0; i < this._points.length; i++) {
+      const mine = this._points[i];
+      const other = otherPolyline.points[i];
+      if(! mine.equals(other)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Returns a closed copy of this polyline. If the polyline is already closed, returns itself.
+   * If the polyline is open, closes it by adding a segment from the end point [[to]]
+   * and the start point [[from]].
+   */
+  public makeClosed(): Polyline {
+    if (this.isClosed) {
+      return this;
+    }
+    let points = new Array<Point>();
+    points = this._points.concat();
+    points.push(this.from);
+    return new Polyline(points);
+  }
+
+  /**
+   * Returns a copy of this polyline with any colinear segments merged together.
+   * @param angleTolerance  The minimum angle at which segments are no longer colinear. In radians.
+   */
+  public mergeColinearSegments(angleTolerance: number = shapetypesSettings.angleTolerance): Polyline {
+    const points = Array<Point>();
+    points.push(this.from);
+
+    for(let i = 1; i < this._points.length - 1; i++) {
+      const last = points[points.length - 1]; // last point added
+      const current = this._points[i];
+      const next = this._points[i + 1];
+      if(! Vector.fromPoints(last, current).isParallelTo(Vector.fromPoints(current, next), angleTolerance)) {
+        points.push(current);
+      }
+    }
+
+    if(this.isClosed) {
+      const last = points[points.length - 1];
+      const current = this.to;
+      const next = points[1];
+      if(Vector.fromPoints(last, current).isParallelTo(Vector.fromPoints(current, next), angleTolerance)) {
+        // The start and end point are colinear
+        points.shift();     // Remove the start point
+        points.push(next);  // Finish at the next point rather than the true end.
+        return new Polyline(points);
+      }
+    }
+    points.push(this.to);
+    return new Polyline(points);
+  }
+
+  /**
+   * Returns the normal to the polyline at a given parameter.
+   * If the polyline is closed, will always return the normal that points towards the inside.
+   * If the polyline is open and if shapetypesSettings.invertY is true, will be on the right side of the segment.
+   * If the polyline is open and if shapetypesSettings.invertY is false (the default), will be on the left side of the segment.
+   * @param u: Distance along polyline to take the normal
+   * @returns   A unit vector
+   */
+  public normalAt(u: number): Vector {
+    const index = Math.floor(u);
+    const segment = this.segmentAt(index);
+
+    const unit = segment.unitTangent;
+    if (this.isClosed) {
+      if (this.orientation === CurveOrientation.clockwise) {
+        if(shapetypesSettings.invertY) {
+          return unit;
+        }
+        return unit.reverse();
+      } else {
+        if(shapetypesSettings.invertY) {
+          return unit.reverse();
+        }
+        return unit;
+      }
+    }
+    return unit;
+  }
+
+  /**
+   * Gets the point at the parameter on the polyline
+   * The integer is the segment, and the fraction is the normalized parameter of the segment.
+   *
+   * Eg.
+   * pointAt(2.5)
+   * Will get the point in the middle of the second line segment (or segmentAt(2))
+   *
+   * @param u
+   */
+  public pointAt(u: number): Point {
+    const index = Math.floor(u);
+    const segment = this.segmentAt(index);
+    const parameter = u - index;
+    return segment.pointAt(parameter);
+  }
+
+  /**
+   * Gets a segment of the polyline
+   *
+   * Eg.
+   * segmentAt(0) will return the line between point[0] and point[1]
+   * segmentAt(3) will return the line between point[3] and point[4]
+   * @param index: An integer representing the index of the segment
+   */
+  public segmentAt(index: number): Line {
+    const i = Math.floor(index);
+
+    if(i < 0) {
+      throw new RangeError("Index must be greater than 0");
+    } else if(i >= this.points.length) {
+      throw new RangeError("Index must be less than points.length");
+    }
+
+    return new Line(this.points[i], this.points[i + 1]);
+  }
+
+
+  public trim(domain: IntervalSorted): Polyline {
+    const points = Array<Point>();
+    points.push(this.pointAt(domain.min));
+
+    for(let i = Math.ceil(domain.min); i < Math.ceil(domain.max); i++) {
+      points.push(this._points[i]);
+    }
+    points.push(this.pointAt(domain.max));
+    return new Polyline(points);
+
+  }
+
+
+  /**
+   * Reverses the order the points are in.
+   */
+  public reverse(): Polyline {
+    let points = Array<Point>();
+    points = this._points.concat();
+    points.reverse();
+    return new Polyline(points);
+  }
+
+  public toString(): string {
+    const strings = new Array<string>();
+    for (const p of this._points) {
+      strings.push(p.toString());
+    }
+    return "[" + strings.join(",") + "]";
+  }
+
+
+
+
+  // -----------------------
+  // CLOSED ONLY
+  // -----------------------
+
 
   /**
    * Calculates whether a point is inside the polyline
@@ -317,16 +522,13 @@ export class Polyline {
    *
    * @param point
    */
-  public contains(point: Point): PointContainment {
-    if (this.isClosed === false) {
+  public contains(point: Point, tolerance = shapetypesSettings.absoluteTolerance): PointContainment {
+    if (! this.isClosed) {
       throw new Error('Polyline must be closed to test for containment');
     }
 
-    const tolerance = 0.01;
-
     // 1. Before running any of the expensive calculations, quickly check to see if the point is even close to polyline
-    const bb = this.boundingBox.inflate(tolerance); // Need to inflate the bounding box slightly to account for points that are coincident but just slightly outside
-    if (!bb.contains(point)) {
+    if (! this.boundingBox.contains(point, false, tolerance)) {
       return PointContainment.outside;
     }
 
@@ -336,7 +538,7 @@ export class Polyline {
       return PointContainment.coincident;
     }
 
-    // 3. Check to see if point is inside polyline using raycasting method
+    // 3. Check to see if point is inside polyline using ray casting method
     const intersections = Intersection.HorizontalRayPolyline(point, this);
     const oddOrEven = intersections.length % 2;
     if (oddOrEven === 1) {
@@ -347,90 +549,30 @@ export class Polyline {
     return PointContainment.outside;
   }
 
-  /**
-   * @returns: True if the polyline is fully within or touching the bounds of this polyline
-   * @param polyline
-   * TODO: Doesn't check for intersections between the polyline edges
-   */
-  public containsPolyline(polyline: Polyline): boolean {
-    if (this.isClosed === false) {
-      throw new Error('Polyline must be closed to test for containment');
-    }
-
-    for (const point of polyline.points) {
-      const result = this.contains(point);
-      if (result === PointContainment.outside) {
-        return false;
-      }
-    }
-    return true;
-  }
 
   /**
-   * Offsets a polyline a set distance
-   *
-   * Basic algorithm, doesn't account for edges that might get eliminated in offset
-   * TODO: Make algorithm more robust to deal with edge cases, such as short edges or ones that get removed.
-   * @param distance
+   * Returns a copy of the polyline in the correct [[CurveOrientation]]. If the
+   * polyline is already in correct orientation, returns self. If polyline is in
+   * wrong orientation, returns the reverse. If polyline isn't closed, throws an error.
+   * @param goal  The
    */
-  public offset(distance: number): Polyline {
-    const points = this.points;
-    const offsetPoints = new Array<Point>();
-
-    for (let i = 0; i < points.length; i++) {
-      let before = i - 1;
-      if (before < 0) {
-        before = points.length - 2;
-      } // use -2 rather than -1 because last point is same as first point, so we want the second last point
-      let after = i + 1;
-      if (after >= points.length) {
-        after = 1;
-      } // use 1 rather than 0 because start and end are the same, so want the second point
-
-      const pointBefore = points[before];
-      const pointCenter = points[i];
-      const pointAfter = points[after];
-
-      const v1 = Vector.fromPoints(pointBefore, pointCenter).unitize();
-      const v2 = Vector.fromPoints(pointAfter, pointCenter).unitize();
-
-      // The offset point must lie on the bisector between the two lines that join this point
-      const bisector = v1.add(v2);
-
-      // Want to offset the point the [distance] parallel to the edges
-      // This can be calculated by finding the angle between the bisector and the edge
-      // removing 90 degrees, so it's the angle between a perpendicular line the the bisector
-      // Then using tri to move point along the bisector
-      const reversed = v1.reverse();
-      let angle = reversed.angle(bisector);
-      angle = angle - Math.PI / 2;
-
-      const length = distance / Math.cos(angle);
-
-      const offsetPoint = pointCenter.translate(bisector, length);
-      offsetPoints.push(offsetPoint);
+  public withOrientation(goal: CurveOrientation): Polyline {
+    if (this.isClosed === false && goal !== CurveOrientation.undefined) {
+      throw new Error('Polyline must be closed to have an orientation');
     }
-    return new Polyline(offsetPoints);
-  }
 
-  /**
-   * Reverses the order the points are in.
-   */
-  public reverse(): void {
-    this._points.reverse();
-  }
-
-  public toString(): string {
-    let string = '';
-    for (const p of this._points) {
-      string += '[' + p.toString() + '], ';
+    const current = this.orientation;
+    if (current === goal || current === CurveOrientation.undefined) {
+      return this;
     }
-    return string;
+    return this.reverse();
   }
 
-  /**************************************
-   * BOOLEAN
-   **************************************/
+
+  // -----------------------
+  // BOOLEAN
+  // -----------------------
+
   // Boolean functions use this library, which seems to be pretty fast and handles all edge cases:
   // https://github.com/mfogel/polygon-clipping
 
@@ -496,4 +638,161 @@ export class Polyline {
     }
     return this._cacheGeoJSON;
   }
+
+  // -----------------------
+  // TRANSFORMABLE
+  // -----------------------
+
+  /**
+   * Returns a copy of the BoundingBox transformed by a [[transform]] matrix.
+   *
+   * ### Example
+   * ```js
+   * const bb = new BoundingBox(new IntervalSorted(0, 10), new IntervalSorted(5, 25));
+   * console.log(bb.area);
+   * // => 200
+   *
+   * const scaled = bb.transform(Transform.scale(2));
+   * console.log(scaled.area);
+   * // => 800
+   *
+   * // Direct method
+   * const otherScaled = bb.scale(2);
+   * console.log(otherScaled.area);
+   * // => 800
+   * ```
+   *
+   * Note: If you're applying the same transformation a lot of geometry,
+   * creating the matrix and calling this function is faster than using the direct methods.
+   *
+   * @param change  A [[transform]] matrix to apply to the BoundingBox
+   */
+  public transform(change: Transform): Polyline {
+    const corners = change.transformPoints(this.points);
+    return new Polyline(corners);
+  }
+
+  /**
+   * Returns a copy of the BoundingBox transferred from one coordinate system to another.
+   * @param planeFrom   The plane the BoundingBox is currently in.
+   * @param planeTo     The plane the BoundingBox will move to.
+   * @returns           A copy of the BoundingBox in the same relative position on [[planeTo]] as it was on [[planeFrom]].
+   */
+  public changeBasis(planeFrom: Plane, planeTo: Plane): Polyline {
+    const tran = Transform.changeBasis(planeFrom, planeTo);
+    return this.transform(tran);
+  }
+
+  /**
+   * Returns a copy of the BoundingBox transferred from one coordinate system to another.
+   * @param planeFrom   The plane the BoundingBox is currently in.
+   * @param planeTo     The plane the BoundingBox will move to.
+   * @returns           A copy of the BoundingBox in the same relative position on [[planeTo]] as it was on [[planeFrom]].
+   */
+  public planeToPlane(planeFrom: Plane, planeTo: Plane): Polyline {
+    const tran = Transform.planeToPlane(planeFrom, planeTo);
+    return this.transform(tran);
+  }
+
+  /**
+   * Returns a rotated copy of the BoundingBox
+   * @param angle   Angle to rotate the BoundingBox in radians.
+   * @param pivot   Point to pivot the BoundingBox about. Defaults to 0,0.
+   */
+  public rotate(angle: number, pivot?: Point | undefined): Polyline {
+    const tran = Transform.rotate(angle, pivot);
+    return this.transform(tran);
+  }
+
+  /**
+   * Returns a scaled copy of the BoundingBox
+   * @param x       Magnitude to scale in x direction
+   * @param y       Magnitude to scale in y direction. If not specified, will use x.
+   * @param center  Center of scaling. Everything will shrink or expand away from this point.
+   */
+  public scale(x: number, y?: number, center?: Point): Polyline {
+    const tran = Transform.scale(x, y, center);
+    return this.transform(tran);
+  }
+
+  /**
+   * Returns a translated copy of the BoundingBox
+   * @param move      Direction to move the BoundingBox.
+   * @param distance  Distance to move the BoundingBox. If not specified, will use length of move vector.
+   */
+  public translate(move: Vector, distance?: number | undefined): Polyline {
+    const tran = Transform.translate(move, distance);
+    return this.transform(tran);
+  }
 }
+
+
+
+
+/*
+/**
+   * @returns: True if the polyline is fully within or touching the bounds of this polyline
+   * @param polyline
+   * TODO: Doesn't check for intersections between the polyline edges
+   *
+public containsPolyline(polyline: Polyline): boolean {
+  if (this.isClosed === false) {
+    throw new Error('Polyline must be closed to test for containment');
+  }
+
+  for (const point of polyline.points) {
+    const result = this.contains(point);
+    if (result === PointContainment.outside) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Offsets a polyline a set distance
+ *
+ * Basic algorithm, doesn't account for edges that might get eliminated in offset
+ * TODO: Make algorithm more robust to deal with edge cases, such as short edges or ones that get removed.
+ * @param distance
+ *
+public offset(distance: number): Polyline {
+  const points = this.points;
+  const offsetPoints = new Array<Point>();
+
+  for (let i = 0; i < points.length; i++) {
+    let before = i - 1;
+    if (before < 0) {
+      before = points.length - 2;
+    } // use -2 rather than -1 because last point is same as first point, so we want the second last point
+    let after = i + 1;
+    if (after >= points.length) {
+      after = 1;
+    } // use 1 rather than 0 because start and end are the same, so want the second point
+
+    const pointBefore = points[before];
+    const pointCenter = points[i];
+    const pointAfter = points[after];
+
+    const v1 = Vector.fromPoints(pointBefore, pointCenter).unitize();
+    const v2 = Vector.fromPoints(pointAfter, pointCenter).unitize();
+
+    // The offset point must lie on the bisector between the two lines that join this point
+    const bisector = v1.add(v2);
+
+    // Want to offset the point the [distance] parallel to the edges
+    // This can be calculated by finding the angle between the bisector and the edge
+    // removing 90 degrees, so it's the angle between a perpendicular line the the bisector
+    // Then using tri to move point along the bisector
+    const reversed = v1.reverse();
+    let angle = reversed.angle(bisector);
+    angle = angle - Math.PI / 2;
+
+    const length = distance / Math.cos(angle);
+
+    const offsetPoint = pointCenter.translate(bisector, length);
+    offsetPoints.push(offsetPoint);
+  }
+  return new Polyline(offsetPoints);
+}
+ */

@@ -128,7 +128,7 @@ export class Rectangle {
 
   public closestPoint(
     testPoint: Point,
-    includeInterior: boolean = true
+    includeInterior: boolean = false
   ): Point {
     if (includeInterior) {
       if (this.contains(testPoint)) {
@@ -243,8 +243,7 @@ export class Rectangle {
   }
 
   public toPolyline(): Polyline {
-    const poly = new Polyline(this.getCorners());
-    poly.makeClosed();
+    const poly = new Polyline(this.getCorners(), true);
     return poly;
   }
 

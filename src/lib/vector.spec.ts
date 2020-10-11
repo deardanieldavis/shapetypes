@@ -220,13 +220,13 @@ test('isPerpendicularTo: returns false when vectors are slightly off and it is o
 test('isXAxis: returns true vector is horizontal', t => {
   t.is(new Vector(10, 0).isXAxis(), true);
   t.is(new Vector(10, 0.00001).isXAxis(), true);
-  t.is(new Vector(10, 0.1).isXAxis(), false);
+  t.is(new Vector(10, 0.2).isXAxis(), false);
 });
 
 test('isYAxis: returns true vector is vertical', t => {
   t.is(new Vector(0, 10).isYAxis(), true);
   t.is(new Vector(0.00001, 10).isYAxis(), true);
-  t.is(new Vector(0.1, 10).isYAxis(), false);
+  t.is(new Vector(0.2, 10).isYAxis(), false);
 });
 
 test('multiply: correctly multiplies the x and y components of vector', t => {

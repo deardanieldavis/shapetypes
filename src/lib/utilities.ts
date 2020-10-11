@@ -5,6 +5,20 @@ import { Polygon } from './polygon';
 import { Polyline } from './polyline';
 import { shapetypesSettings } from './settings';
 
+export enum PointContainment {
+  unset,
+  inside,
+  outside,
+  coincident
+}
+
+export enum CurveOrientation {
+  undefined,
+  clockwise,
+  counterclockwise
+}
+
+
 /**
  * Checks whether two values are equal within a set tolerance
  *

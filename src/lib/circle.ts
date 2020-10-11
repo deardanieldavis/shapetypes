@@ -2,10 +2,9 @@ import { BoundingBox } from './boundingBox';
 import { IntervalSorted } from './intervalSorted';
 import { Plane } from './plane';
 import { Point } from './point';
-import { PointContainment } from './polyline';
 import { shapetypesSettings } from './settings';
 import { Transform } from './transform';
-import { approximatelyEqual } from './utilities';
+import { approximatelyEqual, PointContainment } from './utilities';
 import { Vector } from './vector';
 
 export class Circle {

@@ -96,7 +96,7 @@ export class Intersection {
     bothSides = false
   ): readonly number[] {
     const intersections = new Array<number>();
-    for (const edge of polyline.getSegments()) {
+    for (const edge of polyline.segments) {
       const result = Intersection.RayLine(ray, edge, bothSides);
       if (result.success) {
         if (includeZero) {
@@ -234,7 +234,7 @@ export class Intersection {
     polyline: Polyline
   ): readonly number[] {
     const intersections = new Array<number>();
-    for (const edge of polyline.getSegments()) {
+    for (const edge of polyline.segments) {
       const result = Intersection.LineLine(line, edge);
       if (result.success) {
         intersections.push(result.lineAu);
@@ -257,7 +257,7 @@ export class Intersection {
     polyline: Polyline
   ): readonly number[] {
     const intersections = new Array<number>();
-    for (const edge of polyline.getSegments()) {
+    for (const edge of polyline.segments) {
       const result = Intersection.HorizontalRayLine(start, edge);
       if (result.success) {
         intersections.push(result.rayU);
@@ -280,8 +280,8 @@ export class Intersection {
     // The polylines can only intersect if the bounding boxes overlap
     const result = BoundingBox.intersection(a.boundingBox, b.boundingBox);
     if (result !== undefined) {
-      for (const edgeA of a.getSegments()) {
-        for (const edgeB of b.getSegments()) {
+      for (const edgeA of a.segments) {
+        for (const edgeB of b.segments) {
           const result2 = Intersection.LineLine(edgeA, edgeB);
           if (result2.success) {
             intersections.push(edgeA.pointAt(result2.lineAu));

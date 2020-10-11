@@ -197,9 +197,9 @@ export class BoundingBox {
    * @param testPoint Point to test for containment
    * @param strict  If true, points coincident with the edge of the box won't be counted as contained
    */
-  public contains(testPoint: Point, strict: boolean = false): boolean {
-    if (this._xRange.contains(testPoint.x, strict)) {
-      if (this._yRange.contains(testPoint.y, strict)) {
+  public contains(testPoint: Point, strict: boolean = false, tolerance: number =0): boolean {
+    if (this._xRange.contains(testPoint.x, strict, tolerance)) {
+      if (this._yRange.contains(testPoint.y, strict, tolerance)) {
         return true;
       }
     }
@@ -329,8 +329,7 @@ export class BoundingBox {
    * Returns a [[Polyline]] representing the outer edge of the BoundingBox
    */
   public toPolyline(): Polyline {
-    const poly = new Polyline(this.getCorners());
-    poly.makeClosed();
+    const poly = new Polyline(this.getCorners(), true);
     return poly;
   }
 

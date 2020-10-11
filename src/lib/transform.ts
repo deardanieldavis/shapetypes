@@ -94,6 +94,9 @@ export class Transform {
     const tran = Transform.translate(delta);
 
     const angle = planeTo.xAxis.angleSigned(planeFrom.xAxis);
+    if(angle === 0) {
+      return tran;
+    }
     const rotate = Transform.rotate(angle);
 
     // Multiply to combine the translation and rotation

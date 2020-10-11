@@ -3,9 +3,8 @@ import { Circle } from './circle';
 import { IntervalSorted } from './intervalSorted';
 import { Plane } from './plane';
 import { Point } from './point';
-import { PointContainment } from './polyline';
 import { shapetypesSettings } from './settings';
-import { approximatelyEqual } from './utilities';
+import { approximatelyEqual, PointContainment } from './utilities';
 import { Vector } from './vector';
 
 const test = anyTest as TestInterface<{ basic: Circle; moved: Circle }>;

@@ -99,18 +99,20 @@ export class Line {
   }
 
   /**
+   * Returns the length of the line.
+   */
+  get length(): number {
+    return this.direction.length;
+  }
+
+  /**
    * Returns the end point of the line.
    */
   get to(): Point {
     return this._to;
   }
 
-  /**
-   * Returns the length of the line.
-   */
-  get length(): number {
-    return this.direction.length;
-  }
+
 
   /**
    * Returns the line's tangent vector. This vector is perpendicular to [[direction]].
