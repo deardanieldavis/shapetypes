@@ -1,4 +1,3 @@
-// tslint:disable:no-let
 import anyTest, { TestInterface } from 'ava';
 import { IntervalSorted } from './intervalSorted';
 import { Line } from './line';

@@ -1,4 +1,5 @@
 /* tslint:disable:no-let */
+import { difference as pcDifference, intersection as pcIntersection, Pair, Ring, union as pcUnion } from 'polygon-clipping';
 import { BoundingBox } from './boundingBox';
 import { Intersection } from './intersection';
 import { IntervalSorted } from './intervalSorted';
@@ -11,10 +12,6 @@ import { Transform } from './transform';
 import { CurveOrientation, PointContainment } from './utilities';
 import { Vector } from './vector';
 
-import * as PolygonClipping from 'polygon-clipping';
-// tslint:disable-next-line:no-duplicate-imports
-import { Pair, Ring } from 'polygon-clipping';
-
 export class Polyline {
   // -----------------------
   // STATIC
@@ -24,7 +21,6 @@ export class Polyline {
     makeClosed: boolean = false
   ): Polyline {
     const newPoints = new Array<Point>();
-    // tslint:disable-next-line:no-let
     for (let i = 0; i < points.length; i += 2) {
       const x = points[i];
       const y = points[i + 1];
@@ -607,7 +603,7 @@ export class Polyline {
       throw new Error('Both polylines must be closed');
     }
 
-    const result = PolygonClipping.union(
+    const result = pcUnion(
       [this.asGeoJSON()],
       [joiner.asGeoJSON()]
     );
@@ -621,7 +617,7 @@ export class Polyline {
       throw new Error('Both polylines must be closed');
     }
 
-    const result = PolygonClipping.intersection(
+    const result = pcIntersection(
       [this.asGeoJSON()],
       [intersector.asGeoJSON()]
     );
@@ -633,7 +629,7 @@ export class Polyline {
       throw new Error('Both polylines must be closed');
     }
 
-    const result = PolygonClipping.difference(
+    const result = pcDifference(
       [this.asGeoJSON()],
       [subtractor.asGeoJSON()]
     );
