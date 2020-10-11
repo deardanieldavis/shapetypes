@@ -1,5 +1,11 @@
 /* tslint:disable:no-let */
-import { difference as pcDifference, intersection as pcIntersection, Pair, Ring, union as pcUnion } from 'polygon-clipping';
+import {
+  difference as pcDifference,
+  intersection as pcIntersection,
+  Pair,
+  Ring,
+  union as pcUnion
+} from 'polygon-clipping';
 import { BoundingBox } from './boundingBox';
 import { Intersection } from './intersection';
 import { Interval } from './interval';
@@ -444,7 +450,7 @@ export class Polyline {
       }
     }
 
-    if(includeSeam) {
+    if (includeSeam) {
       if (this.isClosed) {
         const last = points[points.length - 1];
         const current = this.to;
@@ -555,7 +561,7 @@ export class Polyline {
     const points = Array<Point>();
 
     // Start point, if not added in mid points
-    if(domain.min !== Math.ceil(domain.min)) {
+    if (domain.min !== Math.ceil(domain.min)) {
       points.push(this.pointAt(domain.min));
     }
 
@@ -567,9 +573,8 @@ export class Polyline {
     // End point
     points.push(this.pointAt(domain.max));
 
-
-    if(domain instanceof Interval) {
-      if(domain.isDecreasing) {
+    if (domain instanceof Interval) {
+      if (domain.isDecreasing) {
         points.reverse();
       }
     }
@@ -686,16 +691,13 @@ export class Polyline {
       throw new Error('Both polylines must be closed');
     }
 
-    const result = pcUnion(
-      [this.asGeoJSON()],
-      [joiner.asGeoJSON()]
-    );
+    const result = pcUnion([this.asGeoJSON()], [joiner.asGeoJSON()]);
     const converted = fromGeoJSON(result);
-    if(isPolylineArray(converted)) {
+    if (isPolylineArray(converted)) {
       return converted;
     }
     /* istanbul ignore next */
-    if(converted.length === 0) {
+    if (converted.length === 0) {
       /* istanbul ignore next */
       return new Array<Polyline>();
     }
@@ -713,9 +715,7 @@ export class Polyline {
    * @returns             The intersection of two polylines. This could be an empty array if the polylines don't intersect.
    *                      Could be multiple polylines if the original polylines overlap in many places.
    */
-  public intersection(
-    intersector: Polyline
-  ): ReadonlyArray<Polyline> {
+  public intersection(intersector: Polyline): ReadonlyArray<Polyline> {
     if (this.isClosed === false || intersector.isClosed === false) {
       throw new Error('Both polylines must be closed');
     }
@@ -725,10 +725,10 @@ export class Polyline {
       [intersector.asGeoJSON()]
     );
     const converted = fromGeoJSON(result);
-    if(isPolylineArray(converted)) {
+    if (isPolylineArray(converted)) {
       return converted;
     }
-    if(converted.length === 0) {
+    if (converted.length === 0) {
       return new Array<Polyline>();
     }
     /* istanbul ignore next */
@@ -749,10 +749,7 @@ export class Polyline {
       throw new Error('Both polylines must be closed');
     }
 
-    const result = pcDifference(
-      [this.asGeoJSON()],
-      [subtractor.asGeoJSON()]
-    );
+    const result = pcDifference([this.asGeoJSON()], [subtractor.asGeoJSON()]);
     return fromGeoJSON(result);
   }
 
