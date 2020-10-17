@@ -1,6 +1,6 @@
 // tslint:disable:no-let
-// tslint:disable:readonly-array
 
+import { BoundingBox } from './boundingBox';
 import { Point } from './point';
 import { Polyline } from './polyline';
 import { isPolygonArray, isPolylineArray } from './utilities';
@@ -9,64 +9,70 @@ import * as PolygonClipping from 'polygon-clipping';
 // tslint:disable-next-line:no-duplicate-imports
 import { MultiPolygon, Polygon as ClipPolygon, Ring } from 'polygon-clipping';
 
-import { polylabel } from './polylabel';
+// TODO: Orientation on creation
 
 export class Polygon {
-  /*******************************
-   * GETS
-   *******************************/
+
+  // -----------------------
+  // VARS
+  // -----------------------
+  private readonly _boundary: Polyline;
+  private readonly _holes: readonly Polyline[];
+
+  constructor(boundary: Polyline, holes?: readonly Polyline[] | undefined) {
+    if (boundary.isClosed === false) {
+      throw new Error('Boundary must be closed to turn into polygon');
+    }
+    this._boundary = boundary;
+
+    if (holes === undefined) {
+      this._holes = new Array<Polyline>();
+    } else {
+      for (const hole of holes) {
+        if (hole.isClosed === false) {
+          throw new Error('Polyline must be closed to test for containment');
+        }
+      }
+      this._holes = holes;
+    }
+  }
+
+
+  // -----------------------
+  // GET
+  // -----------------------
+
+  get area(): number {
+    let area = this._boundary.area;
+    for(const hole of this._holes) {
+      area -= hole.area;
+    }
+    return area;
+  }
 
   get boundary(): Polyline {
     return this._boundary;
+  }
+
+  get boundingBox(): BoundingBox {
+    return this._boundary.boundingBox;
   }
 
   get holes(): readonly Polyline[] {
     return this._holes;
   }
 
-  get area(): number {
-    let area = this._boundary.area;
-    for (const hole of this._holes) {
-      area -= hole.area;
-    }
-    return area;
-  }
-  private _boundary: Polyline;
-  private _holes: Polyline[];
 
-  constructor(boundary: Polyline, holes?: readonly Polyline[] | undefined) {
-    if (boundary.isClosed === false) {
-      boundary.makeClosed();
-    }
 
-    this._boundary = boundary;
 
-    this._holes = new Array<Polyline>();
-    if (holes !== undefined) {
-      for (const hole of holes) {
-        if (hole.isClosed === false) {
-          hole.makeClosed();
-        }
-        this._holes.push(hole);
-      }
-    }
-  }
+
+
 
   /*******************************
    * PUBLIC
    *******************************/
 
-  /**
-   * Finds the point inside the polygon that is the furthermost from any edge
-   * Uses this code: https://github.com/mapbox/polylabel
-   *
-   * @returns: Point inside polygon furthermost from any edge.
-   */
-  public pointOfInaccessibility(precision: number = 1): Point {
-    const result = polylabel(this.asGeoJSON(), precision);
-    const p = new Point(result.x, result.y);
-    return p;
-  }
+
 
   public closestPoint(point: Point): Point {
     let closestLength: number | undefined;

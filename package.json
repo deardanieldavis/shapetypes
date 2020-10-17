@@ -50,8 +50,7 @@
     "node": ">=8.9"
   },
   "dependencies": {
-    "polygon-clipping": "^0.15.1",
-    "tinyqueue": "^2.0.3"
+    "polygon-clipping": "^0.15.1"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^0.1.3",

@@ -3,7 +3,6 @@ import test from 'ava';
 import { Plane } from './plane';
 import { Point } from './point';
 import { Polygon } from './polygon';
-import { Polyline } from './polyline';
 import { Rectangle } from './rectangle';
 import { approximatelyEqual } from './utilities';
 import { Vector } from './vector';
@@ -20,33 +19,6 @@ test('Area', t => {
   t.is(polygon.area, 20 * 20 - 10 * 10);
 });
 
-test('Point of Inaccessibility', t => {
-  // Simple square
-  let polyline = Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline();
-  let polygon = new Polygon(polyline);
-  let p = polygon.pointOfInaccessibility();
-  t.is(approximatelyEqual(p.x, 0), true);
-  t.is(approximatelyEqual(p.y, 0), true);
-
-  // Uneven outer edge
-  polyline = Polyline.fromCoords([[0, 0], [3, 0], [3, 1], [2, 1], [2, 2], [0, 2], [0, 0]]);
-  polygon = new Polygon(polyline);
-  p = polygon.pointOfInaccessibility();
-  t.is(approximatelyEqual(p.x, 1), true);
-  t.is(approximatelyEqual(p.y, 1), true);
-
-  // Polygon with a hole
-  const outer = Rectangle.fromCenter(Plane.worldXY(), 8, 8).toPolyline();
-  const hole = Rectangle.fromCenter(
-    new Plane(new Point(1, 1), Vector.worldX()),
-    2,
-    2
-  ).toPolyline();
-  polygon = new Polygon(outer, [hole]);
-  p = polygon.pointOfInaccessibility();
-  t.is(approximatelyEqual(p.x, -2), true);
-  t.is(approximatelyEqual(p.y, -2), true);
-});
 
 test('Closest point', t => {
   // Simple square
