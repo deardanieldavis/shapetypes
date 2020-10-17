@@ -27,7 +27,7 @@ test.beforeEach('Create test geometry', t => {
     true
   );
   t.context.rect = Rectangle.fromCenter(Plane.worldXY(), 10, 20).toPolyline();
-  t.context.elbow = Polyline.fromCoords([10, 0, 0, 0, 0, 10]);
+  t.context.elbow = Polyline.fromCoords([[10, 0], [0, 0], [0, 10]]);
 });
 
 // -----------------------
@@ -58,13 +58,13 @@ test('Constructor: Sets the points correctly in closed polyline', t => {
 // STATIC
 // -----------------------
 test('fromCoords: Sets the points correctly', t => {
-  const poly = Polyline.fromCoords([0, 0, 1, 1, 2, 0]);
+  const poly = Polyline.fromCoords([[0, 0], [1, 1], [2, 0]]);
   t.is(poly.points.length, 3);
   t.true(poly.from.equals(new Point(0, 0)));
   t.true(poly.to.equals(new Point(2, 0)));
 });
 test('fromCoords: Sets the points correctly in closed polyline', t => {
-  const poly = Polyline.fromCoords([0, 0, 1, 1, 2, 0], true);
+  const poly = Polyline.fromCoords([[0, 0], [1, 1], [2, 0]], true);
   t.true(t.context.triangle.equals(poly));
 });
 

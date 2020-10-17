@@ -29,7 +29,7 @@ test('Point of Inaccessibility', t => {
   t.is(approximatelyEqual(p.y, 0), true);
 
   // Uneven outer edge
-  polyline = Polyline.fromCoords([0, 0, 3, 0, 3, 1, 2, 1, 2, 2, 0, 2, 0, 0]);
+  polyline = Polyline.fromCoords([[0, 0], [3, 0], [3, 1], [2, 1], [2, 2], [0, 2], [0, 0]]);
   polygon = new Polygon(polyline);
   p = polygon.pointOfInaccessibility();
   t.is(approximatelyEqual(p.x, 1), true);

@@ -182,14 +182,14 @@ export function fromGeoJSON(
       continue;
     }
 
-    const boundary = ringToPolyline(polygon[0]);
+    const boundary = Polyline.fromCoords(polygon[0]);
 
     if (polygon.length === 1) {
       outputs.push(boundary);
     } else {
       const holes = new Array<Polyline>();
       for (let i = 1; i < polygon.length; i++) {
-        holes.push(ringToPolyline(polygon[i]));
+        holes.push(Polyline.fromCoords(polygon[i]));
       }
       outputs.push(new Polygon(boundary, holes));
     }
@@ -197,14 +197,4 @@ export function fromGeoJSON(
   return outputs;
 }
 
-/**
- * Turns a ring from the PolygonClipping library into a polygon
- * @param ring: List of points in the format [[x1,y1],[x2,y2],[x3,y3]]
- */
-function ringToPolyline(ring: Ring): Polyline {
-  const points = new Array<Point>(ring.length);
-  for (let i = 0; i < ring.length; i++) {
-    points[i] = new Point(ring[i][0], ring[i][1]);
-  }
-  return new Polyline(points);
-}
+

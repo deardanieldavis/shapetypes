@@ -25,7 +25,7 @@ import { Vector } from './vector';
 
 /**
  * A polyline is a continuous line made from a series of straight [[segments]].
- * The location of these segments is defined by an array of [[points]].
+ * The corners of the polyline are defined by an array of [[points]].
  *
  * Polylines can either be open (the polyline starts and ends in a different place)
  * or closed (the polyline starts and ends in the same place). This can be checked with [[isClosed]].
@@ -40,8 +40,12 @@ import { Vector } from './vector';
  * // => 1
  * console.log(triangle.contains(new Point(1, 0.5));
  * // => True
+ * console.log(triangle.from.toString());
+ * // => [0,0]
  *
  * const shifted = triangle.translate(new Vector(3, 4));
+ * console.log(shifted.contains(new Point(1, 0.5));
+ * // => False
  * console.log(shifted.from.toString());
  * // => [3,4]
  * ```
@@ -54,27 +58,22 @@ export class Polyline {
   // -----------------------
 
   /**
-   * Returns a new polyline defined by an array of coordinates.
+   * Returns a new polyline from a list of coordinates (in the GeoJSON format).
    * @category Create
-   * @param coordinates   Coordinates of the corner points in the format: `[x1, y1, x2, y2, x3, y3]`.
-   * @param makeClosed    If true, checks whether the polyline [[isClosed]] and if it isn't, adds another point ensuring the polyline ends the same place it starts.
+   * @param coordinates  List of points in the format `[[x1,y1],[x2,y2],[x3,y3]]`
+   * @param makeClosed    If true, checks whether the resulting polyline [[isClosed]] and if it isn't, adds another point ensuring the polyline ends the same place it starts.
    */
-  public static fromCoords(
-    coordinates: readonly number[],
-    makeClosed: boolean = false
-  ): Polyline {
-    const newPoints = new Array<Point>();
-    for (let i = 0; i < coordinates.length; i += 2) {
-      const x = coordinates[i];
-      const y = coordinates[i + 1];
-      newPoints.push(new Point(x, y));
+  public static fromCoords(coordinates: Ring, makeClosed: boolean = false): Polyline {
+    const points = new Array<Point>(coordinates.length);
+    for (let i = 0; i < coordinates.length; i++) {
+      points[i] = new Point(coordinates[i][0], coordinates[i][1]);
     }
     if (makeClosed) {
-      if (!newPoints[0].equals(newPoints[newPoints.length - 1])) {
-        newPoints.push(newPoints[0]);
+      if (!points[0].equals(points[points.length - 1])) {
+        points.push(points[0]);
       }
     }
-    return new Polyline(newPoints, false);
+    return new Polyline(points, false);
   }
 
   // -----------------------
@@ -99,7 +98,7 @@ export class Polyline {
    * A polyline is a continuous line made from a series of straight [[segments]] between points.
    *
    * @param points        The points defining the corners of the polyline.
-   * @param makeClosed    If true, checks whether the polyline [[isClosed]] and if it isn't, adds another point ensuring the polyline ends the same place it starts.
+   * @param makeClosed    If true, checks whether the resulting polyline [[isClosed]] and if it isn't, adds another point ensuring the polyline ends the same place it starts.
    */
   constructor(points: readonly Point[], makeClosed: boolean = false) {
     if (makeClosed) {
@@ -120,7 +119,7 @@ export class Polyline {
   // -----------------------
 
   /**
-   * Returns area of closed polyline. If polyline isn't closed, returns 0.
+   * Returns area enclosed by polyline. If polyline isn't closed, returns 0.
    */
   get area(): number {
     if (this.isClosed === false) {
@@ -166,7 +165,8 @@ export class Polyline {
   }
 
   /**
-   * Returns true if [[from]] is in the same position as [[to]].
+   * Returns true if the polyline starts and ends in the same place
+   * (if [[from]] is in the same position as [[to]]).
    */
   get isClosed(): boolean {
     if (this._cacheClosed === undefined) {
@@ -225,21 +225,21 @@ export class Polyline {
   }
 
   /**
-   * Returns the list of points that define the corners of this polyline.
+   * Returns the list of points that define the corners of the polyline.
    */
   get points(): readonly Point[] {
     return this._points;
   }
 
   /**
-   * Returns the number of segments (edges between corners) that makeup this polyline.
+   * Returns the number of segments that makeup the polyline.
    */
   get segmentCount(): number {
     return this._points.length - 1;
   }
 
   /**
-   * Returns the list of segments that makeup the edges of this polyline.
+   * Returns the list of segments that makeup the edges of the polyline.
    */
   get segments(): readonly Line[] {
     if (this._cacheSegments === undefined) {
@@ -286,15 +286,15 @@ export class Polyline {
   }
 
   /**
-   * Returns the index of closest point in the list of [[points]].
-   * @param testPoint   The point to get closest to.
+   * Returns the index of the point in the list of [[points]] that is nearest to `targetPoint`.
+   * @param targetPoint   The target to measure distance from.
    */
-  public closestIndex(testPoint: Point): number {
+  public closestIndex(targetPoint: Point): number {
     let bestIndex: number = 0;
     let bestDistance: number | undefined;
 
     for (let i = 0; i < this._points.length; i++) {
-      const distance = testPoint.distanceTo(this._points[i]);
+      const distance = targetPoint.distanceTo(this._points[i]);
       if (bestDistance === undefined || distance < bestDistance) {
         bestDistance = distance;
         bestIndex = i;
@@ -304,20 +304,21 @@ export class Polyline {
   }
 
   /**
-   * Returns the parameter of the closest point on edge of the polyline. The
-   * parameter can be used in [[pointAt]] to return the point.
+   * Returns the parameter of the point on the polyline that is nearest
+   * to `targetPoint`. The resulting parameter can be supplied to [[pointAt]]
+   * to get the actual point.
    *
-   * @param point   The point to get closest to.
+   * @param targetPoint   The target to measure distance from.
    */
-  public closestParameter(point: Point): number {
+  public closestParameter(targetPoint: Point): number {
     let closestLength: number | undefined;
     let closestParameter = 0;
 
     for (let i = 0; i < this.segments.length; i++) {
       const edge = this.segments[i];
-      const test = edge.closestParameter(point, true);
+      const test = edge.closestParameter(targetPoint, true);
       const p = edge.pointAt(test);
-      const length = point.distanceTo(p);
+      const length = targetPoint.distanceTo(p);
 
       if (closestLength === undefined || length < closestLength) {
         closestLength = length;
@@ -329,28 +330,29 @@ export class Polyline {
   }
 
   /**
-   * Returns the closest point on the polyline.
-   * @param testPoint  The point to get closest to.
-   * @param includeInterior If false, will only return points on the edge of the polyline. If true, will also return points on the interior of the polyline.
+   * Returns the point on the polyline that is nearest to `targetPoint`.
+   * @param targetPoint  The target to measure distance from.
+   * @param includeInterior If false, the closest point must lie on the edge of the polyline.
+   *                        If true, the closest point can also be a point on the interior of the polyline (if it is closed).
    */
   public closestPoint(
-    testPoint: Point,
+    targetPoint: Point,
     includeInterior: boolean = false
   ): Point {
     if (includeInterior) {
       if (this.isClosed) {
-        if (this.contains(testPoint)) {
-          return testPoint;
+        if (this.contains(targetPoint)) {
+          return targetPoint;
         }
       }
     }
 
     let closestLength: number | undefined;
-    let closestPoint: Point = testPoint;
+    let closestPoint: Point = targetPoint;
 
     for (const line of this.segments) {
-      const test = line.closestPoint(testPoint, true);
-      const distance = line.distanceTo(testPoint, true);
+      const test = line.closestPoint(targetPoint, true);
+      const distance = line.distanceTo(targetPoint, true);
 
       if (closestLength === undefined || distance < closestLength) {
         closestLength = distance;
@@ -391,7 +393,8 @@ export class Polyline {
   }
 
   /**
-   * Returns true if the [[points]] from this polyline are in the same position as the points on another polyline.
+   * Returns true if the [[points]] from the polyline are in the same position
+   * as the points on another polyline.
    * @param otherPolyline   Polyline to compare against.
    */
   public equals(otherPolyline: Polyline): boolean {
@@ -410,7 +413,7 @@ export class Polyline {
   }
 
   /**
-   * Returns a copy of this polyline with the end points closed.
+   * Returns a closed copy of the polyline.
    * If the polyline is already closed, returns itself.
    * If the polyline is open, closes it by adding a segment between [[to]] and [[from]].
    */
@@ -425,8 +428,8 @@ export class Polyline {
   }
 
   /**
-   * Returns a copy of this polyline with any colinear segments merged together.
-   * @param angleTolerance  The minimum angle at which segments are no longer colinear. In radians.
+   * Returns a copy of the polyline with any colinear segments merged together.
+   * @param angleTolerance  The minimum angle at which segments are no longer colinear, in radians.
    * @param includeSeam     If true, will also test seam on closed polylines for colinearity. If they are colinear, will move [[from]] and [[to]] points.
    */
   public mergeColinearSegments(
@@ -514,11 +517,15 @@ export class Polyline {
    * console.log(triangle.pointAt(0).toString());
    * // => (0,0)
    *
-   * // The end point of the polyline
-   * console.log(triangle.pointAt(3).toString());
-   * // => (0,0)
+   * // The first point of the polyline
+   * console.log(triangle.pointAt(1).toString());
+   * // => (1,1)
    *
-   * // A point midways along the second segment
+   * // The second point of the polyline
+   * console.log(triangle.pointAt(2).toString());
+   * // => (2,0)
+   *
+   * // The point midway between the polyline's first and second point.
    * console.log(triangle.pointAt(1.5).toString());
    * // => (1.5,0.5)
    * ```
@@ -592,7 +599,7 @@ export class Polyline {
   }
 
   /**
-   * Returns the line as a string in the format `[(x1,y1),(x2,y2),(x3,y3)]`
+   * Returns the polyline as a string in the format `[(x1,y1),(x2,y2),(x3,y3)]`
    */
   public toString(): string {
     const strings = new Array<string>();
@@ -649,7 +656,7 @@ export class Polyline {
 
   /**
    * Returns a copy of the polyline with a given [[CurveOrientation]].
-   * If the polyline is already correctly orientated, returns self.
+   * If the polyline already has that orientation, returns self.
    *
    * Note: This method only works with closed polylines. It may throw an error if applied to an open polyline.
    *
@@ -678,13 +685,13 @@ export class Polyline {
   // https://github.com/mfogel/polygon-clipping/issues/76
 
   /**
-   * Returns the union of this polyline and another polyline.
+   * Returns the union of the polyline with another polyline.
    *
    * Note: This method only works with closed polylines. It will throw an error if applied to an open polyline.
    *
    * @category Closed
    * @param joiner  The polyline to join to.
-   * @returns    The union of the two polylines. This could be an array of two polylines if the original polylines don't overlap.
+   * @returns    The the two polylines joined together. If the original polylines don't overlap, this could be an array of the two original polylines.
    */
   public union(joiner: Polyline): ReadonlyArray<Polyline> {
     if (this.isClosed === false || joiner.isClosed === false) {
@@ -696,6 +703,7 @@ export class Polyline {
     if (isPolylineArray(converted)) {
       return converted;
     }
+    // Probably won't get to here without an error
     /* istanbul ignore next */
     if (converted.length === 0) {
       /* istanbul ignore next */
@@ -706,7 +714,7 @@ export class Polyline {
   }
 
   /**
-   * Returns the overlapping part of this polyline and another polyline.
+   * Returns the overlapping intersection of the polyline with another polyline.
    *
    * Note: This method only works with closed polylines. It will throw an error if applied to an open polyline.
    *
@@ -731,18 +739,19 @@ export class Polyline {
     if (converted.length === 0) {
       return new Array<Polyline>();
     }
+    // Won't get to here without an error
     /* istanbul ignore next */
     throw new Error('Unexpectedly generated a polygon');
   }
 
   /**
-   * Returns the part of this polyline that is different to another polyline.
+   * Returns the part of the polyline that does not intersect another polyline.
    *
    * Note: This method only works with closed polylines. It will throw an error if applied to an open polyline.
    *
    * @category Closed
    * @param subtractor    The polyline to remove.
-   * @param returns       The difference between this polyline and another. This may be a polyline or a polygon.
+   * @returns             The polyline after the `subtractor` has been removed from it. This may be a polyline or a polygon.
    */
   public difference(subtractor: Polyline): ReadonlyArray<Polyline | Polygon> {
     if (this.isClosed === false || subtractor.isClosed === false) {
@@ -800,7 +809,7 @@ export class Polyline {
    * creating the matrix and calling this function is faster than using the direct methods.
    *
    * @category Transform
-   * @param change  A [[transform]] matrix to apply to the BoundingBox
+   * @param change  A [[transform]] matrix to apply to the polyline
    */
   public transform(change: Transform): Polyline {
     const corners = change.transformPoints(this.points);
