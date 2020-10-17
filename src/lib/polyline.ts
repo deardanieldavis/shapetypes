@@ -1,7 +1,7 @@
 /* tslint:disable:no-let */
 import {
   difference as pcDifference,
-  intersection as pcIntersection,
+  intersection as pcIntersection, MultiPolygon,
   Pair,
   Ring,
   union as pcUnion
@@ -13,7 +13,7 @@ import { IntervalSorted } from './intervalSorted';
 import { Line } from './line';
 import { Plane } from './plane';
 import { Point } from './point';
-import { fromGeoJSON, Polygon } from './polygon';
+import { Polygon } from './polygon';
 import { shapetypesSettings } from './settings';
 import { Transform } from './transform';
 import {
@@ -888,4 +888,24 @@ export class Polyline {
     const tran = Transform.translate(move, distance);
     return this.transform(tran);
   }
+}
+
+
+function fromGeoJSON(
+  multi: MultiPolygon
+): ReadonlyArray<Polyline | Polygon> {
+  const outputs = new Array<Polyline | Polygon>();
+
+  for (const polygon of multi) {
+    if (polygon.length === 0) {
+      /* istanbul ignore next */
+      continue;
+    } else if(polygon.length === 1) {
+      outputs.push(Polyline.fromCoords(polygon[0]));
+    } else {
+      /* istanbul ignore next */
+      outputs.push(Polygon.fromCoords(polygon));
+    }
+  }
+  return outputs;
 }
