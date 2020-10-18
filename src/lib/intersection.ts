@@ -6,8 +6,101 @@ import { Point } from './point';
 import { Polygon } from './polygon';
 import { Polyline } from './polyline';
 import { Ray } from './ray';
+import { shapetypesSettings } from './settings';
 
-export class Intersection {
+// TODO: Line circle
+// TODO: Ray circle
+
+// tslint:disable-next-line:no-namespace no-internal-module
+export module Intersection {
+
+  // -----------------------
+  // LINES
+  // -----------------------
+  /**
+   * Returns the parameters of an intersection between two lines.
+   *
+   * @param lineA
+   * @param lineB
+   * @constructor
+   * @returns:    success: true if the lines intersect. eg. aren't parallel and intersection falls between end points.
+   *              lineAu: parameter on lineA where the lines intersect. Will be between 0 & 1.
+   *              lineBu: parameter on lineB where the lines intersect. Will be between 0 & 1.
+   */
+  export function LineLine(
+    lineA: Line,
+    lineB: Line,
+    isInfinite: boolean = false
+  ): { success: boolean; lineAu: number; lineBu: number } {
+    // Based on:
+    // https://github.com/davidfig/pixi-intersects/blob/master/src/shape.js
+    const aX = lineA.direction.x;
+    const aY = lineA.direction.y;
+    const bX = lineB.direction.x;
+    const bY = lineB.direction.y;
+
+    const denominator = (-bX * aY + aX * bY);
+    const diffX = (lineA.from.x - lineB.from.x);
+    const diffY = (lineA.from.y - lineB.from.y);
+
+    const s = (-aY * diffX + aX * diffY) / denominator;
+    const t = (bX * diffY - bY * diffX) / denominator;
+
+
+    if(isInfinite) {
+      if (isFinite(s) && isFinite(t)) {
+        return { success: true, lineAu: t, lineBu: s };
+      }
+    }
+    if (-shapetypesSettings.absoluteTolerance <= s  && s <= 1+shapetypesSettings.absoluteTolerance && -shapetypesSettings.absoluteTolerance <= t && t <= 1+shapetypesSettings.absoluteTolerance) {
+      return { success: true, lineAu: t, lineBu: s };
+    }
+    return { success: false, lineAu: 0, lineBu: 0 };
+  }
+
+
+  /**
+   * Calculates intersection between a line and polyline
+   * @param line
+   * @param polyline
+   * @returns: The parameters down [line] where intersections occur. If list empty, there were no intersections.
+   */
+  /*
+  export function LinePoly(
+    line: Line,
+    poly: Polyline | Polygon
+  ): readonly number[] {
+    if(poly instanceof Polyline) {
+      const intersections = new Array<number>();
+      for (const edge of poly.segments) {
+        const result = Intersection.LineLine(line, edge);
+        if (result.success) {
+          intersections.push(result.lineAu);
+        }
+      }
+      return intersections.sort();
+    } else {
+      const intersections = new Array<number>();
+      intersections.push(...Intersection.
+      poly.boundary)
+    }
+  }*/
+
+
+
+
+
+
+  // -----------------------
+  // RAYS
+  // -----------------------
+
+
+
+
+
+
+
   /**
    * Calculates the intersection between a ray and a line
    *
@@ -22,11 +115,14 @@ export class Intersection {
    *              lineU: parameter on the line where the ray intersects. Will always be between 0 & 1, the bounds of the line.
    *
    */
-  public static RayLine(
+  export function RayLine(
     ray: Ray,
     line: Line,
     bothSides = false
   ): { success: boolean; rayU: number; lineU: number } {
+    // @ts-ignore
+    // const a = dada();
+    // const b = MyModule.data2();
     const p0_x = ray.from.x;
     const p0_y = ray.from.y;
     const p2_x = line.from.x;
@@ -52,7 +148,7 @@ export class Intersection {
     return { success: false, rayU: 0, lineU: 0 };
   }
 
-  public static RayRay(
+  export function RayRay(
     rayA: Ray,
     rayB: Ray,
     bothSides = false
@@ -89,7 +185,7 @@ export class Intersection {
    * @param bothSides: If true, will include intersections that happen behind the start point of the ray (eg. a negative rayU)
    * @returns: List of intersections. Each value is the distance along the ray where the intersection occurs.
    */
-  public static RayPolyline(
+  export function RayPolyline(
     ray: Ray,
     polyline: Polyline,
     includeZero: boolean = false,
@@ -115,7 +211,7 @@ export class Intersection {
     return sortedIntersections;
   }
 
-  public static RayPolygon(
+  export function RayPolygon(
     ray: Ray,
     polygon: Polygon,
     includeZero: boolean = false,
@@ -139,110 +235,11 @@ export class Intersection {
     return sortedIntersections;
   }
 
-  /**
-   * Calculates the intersection between two infinite lines
-   *
-   * Based on:
-   * https://github.com/davidfig/pixi-intersects/blob/master/src/shape.js
-   *
-   * @param lineA
-   * @param lineB
-   * @constructor
-   * @returns:    sucess: true if the lines intersect. eg. aren't parallel.
-   *              lineAu: parameter on lineA where the lines intersect. If 0 <= lineAu <= 1, intersection is in the bounds of the line.
-   *              lineBu: parameter on lineB where the lines intersect. If 0 <= lineBu <= 1, intersection is in the bounds of the line.
-   */
-  public static LineLineInfinite(
-    lineA: Line,
-    lineB: Line
-  ): { success: boolean; lineAu: number; lineBu: number } {
-    const p0_x = lineA.from.x;
-    const p0_y = lineA.from.y;
-    const p1_x = lineA.to.x;
-    const p1_y = lineA.to.y;
-    const p2_x = lineB.from.x;
-    const p2_y = lineB.from.y;
-    const p3_x = lineB.to.x;
-    const p3_y = lineB.to.y;
-    const s1_x = p1_x - p0_x;
-    const s1_y = p1_y - p0_y;
-    const s2_x = p3_x - p2_x;
-    const s2_y = p3_y - p2_y;
-    const s =
-      (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) /
-      (-s2_x * s1_y + s1_x * s2_y);
-    const t =
-      (s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) /
-      (-s2_x * s1_y + s1_x * s2_y);
 
-    if (isFinite(s) && isFinite(t)) {
-      return { success: true, lineAu: t, lineBu: s };
-    }
-    return { success: false, lineAu: 0, lineBu: 0 };
-  }
 
-  /**
-   * Calculates the intersection between two finite lines
-   *
-   * Based on:
-   * https://github.com/davidfig/pixi-intersects/blob/master/src/shape.js
-   *
-   * @param lineA
-   * @param lineB
-   * @constructor
-   * @returns:    sucess: true if the lines intersect. eg. aren't parallel and intersection falls between end points.
-   *              lineAu: parameter on lineA where the lines intersect. Will be between 0 & 1.
-   *              lineBu: parameter on lineB where the lines intersect. Will be between 0 & 1.
-   */
-  public static LineLine(
-    lineA: Line,
-    lineB: Line
-  ): { success: boolean; lineAu: number; lineBu: number } {
-    const p0_x = lineA.from.x;
-    const p0_y = lineA.from.y;
-    const p1_x = lineA.to.x;
-    const p1_y = lineA.to.y;
-    const p2_x = lineB.from.x;
-    const p2_y = lineB.from.y;
-    const p3_x = lineB.to.x;
-    const p3_y = lineB.to.y;
-    const s1_x = p1_x - p0_x;
-    const s1_y = p1_y - p0_y;
-    const s2_x = p3_x - p2_x;
-    const s2_y = p3_y - p2_y;
-    const s =
-      (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) /
-      (-s2_x * s1_y + s1_x * s2_y);
-    const t =
-      (s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) /
-      (-s2_x * s1_y + s1_x * s2_y);
 
-    if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
-      return { success: true, lineAu: t, lineBu: s };
-    }
-    return { success: false, lineAu: 0, lineBu: 0 };
-  }
 
-  /**
-   * Calculates intersection between a line and polyline
-   * @param line
-   * @param polyline
-   * @returns: The parameters down [line] where intersections occur. If list empty, there were no intersections.
-   */
-  public static LinePolyline(
-    line: Line,
-    polyline: Polyline
-  ): readonly number[] {
-    const intersections = new Array<number>();
-    for (const edge of polyline.segments) {
-      const result = Intersection.LineLine(line, edge);
-      if (result.success) {
-        intersections.push(result.lineAu);
-      }
-    }
-    const sortedIntersections = intersections.sort();
-    return sortedIntersections;
-  }
+
 
   /**
    * Calculates the intersection between a horizontal ray and the polyline.
@@ -252,7 +249,7 @@ export class Intersection {
    * @param polyline
    * @constructor
    */
-  public static HorizontalRayPolyline(
+  export function HorizontalRayPolyline(
     start: Point,
     polyline: Polyline
   ): readonly number[] {
@@ -274,7 +271,7 @@ export class Intersection {
    * @constructor
    * @returns: List of all the points where the polylines intersect
    */
-  public static PolylinePolyline(a: Polyline, b: Polyline): readonly Point[] {
+  export function PolylinePolyline(a: Polyline, b: Polyline): readonly Point[] {
     const intersections = new Array<Point>();
 
     // The polylines can only intersect if the bounding boxes overlap
@@ -302,7 +299,7 @@ export class Intersection {
    * @param line: The line to test the intersection with
    * @constructor
    */
-  public static HorizontalRayLine(
+  export function HorizontalRayLine(
     start: Point,
     line: Line
   ): { success: boolean; rayU: number; lineU: number } {
@@ -357,7 +354,7 @@ export class Intersection {
    *              rayU: parameter on ray where the intersection occurs.
    *              lineU: parameter on line where the intersection occurs. If 0 <= lineBu <= 1, intersection is in the bounds of the line.
    */
-  public static HorizontalRayLineIntersection(
+  export function HorizontalRayLineIntersection(
     start: Point,
     line: Line
   ): { success: boolean; rayU: number; lineU: number } {

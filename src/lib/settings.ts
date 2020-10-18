@@ -1,4 +1,7 @@
-export interface SettingsInterface {
+/**
+ * @ignore
+ */
+interface SettingsInterface {
   absoluteTolerance: number;
   angleTolerance: number;
   invertY: boolean;

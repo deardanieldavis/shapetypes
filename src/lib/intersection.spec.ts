@@ -8,6 +8,125 @@ import { Ray } from './ray';
 import { Rectangle } from './rectangle';
 import { Vector } from './vector';
 
+
+
+
+// -----------------------
+// LINES
+// -----------------------
+test('LineLine: Meet in cross at 0,0', t => {
+  const lineA = Line.fromCoords([[-10, 0], [10,0]]);
+  const lineB = Line.fromCoords([[0, -10], [0, 10]]);
+  const result = Intersection.LineLine(lineA, lineB);
+  t.true(result.success);
+  t.is(result.lineAu, 0.5);
+  t.is(result.lineBu, 0.5);
+});
+test('LineLine: Meet in cross at 0,0, reversed', t => {
+  const lineA = Line.fromCoords([[-10, 0], [10,0]]);
+  const lineB = Line.fromCoords([[0, 10], [0, -10]]);
+  const result = Intersection.LineLine(lineA, lineB);
+  t.true(result.success);
+  t.is(result.lineAu, 0.5);
+  t.is(result.lineBu, 0.5);
+});
+test('LineLine: Meet in cross at -10,0', t => {
+  const lineA = Line.fromCoords([[-10, 0], [10,0]]);
+  const lineB = Line.fromCoords([[-10, -10], [-10, 10]]);
+  const result = Intersection.LineLine(lineA, lineB);
+  t.true(result.success);
+  t.is(result.lineAu, 0);
+  t.is(result.lineBu, 0.5);
+});
+test('LineLine: Meet in cross at 0,10', t => {
+  const lineA = Line.fromCoords([[-10, 10], [10,10]]);
+  const lineB = Line.fromCoords([[0, -10], [0, 10]]);
+  const result = Intersection.LineLine(lineA, lineB);
+  t.true(result.success);
+  t.is(result.lineAu, 0.5);
+  t.is(result.lineBu, 1);
+});
+test('LineLine: Meet at angle at 0,00', t => {
+  const lineA = Line.fromCoords([[-10,0], [10,0]]);
+  const lineB = Line.fromCoords([[-10, -10], [10, 10]]);
+  const result = Intersection.LineLine(lineA, lineB);
+  t.true(result.success);
+  t.is(result.lineAu, 0.5);
+  t.is(result.lineBu, 0.5);
+});
+test('LineLine: Do not meet', t => {
+  const lineA = Line.fromCoords([[-10, 0], [10,0]]);
+  const lineB = Line.fromCoords([[0, 10], [0, 20]]);
+  const result = Intersection.LineLine(lineA, lineB);
+  t.is(result.success, false);
+});
+test('LineLine: Infinite, meet in cross at 0,0', t => {
+  const lineA = Line.fromCoords([[-10, 0], [10,0]]);
+  const lineB = Line.fromCoords([[0, -10], [0, 10]]);
+  const result = Intersection.LineLine(lineA, lineB, true);
+  t.true(result.success);
+  t.is(result.lineAu, 0.5);
+  t.is(result.lineBu, 0.5);
+});
+test('LineLine: Infinite, meet below lineB', t => {
+  const lineA = Line.fromCoords([[-10, 0], [10,0]]);
+  const lineB = Line.fromCoords([[0, 10], [0, 20]]);
+  const result = Intersection.LineLine(lineA, lineB, true);
+  t.true(result.success);
+  t.is(result.lineAu, 0.5);
+  t.is(result.lineBu, -1);
+});
+test('LineLine: Infinite, meet at an angle at 0,0', t => {
+  const lineA = Line.fromCoords([[-10, -10], [-5,-5]]);
+  const lineB = Line.fromCoords([[5, -5], [10, -10]]);
+  const result = Intersection.LineLine(lineA, lineB, true);
+  t.true(result.success);
+  t.is(result.lineAu, 2);
+  t.is(result.lineBu, -1);
+});
+
+
+
+
+
+
+/*
+test('LineLineInfinite', t => {
+  const lineA = new Line(new Point(-10, 0), new Point(10, 0));
+  let lineB = new Line(new Point(0, -10), new Point(0, 10));
+
+  // through 0,0
+  let result = Intersection.LineLineInfinite(lineA, lineB);
+  t.is(result.success, true);
+  t.is(result.lineAu, 0.5);
+  t.is(result.lineBu, 0.5);
+
+  // at end of line A
+  lineB = new Line(new Point(10, -10), new Point(10, 10));
+  result = Intersection.LineLineInfinite(lineA, lineB);
+  t.is(result.success, true);
+  t.is(result.lineAu, 1);
+  t.is(result.lineBu, 0.5);
+
+  // beyond the end of line A, not touching
+  lineB = new Line(new Point(20, -10), new Point(20, 10));
+  result = Intersection.LineLineInfinite(lineA, lineB);
+  t.is(result.success, true);
+  t.is(result.lineAu, 1.5);
+  t.is(result.lineBu, 0.5);
+
+  // parallel
+  lineB = new Line(new Point(-10, -10), new Point(10, -10));
+  result = Intersection.LineLineInfinite(lineA, lineB);
+  t.is(result.success, false);
+});*/
+
+
+
+
+
+
+
 test('RayLine', t => {
   let line = new Line(new Point(0, 0), new Point(0, 10));
   let ray = new Ray(new Point(-1, 5), new Vector(1, 0));
@@ -66,36 +185,8 @@ test('RayPolyline', t => {
   t.is(intersections.includes(20), true);
 });
 
-test('LineLineInfinite', t => {
-  const lineA = new Line(new Point(-10, 0), new Point(10, 0));
-  let lineB = new Line(new Point(0, -10), new Point(0, 10));
 
-  // through 0,0
-  let result = Intersection.LineLineInfinite(lineA, lineB);
-  t.is(result.success, true);
-  t.is(result.lineAu, 0.5);
-  t.is(result.lineBu, 0.5);
-
-  // at end of line A
-  lineB = new Line(new Point(10, -10), new Point(10, 10));
-  result = Intersection.LineLineInfinite(lineA, lineB);
-  t.is(result.success, true);
-  t.is(result.lineAu, 1);
-  t.is(result.lineBu, 0.5);
-
-  // beyond the end of line A, not touching
-  lineB = new Line(new Point(20, -10), new Point(20, 10));
-  result = Intersection.LineLineInfinite(lineA, lineB);
-  t.is(result.success, true);
-  t.is(result.lineAu, 1.5);
-  t.is(result.lineBu, 0.5);
-
-  // parallel
-  lineB = new Line(new Point(-10, -10), new Point(10, -10));
-  result = Intersection.LineLineInfinite(lineA, lineB);
-  t.is(result.success, false);
-});
-
+/*
 test('LinePolyline', t => {
   const line = new Line(new Point(-20, 0), new Point(20, 0));
   const polyline = Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline();
@@ -104,7 +195,7 @@ test('LinePolyline', t => {
   const intersections = Intersection.LinePolyline(line, polyline);
   t.is(intersections.length, 2);
   t.is(intersections[0], 0.25);
-});
+});*/
 
 test('HorizontalRayPolyline', t => {
   const polyline = Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline();

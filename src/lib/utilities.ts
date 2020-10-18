@@ -19,9 +19,12 @@ export enum CurveOrientation {
 }
 
 /**
+ * @ignore
+ *
  * Checks whether two values are equal within a set tolerance
  *
  * https://stackoverflow.com/questions/14582122/check-whether-the-number-is-nearly-equal-javascript
+ *
  * @param value1
  * @param value2
  * @param epsilon
@@ -34,6 +37,9 @@ export function approximatelyEqual(
   return Math.abs(value1 - value2) < epsilon;
 }
 
+/**
+ * @ignore
+ */
 export function isPointArray(value: any): value is Point[] {
   if (value instanceof Array) {
     if (value.length > 0) {
@@ -45,6 +51,9 @@ export function isPointArray(value: any): value is Point[] {
   return false;
 }
 
+/**
+ * @ignore
+ */
 export function isNumberArray(value: any): value is number[] {
   if (value instanceof Array) {
     if (value.length > 0) {
@@ -56,6 +65,9 @@ export function isNumberArray(value: any): value is number[] {
   return false;
 }
 
+/**
+ * @ignore
+ */
 export function isPolylineArray(value: any): value is Polyline[] {
   if (value instanceof Array) {
     if (value.length > 0) {
@@ -67,6 +79,9 @@ export function isPolylineArray(value: any): value is Polyline[] {
   return false;
 }
 
+/**
+ * @ignore
+ */
 export function isPolygonArray(value: any): value is Polygon[] {
   if (value instanceof Array) {
     if (value.length > 0) {

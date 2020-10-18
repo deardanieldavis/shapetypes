@@ -44,6 +44,10 @@ export class Line {
     return new Line(from, to);
   }
 
+  public static fromCoords(coords: readonly [readonly [number, number], readonly [number, number]]): Line {
+    return new Line(new Point(coords[0][0], coords[0][1]), new Point(coords[1][0], coords[1][1]));
+  }
+
   // -----------------------
   // VARS
   // -----------------------

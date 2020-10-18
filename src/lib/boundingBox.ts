@@ -184,12 +184,31 @@ export class BoundingBox {
     testPoint: Point,
     includeInterior: boolean = true
   ): Point {
-    if (includeInterior) {
-      if (this.contains(testPoint)) {
-        return testPoint;
-      }
+    const x = closestInterval(this._xRange, testPoint.x, includeInterior);
+    const y = closestInterval(this._yRange, testPoint.y, includeInterior);
+
+    // Workout if point is outside the bounding box, return nearest point on edge
+    if(! x.contained && ! y.contained) {
+      return new Point(x.value, y.value);
+    }else if(x.contained && ! y.contained) {
+      return new Point(testPoint.x, y.value);
+    }else if(! x.contained && y.contained) {
+      return new Point(x.value, testPoint.y);
     }
-    return this.toPolyline().closestPoint(testPoint);
+
+    // Point must be inside bounding box.
+    if(includeInterior) {
+      return testPoint;
+    }
+
+    // Since interior isn't included, find closest edge and move to it.
+    const distanceX = Math.abs(testPoint.x - x.value);
+    const distanceY = Math.abs(testPoint.y - y.value);
+    if(distanceX < distanceY) {
+      return new Point(x.value, testPoint.y);
+    } else {
+      return new Point(testPoint.x, y.value);
+    }
   }
 
   /**
@@ -427,4 +446,34 @@ export class BoundingBox {
     const tran = Transform.translate(move, distance);
     return this.transform(tran);
   }
+}
+
+/**
+ * Returns the value in the interval that is nearest to `targetValue`.
+ *
+ *
+ * @param interval        The interval to find the value within.
+ * @param targetValue     The value to get nearest to.
+ * @param includeInterior If false, the value will either be [[min]] or [[max]].
+ *                        If true, the value may be any number between [[min]] and [[max]].
+ */
+function closestInterval(interval: IntervalSorted, targetValue: number, includeInterior: boolean = true): {value: number, contained: boolean} {
+  // Check to see if value is off ends
+  if( targetValue <= interval.min) {
+    return {value: interval.min, contained: false};
+  } else if(interval.max <= targetValue) {
+    return {value: interval.max, contained: false};
+  }
+
+  // Must be within the range
+  if(includeInterior) {
+    return {value: targetValue, contained: true};
+  }
+
+  const distanceToMin = targetValue - interval.min;
+  const distanceToMax = interval.max - targetValue;
+  if(distanceToMin < distanceToMax) {
+    return {value: interval.min, contained: true};
+  }
+  return {value: interval.max, contained: true};;
 }

@@ -133,10 +133,20 @@ test('max: calculates', t => {
 // Public
 // -----------------------
 
-test('closestPoint: works when point is outside the box', t => {
+test('closestPoint: works when point is outside the corner', t => {
+  const point = new Point(-2, 3);
+  t.is(t.context.bb.closestPoint(point).x, 0);
+  t.is(t.context.bb.closestPoint(point).y, 5);
+});
+test('closestPoint: works when point is outside the edge', t => {
   const point = new Point(5, 3);
   t.is(t.context.bb.closestPoint(point).x, 5);
   t.is(t.context.bb.closestPoint(point).y, 5);
+});
+test('closestPoint: works when point is outside the other edge', t => {
+  const point = new Point(12, 15);
+  t.is(t.context.bb.closestPoint(point).x, 10);
+  t.is(t.context.bb.closestPoint(point).y, 15);
 });
 test('closestPoint: works when point is inside the box', t => {
   const point = new Point(5, 6);
@@ -147,6 +157,11 @@ test("closestPoint: works when point is inside the box but interior isn't includ
   const point = new Point(5, 6);
   t.is(t.context.bb.closestPoint(point, false).x, 5);
   t.is(t.context.bb.closestPoint(point, false).y, 5);
+});
+test("closestPoint: works when point is inside the box but interior isn't included on other edge", t => {
+  const point = new Point(9, 15);
+  t.is(t.context.bb.closestPoint(point, false).x, 10);
+  t.is(t.context.bb.closestPoint(point, false).y, 15);
 });
 
 test('contains: works when point is inside the box', t => {

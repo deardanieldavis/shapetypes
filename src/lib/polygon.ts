@@ -146,6 +146,16 @@ export class Polygon {
     let closestPoint: Point = targetPoint;
 
     for (const polyline of [this._boundary, ...this._holes]) {
+      if(closestLength !== undefined) {
+        // Rather than running closest point on every polyline, quickly check to see
+        // if the polyline's boundingBox is close. If it's not, there is no way the polyline
+        // can be close.
+        const closestBB = polyline.boundingBox.closestPoint(targetPoint, true);
+        const lengthBB = targetPoint.distanceTo(closestBB);
+        if(lengthBB > closestLength) {
+          continue;
+        }
+      }
       const test = polyline.closestPoint(targetPoint);
       const length = targetPoint.distanceTo(test);
 
