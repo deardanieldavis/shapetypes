@@ -1,15 +1,24 @@
 // tslint:disable:variable-name
 // tslint:disable:no-let
 import { BoundingBox } from './boundingBox';
+import { Circle } from './circle';
+import { IntervalSorted } from './intervalSorted';
 import { Line } from './line';
 import { Point } from './point';
 import { Polygon } from './polygon';
 import { Polyline } from './polyline';
 import { Ray } from './ray';
+import { Rectangle } from './rectangle';
 import { shapetypesSettings } from './settings';
+import { approximatelyEqual } from './utilities';
+import { Vector } from './vector';
 
-// TODO: Line circle
-// TODO: Ray circle
+
+export enum LineCircleIntersection {
+  none,
+  single,
+  multiple
+}
 
 // tslint:disable-next-line:no-namespace no-internal-module
 export module Intersection {
@@ -17,21 +26,27 @@ export module Intersection {
   // -----------------------
   // LINES
   // -----------------------
+
   /**
    * Returns the parameters of an intersection between two lines.
    *
-   * @param lineA
-   * @param lineB
-   * @constructor
-   * @returns:    success: true if the lines intersect. eg. aren't parallel and intersection falls between end points.
-   *              lineAu: parameter on lineA where the lines intersect. Will be between 0 & 1.
-   *              lineBu: parameter on lineB where the lines intersect. Will be between 0 & 1.
+   * @param lineA                 The first line
+   * @param lineB                 The second line
+   * @param limitToFiniteSegment  If true, an intersection only counts if it falls within the bounds of the lines. If false, the lines will be treated as infinite.
+   * @return
    */
-  export function LineLine(
+  export function lineLine(
     lineA: Line,
     lineB: Line,
-    isInfinite: boolean = false
-  ): { success: boolean; lineAu: number; lineBu: number } {
+    limitToFiniteSegment: boolean = true
+  ): {
+    /** True if the two lines intersect. */
+    intersects: boolean,
+    /** The parameter along `lineA` where the intersection occurs. Use [[Line.pointAt]] to get actual point. */
+    lineAu: number,
+    /** The parameter along `lineB` where the intersection occurs. Use [[Line.pointAt]] to get actual point. */
+    lineBu: number } {
+
     // Based on:
     // https://github.com/davidfig/pixi-intersects/blob/master/src/shape.js
     const aX = lineA.direction.x;
@@ -47,44 +62,239 @@ export module Intersection {
     const t = (bX * diffY - bY * diffX) / denominator;
 
 
-    if(isInfinite) {
+    if(limitToFiniteSegment) {
+      if (-shapetypesSettings.absoluteTolerance <= s  && s <= 1+shapetypesSettings.absoluteTolerance && -shapetypesSettings.absoluteTolerance <= t && t <= 1+shapetypesSettings.absoluteTolerance) {
+        return { intersects: true, lineAu: t, lineBu: s };
+      }
+    } else {
       if (isFinite(s) && isFinite(t)) {
-        return { success: true, lineAu: t, lineBu: s };
+        return { intersects: true, lineAu: t, lineBu: s };
       }
     }
-    if (-shapetypesSettings.absoluteTolerance <= s  && s <= 1+shapetypesSettings.absoluteTolerance && -shapetypesSettings.absoluteTolerance <= t && t <= 1+shapetypesSettings.absoluteTolerance) {
-      return { success: true, lineAu: t, lineBu: s };
-    }
-    return { success: false, lineAu: 0, lineBu: 0 };
+
+    return { intersects: false, lineAu: 0, lineBu: 0 };
   }
 
 
   /**
-   * Calculates intersection between a line and polyline
-   * @param line
-   * @param polyline
-   * @returns: The parameters down [line] where intersections occur. If list empty, there were no intersections.
+   * Returns the parameters of an intersection between a line and a bounding box.
+   * @param lineA   The line
+   * @param box     The bounding box
    */
-  /*
-  export function LinePoly(
-    line: Line,
-    poly: Polyline | Polygon
+  export function lineBox(lineA: Line, box: BoundingBox):
+    {
+      /** True if the line intersects the bounding box */
+      intersects: boolean;
+      /** The portion of `lineA` within the `box`. Use [[Line.pointAt]] to get actual points. */
+    domain: IntervalSorted} {
+
+    // Reject lines that obviously wont intersect
+    if(lineA.from.x < box.xRange.min && lineA.to.x < box.xRange.min) {
+      // Fully to left
+      return {intersects: false, domain: new IntervalSorted(0,0)}
+    }else if(lineA.from.x > box.xRange.max && lineA.to.x > box.xRange.max) {
+      // Fully to right
+      return {intersects: false, domain: new IntervalSorted(0,0)}
+    }else if(lineA.from.y < box.yRange.min && lineA.to.y < box.yRange.min) {
+      // Fully below box
+      return {intersects: false, domain: new IntervalSorted(0,0)}
+    }else if(lineA.from.y > box.yRange.max && lineA.to.y > box.yRange.max) {
+      // Fully above box
+      return {intersects: false, domain: new IntervalSorted(0,0)}
+    }
+
+    // Use Liang-Barsky's algorithm to find possible intersections
+    // https://en.wikipedia.org/wiki/Liang–Barsky_algorithm
+
+    // defining variables
+    const p1 = -lineA.direction.x;
+    const p2 = lineA.direction.x;
+    const p3 = -lineA.direction.y;
+    const p4 = lineA.direction.y;
+
+    const q1 = lineA.from.x - box.xRange.min;
+    const q2 = box.xRange.max - lineA.from.x;
+    const q3 = lineA.from.y - box.yRange.min;
+    const q4 = box.yRange.max - lineA.from.y;
+
+    const posarr = new Array<number>(3);
+    const negarr = new Array<number>(3);
+    let posind = 1;
+    let negind = 1;
+    posarr[0] = 1;
+    negarr[0] = 0;
+
+    if ((p1 === 0 && q1 < 0) || (p2 === 0 && q2 < 0) || (p3 === 0 && q3 < 0) || (p4 === 0 && q4 < 0)) {
+      // Line is parallel to box
+      return {intersects: false, domain: new IntervalSorted(0,0)}
+    }
+    if (p1 !== 0) {
+      const r1 = q1 / p1;
+      const r2 = q2 / p2;
+      if (p1 < 0) {
+        negarr[negind++] = r1; // for negative p1, add it to negative array
+        posarr[posind++] = r2; // and add p2 to positive array
+      } else {
+        negarr[negind++] = r2;
+        posarr[posind++] = r1;
+      }
+    }
+    if (p3 !== 0) {
+      const r3 = q3 / p3;
+      const r4 = q4 / p4;
+      if (p3 < 0) {
+        negarr[negind++] = r3;
+        posarr[posind++] = r4;
+      } else {
+        negarr[negind++] = r4;
+        posarr[posind++] = r3;
+      }
+    }
+
+    const rn1 = maxi(negarr, negind); // maximum of negative array
+    const rn2 = mini(posarr, posind); // minimum of positive array
+
+    if (rn1 > rn2)  { // reject
+      // Line is outside the box
+      return {intersects: false, domain: new IntervalSorted(0,0)}
+    }
+    return {intersects: true, domain: new IntervalSorted(rn1,rn2)}
+  }
+
+  /**
+   * Returns the parameters of intersection(s) between a line and a circle.
+   * @param lineA   The line
+   * @param circle  The circle
+   */
+  export function lineCircle(lineA: Line, circle: Circle): {
+    /** The number of intersections between `lineA` and `circle`. */
+    intersects: LineCircleIntersection,
+    /** The parameter(s) along `lineA` where the intersections occur. Use [[Line.pointAt]] to get actual points. */
+    u: readonly number[]} {
+
+    // Based on: https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
+    const d = lineA.direction;
+    const f = Vector.fromPoints(circle.center, lineA.from);
+    const r = circle.radius;
+
+    const a = d.dotProduct(d) ;
+    const b = 2*f.dotProduct(d) ;
+    const c = f.dotProduct( f ) - r*r;
+
+    const discriminant = b*b-4*a*c;
+
+    if( discriminant < 0 )
+    {
+      // Line never crosses circle
+      return {intersects: LineCircleIntersection.none, u: []};
+    }
+
+    const discriminant_sqrt = Math.sqrt( discriminant );
+    const t1 = (-b - discriminant_sqrt)/(2*a);
+    const t2 = (-b + discriminant_sqrt)/(2*a);
+
+    if( t1 >= 0 && t1 <= 1 )
+    {
+      if(t2 >= 0 && t2 <= 1) {
+        if(approximatelyEqual(t1, t2, shapetypesSettings.absoluteTolerance)) {
+          // Line is tangent to circle
+          return {intersects: LineCircleIntersection.single, u: [t1]};
+        } else {
+          // Line went through both sides
+          return {intersects: LineCircleIntersection.multiple, u: [t1, t2]};
+        }
+      } else {
+        // Line crossed once but ended before making it through to other side
+        return {intersects: LineCircleIntersection.single, u: [t1]};
+      }
+    }
+
+    if( t2 >= 0 && t2 <= 1 )
+    {
+      // Line started inside and exited in one place
+      return {intersects: LineCircleIntersection.single, u: [t2]};
+    }
+
+    // Line is either completely inside the circle or completely outside.
+    return {intersects: LineCircleIntersection.none, u: []};
+  }
+
+
+
+
+
+  // TODO: BoundingBox
+  // TODO: Ray
+  /**
+   * Returns the parameters of intersection(s) between a line and any other type of geometry.
+   * @param lineA       The line to intersect.
+   * @param otherGeom   The other geometry to test for intersection.
+   * @returns           The parameter(s) along `lineA` where the intersections occur. Use [[Line.pointAt]] to get actual points.
+   */
+  export function line(
+    lineA: Line,
+    otherGeom: Point | Line | Circle | Rectangle | Polyline | Polygon // |
+      // ReadonlyArray<Point | Line | Circle | Rectangle | Polyline | Polygon>
   ): readonly number[] {
-    if(poly instanceof Polyline) {
+    if (otherGeom instanceof Array) {
       const intersections = new Array<number>();
-      for (const edge of poly.segments) {
-        const result = Intersection.LineLine(line, edge);
-        if (result.success) {
-          intersections.push(result.lineAu);
+      for(const geom of otherGeom) {
+        intersections.push(...Intersection.line(lineA, geom));
+      }
+      return intersections;
+    } else if(otherGeom instanceof Point) {
+      const t = lineA.closestParameter(otherGeom, true);
+      const p = lineA.pointAt(t, true);
+      if(p.equals(otherGeom)) {
+        return [t];
+      }
+    }else if(otherGeom instanceof Line) {
+      const result = Intersection.lineLine(lineA, otherGeom);
+      if(result.intersects){
+        return [result.lineAu];
+      }
+    }else if(otherGeom instanceof Circle) {
+      return Intersection.lineCircle(lineA, otherGeom).u;
+    }else if(otherGeom instanceof Rectangle) {
+      return Intersection.line(lineA, otherGeom.toPolyline());
+    }
+    else if(otherGeom instanceof Polyline) {
+      const intersections = new Array<number>();
+      const result = Intersection.lineBox(lineA, otherGeom.boundingBox);
+      if(result.intersects) {
+        intersections.push(...linePolyline(lineA, otherGeom));
+      }
+      return intersections.sort();
+    } else if(otherGeom instanceof Polygon) {
+      const intersections = new Array<number>();
+      const result = Intersection.lineBox(lineA, otherGeom.boundary.boundingBox);
+      if(result.intersects) {
+        intersections.push(...linePolyline(lineA, otherGeom.boundary));
+        for(const hole of otherGeom.holes) {
+          const holeResult = Intersection.lineBox(lineA, hole.boundingBox);
+          if(holeResult.intersects) {
+            intersections.push(...linePolyline(lineA, hole));
+          }
         }
       }
       return intersections.sort();
-    } else {
-      const intersections = new Array<number>();
-      intersections.push(...Intersection.
-      poly.boundary)
+    }  else {
+      throw TypeError("Wrong type of geometry");
     }
-  }*/
+    return [];
+  }
+
+
+  function linePolyline(line: Line, polyline: Polyline): readonly number[] {
+    const intersections = new Array<number>();
+    for (const edge of polyline.segments) {
+      const result = Intersection.lineLine(line, edge);
+      if (result.intersects) {
+        intersections.push(result.lineAu);
+      }
+    }
+    return intersections;
+  }
 
 
 
@@ -98,7 +308,7 @@ export module Intersection {
 
 
 
-
+// TODO: Ray circle
 
 
   /**
@@ -279,8 +489,8 @@ export module Intersection {
     if (result !== undefined) {
       for (const edgeA of a.segments) {
         for (const edgeB of b.segments) {
-          const result2 = Intersection.LineLine(edgeA, edgeB);
-          if (result2.success) {
+          const result2 = Intersection.lineLine(edgeA, edgeB);
+          if (result2.intersects) {
             intersections.push(edgeA.pointAt(result2.lineAu));
           }
         }
@@ -372,4 +582,25 @@ export module Intersection {
     }
     return { success: false, rayU: 0, lineU: 0 };
   }
+}
+
+
+// this function gives the maximum
+function maxi(arr: readonly number[], n:number): number {
+  let m = 0;
+  for (let i = 0; i < n; ++i) {
+    if (m < arr[i]) {
+      m = arr[i];
+    }
+  }
+  return m;
+}
+function mini(arr: readonly number[], n:number): number {
+  let m = 1;
+  for (let i = 0; i < n; ++i) {
+    if (m > arr[i]) {
+      m = arr[i];
+    }
+  }
+  return m;
 }
