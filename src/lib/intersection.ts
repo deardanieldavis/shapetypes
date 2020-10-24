@@ -8,7 +8,6 @@ import { Point } from './point';
 import { Polygon } from './polygon';
 import { Polyline } from './polyline';
 import { Ray } from './ray';
-// import { Rectangle } from './rectangle';
 import { shapetypesSettings } from './settings';
 import { approximatelyEqual } from './utilities';
 import { Vector } from './vector';
@@ -236,18 +235,27 @@ export module Intersection {
    * @param otherGeom   The other geometry to test for intersection.
    * @returns           The parameter(s) along `lineA` where the intersections occur. Use [[Line.pointAt]] to get actual points.
    */
-  /*
-  export function line(
-    lineA: Line,
-    otherGeom: Point | Line | Circle | Rectangle | Polyline | Polygon): readonly number[] {
 
-    /*if (otherGeom instanceof Array) {
+  export function line(
+    // @ts-ignore
+    lineA: Line,
+    // @ts-ignore
+    otherGeom: Point | Line | Circle | Polyline | Polygon): readonly number[]
+  {
+
+    return [];
+  }
+
+
+
+    /*
+    if (otherGeom instanceof Array) {
       const intersections = new Array<number>();
       for(const geom of otherGeom) {
         intersections.push(...Intersection.line(lineA, geom));
       }
       return intersections;
-    } else*
+    } else
 
     if(otherGeom instanceof Point) {
       const t = lineA.closestParameter(otherGeom, true);
@@ -262,7 +270,7 @@ export module Intersection {
       }
     }else if(otherGeom instanceof Circle) {
       return Intersection.lineCircle(lineA, otherGeom).u;
-    }else if(otherGeom instanceof Rectangle) {
+    /*}else if(otherGeom instanceof Rectangle)
       return Intersection.line(lineA, otherGeom.toPolyline());
     }
     else if(otherGeom instanceof Polyline) {
