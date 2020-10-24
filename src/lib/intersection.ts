@@ -78,11 +78,11 @@ export module Intersection {
 
   /**
    * Returns the parameters of an intersection between a line and a bounding box.
-   * @param lineA   The line
-   * @param box     The bounding box
+   * @param theLine   The line
+   * @param box       The bounding box
    */
   export function lineBox(
-    lineA: Line,
+    theLine: Line,
     box: BoundingBox
   ): {
     /** True if the line intersects the bounding box */
@@ -91,16 +91,16 @@ export module Intersection {
     domain: IntervalSorted;
   } {
     // Reject lines that obviously wont intersect
-    if (lineA.from.x < box.xRange.min && lineA.to.x < box.xRange.min) {
+    if (theLine.from.x < box.xRange.min && theLine.to.x < box.xRange.min) {
       // Fully to left
       return { intersects: false, domain: new IntervalSorted(0, 0) };
-    } else if (lineA.from.x > box.xRange.max && lineA.to.x > box.xRange.max) {
+    } else if (theLine.from.x > box.xRange.max && theLine.to.x > box.xRange.max) {
       // Fully to right
       return { intersects: false, domain: new IntervalSorted(0, 0) };
-    } else if (lineA.from.y < box.yRange.min && lineA.to.y < box.yRange.min) {
+    } else if (theLine.from.y < box.yRange.min && theLine.to.y < box.yRange.min) {
       // Fully below box
       return { intersects: false, domain: new IntervalSorted(0, 0) };
-    } else if (lineA.from.y > box.yRange.max && lineA.to.y > box.yRange.max) {
+    } else if (theLine.from.y > box.yRange.max && theLine.to.y > box.yRange.max) {
       // Fully above box
       return { intersects: false, domain: new IntervalSorted(0, 0) };
     }
@@ -109,15 +109,15 @@ export module Intersection {
     // https://en.wikipedia.org/wiki/Liang–Barsky_algorithm
 
     // defining variables
-    const p1 = -lineA.direction.x;
-    const p2 = lineA.direction.x;
-    const p3 = -lineA.direction.y;
-    const p4 = lineA.direction.y;
+    const p1 = -theLine.direction.x;
+    const p2 = theLine.direction.x;
+    const p3 = -theLine.direction.y;
+    const p4 = theLine.direction.y;
 
-    const q1 = lineA.from.x - box.xRange.min;
-    const q2 = box.xRange.max - lineA.from.x;
-    const q3 = lineA.from.y - box.yRange.min;
-    const q4 = box.yRange.max - lineA.from.y;
+    const q1 = theLine.from.x - box.xRange.min;
+    const q2 = box.xRange.max - theLine.from.x;
+    const q3 = theLine.from.y - box.yRange.min;
+    const q4 = box.yRange.max - theLine.from.y;
 
     const posarr = new Array<number>(3);
     const negarr = new Array<number>(3);
@@ -171,11 +171,11 @@ export module Intersection {
 
   /**
    * Returns the parameters of intersection(s) between a line and a circle.
-   * @param lineA   The line
-   * @param circle  The circle
+   * @param theLine   The line
+   * @param circle    The circle
    */
   export function lineCircle(
-    lineA: Line,
+    theLine: Line,
     circle: Circle
   ): {
     /** The number of intersections between `lineA` and `circle`. */
@@ -184,8 +184,8 @@ export module Intersection {
     u: readonly number[];
   } {
     // Based on: https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
-    const d = lineA.direction;
-    const f = Vector.fromPoints(circle.center, lineA.from);
+    const d = theLine.direction;
+    const f = Vector.fromPoints(circle.center, theLine.from);
     const r = circle.radius;
 
     const a = d.dotProduct(d);
@@ -229,87 +229,95 @@ export module Intersection {
 
   // TODO: BoundingBox
   // TODO: Ray
+  // TODO: For some reason circle and rectangle cause a circular import
+  /*
+else if(otherGeom instanceof Circle) {
+  return Intersection.lineCircle(lineA, otherGeom).u;
+/*}else if(otherGeom instanceof Rectangle)
+  return Intersection.line(lineA, otherGeom.toPolyline());
+}
+}
+*/
+
+
   /**
    * Returns the parameters of intersection(s) between a line and any other type of geometry.
-   * @param lineA       The line to intersect.
+   * @param theLine      The line to intersect.
    * @param otherGeom   The other geometry to test for intersection.
    * @returns           The parameter(s) along `lineA` where the intersections occur. Use [[Line.pointAt]] to get actual points.
    */
 
   export function line(
+    theLine: Line,
     // @ts-ignore
-    lineA: Line,
-    // @ts-ignore
-    otherGeom: Point | Line | Circle | Polyline | Polygon): readonly number[]
+    otherGeom: Point | Line | Circle | Polyline | Polygon |
+      ReadonlyArray<Point | Line | Circle | Polyline | Polygon>
+  ): readonly number[]
   {
-
-    return [];
-  }
-
-
-
-    /*
     if (otherGeom instanceof Array) {
       const intersections = new Array<number>();
       for(const geom of otherGeom) {
-        intersections.push(...Intersection.line(lineA, geom));
+        intersections.push(...Intersection.line(theLine, geom));
       }
-      return intersections;
-    } else
-
-    if(otherGeom instanceof Point) {
-      const t = lineA.closestParameter(otherGeom, true);
-      const p = lineA.pointAt(t, true);
+      return intersections.sort();
+    }
+    else if(otherGeom instanceof Point) {
+      const t = theLine.closestParameter(otherGeom, true);
+      const p = theLine.pointAt(t, true);
       if(p.equals(otherGeom)) {
         return [t];
       }
-    }else if(otherGeom instanceof Line) {
-      const result = Intersection.lineLine(lineA, otherGeom);
+    }
+    else if(otherGeom instanceof Line) {
+      const result = Intersection.lineLine(theLine, otherGeom);
       if(result.intersects){
         return [result.lineAu];
       }
-    }else if(otherGeom instanceof Circle) {
-      return Intersection.lineCircle(lineA, otherGeom).u;
-    /*}else if(otherGeom instanceof Rectangle)
-      return Intersection.line(lineA, otherGeom.toPolyline());
     }
+
     else if(otherGeom instanceof Polyline) {
       const intersections = new Array<number>();
-      const result = Intersection.lineBox(lineA, otherGeom.boundingBox);
+      const result = Intersection.lineBox(theLine, otherGeom.boundingBox);
       if(result.intersects) {
-        intersections.push(...linePolyline(lineA, otherGeom));
+        intersections.push(...linePolyline(theLine, otherGeom));
       }
       return intersections.sort();
-    } else if(otherGeom instanceof Polygon) {
+    }
+    else if(otherGeom instanceof Polygon) {
       const intersections = new Array<number>();
-      const result = Intersection.lineBox(lineA, otherGeom.boundary.boundingBox);
+      const result = Intersection.lineBox(theLine, otherGeom.boundary.boundingBox);
       if(result.intersects) {
-        intersections.push(...linePolyline(lineA, otherGeom.boundary));
+        intersections.push(...linePolyline(theLine, otherGeom.boundary));
         for(const hole of otherGeom.holes) {
-          const holeResult = Intersection.lineBox(lineA, hole.boundingBox);
+          const holeResult = Intersection.lineBox(theLine, hole.boundingBox);
           if(holeResult.intersects) {
-            intersections.push(...linePolyline(lineA, hole));
+            intersections.push(...linePolyline(theLine, hole));
           }
         }
       }
       return intersections.sort();
-    }  else {
+    }
+    else {
       throw TypeError("Wrong type of geometry");
     }
     return [];
   }
 
 
-  function linePolyline(line: Line, polyline: Polyline): readonly number[] {
+  function linePolyline(theLine: Line, polyline: Polyline): readonly number[] {
     const intersections = new Array<number>();
     for (const edge of polyline.segments) {
-      const result = Intersection.lineLine(line, edge);
+      const result = Intersection.lineLine(theLine, edge);
       if (result.intersects) {
         intersections.push(result.lineAu);
       }
     }
     return intersections;
-  }*/
+  }
+
+
+
+
 
   // -----------------------
   // RAYS
