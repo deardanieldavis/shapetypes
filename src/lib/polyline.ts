@@ -1,7 +1,8 @@
 /* tslint:disable:no-let */
 import {
   difference as pcDifference,
-  intersection as pcIntersection, MultiPolygon,
+  intersection as pcIntersection,
+  MultiPolygon,
   Pair,
   Ring,
   union as pcUnion
@@ -63,7 +64,10 @@ export class Polyline {
    * @param coordinates  List of points in the format `[[x1,y1],[x2,y2],[x3,y3]]`
    * @param makeClosed    If true, checks whether the resulting polyline [[isClosed]] and if it isn't, adds another point ensuring the polyline ends the same place it starts.
    */
-  public static fromCoords(coordinates: Ring, makeClosed: boolean = false): Polyline {
+  public static fromCoords(
+    coordinates: Ring,
+    makeClosed: boolean = false
+  ): Polyline {
     const points = new Array<Point>(coordinates.length);
     for (let i = 0; i < coordinates.length; i++) {
       points[i] = new Point(coordinates[i][0], coordinates[i][1]);
@@ -890,17 +894,14 @@ export class Polyline {
   }
 }
 
-
-function fromGeoJSON(
-  multi: MultiPolygon
-): ReadonlyArray<Polyline | Polygon> {
+function fromGeoJSON(multi: MultiPolygon): ReadonlyArray<Polyline | Polygon> {
   const outputs = new Array<Polyline | Polygon>();
 
   for (const polygon of multi) {
     if (polygon.length === 0) {
       /* istanbul ignore next */
       continue;
-    } else if(polygon.length === 1) {
+    } else if (polygon.length === 1) {
       outputs.push(Polyline.fromCoords(polygon[0]));
     } else {
       /* istanbul ignore next */

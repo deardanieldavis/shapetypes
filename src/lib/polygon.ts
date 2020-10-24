@@ -23,7 +23,6 @@ import {
 } from './utilities';
 import { Vector } from './vector';
 
-
 /**
  * A polygon is a shape defined by an outer [[boundary]]. The surface of the polygon
  * may not be continous and may contain [[holes]].
@@ -35,10 +34,9 @@ export class Polygon {
   // STATIC
   // -----------------------
 
-
   public static fromCoords(coordinates: pcPolygon): Polygon {
     if (coordinates.length === 0) {
-      throw new RangeError("Coordiante of polygon must have a length");
+      throw new RangeError('Coordiante of polygon must have a length');
     } else if (coordinates.length === 1) {
       const boundary = Polyline.fromCoords(coordinates[0]);
       return new Polygon(boundary);
@@ -51,7 +49,6 @@ export class Polygon {
       return new Polygon(boundary, holes);
     }
   }
-
 
   // -----------------------
   // VARS
@@ -79,14 +76,13 @@ export class Polygon {
     }
   }
 
-
   // -----------------------
   // GET
   // -----------------------
 
   get area(): number {
     let area = this._boundary.area;
-    for(const hole of this._holes) {
+    for (const hole of this._holes) {
       area -= hole.area;
     }
     return area;
@@ -112,9 +108,7 @@ export class Polygon {
    * Returns the point on the polyline that is nearest to `targetPoint`.
    * @param targetPoint  The target to measure distance from.
    */
-  public closestLoop(
-    targetPoint: Point,
-  ): Polyline {
+  public closestLoop(targetPoint: Point): Polyline {
     let closestLength: number | undefined;
     let closestLoop: Polyline = this._boundary;
 
@@ -135,10 +129,8 @@ export class Polygon {
    * Returns the point on the polyline that is nearest to `targetPoint`.
    * @param targetPoint  The target to measure distance from.
    */
-  public closestPoint(
-    targetPoint: Point,
-  ): Point {
-    if(this.contains(targetPoint) === PointContainment.inside) {
+  public closestPoint(targetPoint: Point): Point {
+    if (this.contains(targetPoint) === PointContainment.inside) {
       return targetPoint;
     }
 
@@ -146,13 +138,13 @@ export class Polygon {
     let closestPoint: Point = targetPoint;
 
     for (const polyline of [this._boundary, ...this._holes]) {
-      if(closestLength !== undefined) {
+      if (closestLength !== undefined) {
         // Rather than running closest point on every polyline, quickly check to see
         // if the polyline's boundingBox is close. If it's not, there is no way the polyline
         // can be close.
         const closestBB = polyline.boundingBox.closestPoint(targetPoint, true);
         const lengthBB = targetPoint.distanceTo(closestBB);
-        if(lengthBB > closestLength) {
+        if (lengthBB > closestLength) {
           continue;
         }
       }
@@ -181,16 +173,16 @@ export class Polygon {
     tolerance = shapetypesSettings.absoluteTolerance
   ): PointContainment {
     const boundaryContainment = this._boundary.contains(point, tolerance);
-    if(boundaryContainment !== PointContainment.inside) {
+    if (boundaryContainment !== PointContainment.inside) {
       return boundaryContainment;
     }
 
-    for(const hole of this._holes) {
+    for (const hole of this._holes) {
       const holeContainment = hole.contains(point, tolerance);
-      if(holeContainment === PointContainment.inside) {
+      if (holeContainment === PointContainment.inside) {
         // Because we're inside a hole
         return PointContainment.outside;
-      }else if(holeContainment === PointContainment.coincident) {
+      } else if (holeContainment === PointContainment.coincident) {
         return PointContainment.coincident;
       }
     }
@@ -201,22 +193,21 @@ export class Polygon {
   }
 
   public equals(otherPolygon: Polygon): boolean {
-    if(this._holes.length !== otherPolygon.holes.length) {
+    if (this._holes.length !== otherPolygon.holes.length) {
       return false;
     }
-    if(! this._boundary.equals(otherPolygon.boundary)) {
+    if (!this._boundary.equals(otherPolygon.boundary)) {
       return false;
     }
-    for(let i = 0; i < this._holes.length; i++) {
+    for (let i = 0; i < this._holes.length; i++) {
       const myHole = this._holes[i];
       const otherHole = otherPolygon.holes[i];
-      if(! myHole.equals(otherHole)) {
+      if (!myHole.equals(otherHole)) {
         return false;
       }
     }
     return true;
   }
-
 
   public toString(): string {
     const strings = new Array<string>();
@@ -225,7 +216,6 @@ export class Polygon {
     }
     return '[' + strings.join(',') + ']';
   }
-
 
   // -----------------------
   // BOOLEAN
@@ -240,30 +230,21 @@ export class Polygon {
   public union(
     joiner: Polyline | Polygon | readonly Polyline[] | readonly Polygon[]
   ): ReadonlyArray<Polygon> {
-    const result = pcUnion(
-      this.asGeoJSON(),
-      toMulti(joiner)
-    );
+    const result = pcUnion(this.asGeoJSON(), toMulti(joiner));
     return fromGeoJSON(result);
   }
 
   public intersection(
     intersector: Polyline | Polygon | readonly Polyline[] | readonly Polygon[]
   ): ReadonlyArray<Polygon> {
-    const result = pcIntersection(
-      this.asGeoJSON(),
-      toMulti(intersector)
-    );
+    const result = pcIntersection(this.asGeoJSON(), toMulti(intersector));
     return fromGeoJSON(result);
   }
 
   public difference(
     subtractor: Polyline | Polygon | readonly Polyline[] | readonly Polygon[]
   ): ReadonlyArray<Polygon> {
-    const result = pcDifference(
-      this.asGeoJSON(),
-      toMulti(subtractor)
-    );
+    const result = pcDifference(this.asGeoJSON(), toMulti(subtractor));
     return fromGeoJSON(result);
   }
 
@@ -282,7 +263,6 @@ export class Polygon {
 
     return rings;
   }
-
 
   // -----------------------
   // TRANSFORMABLE
@@ -396,12 +376,11 @@ export class Polygon {
    * @param move      Direction to move the polyline.
    * @param distance  Distance to move the polyline. If not specified, will use length of `move` vector.
    */
-  public translate(move: Vector, distance?: number | undefined): Polygon{
+  public translate(move: Vector, distance?: number | undefined): Polygon {
     const tran = Transform.translate(move, distance);
     return this.transform(tran);
   }
 }
-
 
 // -----------------------
 // HELPERS
@@ -445,9 +424,7 @@ function toMulti(
  *              - If the operation didn't split the original geometry into pieces, this array will have only one item in it.
  *              - If the resulting object doesn't have any hole it'll be returned as a polyline. If it has holes, it'll be returned as a polygon.
  */
-function fromGeoJSON(
-  multi: MultiPolygon
-): ReadonlyArray<Polygon> {
+function fromGeoJSON(multi: MultiPolygon): ReadonlyArray<Polygon> {
   const outputs = new Array<Polygon>();
 
   for (const polygon of multi) {
@@ -460,5 +437,3 @@ function fromGeoJSON(
   }
   return outputs;
 }
-
-

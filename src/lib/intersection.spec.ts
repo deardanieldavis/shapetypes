@@ -18,212 +18,321 @@ const test = anyTest as TestInterface<{
 }>;
 
 test.beforeEach('Create test geometry', t => {
-  t.context.box = new BoundingBox(new Interval(-10, 10),new Interval(-10, 10));
-  t.context.boxShifted = new BoundingBox(new Interval(-10, 10),new Interval(5, 35));
-  t.context.circle = new Circle(1, new Point(3,4));
+  t.context.box = new BoundingBox(new Interval(-10, 10), new Interval(-10, 10));
+  t.context.boxShifted = new BoundingBox(
+    new Interval(-10, 10),
+    new Interval(5, 35)
+  );
+  t.context.circle = new Circle(1, new Point(3, 4));
 });
-
 
 // -----------------------
 // LINES
 // -----------------------
 test('lineLine: Meet in cross at 0,0', t => {
-  const lineA = Line.fromCoords([[-10, 0], [10,0]]);
-  const lineB = Line.fromCoords([[0, -10], [0, 10]]);
+  const lineA = Line.fromCoords([
+    [-10, 0],
+    [10, 0]
+  ]);
+  const lineB = Line.fromCoords([
+    [0, -10],
+    [0, 10]
+  ]);
   const result = Intersection.lineLine(lineA, lineB);
   t.true(result.intersects);
   t.is(result.lineAu, 0.5);
   t.is(result.lineBu, 0.5);
 });
 test('lineLine: Meet in cross at 0,0, reversed', t => {
-  const lineA = Line.fromCoords([[-10, 0], [10,0]]);
-  const lineB = Line.fromCoords([[0, 10], [0, -10]]);
+  const lineA = Line.fromCoords([
+    [-10, 0],
+    [10, 0]
+  ]);
+  const lineB = Line.fromCoords([
+    [0, 10],
+    [0, -10]
+  ]);
   const result = Intersection.lineLine(lineA, lineB);
   t.true(result.intersects);
   t.is(result.lineAu, 0.5);
   t.is(result.lineBu, 0.5);
 });
 test('lineLine: Meet in cross at -10,0', t => {
-  const lineA = Line.fromCoords([[-10, 0], [10,0]]);
-  const lineB = Line.fromCoords([[-10, -10], [-10, 10]]);
+  const lineA = Line.fromCoords([
+    [-10, 0],
+    [10, 0]
+  ]);
+  const lineB = Line.fromCoords([
+    [-10, -10],
+    [-10, 10]
+  ]);
   const result = Intersection.lineLine(lineA, lineB);
   t.true(result.intersects);
   t.is(result.lineAu, 0);
   t.is(result.lineBu, 0.5);
 });
 test('lineLine: Meet in cross at 0,10', t => {
-  const lineA = Line.fromCoords([[-10, 10], [10,10]]);
-  const lineB = Line.fromCoords([[0, -10], [0, 10]]);
+  const lineA = Line.fromCoords([
+    [-10, 10],
+    [10, 10]
+  ]);
+  const lineB = Line.fromCoords([
+    [0, -10],
+    [0, 10]
+  ]);
   const result = Intersection.lineLine(lineA, lineB);
   t.true(result.intersects);
   t.is(result.lineAu, 0.5);
   t.is(result.lineBu, 1);
 });
 test('lineLine: Meet at angle at 0,00', t => {
-  const lineA = Line.fromCoords([[-10,0], [10,0]]);
-  const lineB = Line.fromCoords([[-10, -10], [10, 10]]);
+  const lineA = Line.fromCoords([
+    [-10, 0],
+    [10, 0]
+  ]);
+  const lineB = Line.fromCoords([
+    [-10, -10],
+    [10, 10]
+  ]);
   const result = Intersection.lineLine(lineA, lineB);
   t.true(result.intersects);
   t.is(result.lineAu, 0.5);
   t.is(result.lineBu, 0.5);
 });
 test('lineLine: Do not meet', t => {
-  const lineA = Line.fromCoords([[-10, 0], [10,0]]);
-  const lineB = Line.fromCoords([[0, 10], [0, 20]]);
+  const lineA = Line.fromCoords([
+    [-10, 0],
+    [10, 0]
+  ]);
+  const lineB = Line.fromCoords([
+    [0, 10],
+    [0, 20]
+  ]);
   const result = Intersection.lineLine(lineA, lineB);
   t.is(result.intersects, false);
 });
 test('lineLine: Infinite, meet in cross at 0,0', t => {
-  const lineA = Line.fromCoords([[-10, 0], [10,0]]);
-  const lineB = Line.fromCoords([[0, -10], [0, 10]]);
+  const lineA = Line.fromCoords([
+    [-10, 0],
+    [10, 0]
+  ]);
+  const lineB = Line.fromCoords([
+    [0, -10],
+    [0, 10]
+  ]);
   const result = Intersection.lineLine(lineA, lineB, false);
   t.true(result.intersects);
   t.is(result.lineAu, 0.5);
   t.is(result.lineBu, 0.5);
 });
 test('lineLine: Infinite, meet below lineB', t => {
-  const lineA = Line.fromCoords([[-10, 0], [10,0]]);
-  const lineB = Line.fromCoords([[0, 10], [0, 20]]);
+  const lineA = Line.fromCoords([
+    [-10, 0],
+    [10, 0]
+  ]);
+  const lineB = Line.fromCoords([
+    [0, 10],
+    [0, 20]
+  ]);
   const result = Intersection.lineLine(lineA, lineB, false);
   t.true(result.intersects);
   t.is(result.lineAu, 0.5);
   t.is(result.lineBu, -1);
 });
 test('lineLine: Infinite, meet at an angle at 0,0', t => {
-  const lineA = Line.fromCoords([[-10, -10], [-5,-5]]);
-  const lineB = Line.fromCoords([[5, -5], [10, -10]]);
+  const lineA = Line.fromCoords([
+    [-10, -10],
+    [-5, -5]
+  ]);
+  const lineB = Line.fromCoords([
+    [5, -5],
+    [10, -10]
+  ]);
   const result = Intersection.lineLine(lineA, lineB, false);
   t.true(result.intersects);
   t.is(result.lineAu, 2);
   t.is(result.lineBu, -1);
 });
 
-
 test('lineBox: Above the box', t => {
-  const line = Line.fromCoords([[-5, 20], [5,20]]);
+  const line = Line.fromCoords([
+    [-5, 20],
+    [5, 20]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, false);
   t.is(result.domain.min, 0);
   t.is(result.domain.max, 0);
 });
 test('lineBox: Below the box', t => {
-  const line = Line.fromCoords([[-5, -20], [5,-20]]);
+  const line = Line.fromCoords([
+    [-5, -20],
+    [5, -20]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, false);
 });
 test('lineBox: Left of the box', t => {
-  const line = Line.fromCoords([[-20, -5], [-20,5]]);
+  const line = Line.fromCoords([
+    [-20, -5],
+    [-20, 5]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, false);
 });
 test('lineBox: Right of the box', t => {
-  const line = Line.fromCoords([[20, -5], [20,5]]);
+  const line = Line.fromCoords([
+    [20, -5],
+    [20, 5]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, false);
 });
 test('lineBox: Through left side', t => {
-  const line = Line.fromCoords([[-20, 0], [0,0]]);
+  const line = Line.fromCoords([
+    [-20, 0],
+    [0, 0]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, true);
   t.is(result.domain.min, 0.5);
   t.is(result.domain.max, 1);
 });
 test('lineBox: Through right side', t => {
-  const line = Line.fromCoords([[9, 0], [19,0]]);
+  const line = Line.fromCoords([
+    [9, 0],
+    [19, 0]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, true);
   t.is(result.domain.min, 0);
   t.is(result.domain.max, 0.1);
 });
 test('lineBox: Through bottom side', t => {
-  const line = Line.fromCoords([[0, 0], [0,-20]]);
+  const line = Line.fromCoords([
+    [0, 0],
+    [0, -20]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, true);
   t.is(result.domain.min, 0);
   t.is(result.domain.max, 0.5);
 });
 test('lineBox: Through top side', t => {
-  const line = Line.fromCoords([[0, 0], [0,20]]);
+  const line = Line.fromCoords([
+    [0, 0],
+    [0, 20]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, true);
   t.is(result.domain.min, 0);
   t.is(result.domain.max, 0.5);
 });
 test('lineBox: Through top right corner', t => {
-  const line = Line.fromCoords([[0, 0], [100,100]]);
+  const line = Line.fromCoords([
+    [0, 0],
+    [100, 100]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, true);
   t.is(result.domain.min, 0);
   t.is(result.domain.max, 0.1);
 });
 test('lineBox: Through two corners', t => {
-  const line = Line.fromCoords([[-20, 20], [20,-20]]);
+  const line = Line.fromCoords([
+    [-20, 20],
+    [20, -20]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, true);
   t.is(result.domain.min, 0.25);
   t.is(result.domain.max, 0.75);
 });
 test('lineBox: Touching top right corner', t => {
-  const line = Line.fromCoords([[0, 20], [20,0]]);
+  const line = Line.fromCoords([
+    [0, 20],
+    [20, 0]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, true);
   t.is(result.domain.min, 0.5);
   t.is(result.domain.max, 0.5);
 });
 test('lineBox: Just above top right corner', t => {
-  const line = Line.fromCoords([[0, 21], [20,1]]);
+  const line = Line.fromCoords([
+    [0, 21],
+    [20, 1]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, false);
 });
 test('lineBox: fully inside box', t => {
-  const line = Line.fromCoords([[-5, 5], [0,0]]);
+  const line = Line.fromCoords([
+    [-5, 5],
+    [0, 0]
+  ]);
   const result = Intersection.lineBox(line, t.context.box);
   t.is(result.intersects, true);
   t.is(result.domain.min, 0);
   t.is(result.domain.max, 1);
 });
 
-
 // t.context.circle = new Circle(10, new Point(3,4));
 test('lineCircle: straight through middle', t => {
-  const line = Line.fromCoords([[1, 4], [5,4]]);
+  const line = Line.fromCoords([
+    [1, 4],
+    [5, 4]
+  ]);
   const result = Intersection.lineCircle(line, t.context.circle);
   t.is(result.intersects, LineCircleIntersection.multiple);
   t.is(result.u[0], 0.25);
   t.is(result.u[1], 0.75);
 });
 test('lineCircle: enters but no exit', t => {
-  const line = Line.fromCoords([[1, 4], [3,4]]);
+  const line = Line.fromCoords([
+    [1, 4],
+    [3, 4]
+  ]);
   const result = Intersection.lineCircle(line, t.context.circle);
   t.is(result.intersects, LineCircleIntersection.single);
   t.is(result.u[0], 0.5);
 });
 test('lineCircle: starts inside', t => {
-  const line = Line.fromCoords([[3, 4], [5,4]]);
+  const line = Line.fromCoords([
+    [3, 4],
+    [5, 4]
+  ]);
   const result = Intersection.lineCircle(line, t.context.circle);
   t.is(result.intersects, LineCircleIntersection.single);
   t.is(result.u[0], 0.5);
 });
 test('lineCircle: tangent', t => {
-  const line = Line.fromCoords([[1, 3], [5,3]]);
+  const line = Line.fromCoords([
+    [1, 3],
+    [5, 3]
+  ]);
   const result = Intersection.lineCircle(line, t.context.circle);
   t.is(result.intersects, LineCircleIntersection.single);
   t.is(result.u[0], 0.5);
 });
 test('lineCircle: below', t => {
-  const line = Line.fromCoords([[1, -3], [5,-3]]);
+  const line = Line.fromCoords([
+    [1, -3],
+    [5, -3]
+  ]);
   const result = Intersection.lineCircle(line, t.context.circle);
   t.is(result.intersects, LineCircleIntersection.none);
   t.is(result.u.length, 0);
 });
 test('lineCircle: doesnt enter', t => {
-  const line = Line.fromCoords([[0, 4], [1,4]]);
+  const line = Line.fromCoords([
+    [0, 4],
+    [1, 4]
+  ]);
   const result = Intersection.lineCircle(line, t.context.circle);
   t.is(result.intersects, LineCircleIntersection.none);
   t.is(result.u.length, 0);
 });
-
-
 
 /*
 test('LinePolyline', t => {
@@ -235,13 +344,6 @@ test('LinePolyline', t => {
   t.is(intersections.length, 2);
   t.is(intersections[0], 0.25);
 });*/
-
-
-
-
-
-
-
 
 /*
 test('LineLineInfinite', t => {
@@ -273,12 +375,6 @@ test('LineLineInfinite', t => {
   result = Intersection.LineLineInfinite(lineA, lineB);
   t.is(result.success, false);
 });*/
-
-
-
-
-
-
 
 test('RayLine', t => {
   let line = new Line(new Point(0, 0), new Point(0, 10));
@@ -337,9 +433,6 @@ test('RayPolyline', t => {
   t.is(intersections.includes(0), true);
   t.is(intersections.includes(20), true);
 });
-
-
-
 
 test('HorizontalRayPolyline', t => {
   const polyline = Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline();
