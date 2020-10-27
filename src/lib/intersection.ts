@@ -18,8 +18,13 @@ export enum LineCircleIntersection {
   multiple
 }
 
+// TODO
+// rayBox
+// Ray needs onlyforward parameter
+
 // tslint:disable-next-line:no-namespace no-internal-module
 export module Intersection {
+
   // -----------------------
   // LINES
   // -----------------------
@@ -43,38 +48,29 @@ export module Intersection {
     lineAu: number;
     /** The parameter along `lineB` where the intersection occurs. Use [[Line.pointAt]] to get actual point. */
     lineBu: number;
-  } {
-    // Based on:
-    // https://github.com/davidfig/pixi-intersects/blob/master/src/shape.js
-    const aX = lineA.direction.x;
-    const aY = lineA.direction.y;
-    const bX = lineB.direction.x;
-    const bY = lineB.direction.y;
-
-    const denominator = -bX * aY + aX * bY;
-    const diffX = lineA.from.x - lineB.from.x;
-    const diffY = lineA.from.y - lineB.from.y;
-
-    const s = (-aY * diffX + aX * diffY) / denominator;
-    const t = (bX * diffY - bY * diffX) / denominator;
+  }
+  {
+    const result = rayRayHelper(lineA.from, lineA.direction, lineB.from, lineB.direction);
 
     if (limitToFiniteSegment) {
       if (
-        -shapetypesSettings.absoluteTolerance <= s &&
-        s <= 1 + shapetypesSettings.absoluteTolerance &&
-        -shapetypesSettings.absoluteTolerance <= t &&
-        t <= 1 + shapetypesSettings.absoluteTolerance
+        -shapetypesSettings.absoluteTolerance <= result.Bu &&
+        result.Bu <= 1 + shapetypesSettings.absoluteTolerance &&
+        -shapetypesSettings.absoluteTolerance <= result.Au &&
+        result.Au <= 1 + shapetypesSettings.absoluteTolerance
       ) {
-        return { intersects: true, lineAu: t, lineBu: s };
-      }
-    } else {
-      if (isFinite(s) && isFinite(t)) {
-        return { intersects: true, lineAu: t, lineBu: s };
+        return { intersects: true, lineAu: result.Au, lineBu: result.Bu };
+      } else {
+        return { intersects: false, lineAu: 0, lineBu: 0 };
       }
     }
-
-    return { intersects: false, lineAu: 0, lineBu: 0 };
+    return {
+      intersects: result.intersects,
+      lineAu: result.Au,
+      lineBu: result.Bu
+    };
   }
+
 
   /**
    * Returns the parameters of an intersection between a line and a bounding box.
@@ -169,6 +165,7 @@ export module Intersection {
     return { intersects: true, domain: new IntervalSorted(rn1, rn2) };
   }
 
+
   /**
    * Returns the parameters of intersection(s) between a line and a circle.
    * @param theLine   The line
@@ -183,49 +180,30 @@ export module Intersection {
     /** The parameter(s) along `lineA` where the intersections occur. Use [[Line.pointAt]] to get actual points. */
     u: readonly number[];
   } {
-    // Based on: https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
-    const d = theLine.direction;
-    const f = Vector.fromPoints(circle.center, theLine.from);
-    const r = circle.radius;
 
-    const a = d.dotProduct(d);
-    const b = 2 * f.dotProduct(d);
-    const c = f.dotProduct(f) - r * r;
+    const result = rayCircleHelper(theLine.from, theLine.direction, circle);
 
-    const discriminant = b * b - 4 * a * c;
-
-    if (discriminant < 0) {
-      // Line never crosses circle
-      return { intersects: LineCircleIntersection.none, u: [] };
-    }
-
-    const discriminant_sqrt = Math.sqrt(discriminant);
-    const t1 = (-b - discriminant_sqrt) / (2 * a);
-    const t2 = (-b + discriminant_sqrt) / (2 * a);
-
-    if (t1 >= 0 && t1 <= 1) {
-      if (t2 >= 0 && t2 <= 1) {
-        if (approximatelyEqual(t1, t2, shapetypesSettings.absoluteTolerance)) {
-          // Line is tangent to circle
-          return { intersects: LineCircleIntersection.single, u: [t1] };
-        } else {
-          // Line went through both sides
-          return { intersects: LineCircleIntersection.multiple, u: [t1, t2] };
-        }
-      } else {
-        // Line crossed once but ended before making it through to other side
-        return { intersects: LineCircleIntersection.single, u: [t1] };
+    if(result.intersects === LineCircleIntersection.single) {
+      // Check intersection happened within bounds of line
+      if(0 <= result.u[0] && result.u[0] <= 1) {
+        return result;
       }
     }
-
-    if (t2 >= 0 && t2 <= 1) {
-      // Line started inside and exited in one place
-      return { intersects: LineCircleIntersection.single, u: [t2] };
+    else if(result.intersects === LineCircleIntersection.multiple) {
+      // Check intersections happened within bounds of line
+      if(0 <= result.u[0] && result.u[0] <= 1) {
+        if(0 <= result.u[1] && result.u[1] <= 1) {
+          return result;
+        }
+        return { intersects: LineCircleIntersection.single, u: [result.u[0]] };
+      }
+      if(0 <= result.u[1] && result.u[1] <= 1) {
+        return { intersects: LineCircleIntersection.single, u: [result.u[1]] };
+      }
     }
-
-    // Line is either completely inside the circle or completely outside.
     return { intersects: LineCircleIntersection.none, u: [] };
   }
+
 
   // TODO: BoundingBox
   // TODO: Ray
@@ -274,7 +252,6 @@ else if(otherGeom instanceof Circle) {
         return [result.lineAu];
       }
     }
-
     else if(otherGeom instanceof Polyline) {
       const intersections = new Array<number>();
       const result = Intersection.lineBox(theLine, otherGeom.boundingBox);
@@ -304,26 +281,24 @@ else if(otherGeom instanceof Circle) {
   }
 
 
-  function linePolyline(theLine: Line, polyline: Polyline): readonly number[] {
-    const intersections = new Array<number>();
-    for (const edge of polyline.segments) {
-      const result = Intersection.lineLine(theLine, edge);
-      if (result.intersects) {
-        intersections.push(result.lineAu);
-      }
-    }
-    return intersections;
-  }
-
-
-
-
 
   // -----------------------
   // RAYS
   // -----------------------
 
-  // TODO: Ray circle
+  /**
+   *
+   * @param theRay
+   * @param circle
+   */
+  export function rayCircle(theRay: Ray, circle: Circle): {
+    /** The number of intersections between `theRay` and `circle`. */
+    intersects: LineCircleIntersection;
+    /** The parameter(s) along `theRay` where the intersections occur. Use [[Ray.pointAt]] to get actual points. */
+    u: readonly number[];
+  } {
+    return rayCircleHelper(theRay.from, theRay.direction, circle);
+  }
 
   /**
    * Calculates the intersection between a ray and a line
@@ -339,67 +314,117 @@ else if(otherGeom instanceof Circle) {
    *              lineU: parameter on the line where the ray intersects. Will always be between 0 & 1, the bounds of the line.
    *
    */
-  export function RayLine(
-    ray: Ray,
-    line: Line,
+  export function rayLine(
+    theRay: Ray,
+    theLine: Line,
     bothSides = false
-  ): { success: boolean; rayU: number; lineU: number } {
-    // @ts-ignore
-    // const a = dada();
-    // const b = MyModule.data2();
-    const p0_x = ray.from.x;
-    const p0_y = ray.from.y;
-    const p2_x = line.from.x;
-    const p2_y = line.from.y;
-    const s1_x = ray.direction.x;
-    const s1_y = ray.direction.y;
-    const s2_x = line.direction.x;
-    const s2_y = line.direction.y;
-    const s =
-      (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) /
-      (-s2_x * s1_y + s1_x * s2_y);
-    const t =
-      (s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) /
-      (-s2_x * s1_y + s1_x * s2_y);
+  ): { intersects: boolean; rayU: number; lineU: number } {
+    const result = rayRayHelper(theRay.from, theRay.direction, theLine.from, theLine.direction);
 
-    if (s >= 0 && s <= 1) {
-      if (bothSides) {
-        return { success: true, rayU: t, lineU: s };
-      } else if (t >= 0) {
-        return { success: true, rayU: t, lineU: s };
+    if(result.intersects) {
+      if(0 <= result.Bu && result.Bu <= 1) {
+        // The ray intersects the line
+        if (bothSides) {
+          return { intersects: true, rayU: result.Au, lineU: result.Bu };
+        } else if (0 <= result.Au) {
+          return { intersects: true, rayU: result.Au, lineU: result.Bu };
+        }
       }
     }
-    return { success: false, rayU: 0, lineU: 0 };
+
+    return { intersects: false, rayU: 0, lineU: 0 };
   }
 
-  export function RayRay(
+  export function rayRay(
     rayA: Ray,
     rayB: Ray,
     bothSides = false
-  ): { success: boolean; rayAU: number; rayBU: number } {
-    const p0_x = rayA.from.x;
-    const p0_y = rayA.from.y;
-    const p2_x = rayB.from.x;
-    const p2_y = rayB.from.y;
-    const s1_x = rayA.direction.x;
-    const s1_y = rayA.direction.y;
-    const s2_x = rayB.direction.x;
-    const s2_y = rayB.direction.y;
-    const s =
-      (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) /
-      (-s2_x * s1_y + s1_x * s2_y);
-    const t =
-      (s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) /
-      (-s2_x * s1_y + s1_x * s2_y);
+  ): { intersects: boolean; rayAU: number; rayBU: number } {
+    const result = rayRayHelper(rayA.from, rayA.direction, rayB.from, rayB.direction);
 
-    if (bothSides) {
-      return { success: true, rayAU: t, rayBU: s };
-    } else if (t >= 0 && s >= 0) {
-      return { success: true, rayAU: t, rayBU: s };
+    if(result.intersects) {
+      if (bothSides) {
+        return { intersects: true, rayAU: result.Au, rayBU: result.Bu };
+      } else if (result.Au >= 0 && result.Bu >= 0) {
+        return { intersects: true, rayAU: result.Au, rayBU: result.Bu };
+      }
     }
 
-    return { success: false, rayAU: 0, rayBU: 0 };
+    return { intersects: false, rayAU: 0, rayBU: 0 };
   }
+
+/*
+  export function ray(theRay: Ray,
+      otherGeom: Point | Line | Circle | Polyline | Polygon |
+      ReadonlyArray<Point | Line | Circle | Polyline | Polygon>
+  ): readonly number[]
+  {
+    if (otherGeom instanceof Array) {
+      const intersections = new Array<number>();
+      for(const geom of otherGeom) {
+        intersections.push(...Intersection.ray(theRay, geom));
+      }
+      return intersections.sort();
+    }
+    else if(otherGeom instanceof Point) {
+      const t = theRay.closestParameter(otherGeom);
+      const p = theRay.pointAt(t);
+      if(p.equals(otherGeom)) {
+        return [t];
+      }
+    }
+    else if(otherGeom instanceof Line) {
+      const result = Intersection.rayLine(theRay, otherGeom);
+      if(result.intersects){
+        return [result.rayU];
+      }
+    }
+    else if(otherGeom instanceof Polyline) {
+      const intersections = new Array<number>();
+      const result = Intersection.lineBox(theLine, otherGeom.boundingBox);
+      if(result.intersects) {
+        intersections.push(...linePolyline(theLine, otherGeom));
+      }
+      return intersections.sort();
+    }
+    else if(otherGeom instanceof Polygon) {
+      const intersections = new Array<number>();
+      const result = Intersection.lineBox(theLine, otherGeom.boundary.boundingBox);
+      if(result.intersects) {
+        intersections.push(...linePolyline(theLine, otherGeom.boundary));
+        for(const hole of otherGeom.holes) {
+          const holeResult = Intersection.lineBox(theLine, hole.boundingBox);
+          if(holeResult.intersects) {
+            intersections.push(...linePolyline(theLine, hole));
+          }
+        }
+      }
+      return intersections.sort();
+    }
+    else {
+      throw TypeError("Wrong type of geometry");
+    }
+    return [];
+  }*/
+
+
+
+
+
+
+
+
+  // -----------------------
+  // SPECIAL
+  // -----------------------
+
+
+
+
+
+
+
+
 
   /**
    * Calculates intersections between a ray and a polyline
@@ -417,8 +442,8 @@ else if(otherGeom instanceof Circle) {
   ): readonly number[] {
     const intersections = new Array<number>();
     for (const edge of polyline.segments) {
-      const result = Intersection.RayLine(ray, edge, bothSides);
-      if (result.success) {
+      const result = Intersection.rayLine(ray, edge, bothSides);
+      if (result.intersects) {
         if (includeZero) {
           intersections.push(result.rayU);
         } else {
@@ -458,6 +483,12 @@ else if(otherGeom instanceof Circle) {
     });
     return sortedIntersections;
   }
+
+
+
+
+
+
 
   /**
    * Calculates the intersection between a horizontal ray and the polyline.
@@ -592,7 +623,130 @@ else if(otherGeom instanceof Circle) {
   }
 }
 
-// this function gives the maximum
+
+// -----------------------
+// PRIVATE HELPERS
+// -----------------------
+
+/**
+ * Returns the parameters of intersection between two rays, which are described using their
+ * raw components.
+ *
+ * @param fromA       Start of first ray
+ * @param directionA  Direction of first ray
+ * @param fromB       Start of second ray
+ * @param directionB  Direction of second ray
+ * @private
+ */
+function rayRayHelper(
+  fromA: Point,
+  directionA: Vector,
+  fromB: Point,
+  directionB: Vector
+): {
+  intersects: boolean;
+  Au: number;   // Distance along first ray, as a factor of the ray's distance (eg. the ray doesn't need to be a normal)
+  Bu: number;
+} {
+  // Based on:
+  // https://github.com/davidfig/pixi-intersects/blob/master/src/shape.js
+  const aX = directionA.x;
+  const aY = directionA.y;
+  const bX = directionB.x;
+  const bY = directionB.y;
+
+  const denominator = -bX * aY + aX * bY;
+  if(denominator !== 0) {
+    const diffX = fromA.x - fromB.x;
+    const diffY = fromA.y - fromB.y;
+
+    const s = (-aY * diffX + aX * diffY) / denominator;
+    const t = (bX * diffY - bY * diffX) / denominator;
+
+    if (isFinite(s) && isFinite(t)) {
+      return { intersects: true, Au: t, Bu: s };
+    }
+  }
+  return { intersects: false, Au: 0, Bu: 0 };
+}
+
+
+
+/**
+ * Returns the parameters of intersection(s) between a ray and a circle.
+ * @param from      The start of the ray
+ * @param direction The direction of the ray
+ * @param circle    The circle
+ * @private
+ */
+function rayCircleHelper(
+  from: Point,
+  direction: Vector,
+  circle: Circle
+): {
+  intersects: LineCircleIntersection;
+  u: readonly number[];
+} {
+  // Based on: https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
+  const d = direction;
+  const f = Vector.fromPoints(circle.center, from);
+  const r = circle.radius;
+
+  const a = d.dotProduct(d);
+  const b = 2 * f.dotProduct(d);
+  const c = f.dotProduct(f) - r * r;
+
+  const discriminant = b * b - 4 * a * c;
+
+  if (discriminant < 0) {
+    // Ray never crosses circle
+    return { intersects: LineCircleIntersection.none, u: [] };
+  }
+
+  const discriminant_sqrt = Math.sqrt(discriminant);
+  const t1 = (-b - discriminant_sqrt) / (2 * a);
+  const t2 = (-b + discriminant_sqrt) / (2 * a);
+
+  if (approximatelyEqual(t1, t2, shapetypesSettings.absoluteTolerance)) {
+    // Ray is tangent to circle
+    return { intersects: LineCircleIntersection.single, u: [t1] };
+  } else {
+    // Ray went through both sides
+    return { intersects: LineCircleIntersection.multiple, u:[t1, t2] };
+  }
+}
+
+
+/*
+function rayPolyline(theRay: Ray, polyline: Polyline): readonly number[] {
+  const intersections = new Array<number>();
+  for (const edge of polyline.segments) {
+    const result = Intersection.rayLine(theRay, edge);
+    if (result.intersects) {
+      intersections.push(result.rayU);
+    }
+  }
+  return intersections;
+}*/
+
+
+function linePolyline(theLine: Line, polyline: Polyline): readonly number[] {
+  const intersections = new Array<number>();
+  for (const edge of polyline.segments) {
+    const result = Intersection.lineLine(theLine, edge);
+    if (result.intersects) {
+      intersections.push(result.lineAu);
+    }
+  }
+  return intersections;
+}
+
+
+/**
+ * Returns largest in list
+ * @param arr   List of numbers
+ * @param n     Only searches list to this point
+ */
 function maxi(arr: readonly number[], n: number): number {
   let m = 0;
   for (let i = 0; i < n; ++i) {
@@ -602,6 +756,12 @@ function maxi(arr: readonly number[], n: number): number {
   }
   return m;
 }
+
+/**
+ * Returns smallest in list
+ * @param arr   List of numbers
+ * @param n     Only searches list to this point
+ */
 function mini(arr: readonly number[], n: number): number {
   let m = 1;
   for (let i = 0; i < n; ++i) {
@@ -611,3 +771,4 @@ function mini(arr: readonly number[], n: number): number {
   }
   return m;
 }
+
