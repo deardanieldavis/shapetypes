@@ -1,4 +1,5 @@
-import { Plane } from './plane';
+import { Geometry } from './geometry';
+// import { Plane } from './plane';
 import { shapetypesSettings } from './settings';
 import { Transform } from './transform';
 import { approximatelyEqual } from './utilities';
@@ -23,7 +24,7 @@ import { Vector } from './vector';
  * ```
  */
 
-export class Point {
+export class Point extends Geometry{
   // -----------------------
   // STATIC
   // -----------------------
@@ -54,6 +55,7 @@ export class Point {
    * @param y   Coordinate of the point on the y-axis
    */
   constructor(x: number, y: number) {
+    super();
     this._x = x;
     this._y = y;
   }
@@ -248,15 +250,16 @@ export class Point {
    *
    * @param change  A [[transform]] matrix to apply to the Point
    */
-  public transform(change: Transform): Point {
+  public transform(change: Transform): this {
+    // @ts-ignore
     return change.transformPoint(this);
   }
 
-  /**
+  /*
    * Returns a rotated copy of the Point
    * @param angle   Angle to rotate the Point in radians.
    * @param pivot   Point to pivot the Point about. Defaults to 0,0.
-   */
+   *
   public rotate(angle: number, pivot?: Point | undefined): Point {
     const tran = Transform.rotate(angle, pivot);
     return this.transform(tran);
@@ -267,7 +270,7 @@ export class Point {
    * @param x       Magnitude to scale in x direction
    * @param y       Magnitude to scale in y direction. If not specified, will use x.
    * @param center  Center of scaling. Everything will shrink or expand away from this point.
-   */
+   *
   public scale(x: number, y?: number, center?: Point): Point {
     const tran = Transform.scale(x, y, center);
     return this.transform(tran);
@@ -278,7 +281,7 @@ export class Point {
    * @param planeFrom   The plane the Point is currently in.
    * @param planeTo     The plane the Point will move to.
    * @returns           A copy of the Point in the same relative position on [[planeTo]] as it was on [[planeFrom]].
-   */
+   *
   public changeBasis(planeFrom: Plane, planeTo: Plane): Point {
     const tran = Transform.changeBasis(planeFrom, planeTo);
     return this.transform(tran);
@@ -288,11 +291,11 @@ export class Point {
    * Returns a translated copy of the Point
    * @param move      Direction to move the Point.
    * @param distance  Distance to move the Point. If not specified, will use length of move vector.
-   */
+   *
   public translate(move: Vector, distance?: number | undefined): Point {
     // This is faster than using the translate matrix
     const actualMove =
       distance === undefined ? move : move.withLength(distance);
     return new Point(this._x + actualMove.x, this._y + actualMove.y);
-  }
+  }*/
 }

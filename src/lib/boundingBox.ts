@@ -1,13 +1,12 @@
 // tslint:disable:readonly-array
 
+import { Geometry } from './geometry';
 import { Interval } from './interval';
 import { IntervalSorted } from './intervalSorted';
 import { Line } from './line';
-import { Plane } from './plane';
 import { Point } from './point';
 import { Polyline } from './polyline';
 import { Transform } from './transform';
-import { Vector } from './vector';
 
 /**
  * A BoundingBox is a rectangle aligned to the X-Y axis. It is defined by two [[IntervalSorted]]s, which give the dimensions of the rectangle along the x and y axis.
@@ -34,7 +33,7 @@ import { Vector } from './vector';
  * ```
  */
 
-export class BoundingBox {
+export class BoundingBox extends Geometry {
   // -----------------------
   // STATIC
   // -----------------------
@@ -119,6 +118,7 @@ export class BoundingBox {
     xRange: IntervalSorted | Interval,
     yRange: IntervalSorted | Interval
   ) {
+    super();
     this._xRange =
       xRange instanceof IntervalSorted ? xRange : xRange.asSorted();
     this._yRange =
@@ -400,16 +400,17 @@ export class BoundingBox {
    *
    * @param change  A [[transform]] matrix to apply to the BoundingBox
    */
-  public transform(change: Transform): BoundingBox {
+  public transform(change: Transform): this {
     const corners = change.transformPoints(this.getCorners());
+    // @ts-ignore
     return BoundingBox.fromPoints(corners);
   }
 
-  /**
+  /*
    * Returns a rotated copy of the BoundingBox
    * @param angle   Angle to rotate the BoundingBox in radians.
    * @param pivot   Point to pivot the BoundingBox about. Defaults to 0,0.
-   */
+   *
   public rotate(angle: number, pivot?: Point | undefined): BoundingBox {
     const tran = Transform.rotate(angle, pivot);
     return this.transform(tran);
@@ -420,7 +421,7 @@ export class BoundingBox {
    * @param x       Magnitude to scale in x direction
    * @param y       Magnitude to scale in y direction. If not specified, will use x.
    * @param center  Center of scaling. Everything will shrink or expand away from this point.
-   */
+   *
   public scale(x: number, y?: number, center?: Point): BoundingBox {
     const tran = Transform.scale(x, y, center);
     return this.transform(tran);
@@ -431,7 +432,7 @@ export class BoundingBox {
    * @param planeFrom   The plane the BoundingBox is currently in.
    * @param planeTo     The plane the BoundingBox will move to.
    * @returns           A copy of the BoundingBox in the same relative position on [[planeTo]] as it was on [[planeFrom]].
-   */
+   *
   public changeBasis(planeFrom: Plane, planeTo: Plane): BoundingBox {
     const tran = Transform.changeBasis(planeFrom, planeTo);
     return this.transform(tran);
@@ -441,11 +442,12 @@ export class BoundingBox {
    * Returns a translated copy of the BoundingBox
    * @param move      Direction to move the BoundingBox.
    * @param distance  Distance to move the BoundingBox. If not specified, will use length of move vector.
-   */
+   *
   public translate(move: Vector, distance?: number | undefined): BoundingBox {
     const tran = Transform.translate(move, distance);
     return this.transform(tran);
   }
+  */
 }
 
 /**
