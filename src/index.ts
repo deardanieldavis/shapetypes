@@ -1,3 +1,13 @@
+// The order files are imported here is important to fix circular dependencies
+// https://medium.com/visual-development/how-to-fix-nasty-circular-dependency-issues-once-and-for-all-in-javascript-typescript-a04c987cf0de
+export * from './lib/settings';
+export { PointContainment, CurveOrientation, approximatelyEqual } from './lib/utilities';
+
+export * from './lib/geometry';
+
+export * from './lib/transform';
+export * from './lib/vector';
+
 export * from './lib/boundingBox';
 export * from './lib/circle';
 export * from './lib/intersection';
@@ -10,7 +20,5 @@ export * from './lib/polygon';
 export * from './lib/polyline';
 export * from './lib/ray';
 export * from './lib/rectangle';
-export * from './lib/settings';
-export * from './lib/transform';
-export { PointContainment, CurveOrientation } from './lib/utilities';
-export * from './lib/vector';
+
+export * as Intersection from './lib/intersection/index';

@@ -1,12 +1,14 @@
 import anyTest, { TestInterface } from 'ava';
-import { Interval } from './interval';
-import { IntervalSorted } from './intervalSorted';
-import { Plane } from './plane';
-import { Point } from './point';
-import { Rectangle } from './rectangle';
-import { shapetypesSettings } from './settings';
-import { approximatelyEqual } from './utilities';
-import { Vector } from './vector';
+import {
+  approximatelyEqual,
+  Interval,
+  IntervalSorted,
+  Plane,
+  Point,
+  Rectangle,
+  shapetypesSettings,
+  Vector
+} from '../index';
 
 const test = anyTest as TestInterface<{
   basicPlane: Plane;

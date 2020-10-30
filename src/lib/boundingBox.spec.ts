@@ -1,12 +1,15 @@
 import anyTest, { TestInterface } from 'ava';
-import { BoundingBox } from './boundingBox';
-import { Interval } from './interval';
-import { IntervalSorted } from './intervalSorted';
-import { Point } from './point';
-import { shapetypesSettings } from './settings';
-import { Transform } from './transform';
-import { approximatelyEqual } from './utilities';
-import { Vector } from './vector';
+
+import {
+  approximatelyEqual,
+  BoundingBox,
+  Interval,
+  IntervalSorted,
+  Point,
+  shapetypesSettings,
+  Transform,
+  Vector
+} from '../index';
 
 const test = anyTest as TestInterface<{
   xRange: IntervalSorted;

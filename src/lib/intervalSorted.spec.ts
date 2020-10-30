@@ -1,6 +1,5 @@
 import anyTest, { TestInterface } from 'ava';
-import { Interval } from './interval';
-import { IntervalSorted } from './intervalSorted';
+import { Interval, IntervalSorted } from '../index';
 
 const test = anyTest as TestInterface<{
   interval: IntervalSorted;

@@ -1,11 +1,6 @@
-import { Plane } from './plane';
-import { Point } from './point';
-import { Transform } from './transform';
-import { Vector } from './vector';
-
+import { Plane, Point, Transform, Vector } from '../index';
 
 export abstract class Geometry {
-
   // -----------------------
   // TRANSFORMABLE
   // -----------------------

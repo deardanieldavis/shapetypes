@@ -1,10 +1,12 @@
-import { Plane } from './plane';
-import { Point } from './point';
-import { shapetypesSettings } from './settings';
-import { Transform } from './transform';
-import { approximatelyEqual } from './utilities';
+import {
+  approximatelyEqual,
+  Geometry,
+  Point,
+  shapetypesSettings,
+  Transform
+} from '../index';
 
-export class Vector {
+export class Vector extends Geometry {
   // -----------------------
   // STATIC
   // -----------------------
@@ -55,6 +57,7 @@ export class Vector {
    * @param y   Magnitude of vector in x direction
    */
   constructor(x: number, y: number) {
+    super();
     this._x = x;
     this._y = y;
   }
@@ -418,14 +421,15 @@ export class Vector {
    *
    * @param change  A [[transform]] matrix to apply to the Vector
    */
-  public transform(change: Transform): Vector {
+  public transform(change: Transform): this {
+    // @ts-ignore
     return change.transformVector(this);
   }
 
-  /**
+  /*
    * Returns a rotated copy of the Vector
    * @param angle   Angle to rotate the Vector in radians.
-   */
+   *
   public rotate(angle: number): Vector {
     const tran = Transform.rotate(angle);
     return this.transform(tran);
@@ -435,7 +439,7 @@ export class Vector {
    * Returns a scaled copy of the Vector
    * @param x       Magnitude to scale in x direction
    * @param y       Magnitude to scale in y direction. If not specified, will use x.
-   */
+   *
   public scale(x: number, y?: number): Vector {
     const tran = Transform.scale(x, y);
     return this.transform(tran);
@@ -446,9 +450,9 @@ export class Vector {
    * @param planeFrom   The plane the Vector is currently in.
    * @param planeTo     The plane the Vector will move to.
    * @returns           A copy of the Vector in the same relative angle on [[planeTo]] as it was on [[planeFrom]].
-   */
+   *
   public changeBasis(planeFrom: Plane, planeTo: Plane): Vector {
     const tran = Transform.changeBasis(planeFrom, planeTo);
     return this.transform(tran);
-  }
+  }*/
 }

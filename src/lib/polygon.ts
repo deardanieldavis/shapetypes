@@ -9,19 +9,22 @@ import {
   Ring,
   union as pcUnion
 } from 'polygon-clipping';
-import { BoundingBox } from './boundingBox';
-import { Plane } from './plane';
-import { Point } from './point';
-import { Polyline } from './polyline';
-import { shapetypesSettings } from './settings';
-import { Transform } from './transform';
 import {
   CurveOrientation,
   isPolygonArray,
   isPolylineArray,
   PointContainment
 } from './utilities';
-import { Vector } from './vector';
+
+import {
+  BoundingBox,
+  Plane,
+  Point,
+  Polyline,
+  shapetypesSettings,
+  Transform,
+  Vector
+} from '../index';
 
 /**
  * A polygon is a shape defined by an outer [[boundary]]. The surface of the polygon

@@ -1,9 +1,11 @@
-import { BoundingBox } from './boundingBox';
-import { Plane } from './plane';
-import { Point } from './point';
-import { shapetypesSettings } from './settings';
-import { Transform } from './transform';
-import { Vector } from './vector';
+import {
+  BoundingBox,
+  Plane,
+  Point,
+  shapetypesSettings,
+  Transform,
+  Vector
+} from '../index';
 
 /**
  * A Line is a straight edge between two points.

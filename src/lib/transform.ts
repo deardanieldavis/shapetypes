@@ -1,7 +1,4 @@
-import { Plane } from './plane';
-import { Point } from './point';
-import { shapetypesSettings } from './settings';
-import { Vector } from './vector';
+import { Plane, Point, shapetypesSettings, Vector } from '../index';
 
 /**
  * A Transform contains a 3x3 transformation matrix used to rotate, scale, and translate points and vectors.

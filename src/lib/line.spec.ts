@@ -1,10 +1,6 @@
 // tslint:disable:no-let
 import anyTest, { TestInterface } from 'ava';
-import { Line } from './line';
-import { Point } from './point';
-import { shapetypesSettings } from './settings';
-import { Transform } from './transform';
-import { Vector } from './vector';
+import { Line, Point, shapetypesSettings, Transform, Vector } from '../index';
 
 const test = anyTest as TestInterface<{
   P00: Point;

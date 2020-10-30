@@ -7,22 +7,25 @@ import {
   Ring,
   union as pcUnion
 } from 'polygon-clipping';
-import { BoundingBox } from './boundingBox';
-import { Intersection } from './intersection';
-import { Interval } from './interval';
-import { IntervalSorted } from './intervalSorted';
-import { Line } from './line';
-import { Plane } from './plane';
-import { Point } from './point';
-import { Polygon } from './polygon';
-import { shapetypesSettings } from './settings';
-import { Transform } from './transform';
+import { horizontalRayPolyline } from './intersection';
 import {
   CurveOrientation,
   isPolylineArray,
   PointContainment
 } from './utilities';
-import { Vector } from './vector';
+
+import {
+  BoundingBox,
+  Interval,
+  IntervalSorted,
+  Line,
+  Plane,
+  Point,
+  Polygon,
+  shapetypesSettings,
+  Transform,
+  Vector
+} from '../index';
 
 /**
  * A polyline is a continuous line made from a series of straight [[segments]].
@@ -635,6 +638,7 @@ export class Polyline {
     }
 
     // Uses this ray-tracing method: https://en.wikipedia.org/wiki/Point_in_polygon
+    // TODO: Switch to winding method since each polyline is ordered already?
 
     // 1. Before running any of the expensive calculations, quickly check to see if the point is even close to polyline
     if (!this.boundingBox.contains(point, false, tolerance)) {
@@ -648,8 +652,8 @@ export class Polyline {
     }
 
     // 3. Check to see if point is inside polyline using ray casting method
-    const intersections = Intersection.HorizontalRayPolyline(point, this);
-    const oddOrEven = intersections.length % 2;
+    const intersections = horizontalRayPolyline(point, this);
+    const oddOrEven = intersections % 2;
     if (oddOrEven === 1) {
       // If the ray crosses the boundary of the polygon an odd amount of times, the point must be inside
       return PointContainment.inside;

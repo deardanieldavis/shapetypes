@@ -1,13 +1,15 @@
-import { BoundingBox } from './boundingBox';
-import { Interval } from './interval';
-import { IntervalSorted } from './intervalSorted';
-import { Line } from './line';
-import { Plane } from './plane';
-import { Point } from './point';
-import { Polyline } from './polyline';
-import { shapetypesSettings } from './settings';
-import { Transform } from './transform';
-import { Vector } from './vector';
+import {
+  BoundingBox,
+  Interval,
+  IntervalSorted,
+  Line,
+  Plane,
+  Point,
+  Polyline,
+  shapetypesSettings,
+  Transform,
+  Vector
+} from '../index';
 
 export class Rectangle {
   // -----------------------

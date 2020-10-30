@@ -1,7 +1,4 @@
-import { Plane } from './plane';
-import { Point } from './point';
-import { Transform } from './transform';
-import { Vector } from './vector';
+import { Plane, Point, Transform, Vector } from '../index';
 
 /**
  * A ray is a line of infinite length. It has a start point ([[from]]) and a direction ([[direction]]) but no end point.

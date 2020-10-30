@@ -1,11 +1,15 @@
 import anyTest, { TestInterface } from 'ava';
-import { Circle } from './circle';
-import { IntervalSorted } from './intervalSorted';
-import { Plane } from './plane';
-import { Point } from './point';
-import { shapetypesSettings } from './settings';
-import { approximatelyEqual, PointContainment } from './utilities';
-import { Vector } from './vector';
+
+import {
+  approximatelyEqual,
+  Circle,
+  IntervalSorted,
+  Plane,
+  Point,
+  PointContainment,
+  shapetypesSettings,
+  Vector
+} from '../index';
 
 const test = anyTest as TestInterface<{ basic: Circle; moved: Circle }>;
 

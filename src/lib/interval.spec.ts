@@ -1,5 +1,5 @@
 import anyTest, { TestInterface } from 'ava';
-import { Interval } from './interval';
+import { Interval } from '../index';
 
 const test = anyTest as TestInterface<{
   interval: Interval;

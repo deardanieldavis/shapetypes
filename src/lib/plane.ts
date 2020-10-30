@@ -1,7 +1,4 @@
-import { Point } from './point';
-import { shapetypesSettings } from './settings';
-import { Transform } from './transform';
-import { Vector } from './vector';
+import { Point, shapetypesSettings, Transform, Vector } from '../index';
 
 /**
  * A Plane is a 2d frame with a center point ([[origin]]) and two perpendicular axes ([[xAxis]] and [[yAxis]]).

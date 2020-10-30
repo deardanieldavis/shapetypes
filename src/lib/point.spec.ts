@@ -1,9 +1,11 @@
 import anyTest, { TestInterface } from 'ava';
-import { Point } from './point';
-import { shapetypesSettings } from './settings';
-import { Transform } from './transform';
-import { approximatelyEqual } from './utilities';
-import { Vector } from './vector';
+import {
+  approximatelyEqual,
+  Point,
+  shapetypesSettings,
+  Transform,
+  Vector
+} from '../index';
 
 const test = anyTest as TestInterface<{
   basic: Point;

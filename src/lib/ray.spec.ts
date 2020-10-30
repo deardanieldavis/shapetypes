@@ -1,9 +1,5 @@
 import anyTest, { TestInterface } from 'ava';
-import { Plane } from './plane';
-import { Point } from './point';
-import { Ray } from './ray';
-import { shapetypesSettings } from './settings';
-import { Vector } from './vector';
+import { Plane, Point, Ray, shapetypesSettings, Vector } from '../index';
 
 const test = anyTest as TestInterface<{
   angled: Ray;

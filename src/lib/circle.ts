@@ -1,11 +1,14 @@
-import { BoundingBox } from './boundingBox';
-import { IntervalSorted } from './intervalSorted';
-import { Plane } from './plane';
-import { Point } from './point';
-import { shapetypesSettings } from './settings';
-import { Transform } from './transform';
-import { approximatelyEqual, PointContainment } from './utilities';
-import { Vector } from './vector';
+import {
+  approximatelyEqual,
+  BoundingBox,
+  IntervalSorted,
+  Plane,
+  Point,
+  PointContainment,
+  shapetypesSettings,
+  Transform,
+  Vector
+} from '../index';
 
 export class Circle {
   // -----------------------

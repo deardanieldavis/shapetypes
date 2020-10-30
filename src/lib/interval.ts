@@ -1,4 +1,4 @@
-import { IntervalSorted } from './intervalSorted';
+import { IntervalSorted } from '../index';
 
 /**
  * An interval represents a number range between two values ([[T0]] & [[T1]]). This range can be increasing (when [[T0]] < [[T1]]) or decreasing (when [[T0]] > [[T1]]).

@@ -1,13 +1,16 @@
 // tslint:disable:no-let
 import anyTest, { TestInterface } from 'ava';
-import { Plane } from './plane';
-import { Point } from './point';
-import { Polygon } from './polygon';
-import { Polyline } from './polyline';
-import { Rectangle } from './rectangle';
-import { shapetypesSettings } from './settings';
-import { CurveOrientation, PointContainment } from './utilities';
-import { Vector } from './vector';
+import {
+  CurveOrientation,
+  Plane,
+  Point,
+  PointContainment,
+  Polygon,
+  Polyline,
+  Rectangle,
+  shapetypesSettings,
+  Vector
+} from '../index';
 
 const test = anyTest as TestInterface<{
   polyline: Polyline;

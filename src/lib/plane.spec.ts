@@ -1,9 +1,6 @@
 // tslint:disable:no-let
 import anyTest, { TestInterface } from 'ava';
-import { Plane } from './plane';
-import { Point } from './point';
-import { shapetypesSettings } from './settings';
-import { Vector } from './vector';
+import { Plane, Point, shapetypesSettings, Vector } from '../index';
 
 const test = anyTest as TestInterface<{
   angled: Plane;

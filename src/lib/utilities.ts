@@ -1,9 +1,5 @@
 // tslint:disable:readonly-array
-
-import { Point } from './point';
-import { Polygon } from './polygon';
-import { Polyline } from './polyline';
-import { shapetypesSettings } from './settings';
+import { Point, Polygon, Polyline, shapetypesSettings } from '../index';
 
 export enum PointContainment {
   unset,

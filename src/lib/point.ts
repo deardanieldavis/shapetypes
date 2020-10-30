@@ -1,9 +1,10 @@
-import { Geometry } from './geometry';
-// import { Plane } from './plane';
-import { shapetypesSettings } from './settings';
-import { Transform } from './transform';
-import { approximatelyEqual } from './utilities';
-import { Vector } from './vector';
+import {
+  approximatelyEqual,
+  Geometry,
+  shapetypesSettings,
+  Transform,
+  Vector
+} from '../index';
 
 /**
  * A two dimensional point.
@@ -24,7 +25,7 @@ import { Vector } from './vector';
  * ```
  */
 
-export class Point extends Geometry{
+export class Point extends Geometry {
   // -----------------------
   // STATIC
   // -----------------------
@@ -287,7 +288,7 @@ export class Point extends Geometry{
     return this.transform(tran);
   }
 
-  /**
+  /*
    * Returns a translated copy of the Point
    * @param move      Direction to move the Point.
    * @param distance  Distance to move the Point. If not specified, will use length of move vector.

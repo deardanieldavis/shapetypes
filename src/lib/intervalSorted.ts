@@ -1,4 +1,4 @@
-import { Interval } from './interval';
+import { Interval } from '../index';
 
 /**
  * An IntervalSorted represents a number range between two values ([[min]] & [[max]]). Unlike [[Interval]], it doesn't have a direction.
