@@ -1,5 +1,5 @@
 // tslint:disable:readonly-array
-import { Point, Polygon, Polyline, shapetypesSettings } from '../index';
+import { Polygon, Polyline, shapetypesSettings } from '../index';
 
 export enum PointContainment {
   unset,
@@ -31,34 +31,6 @@ export function approximatelyEqual(
   epsilon: number = shapetypesSettings.absoluteTolerance
 ): boolean {
   return Math.abs(value1 - value2) < epsilon;
-}
-
-/**
- * @ignore
- */
-export function isPointArray(value: any): value is Point[] {
-  if (value instanceof Array) {
-    if (value.length > 0) {
-      if (value[0] instanceof Point) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-/**
- * @ignore
- */
-export function isNumberArray(value: any): value is number[] {
-  if (value instanceof Array) {
-    if (value.length > 0) {
-      if (typeof value[0] === 'number') {
-        return true;
-      }
-    }
-  }
-  return false;
 }
 
 /**
