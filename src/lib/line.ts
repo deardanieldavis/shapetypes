@@ -1,6 +1,5 @@
 import {
-  BoundingBox,
-  Plane,
+  BoundingBox, Geometry,
   Point,
   shapetypesSettings,
   Transform,
@@ -27,7 +26,7 @@ import {
  * ```
  */
 
-export class Line {
+export class Line extends Geometry{
   // -----------------------
   // STATIC
   // -----------------------
@@ -74,6 +73,7 @@ export class Line {
    * @param to:   The end of the line
    */
   constructor(from: Point, to: Point) {
+    super();
     this._from = from;
     this._to = to;
   }
@@ -347,55 +347,11 @@ export class Line {
    *
    * @param change  A [[transform]] matrix to apply to the Line
    */
-  public transform(change: Transform): Line {
+  public transform(change: Transform): this {
+    // @ts-ignore
     return new Line(
       change.transformPoint(this._from),
       change.transformPoint(this._to)
-    );
-  }
-
-  /**
-   * Returns a rotated copy of the Line
-   * @param angle   Angle to rotate the BLine in radians.
-   * @param pivot   Point to pivot the Line about. Defaults to 0,0.
-   */
-  public rotate(angle: number, pivot?: Point | undefined): Line {
-    const tran = Transform.rotate(angle, pivot);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a scaled copy of the Line
-   * @param x       Magnitude to scale in x direction
-   * @param y       Magnitude to scale in y direction. If not specified, will use x.
-   * @param center  Center of scaling. Everything will shrink or expand away from this point.
-   */
-  public scale(x: number, y?: number, center?: Point): Line {
-    const tran = Transform.scale(x, y, center);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a copy of the Line transferred from one coordinate system to another.
-   * @param planeFrom   The plane the Line is currently in.
-   * @param planeTo     The plane the Line will move to.
-   * @returns           A copy of the Line in the same relative position on [[planeTo]] as it was on [[planeFrom]].
-   */
-  public changeBasis(planeFrom: Plane, planeTo: Plane): Line {
-    const tran = Transform.changeBasis(planeFrom, planeTo);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a translated copy of the Line
-   * @param move      Direction to move the Line.
-   * @param distance  Distance to move the Line. If not specified, will use length of move vector.
-   */
-  public translate(move: Vector, distance?: number | undefined): Line {
-    // This is faster than creating a translation matrix
-    return new Line(
-      this._from.translate(move, distance),
-      this._to.translate(move, distance)
     );
   }
 }

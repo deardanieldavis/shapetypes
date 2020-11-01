@@ -1,14 +1,18 @@
 import anyTest, { TestInterface } from 'ava';
-import { Interval } from './interval';
-import { IntervalSorted } from './intervalSorted';
-import { Line } from './line';
-import { Plane } from './plane';
-import { Point } from './point';
-import { Polyline } from './polyline';
-import { Rectangle } from './rectangle';
-import { shapetypesSettings } from './settings';
-import { CurveOrientation, PointContainment } from './utilities';
-import { Vector } from './vector';
+
+import {
+  CurveOrientation,
+  Interval,
+  IntervalSorted,
+  Line,
+  Plane,
+  Point,
+  PointContainment,
+  Polyline,
+  Rectangle,
+  shapetypesSettings,
+  Vector
+} from '../index';
 
 const test = anyTest as TestInterface<{
   triangle: Polyline;

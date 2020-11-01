@@ -1,4 +1,10 @@
-import { Point, shapetypesSettings, Transform, Vector } from '../index';
+import {
+  Geometry,
+  Point,
+  shapetypesSettings,
+  Transform,
+  Vector
+} from '../index';
 
 /**
  * A Plane is a 2d frame with a center point ([[origin]]) and two perpendicular axes ([[xAxis]] and [[yAxis]]).
@@ -17,7 +23,7 @@ import { Point, shapetypesSettings, Transform, Vector } from '../index';
  * // => [2,2]
  * ```
  */
-export class Plane {
+export class Plane extends Geometry{
   // -----------------------
   // STATIC
   // -----------------------
@@ -66,6 +72,7 @@ export class Plane {
    * @param xAxis     The direction of the [[xAxis]]. If not specified, will use [1,0]. The yAxis will be automatically generated perpendicular to this axis.
    */
   constructor(origin: Point, xAxis?: Vector) {
+    super();
     this._origin = origin;
     this._xAxis = xAxis === undefined ? Vector.worldX() : xAxis.unitize();
   }
@@ -247,45 +254,11 @@ export class Plane {
    * @category Transform
    * @param change  A [[transform]] matrix to apply to the ray.
    */
-  public transform(change: Transform): Plane {
+  public transform(change: Transform): this{
     const origin = change.transformPoint(this._origin);
     const axis = change.transformVector(this._xAxis);
+    // @ts-ignore
     return new Plane(origin, axis);
-  }
-
-  /**
-   * Returns a copy of the plane rotated about a point.
-   * @category Transform
-   * @param angle   Angle of rotation, in radians. If positive, rotates clockwise. If negative, rotates counter clockwise.
-   * @param pivot   Pivot point for rotation. If undefined, the object will be rotated about 0,0.
-   */
-  public rotate(angle: number, pivot?: Point | undefined): Plane {
-    const tran = Transform.rotate(angle, pivot);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a copy of the plane translated from one planar coordinate system to another.
-   * In other words, if the plane is described relative to `planeFrom`, after
-   * translation, it will be described relative to `planeTo`.
-   * @category Transform
-   * @param planeFrom   The coordinate system the plane is currently described relative to.
-   * @param planeTo     The coordinate system to describe the plane relative to.
-   */
-  public changeBasis(planeFrom: Plane, planeTo: Plane): Plane {
-    const tran = Transform.changeBasis(planeFrom, planeTo);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a copy of this plane translated in a certain direction.
-   * @category Transform
-   * @param move      Direction to move the Plane.
-   * @param distance  Distance to move the Plane. If undefined, will use length of `move` vector.
-   */
-  public translate(move: Vector, distance?: number | undefined): Plane {
-    const tran = Transform.translate(move, distance);
-    return this.transform(tran);
   }
 
   // -----------------------

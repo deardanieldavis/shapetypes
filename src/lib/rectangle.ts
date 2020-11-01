@@ -1,5 +1,5 @@
 import {
-  BoundingBox,
+  BoundingBox, Geometry,
   Interval,
   IntervalSorted,
   Line,
@@ -7,11 +7,10 @@ import {
   Point,
   Polyline,
   shapetypesSettings,
-  Transform,
-  Vector
+  Transform
 } from '../index';
 
-export class Rectangle {
+export class Rectangle extends Geometry{
   // -----------------------
   // STATIC
   // -----------------------
@@ -66,6 +65,7 @@ export class Rectangle {
     x: Interval | IntervalSorted | number,
     y: Interval | IntervalSorted | number
   ) {
+    super();
     this._plane = plane;
 
     if (x instanceof Interval) {
@@ -289,52 +289,11 @@ export class Rectangle {
    *
    * @param change  A [[transform]] matrix to apply to the BoundingBox
    */
-  public transform(change: Transform): Rectangle {
+  public transform(change: Transform): this {
     const cornerA = change.transformPoint(this.corner(true, true));
     const cornerB = change.transformPoint(this.corner(false, false));
     const plane = this._plane.transform(change);
+    // @ts-ignore
     return Rectangle.fromCorners(cornerA, cornerB, plane);
-  }
-
-  /**
-   * Returns a rotated copy of the BoundingBox
-   * @param angle   Angle to rotate the BoundingBox in radians.
-   * @param pivot   Point to pivot the BoundingBox about. Defaults to 0,0.
-   */
-  public rotate(angle: number, pivot?: Point | undefined): Rectangle {
-    const tran = Transform.rotate(angle, pivot);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a scaled copy of the BoundingBox
-   * @param x       Magnitude to scale in x direction
-   * @param y       Magnitude to scale in y direction. If not specified, will use x.
-   * @param center  Center of scaling. Everything will shrink or expand away from this point.
-   */
-  public scale(x: number, y?: number, center?: Point): Rectangle {
-    const tran = Transform.scale(x, y, center);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a copy of the BoundingBox transferred from one coordinate system to another.
-   * @param planeFrom   The plane the BoundingBox is currently in.
-   * @param planeTo     The plane the BoundingBox will move to.
-   * @returns           A copy of the BoundingBox in the same relative position on [[planeTo]] as it was on [[planeFrom]].
-   */
-  public changeBasis(planeFrom: Plane, planeTo: Plane): Rectangle {
-    const tran = Transform.changeBasis(planeFrom, planeTo);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a translated copy of the BoundingBox
-   * @param move      Direction to move the BoundingBox.
-   * @param distance  Distance to move the BoundingBox. If not specified, will use length of move vector.
-   */
-  public translate(move: Vector, distance?: number | undefined): Rectangle {
-    const tran = Transform.translate(move, distance);
-    return this.transform(tran);
   }
 }

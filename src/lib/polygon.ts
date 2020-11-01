@@ -10,20 +10,18 @@ import {
   union as pcUnion
 } from 'polygon-clipping';
 import {
-  CurveOrientation,
   isPolygonArray,
   isPolylineArray,
-  PointContainment
 } from './utilities';
 
 import {
   BoundingBox,
-  Plane,
+  CurveOrientation, Geometry,
   Point,
+  PointContainment,
   Polyline,
   shapetypesSettings,
   Transform,
-  Vector
 } from '../index';
 
 /**
@@ -32,7 +30,7 @@ import {
  *
  * The boundary is always in a clockwise orientation. The holes are always counter-clockwise.
  */
-export class Polygon {
+export class Polygon extends Geometry{
   // -----------------------
   // STATIC
   // -----------------------
@@ -60,6 +58,7 @@ export class Polygon {
   private readonly _holes: readonly Polyline[];
 
   constructor(boundary: Polyline, holes?: readonly Polyline[] | undefined) {
+    super();
     if (boundary.isClosed === false) {
       throw new Error('Boundary must be closed to turn into polygon');
     }
@@ -300,7 +299,7 @@ export class Polygon {
    * @category Transform
    * @param change  A [[transform]] matrix to apply to the polyline
    */
-  public transform(change: Transform): Polygon {
+  public transform(change: Transform): this {
     const newBoundary = this._boundary.transform(change);
 
     const newHoles = new Array<Polyline>(this._holes.length);
@@ -308,80 +307,8 @@ export class Polygon {
       newHoles[i] = this._holes[i].transform(change);
     }
 
+    // @ts-ignore
     return new Polygon(newBoundary, newHoles);
-  }
-
-  /**
-   * Returns a copy of the polyline described in another coordinate system.
-   * In other words, if the polyline is described relative to `planeFrom`, after
-   * changeBasis, it will be in the same position but described relative to `planeTo`.
-   *
-   * See: [[Transform.changeBasis]].
-   *
-   * @category Transform
-   * @param planeFrom   The coordinate system the polyline is currently described relative to.
-   * @param planeTo     The coordinate system to describe the polyline relative to.
-   */
-  public changeBasis(planeFrom: Plane, planeTo: Plane): Polygon {
-    const tran = Transform.changeBasis(planeFrom, planeTo);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a copy of the polyline moved to the same position relative to `planeTo` as it as relative to `planeFrom`.
-   *
-   * See: [[Transform.planeToPlane]].
-   *
-   * @category Transform
-   * @param planeFrom   The plane to move from
-   * @param planeTo     The plane to move relative to
-   */
-  public planeToPlane(planeFrom: Plane, planeTo: Plane): Polygon {
-    const tran = Transform.planeToPlane(planeFrom, planeTo);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a rotated copy of the polyline.
-   *
-   * See: [[Transform.rotate]].
-   *
-   * @category Transform
-   * @param angle   Angle to rotate the polyline in radians.
-   * @param pivot   Point to pivot the polyline about.
-   */
-  public rotate(angle: number, pivot?: Point | undefined): Polygon {
-    const tran = Transform.rotate(angle, pivot);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a scaled copy of the polyline.
-   *
-   * See: [[Transform.scale]].
-   *
-   * @category Transform
-   * @param x       Magnitude to scale in x direction
-   * @param y       Magnitude to scale in y direction. If not specified, will use x.
-   * @param center  Center of scaling. Everything will shrink or expand away from this point.
-   */
-  public scale(x: number, y?: number, center?: Point): Polygon {
-    const tran = Transform.scale(x, y, center);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a translated copy of the polyline.
-   *
-   * See: [[Transform.translate]].
-   *
-   * @category Transform
-   * @param move      Direction to move the polyline.
-   * @param distance  Distance to move the polyline. If not specified, will use length of `move` vector.
-   */
-  public translate(move: Vector, distance?: number | undefined): Polygon {
-    const tran = Transform.translate(move, distance);
-    return this.transform(tran);
   }
 }
 

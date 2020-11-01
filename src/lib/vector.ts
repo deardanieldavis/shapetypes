@@ -425,34 +425,4 @@ export class Vector extends Geometry {
     // @ts-ignore
     return change.transformVector(this);
   }
-
-  /*
-   * Returns a rotated copy of the Vector
-   * @param angle   Angle to rotate the Vector in radians.
-   *
-  public rotate(angle: number): Vector {
-    const tran = Transform.rotate(angle);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a scaled copy of the Vector
-   * @param x       Magnitude to scale in x direction
-   * @param y       Magnitude to scale in y direction. If not specified, will use x.
-   *
-  public scale(x: number, y?: number): Vector {
-    const tran = Transform.scale(x, y);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a copy of the Vector transferred from one coordinate system to another.
-   * @param planeFrom   The plane the Vector is currently in.
-   * @param planeTo     The plane the Vector will move to.
-   * @returns           A copy of the Vector in the same relative angle on [[planeTo]] as it was on [[planeFrom]].
-   *
-  public changeBasis(planeFrom: Plane, planeTo: Plane): Vector {
-    const tran = Transform.changeBasis(planeFrom, planeTo);
-    return this.transform(tran);
-  }*/
 }

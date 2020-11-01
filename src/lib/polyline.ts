@@ -15,11 +15,10 @@ import {
 } from './utilities';
 
 import {
-  BoundingBox,
+  BoundingBox, Geometry,
   Interval,
   IntervalSorted,
   Line,
-  Plane,
   Point,
   Polygon,
   shapetypesSettings,
@@ -56,7 +55,7 @@ import {
  *
  *
  */
-export class Polyline {
+export class Polyline extends Geometry{
   // -----------------------
   // STATIC
   // -----------------------
@@ -108,6 +107,7 @@ export class Polyline {
    * @param makeClosed    If true, checks whether the resulting polyline [[isClosed]] and if it isn't, adds another point ensuring the polyline ends the same place it starts.
    */
   constructor(points: readonly Point[], makeClosed: boolean = false) {
+    super();
     if (makeClosed) {
       if (!points[0].equals(points[points.length - 1])) {
         // If the start point is different from the final point
@@ -819,82 +819,11 @@ export class Polyline {
    * @category Transform
    * @param change  A [[transform]] matrix to apply to the polyline
    */
-  public transform(change: Transform): Polyline {
+  public transform(change: Transform): this {
     const corners = change.transformPoints(this.points);
+
+    // @ts-ignore
     return new Polyline(corners);
-  }
-
-  /**
-   * Returns a copy of the polyline described in another coordinate system.
-   * In other words, if the polyline is described relative to `planeFrom`, after
-   * changeBasis, it will be in the same position but described relative to `planeTo`.
-   *
-   * See: [[Transform.changeBasis]].
-   *
-   * @category Transform
-   * @param planeFrom   The coordinate system the polyline is currently described relative to.
-   * @param planeTo     The coordinate system to describe the polyline relative to.
-   */
-  public changeBasis(planeFrom: Plane, planeTo: Plane): Polyline {
-    const tran = Transform.changeBasis(planeFrom, planeTo);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a copy of the polyline moved to the same position relative to `planeTo` as it as relative to `planeFrom`.
-   *
-   * See: [[Transform.planeToPlane]].
-   *
-   * @category Transform
-   * @param planeFrom   The plane to move from
-   * @param planeTo     The plane to move relative to
-   */
-  public planeToPlane(planeFrom: Plane, planeTo: Plane): Polyline {
-    const tran = Transform.planeToPlane(planeFrom, planeTo);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a rotated copy of the polyline.
-   *
-   * See: [[Transform.rotate]].
-   *
-   * @category Transform
-   * @param angle   Angle to rotate the polyline in radians.
-   * @param pivot   Point to pivot the polyline about.
-   */
-  public rotate(angle: number, pivot?: Point | undefined): Polyline {
-    const tran = Transform.rotate(angle, pivot);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a scaled copy of the polyline.
-   *
-   * See: [[Transform.scale]].
-   *
-   * @category Transform
-   * @param x       Magnitude to scale in x direction
-   * @param y       Magnitude to scale in y direction. If not specified, will use x.
-   * @param center  Center of scaling. Everything will shrink or expand away from this point.
-   */
-  public scale(x: number, y?: number, center?: Point): Polyline {
-    const tran = Transform.scale(x, y, center);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a translated copy of the polyline.
-   *
-   * See: [[Transform.translate]].
-   *
-   * @category Transform
-   * @param move      Direction to move the polyline.
-   * @param distance  Distance to move the polyline. If not specified, will use length of `move` vector.
-   */
-  public translate(move: Vector, distance?: number | undefined): Polyline {
-    const tran = Transform.translate(move, distance);
-    return this.transform(tran);
   }
 }
 

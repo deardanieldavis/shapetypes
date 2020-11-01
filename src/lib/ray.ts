@@ -1,9 +1,9 @@
-import { Plane, Point, Transform, Vector } from '../index';
+import { Geometry, Point, Transform, Vector } from '../index';
 
 /**
  * A ray is a line of infinite length. It has a start point ([[from]]) and a direction ([[direction]]) but no end point.
  */
-export class Ray {
+export class Ray extends Geometry{
   // -----------------------
   // STATIC
   // -----------------------
@@ -36,6 +36,7 @@ export class Ray {
    * @param direction   The direction of the ray.
    */
   constructor(from: Point, direction: Vector) {
+    super();
     this._from = from;
     this._direction = direction.unitize();
   }
@@ -159,44 +160,10 @@ export class Ray {
    * @category Transform
    * @param change  A [[transform]] matrix to apply to the ray.
    */
-  public transform(change: Transform): Ray {
+  public transform(change: Transform): this {
     const from = change.transformPoint(this._from);
     const direction = change.transformVector(this._direction);
+    // @ts-ignore
     return new Ray(from, direction);
-  }
-
-  /**
-   * Returns a copy of the ray rotated about a point.
-   * @category Transform
-   * @param angle   Angle of rotation, in radians. If positive, rotates clockwise. If negative, rotates counter clockwise.
-   * @param pivot   Pivot point for rotation. If undefined, the object will be rotated about 0,0.
-   */
-  public rotate(angle: number, pivot?: Point | undefined): Ray {
-    const tran = Transform.rotate(angle, pivot);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a copy of the ray translated from one planar coordinate system to another.
-   * In other words, if the ray is described relative to `planeFrom`, after
-   * translation, it will be described relative to `planeTo`.
-   * @category Transform
-   * @param planeFrom   The coordinate system the ray is currently described relative to.
-   * @param planeTo     The coordinate system to describe the ray relative to.
-   */
-  public changeBasis(planeFrom: Plane, planeTo: Plane): Ray {
-    const tran = Transform.changeBasis(planeFrom, planeTo);
-    return this.transform(tran);
-  }
-
-  /**
-   * Returns a copy of this ray translated in a certain direction.
-   * @category Transform
-   * @param move      Direction to move the ray.
-   * @param distance  Distance to move the ray. If undefined, will use length of `move` vector.
-   */
-  public translate(move: Vector, distance?: number | undefined): Ray {
-    const tran = Transform.translate(move, distance);
-    return this.transform(tran);
   }
 }
