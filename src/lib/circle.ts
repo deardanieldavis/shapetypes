@@ -1,6 +1,6 @@
 import {
   approximatelyEqual,
-  BoundingBox,
+  BoundingBox, Geometry,
   IntervalSorted,
   Plane,
   Point,
@@ -10,7 +10,7 @@ import {
   Vector
 } from '../index';
 
-export class Circle {
+export class Circle extends Geometry{
   // -----------------------
   // STATIC
   // -----------------------
@@ -57,6 +57,7 @@ export class Circle {
   // CONSTRUCTOR
   // -----------------------
   constructor(radius: number, position?: Plane | Point) {
+    super();
     if (radius <= 0) {
       throw new Error('Radius must be greater than 0');
     }
@@ -189,17 +190,6 @@ export class Circle {
     return 'circle: ' + this._plane.toString() + 'r: ' + this._radius;
   }
 
-  // @ts-ignore - I don't know why returning 'this' throws an error
-  public transform(change: Transform): Circle {
-    if (change.M00 !== change.M11) {
-      throw new Error(
-        'Cant scale circle by uneven amounts in x and y direction'
-      );
-    }
-    // const radius = this._radius * change.M00;
-    // TODO: this._plane.transform(change);
-  }
-
   public withArea(newArea: number): Circle {
     if (newArea <= 0) {
       throw new Error('Area must be greater than 0');
@@ -228,5 +218,24 @@ export class Circle {
 
   public withCenter(newCenter: Point): Circle {
     return new Circle(this._radius, this._plane.withOrigin(newCenter));
+  }
+
+
+  // -----------------------
+  // TRANSFORMABLE
+  // -----------------------
+  public transform(change: Transform): this {
+    const scaleX = Math.sqrt(change.M00 * change.M00 + change.M01 * change.M01);
+    const scaleY = Math.sqrt(change.M10 * change.M10 + change.M11 * change.M11);
+    if (scaleX !== scaleY) {
+      throw new Error(
+        'Cant scale circle by uneven amounts in x and y direction'
+      );
+    }
+    const radius = this._radius * scaleX;
+    const plane = this._plane.transform(change);
+
+    // @ts-ignore
+    return new Circle(radius, plane);
   }
 }

@@ -321,3 +321,46 @@ test('withPlane: creates a new circle with the correct plane', t => {
   t.true(c.plane.origin.equals(new Point(20, 30)));
   t.true(c.plane.xAxis.isParallelTo(new Vector(2, 3)));
 });
+
+/*test.beforeEach('Create test geometry', t => {
+  t.context.basic = new Circle(10);
+  t.context.moved = new Circle(
+    10,
+    new Plane(new Point(3, 4), new Vector(1, 1))
+  );
+});*/
+
+// -----------------------
+// TRANSFORMABLE
+// -----------------------
+test('rotate: correctly rotates circle', t => {
+  shapetypesSettings.invertY = false;
+  const c = t.context.basic.rotate(Math.PI / 2);
+  t.is(c.radius, 10);
+  t.true(c.center.equals(new Point(0,0)));
+  t.true(c.pointAt(0).equals(new Point(0, -10)));
+});
+
+test('scale: correctly scales radius of basic circle', t => {
+  const c = t.context.basic.scale(2, 2);
+  t.is(c.radius, 20);
+  t.true(c.center.equals(new Point(0,0)));
+});
+test('scale: correctly scales radius of shifted circle', t => {
+  const c = t.context.moved.scale(2, 2, new Point(3,4));
+  t.is(c.radius, 20);
+  t.true(c.center.equals(new Point(3,4)));
+});
+test('scale: doesnt work with uneven scales', t => {
+  t.throws(() => {
+    // @ts-ignore
+    const c = t.context.basic.scale(3, 2);
+  });
+});
+
+test('translate: correctly moves circle', t => {
+  const c = t.context.basic.translate(new Vector(3,4));
+  t.is(c.radius, 10);
+  t.true(c.center.equals(new Point(3,4)));
+});
+
