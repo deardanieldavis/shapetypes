@@ -262,6 +262,13 @@ test('pointAt: Converts a local point to global coordinates', t => {
     t.true(t.context.bb.pointAt(local).equals(global));
   }
 });
+test('pointAt: Converts a local point to global coordinates, using xy', t => {
+  for (const p of MAPPEDPOINTS) {
+    const global = p[0];
+    const local = p[1];
+    t.true(t.context.bb.pointAt(local.x, local.y).equals(global));
+  }
+});
 
 test('remap: Converts a global point to local coordinates', t => {
   for (const p of MAPPEDPOINTS) {

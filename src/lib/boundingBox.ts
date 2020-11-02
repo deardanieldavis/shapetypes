@@ -296,6 +296,24 @@ export class BoundingBox extends Geometry {
   }
 
   /**
+   * Returns true if this boundingbox overlaps another.
+   * @param otherBox
+   */
+  public overlaps(otherBox: BoundingBox): boolean {
+    const xRange = IntervalSorted.intersection(this._xRange, otherBox._xRange);
+    if (xRange === undefined) {
+      return false;
+    }
+
+    const yRange = IntervalSorted.intersection(this._yRange, otherBox._yRange);
+    if (yRange === undefined) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
    * Remaps a point from the u-v space of the BoundingBox to the global coordinate system.
    * This is the opposite of [[remapToBox]].
    * @param u         The normalized distance along the x-axis of the BoundingBox

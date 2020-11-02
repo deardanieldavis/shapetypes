@@ -1,6 +1,6 @@
 import {
-  BoundingBox, Geometry,
-  Point,
+  BoundingBox, Circle, Geometry, Intersection,
+  Point, Polygon, Polyline, Ray,
   shapetypesSettings,
   Transform,
   Vector
@@ -242,6 +242,25 @@ export class Line extends Geometry{
    */
   public flip(): Line {
     return new Line(this._to, this._from);
+  }
+
+  /**
+   * Returns the parameters where this line intersects with other geometry.
+   *
+   * Note: This is an alias for the [[Intersection.line]] function.
+   *
+   * @param otherGeom   The geometry to intersect with.
+   * @returns           The parameter(s) where the intersections occur. Use [[pointAt]] to get actual points.
+   */
+  public intersection(otherGeom:
+                        | Point
+                        | Line
+                        | Ray
+                        | Circle
+                        | Polyline
+                        | Polygon
+                        | ReadonlyArray<Point | Line | Ray | Circle | Polyline | Polygon>): readonly number[] {
+    return Intersection.line(this, otherGeom);
   }
 
   /**

@@ -1,26 +1,21 @@
 /* tslint:disable:no-let */
 import {
-  difference as pcDifference,
-  intersection as pcIntersection,
-  MultiPolygon,
   Pair,
   Ring,
-  union as pcUnion
 } from 'polygon-clipping';
 import { horizontalRayPolyline } from './intersection';
 import {
   CurveOrientation,
-  isPolylineArray,
   PointContainment
 } from './utilities';
 
 import {
-  BoundingBox, Geometry,
+  BoundingBox, Circle, Geometry, Intersection,
   Interval,
   IntervalSorted,
   Line,
   Point,
-  Polygon,
+  Polygon, Ray,
   shapetypesSettings,
   Transform,
   Vector
@@ -420,6 +415,25 @@ export class Polyline extends Geometry{
   }
 
   /**
+   * Returns the parameters where this polyline intersects with other geometry.
+   *
+   * Note: This is an alias for the [[Intersection.polyline]] function.
+   *
+   * @param otherGeom   The geometry to intersect with.
+   * @returns           The parameter(s) where the intersections occur. Use [[pointAt]] to get actual points.
+   */
+  public intersection(otherGeom:
+                        | Point
+                        | Line
+                        | Ray
+                        | Circle
+                        | Polyline
+                        | Polygon
+                        | ReadonlyArray<Point | Line | Ray | Circle | Polyline | Polygon>): readonly number[] {
+    return Intersection.polyline(this, otherGeom);
+  }
+
+  /**
    * Returns a closed copy of the polyline.
    * If the polyline is already closed, returns itself.
    * If the polyline is open, closes it by adding a segment between [[to]] and [[from]].
@@ -683,93 +697,6 @@ export class Polyline extends Geometry{
     return this.reverse();
   }
 
-  // -----------------------
-  // BOOLEAN
-  // -----------------------
-
-  // Boolean functions use this library:
-  // https://github.com/mfogel/polygon-clipping
-  // Help with typescript:
-  // https://github.com/mfogel/polygon-clipping/issues/76
-
-  /**
-   * Returns the union of the polyline with another polyline.
-   *
-   * Note: This method only works with closed polylines. It will throw an error if applied to an open polyline.
-   *
-   * @category Closed
-   * @param joiner  The polyline to join to.
-   * @returns    The the two polylines joined together. If the original polylines don't overlap, this could be an array of the two original polylines.
-   */
-  public union(joiner: Polyline): ReadonlyArray<Polyline> {
-    if (this.isClosed === false || joiner.isClosed === false) {
-      throw new Error('Both polylines must be closed');
-    }
-
-    const result = pcUnion([this.asGeoJSON()], [joiner.asGeoJSON()]);
-    const converted = fromGeoJSON(result);
-    if (isPolylineArray(converted)) {
-      return converted;
-    }
-    // Probably won't get to here without an error
-    /* istanbul ignore next */
-    if (converted.length === 0) {
-      /* istanbul ignore next */
-      return new Array<Polyline>();
-    }
-    /* istanbul ignore next */
-    throw new Error('Unexpectedly generated a polygon');
-  }
-
-  /**
-   * Returns the overlapping intersection of the polyline with another polyline.
-   *
-   * Note: This method only works with closed polylines. It will throw an error if applied to an open polyline.
-   *
-   * @category Closed
-   * @param intersector   The polyline to intersect with.
-   * @returns             The intersection of two polylines. This could be an empty array if the polylines don't intersect.
-   *                      Could be multiple polylines if the original polylines overlap in many places.
-   */
-  public intersection(intersector: Polyline): ReadonlyArray<Polyline> {
-    if (this.isClosed === false || intersector.isClosed === false) {
-      throw new Error('Both polylines must be closed');
-    }
-
-    const result = pcIntersection(
-      [this.asGeoJSON()],
-      [intersector.asGeoJSON()]
-    );
-    const converted = fromGeoJSON(result);
-    if (isPolylineArray(converted)) {
-      return converted;
-    }
-    if (converted.length === 0) {
-      return new Array<Polyline>();
-    }
-    // Won't get to here without an error
-    /* istanbul ignore next */
-    throw new Error('Unexpectedly generated a polygon');
-  }
-
-  /**
-   * Returns the part of the polyline that does not intersect another polyline.
-   *
-   * Note: This method only works with closed polylines. It will throw an error if applied to an open polyline.
-   *
-   * @category Closed
-   * @param subtractor    The polyline to remove.
-   * @returns             The polyline after the `subtractor` has been removed from it. This may be a polyline or a polygon.
-   */
-  public difference(subtractor: Polyline): ReadonlyArray<Polyline | Polygon> {
-    if (this.isClosed === false || subtractor.isClosed === false) {
-      throw new Error('Both polylines must be closed');
-    }
-
-    const result = pcDifference([this.asGeoJSON()], [subtractor.asGeoJSON()]);
-    return fromGeoJSON(result);
-  }
-
   /**
    * Returns the polyline in the GeoJSON format.
    */
@@ -825,21 +752,4 @@ export class Polyline extends Geometry{
     // @ts-ignore
     return new Polyline(corners);
   }
-}
-
-function fromGeoJSON(multi: MultiPolygon): ReadonlyArray<Polyline | Polygon> {
-  const outputs = new Array<Polyline | Polygon>();
-
-  for (const polygon of multi) {
-    if (polygon.length === 0) {
-      /* istanbul ignore next */
-      continue;
-    } else if (polygon.length === 1) {
-      outputs.push(Polyline.fromCoords(polygon[0]));
-    } else {
-      /* istanbul ignore next */
-      outputs.push(Polygon.fromCoords(polygon));
-    }
-  }
-  return outputs;
 }

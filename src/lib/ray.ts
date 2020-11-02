@@ -1,4 +1,12 @@
-import { Geometry, Point, Transform, Vector } from '../index';
+import {
+  Circle,
+  Geometry, Intersection, Line,
+  Point,
+  Polygon,
+  Polyline,
+  Transform,
+  Vector
+} from '../index';
 
 /**
  * A ray is a line of infinite length. It has a start point ([[from]]) and a direction ([[direction]]) but no end point.
@@ -101,6 +109,26 @@ export class Ray extends Geometry{
   public closestPoint(testPoint: Point, onlyPositive: boolean = false): Point {
     return this.pointAt(this.closestParameter(testPoint, onlyPositive));
   }
+
+  /**
+   * Returns the parameters where this ray intersects with other geometry.
+   *
+   * Note: This is an alias for the [[Intersection.ray]] function.
+   *
+   * @param otherGeom   The geometry to intersect with.
+   * @returns           The parameter(s) where the intersections occur. Use [[pointAt]] to get actual points.
+   */
+  public intersection(otherGeom:
+                        | Point
+                        | Line
+                        | Ray
+                        | Circle
+                        | Polyline
+                        | Polygon
+                        | ReadonlyArray<Point | Line | Ray | Circle | Polyline | Polygon>): readonly number[] {
+    return Intersection.ray(this, otherGeom);
+  }
+
 
   /**
    * Returns the point on the ray that is a given distance from the start of the ray ([[from]]).
