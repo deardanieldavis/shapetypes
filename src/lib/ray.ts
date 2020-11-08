@@ -1,9 +1,10 @@
 import {
+  BoundingBox,
   Circle,
   Geometry, Intersection, Line,
   Point,
   Polygon,
-  Polyline,
+  Polyline, Rectangle,
   Transform,
   Vector
 } from '../index';
@@ -122,10 +123,12 @@ export class Ray extends Geometry{
                         | Point
                         | Line
                         | Ray
+                        | BoundingBox
                         | Circle
+                        | Rectangle
                         | Polyline
                         | Polygon
-                        | ReadonlyArray<Point | Line | Ray | Circle | Polyline | Polygon>): readonly number[] {
+                        | ReadonlyArray<Point | Line | Ray | BoundingBox | Circle | Rectangle | Polyline | Polygon>): readonly number[] {
     return Intersection.ray(this, otherGeom);
   }
 

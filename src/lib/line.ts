@@ -1,6 +1,6 @@
 import {
   BoundingBox, Circle, Geometry, Intersection,
-  Point, Polygon, Polyline, Ray,
+  Point, Polygon, Polyline, Ray, Rectangle,
   shapetypesSettings,
   Transform,
   Vector
@@ -256,10 +256,12 @@ export class Line extends Geometry{
                         | Point
                         | Line
                         | Ray
+                        | BoundingBox
                         | Circle
+                        | Rectangle
                         | Polyline
                         | Polygon
-                        | ReadonlyArray<Point | Line | Ray | Circle | Polyline | Polygon>): readonly number[] {
+                        | ReadonlyArray<Point | Line | Ray | BoundingBox | Circle | Rectangle | Polyline | Polygon>): readonly number[] {
     return Intersection.line(this, otherGeom);
   }
 

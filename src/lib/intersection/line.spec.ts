@@ -14,8 +14,8 @@ test('lineLine: Meet in cross at 0,0', t => {
   ]);
   const result = Intersection.lineLine(lineA, lineB);
   t.true(result.intersects);
-  t.is(result.lineAu, 0.5);
-  t.is(result.lineBu, 0.5);
+  t.is(result.lineAU, 0.5);
+  t.is(result.lineBU, 0.5);
 });
 test('lineLine: Meet in cross at 0,0, reversed', t => {
   const lineA = Line.fromCoords([
@@ -28,8 +28,8 @@ test('lineLine: Meet in cross at 0,0, reversed', t => {
   ]);
   const result = Intersection.lineLine(lineA, lineB);
   t.true(result.intersects);
-  t.is(result.lineAu, 0.5);
-  t.is(result.lineBu, 0.5);
+  t.is(result.lineAU, 0.5);
+  t.is(result.lineBU, 0.5);
 });
 test('lineLine: Meet in cross at -10,0', t => {
   const lineA = Line.fromCoords([
@@ -42,8 +42,8 @@ test('lineLine: Meet in cross at -10,0', t => {
   ]);
   const result = Intersection.lineLine(lineA, lineB);
   t.true(result.intersects);
-  t.is(result.lineAu, 0);
-  t.is(result.lineBu, 0.5);
+  t.is(result.lineAU, 0);
+  t.is(result.lineBU, 0.5);
 });
 test('lineLine: Meet in cross at 0,10', t => {
   const lineA = Line.fromCoords([
@@ -56,8 +56,8 @@ test('lineLine: Meet in cross at 0,10', t => {
   ]);
   const result = Intersection.lineLine(lineA, lineB);
   t.true(result.intersects);
-  t.is(result.lineAu, 0.5);
-  t.is(result.lineBu, 1);
+  t.is(result.lineAU, 0.5);
+  t.is(result.lineBU, 1);
 });
 test('lineLine: Meet at angle at 0,00', t => {
   const lineA = Line.fromCoords([
@@ -70,8 +70,8 @@ test('lineLine: Meet at angle at 0,00', t => {
   ]);
   const result = Intersection.lineLine(lineA, lineB);
   t.true(result.intersects);
-  t.is(result.lineAu, 0.5);
-  t.is(result.lineBu, 0.5);
+  t.is(result.lineAU, 0.5);
+  t.is(result.lineBU, 0.5);
 });
 test('lineLine: Do not meet', t => {
   const lineA = Line.fromCoords([
@@ -96,8 +96,8 @@ test('lineLine: Infinite, meet in cross at 0,0', t => {
   ]);
   const result = Intersection.lineLine(lineA, lineB, false);
   t.true(result.intersects);
-  t.is(result.lineAu, 0.5);
-  t.is(result.lineBu, 0.5);
+  t.is(result.lineAU, 0.5);
+  t.is(result.lineBU, 0.5);
 });
 test('lineLine: Infinite, meet below lineB', t => {
   const lineA = Line.fromCoords([
@@ -110,8 +110,8 @@ test('lineLine: Infinite, meet below lineB', t => {
   ]);
   const result = Intersection.lineLine(lineA, lineB, false);
   t.true(result.intersects);
-  t.is(result.lineAu, 0.5);
-  t.is(result.lineBu, -1);
+  t.is(result.lineAU, 0.5);
+  t.is(result.lineBU, -1);
 });
 test('lineLine: Infinite, meet at an angle at 0,0', t => {
   const lineA = Line.fromCoords([
@@ -124,8 +124,8 @@ test('lineLine: Infinite, meet at an angle at 0,0', t => {
   ]);
   const result = Intersection.lineLine(lineA, lineB, false);
   t.true(result.intersects);
-  t.is(result.lineAu, 2);
-  t.is(result.lineBu, -1);
+  t.is(result.lineAU, 2);
+  t.is(result.lineBU, -1);
 });
 
 test('lineLine: Has a denominator of 0, dont cross', t => {

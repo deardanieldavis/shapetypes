@@ -64,7 +64,7 @@ export function rayLine(
 export function rayRay(
   rayA: Ray,
   rayB: Ray,
-  bothSides = false
+  onlyForward: boolean = false
 ): { intersects: boolean; rayAU: number; rayBU: number } {
   // Based on:
   // https://github.com/davidfig/pixi-intersects/blob/master/src/shape.js
@@ -84,12 +84,12 @@ export function rayRay(
   const s = (-aY * diffX + aX * diffY) / denominator;
   const t = (bX * diffY - bY * diffX) / denominator;
 
-  if (bothSides) {
-    return { intersects: true, rayAU: t, rayBU: s };
-  } else {
+  if (onlyForward) {
     if (0 <= t && 0 <= s) {
       return { intersects: true, rayAU: t, rayBU: s };
     }
+  } else {
+    return { intersects: true, rayAU: t, rayBU: s };
   }
   return { intersects: false, rayAU: 0, rayBU: 0 };
 }

@@ -18,9 +18,9 @@ export function lineLine(
   /** True if the two lines intersect. */
   intersects: boolean;
   /** The parameter along `lineA` where the intersection occurs. Use [[Line.pointAt]] to get actual point. */
-  lineAu: number;
+  lineAU: number;
   /** The parameter along `lineB` where the intersection occurs. Use [[Line.pointAt]] to get actual point. */
-  lineBu: number;
+  lineBU: number;
 } {
   // Based on:
   // https://github.com/davidfig/pixi-intersects/blob/master/src/shape.js
@@ -31,7 +31,7 @@ export function lineLine(
 
   const denominator = -bX * aY + aX * bY;
   if (denominator === 0) {
-    return { intersects: false, lineAu: 0, lineBu: 0 };
+    return { intersects: false, lineAU: 0, lineBU: 0 };
   }
 
   const diffX = lineA.from.x - lineB.from.x;
@@ -46,11 +46,11 @@ export function lineLine(
       -shapetypesSettings.absoluteTolerance <= t &&
       t <= 1 + shapetypesSettings.absoluteTolerance
     ) {
-      return { intersects: true, lineAu: t, lineBu: s };
+      return { intersects: true, lineAU: t, lineBU: s };
     }
   } else {
-    return { intersects: true, lineAu: t, lineBu: s };
+    return { intersects: true, lineAU: t, lineBU: s };
   }
 
-  return { intersects: false, lineAu: 0, lineBu: 0 };
+  return { intersects: false, lineAU: 0, lineBU: 0 };
 }

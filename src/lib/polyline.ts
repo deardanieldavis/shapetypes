@@ -15,7 +15,7 @@ import {
   IntervalSorted,
   Line,
   Point,
-  Polygon, Ray,
+  Polygon, Ray, Rectangle,
   shapetypesSettings,
   Transform,
   Vector
@@ -426,10 +426,12 @@ export class Polyline extends Geometry{
                         | Point
                         | Line
                         | Ray
+                        | BoundingBox
                         | Circle
+                        | Rectangle
                         | Polyline
                         | Polygon
-                        | ReadonlyArray<Point | Line | Ray | Circle | Polyline | Polygon>): readonly number[] {
+                        | ReadonlyArray<Point | Line | Ray | BoundingBox | Circle | Rectangle | Polyline | Polygon>): readonly number[] {
     return Intersection.polyline(this, otherGeom);
   }
 
