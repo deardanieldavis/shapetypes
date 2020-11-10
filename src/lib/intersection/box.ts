@@ -13,9 +13,9 @@ export function lineBox(
   box: BoundingBox
 ): {
   /** True if `line` intersects `box`. */
-  intersects: boolean;
+  readonly intersects: boolean;
   /** The portion of `line` within the `box`. Use [[Line.pointAt]] to get actual points. */
-  domain: IntervalSorted;
+  readonly domain: IntervalSorted;
 } {
   // Reject lines that obviously wont intersect
   if (line.from.x < box.xRange.min && line.to.x < box.xRange.min) {
@@ -109,9 +109,9 @@ export function rayBox(
   onlyForward: boolean = false
 ): {
   /** True if `ray` intersects `box` */
-  intersects: boolean;
+  readonly intersects: boolean;
   /** The portion of `ray` within the `box`. Use [[Ray.pointAt]] to get actual points. */
-  domain: IntervalSorted;
+  readonly domain: IntervalSorted;
 } {
   // Use Liang-Barsky's algorithm to find possible intersections
   // https://en.wikipedia.org/wiki/Liang–Barsky_algorithm

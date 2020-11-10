@@ -61,7 +61,7 @@ export class Line extends Geometry{
   private readonly _from: Point;
   private readonly _to: Point;
   private _cacheVector: Vector | undefined;
-  private _cahceBoundingBox: BoundingBox | undefined;
+  private _cacheBoundingBox: BoundingBox | undefined;
 
   // -----------------------
   // CONSTRUCTOR
@@ -86,10 +86,10 @@ export class Line extends Geometry{
    * Returns the smallest bounding box that contains the line.
    */
   get boundingBox(): BoundingBox {
-    if (this._cahceBoundingBox === undefined) {
-      this._cahceBoundingBox = BoundingBox.fromCorners(this._from, this._to);
+    if (this._cacheBoundingBox === undefined) {
+      this._cacheBoundingBox = BoundingBox.fromCorners(this._from, this._to);
     }
-    return this._cahceBoundingBox;
+    return this._cacheBoundingBox;
   }
 
   /**

@@ -18,9 +18,9 @@ export function lineCircle(
   circle: Circle
 ): {
   /** The number of intersections between `line` and `circle`. */
-  intersects: LineCircleIntersection;
+  readonly intersects: LineCircleIntersection;
   /** The parameter(s) along `line` where the intersections occur. Use [[Line.pointAt]] to get actual points. */
-  u: readonly number[];
+  readonly u: readonly number[];
 } {
   // Based on: https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
   const d = line.direction;
@@ -79,9 +79,9 @@ export function rayCircle(
   onlyForward: boolean = false
 ): {
   /** The number of intersections between `ray` and `circle`. */
-  intersects: LineCircleIntersection;
+  readonly intersects: LineCircleIntersection;
   /** The parameter(s) along `ray` where the intersections occur. Use [[Ray.pointAt]] to get actual points. */
-  u: readonly number[];
+  readonly u: readonly number[];
 } {
   // Based on: https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
   const d = ray.direction;

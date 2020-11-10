@@ -16,11 +16,11 @@ export function lineLine(
   limitToFiniteSegment: boolean = true
 ): {
   /** True if the two lines intersect. */
-  intersects: boolean;
+  readonly intersects: boolean;
   /** The parameter along `lineA` where the intersection occurs. Use [[Line.pointAt]] to get actual point. */
-  lineAU: number;
+  readonly lineAU: number;
   /** The parameter along `lineB` where the intersection occurs. Use [[Line.pointAt]] to get actual point. */
-  lineBU: number;
+  readonly lineBU: number;
 } {
   // Based on:
   // https://github.com/davidfig/pixi-intersects/blob/master/src/shape.js

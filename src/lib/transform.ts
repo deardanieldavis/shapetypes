@@ -227,7 +227,7 @@ export class Transform {
   // STATIC - PRIVATE
   // -----------------------
 
-  private static _identity: Transform = Transform.fromDiagonal(0, 1);
+  private static readonly _identity: Transform = Transform.fromDiagonal(0, 1);
 
   /**
    * Returns a new Transform matrix that translates an object from the worldXY coordinate system to another system.
@@ -369,7 +369,7 @@ export class Transform {
    *            success: will be `true` if the matrix was successfully inverted (in some cases it can't be);
    *            result: if successful, will return the inverted matrix. Otherwise returns the original matrix.
    */
-  public inverse(): { success: boolean; result: Transform } {
+  public inverse(): { readonly success: boolean; readonly result: Transform } {
     // Based on: https://stackoverflow.com/questions/983999/simple-3x3-matrix-inverse-code-c
     const determinant = this.determinant;
 

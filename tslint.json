@@ -13,7 +13,7 @@
     "typedef": [true, "call-signature"],
 
     // Immutability rules
-    //"readonly-keyword": true,
+    "readonly-keyword": [true, {"ignore-prefix": "_cache"}],
     "readonly-array": true,
     "no-let": true,
     //"no-object-mutation": true,
@@ -21,10 +21,12 @@
     "no-method-signature": true,
 
     // Functional style rules
-    // DD: Removed most of these rules since I'm using classes
+    // These were old rules from typescript-starter
+    // I've removed them because I'm using classes
+    // https://github.com/jonaskello/tslint-immutable#functional-style-rules
     //"no-this": true,
     //"no-class": true,
-    "no-mixed-interface": true,
+    // "no-mixed-interface": true,
     /*"no-expression-statement": [
       true,
       { "ignore-prefix": ["console.", "process.exit"] }
