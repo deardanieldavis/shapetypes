@@ -1,3 +1,4 @@
+/* tslint:disable:readonly-keyword */
 /**
  * @ignore
  */

@@ -1,3 +1,4 @@
+/* tslint:disable:readonly-keyword */
 import anyTest, { TestInterface } from 'ava';
 import { BoundingBox, Intersection, Interval, Line, Point, Ray, Vector } from '../../index';
 

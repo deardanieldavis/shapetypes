@@ -1,4 +1,4 @@
-// tslint:disable:no-let
+/* tslint:disable:readonly-keyword */
 import anyTest, { TestInterface } from 'ava';
 import { Line, Point, shapetypesSettings, Transform, Vector } from '../index';
 

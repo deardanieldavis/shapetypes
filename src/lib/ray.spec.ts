@@ -1,3 +1,4 @@
+/* tslint:disable:readonly-keyword */
 import anyTest, { TestInterface } from 'ava';
 import { Plane, Point, Ray, shapetypesSettings, Vector } from '../index';
 
