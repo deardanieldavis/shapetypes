@@ -184,7 +184,7 @@ export class IntervalSorted {
   ): boolean {
     if (strict) {
       // Must be fully inside
-      if (this.min - tolerance < value && value < this.max + tolerance) {
+      if (this.min < value && value < this.max) {
         return true;
       }
     } else {

@@ -6,7 +6,7 @@ import {
   IntervalSorted,
   Line,
   Point,
-  Polyline,
+  Polyline, shapetypesSettings,
   Transform
 } from '../index';
 
@@ -221,7 +221,7 @@ export class BoundingBox extends Geometry {
   public contains(
     testPoint: Point,
     strict: boolean = false,
-    tolerance: number = 0
+    tolerance: number = shapetypesSettings.absoluteTolerance
   ): boolean {
     if (this._xRange.contains(testPoint.x, strict, tolerance)) {
       if (this._yRange.contains(testPoint.y, strict, tolerance)) {
