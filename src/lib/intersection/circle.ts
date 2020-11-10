@@ -1,4 +1,11 @@
-import { approximatelyEqual, Circle, Line, Ray, shapetypesSettings, Vector } from '../../index';
+import {
+  approximatelyEqual,
+  Circle,
+  Line,
+  Ray,
+  shapetypesSettings,
+  Vector
+} from '../../index';
 
 export enum LineCircleIntersection {
   none,

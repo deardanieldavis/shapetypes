@@ -1,4 +1,4 @@
-import { Line, Point, Polyline, shapetypesSettings} from '../../index';
+import { Line, Point, Polyline, shapetypesSettings } from '../../index';
 
 /**
  * Returns the number of times a horizontal ray intersects with a polyline.

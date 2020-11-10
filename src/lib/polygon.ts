@@ -9,19 +9,17 @@ import {
   Ring,
   union as pcUnion
 } from 'polygon-clipping';
-import {
-  isPolygonArray,
-  isPolylineArray,
-} from './utilities';
+import { isPolygonArray, isPolylineArray } from './utilities';
 
 import {
   BoundingBox,
-  CurveOrientation, Geometry,
+  CurveOrientation,
+  Geometry,
   Point,
   PointContainment,
   Polyline,
   shapetypesSettings,
-  Transform,
+  Transform
 } from '../index';
 
 /**
@@ -30,7 +28,7 @@ import {
  *
  * The boundary is always in a clockwise orientation. The holes are always counter-clockwise.
  */
-export class Polygon extends Geometry{
+export class Polygon extends Geometry {
   // -----------------------
   // STATIC
   // -----------------------
@@ -304,6 +302,7 @@ export class Polygon extends Geometry{
 
     const newHoles = new Array<Polyline>(this._holes.length);
     for (let i = 0; i < this._holes.length; i++) {
+      // tslint:disable-next-line:no-object-mutation
       newHoles[i] = this._holes[i].transform(change);
     }
 

@@ -1,6 +1,13 @@
 import {
-  BoundingBox, Circle, Geometry, Intersection,
-  Point, Polygon, Polyline, Ray, Rectangle,
+  BoundingBox,
+  Circle,
+  Geometry,
+  Intersection,
+  Point,
+  Polygon,
+  Polyline,
+  Ray,
+  Rectangle,
   shapetypesSettings,
   Transform,
   Vector
@@ -26,7 +33,7 @@ import {
  * ```
  */
 
-export class Line extends Geometry{
+export class Line extends Geometry {
   // -----------------------
   // STATIC
   // -----------------------
@@ -87,6 +94,7 @@ export class Line extends Geometry{
    */
   get boundingBox(): BoundingBox {
     if (this._cacheBoundingBox === undefined) {
+      // tslint:disable-next-line:no-object-mutation
       this._cacheBoundingBox = BoundingBox.fromCorners(this._from, this._to);
     }
     return this._cacheBoundingBox;
@@ -97,6 +105,7 @@ export class Line extends Geometry{
    */
   get direction(): Vector {
     if (this._cacheVector === undefined) {
+      // tslint:disable-next-line:no-object-mutation
       this._cacheVector = Vector.fromPoints(this._from, this._to);
     }
     return this._cacheVector;
@@ -252,16 +261,27 @@ export class Line extends Geometry{
    * @param otherGeom   The geometry to intersect with.
    * @returns           The parameter(s) where the intersections occur. Use [[pointAt]] to get actual points.
    */
-  public intersection(otherGeom:
-                        | Point
-                        | Line
-                        | Ray
-                        | BoundingBox
-                        | Circle
-                        | Rectangle
-                        | Polyline
-                        | Polygon
-                        | ReadonlyArray<Point | Line | Ray | BoundingBox | Circle | Rectangle | Polyline | Polygon>): readonly number[] {
+  public intersection(
+    otherGeom:
+      | Point
+      | Line
+      | Ray
+      | BoundingBox
+      | Circle
+      | Rectangle
+      | Polyline
+      | Polygon
+      | ReadonlyArray<
+          | Point
+          | Line
+          | Ray
+          | BoundingBox
+          | Circle
+          | Rectangle
+          | Polyline
+          | Polygon
+        >
+  ): readonly number[] {
     return Intersection.line(this, otherGeom);
   }
 

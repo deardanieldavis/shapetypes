@@ -1,5 +1,5 @@
 import anyTest, { TestInterface } from 'ava';
-import {Intersection, Line} from '../../index';
+import { Intersection, Line } from '../../index';
 
 const test = anyTest as TestInterface<{}>;
 

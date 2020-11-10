@@ -7,7 +7,8 @@ import {
   Polygon,
   Polyline,
   Ray,
-  Rectangle, shapetypesSettings
+  Rectangle,
+  shapetypesSettings
 } from '../../index';
 
 /**
@@ -29,7 +30,16 @@ export function line(
     | Rectangle
     | Polyline
     | Polygon
-    | ReadonlyArray<Point | Line | Ray | BoundingBox | Circle | Rectangle | Polyline | Polygon>
+    | ReadonlyArray<
+        | Point
+        | Line
+        | Ray
+        | BoundingBox
+        | Circle
+        | Rectangle
+        | Polyline
+        | Polygon
+      >
 ): readonly number[] {
   if (otherGeom instanceof Array) {
     const intersections = new Array<number>();
@@ -53,11 +63,11 @@ export function line(
     if (result.intersects) {
       return [result.lineU];
     }
-  } else if(otherGeom instanceof BoundingBox) {
+  } else if (otherGeom instanceof BoundingBox) {
     return Intersection.line(theLine, otherGeom.toPolyline());
-  } else if(otherGeom instanceof Circle) {
+  } else if (otherGeom instanceof Circle) {
     return Intersection.lineCircle(theLine, otherGeom).u;
-  } else if(otherGeom instanceof Rectangle) {
+  } else if (otherGeom instanceof Rectangle) {
     return Intersection.line(theLine, otherGeom.toPolyline());
   } else if (otherGeom instanceof Polyline) {
     const intersections = new Array<number>();
@@ -68,7 +78,10 @@ export function line(
     return intersections.sort((a, b) => a - b); // ascending
   } else if (otherGeom instanceof Polygon) {
     const intersections = new Array<number>();
-    const result = Intersection.lineBox(theLine, otherGeom.boundary.boundingBox);
+    const result = Intersection.lineBox(
+      theLine,
+      otherGeom.boundary.boundingBox
+    );
     if (result.intersects) {
       intersections.push(...linePolyline(theLine, otherGeom.boundary));
       for (const hole of otherGeom.holes) {
@@ -102,7 +115,16 @@ export function ray(
     | Rectangle
     | Polyline
     | Polygon
-    | ReadonlyArray<Point | Line | Ray | BoundingBox | Circle | Rectangle | Polyline | Polygon>
+    | ReadonlyArray<
+        | Point
+        | Line
+        | Ray
+        | BoundingBox
+        | Circle
+        | Rectangle
+        | Polyline
+        | Polygon
+      >
 ): readonly number[] {
   if (otherGeom instanceof Array) {
     const intersections = new Array<number>();
@@ -126,11 +148,11 @@ export function ray(
     if (result.intersects) {
       return [result.rayAU];
     }
-  } else if(otherGeom instanceof BoundingBox) {
+  } else if (otherGeom instanceof BoundingBox) {
     return Intersection.ray(theRay, otherGeom.toPolyline());
-  } else if(otherGeom instanceof Circle) {
+  } else if (otherGeom instanceof Circle) {
     return Intersection.rayCircle(theRay, otherGeom).u;
-  } else if(otherGeom instanceof Rectangle) {
+  } else if (otherGeom instanceof Rectangle) {
     return Intersection.ray(theRay, otherGeom.toPolyline());
   } else if (otherGeom instanceof Polyline) {
     const intersections = new Array<number>();
@@ -156,8 +178,6 @@ export function ray(
   return [];
 }
 
-
-
 /**
  * Returns the parameters of intersection(s) between a polyline and any other type of geometry.
  * @param thePolyline   The polyline to intersect.
@@ -177,7 +197,16 @@ export function polyline(
     | Rectangle
     | Polyline
     | Polygon
-    | ReadonlyArray<Point | Line | Ray | BoundingBox | Circle | Rectangle | Polyline | Polygon>
+    | ReadonlyArray<
+        | Point
+        | Line
+        | Ray
+        | BoundingBox
+        | Circle
+        | Rectangle
+        | Polyline
+        | Polygon
+      >
 ): readonly number[] {
   if (otherGeom instanceof Array) {
     const arrayIntersections = new Array<number>();
@@ -186,33 +215,38 @@ export function polyline(
     }
     return arrayIntersections.sort((a, b) => a - b); // ascending
   } else if (otherGeom instanceof Point) {
-    if(! thePolyline.boundingBox.contains(otherGeom, false, shapetypesSettings.absoluteTolerance)){
+    if (
+      !thePolyline.boundingBox.contains(
+        otherGeom,
+        false,
+        shapetypesSettings.absoluteTolerance
+      )
+    ) {
       return [];
     }
-  } else if(otherGeom instanceof BoundingBox) {
-    if(! thePolyline.boundingBox.overlaps(otherGeom)) {
+  } else if (otherGeom instanceof BoundingBox) {
+    if (!thePolyline.boundingBox.overlaps(otherGeom)) {
       return [];
     }
-  }else if(!(otherGeom instanceof Ray)) {
+  } else if (!(otherGeom instanceof Ray)) {
     // @ts-ignore
-    if(! thePolyline.boundingBox.overlaps(otherGeom.boundingBox)) {
+    if (!thePolyline.boundingBox.overlaps(otherGeom.boundingBox)) {
       return [];
     }
   }
 
   const intersections = new Array<number>();
   // tslint:disable-next-line:prefer-for-of no-let
-  for(let i = 0; i < thePolyline.segments.length; i++) {
+  for (let i = 0; i < thePolyline.segments.length; i++) {
     const edge = thePolyline.segments[i];
-    for(const num of line(edge, otherGeom)) {
+    for (const num of line(edge, otherGeom)) {
       intersections.push(i + num);
     }
   }
+  // tslint:disable-next-line:readonly-array
   const unique = [...new Set(intersections)];
   return unique.sort((a, b) => a - b); // ascending
 }
-
-
 
 // -----------------------
 // HELPER

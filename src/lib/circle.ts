@@ -1,6 +1,7 @@
 import {
   approximatelyEqual,
-  BoundingBox, Geometry,
+  BoundingBox,
+  Geometry,
   IntervalSorted,
   Plane,
   Point,
@@ -10,7 +11,7 @@ import {
   Vector
 } from '../index';
 
-export class Circle extends Geometry{
+export class Circle extends Geometry {
   // -----------------------
   // STATIC
   // -----------------------
@@ -219,7 +220,6 @@ export class Circle extends Geometry{
   public withCenter(newCenter: Point): Circle {
     return new Circle(this._radius, this._plane.withOrigin(newCenter));
   }
-
 
   // -----------------------
   // TRANSFORMABLE

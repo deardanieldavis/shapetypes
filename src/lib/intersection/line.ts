@@ -1,4 +1,4 @@
-import { Line, shapetypesSettings} from '../../index';
+import { Line, shapetypesSettings } from '../../index';
 
 /**
  * Returns the parameters of an intersection between two lines.

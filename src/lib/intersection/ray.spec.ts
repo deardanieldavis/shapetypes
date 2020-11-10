@@ -1,8 +1,9 @@
-/* tslint:disable:readonly-keyword */
+/* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
 import {
   approximatelyEqual,
-  Intersection, Line,
+  Intersection,
+  Line,
   Point,
   Ray,
   Vector
@@ -13,7 +14,10 @@ const test = anyTest as TestInterface<{
 }>;
 
 test.beforeEach('Create test geometry', t => {
-  t.context.line = Line.fromCoords([[-5,0], [5,0]]);
+  t.context.line = Line.fromCoords([
+    [-5, 0],
+    [5, 0]
+  ]);
 });
 
 // -----------------------
@@ -111,4 +115,3 @@ test('rayRay: Does not meet because only forward is selected and A is head of po
   const result = Intersection.rayRay(rayA, rayB, true);
   t.is(result.intersects, false);
 });
-

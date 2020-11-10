@@ -1,10 +1,13 @@
 import {
   BoundingBox,
   Circle,
-  Geometry, Intersection, Line,
+  Geometry,
+  Intersection,
+  Line,
   Point,
   Polygon,
-  Polyline, Rectangle,
+  Polyline,
+  Rectangle,
   Transform,
   Vector
 } from '../index';
@@ -12,7 +15,7 @@ import {
 /**
  * A ray is a line of infinite length. It has a start point ([[from]]) and a direction ([[direction]]) but no end point.
  */
-export class Ray extends Geometry{
+export class Ray extends Geometry {
   // -----------------------
   // STATIC
   // -----------------------
@@ -119,19 +122,29 @@ export class Ray extends Geometry{
    * @param otherGeom   The geometry to intersect with.
    * @returns           The parameter(s) where the intersections occur. Use [[pointAt]] to get actual points.
    */
-  public intersection(otherGeom:
-                        | Point
-                        | Line
-                        | Ray
-                        | BoundingBox
-                        | Circle
-                        | Rectangle
-                        | Polyline
-                        | Polygon
-                        | ReadonlyArray<Point | Line | Ray | BoundingBox | Circle | Rectangle | Polyline | Polygon>): readonly number[] {
+  public intersection(
+    otherGeom:
+      | Point
+      | Line
+      | Ray
+      | BoundingBox
+      | Circle
+      | Rectangle
+      | Polyline
+      | Polygon
+      | ReadonlyArray<
+          | Point
+          | Line
+          | Ray
+          | BoundingBox
+          | Circle
+          | Rectangle
+          | Polyline
+          | Polygon
+        >
+  ): readonly number[] {
     return Intersection.ray(this, otherGeom);
   }
-
 
   /**
    * Returns the point on the ray that is a given distance from the start of the ray ([[from]]).

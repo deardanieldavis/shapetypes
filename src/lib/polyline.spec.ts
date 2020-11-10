@@ -1,4 +1,4 @@
-/* tslint:disable:readonly-keyword */
+/* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
 
 import {
@@ -442,7 +442,6 @@ test('withOrientation: throws error if applied to an open curve', t => {
     t.context.elbow.withOrientation(CurveOrientation.clockwise);
   });
 });
-
 
 // -----------------------
 // TRANSFORMABLE

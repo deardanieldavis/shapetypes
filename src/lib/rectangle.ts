@@ -1,5 +1,6 @@
 import {
-  BoundingBox, Geometry,
+  BoundingBox,
+  Geometry,
   Interval,
   IntervalSorted,
   Line,
@@ -10,7 +11,7 @@ import {
   Transform
 } from '../index';
 
-export class Rectangle extends Geometry{
+export class Rectangle extends Geometry {
   // -----------------------
   // STATIC
   // -----------------------

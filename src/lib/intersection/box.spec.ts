@@ -1,6 +1,14 @@
-/* tslint:disable:readonly-keyword */
+/* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
-import { BoundingBox, Intersection, Interval, Line, Point, Ray, Vector } from '../../index';
+import {
+  BoundingBox,
+  Intersection,
+  Interval,
+  Line,
+  Point,
+  Ray,
+  Vector
+} from '../../index';
 
 const test = anyTest as TestInterface<{
   box: BoundingBox;

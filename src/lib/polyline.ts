@@ -1,21 +1,20 @@
 /* tslint:disable:no-let */
-import {
-  Pair,
-  Ring,
-} from 'polygon-clipping';
+import { Pair, Ring } from 'polygon-clipping';
 import { horizontalRayPolyline } from './intersection';
-import {
-  CurveOrientation,
-  PointContainment
-} from './utilities';
+import { CurveOrientation, PointContainment } from './utilities';
 
 import {
-  BoundingBox, Circle, Geometry, Intersection,
+  BoundingBox,
+  Circle,
+  Geometry,
+  Intersection,
   Interval,
   IntervalSorted,
   Line,
   Point,
-  Polygon, Ray, Rectangle,
+  Polygon,
+  Ray,
+  Rectangle,
   shapetypesSettings,
   Transform,
   Vector
@@ -50,7 +49,7 @@ import {
  *
  *
  */
-export class Polyline extends Geometry{
+export class Polyline extends Geometry {
   // -----------------------
   // STATIC
   // -----------------------
@@ -67,6 +66,7 @@ export class Polyline extends Geometry{
   ): Polyline {
     const points = new Array<Point>(coordinates.length);
     for (let i = 0; i < coordinates.length; i++) {
+      // tslint:disable-next-line:no-object-mutation
       points[i] = new Point(coordinates[i][0], coordinates[i][1]);
     }
     if (makeClosed) {
@@ -136,6 +136,7 @@ export class Polyline extends Geometry{
         const b = Vector.fromPoints(this._points[0], this._points[i + 1]);
         area += a.x * b.y - a.y * b.x;
       }
+      // tslint:disable-next-line:no-object-mutation
       this._cacheArea = Math.abs(area / 2.0);
     }
 
@@ -147,6 +148,7 @@ export class Polyline extends Geometry{
    */
   get boundingBox(): BoundingBox {
     if (this._cacheBoundingBox === undefined) {
+      // tslint:disable-next-line:no-object-mutation
       this._cacheBoundingBox = BoundingBox.fromPoints(this.points);
     }
     return this._cacheBoundingBox;
@@ -172,6 +174,7 @@ export class Polyline extends Geometry{
    */
   get isClosed(): boolean {
     if (this._cacheClosed === undefined) {
+      // tslint:disable-next-line:no-object-mutation
       this._cacheClosed = this.from.equals(this.to);
     }
     return this._cacheClosed;
@@ -186,6 +189,7 @@ export class Polyline extends Geometry{
       for (const segment of this.segments) {
         length += segment.length;
       }
+      // tslint:disable-next-line:no-object-mutation
       this._cacheLength = length;
     }
     return this._cacheLength;
@@ -211,11 +215,13 @@ export class Polyline extends Geometry{
       // tslint:disable-next-line:prefer-conditional-expression
       if (shapetypesSettings.invertY) {
         // When the y-axis is inverted, the rotation is opposite as well.
+        // tslint:disable-next-line:no-object-mutation
         this._cacheOrientation =
           result > 0
             ? CurveOrientation.counterclockwise
             : CurveOrientation.clockwise;
       } else {
+        // tslint:disable-next-line:no-object-mutation
         this._cacheOrientation =
           result > 0
             ? CurveOrientation.clockwise
@@ -250,8 +256,10 @@ export class Polyline extends Geometry{
       for (let i = 0; i < this.points.length - 1; i++) {
         const next = i + 1;
         const line = new Line(this.points[i], this.points[next]);
+        // tslint:disable-next-line:no-object-mutation
         lines[i] = line;
       }
+      // tslint:disable-next-line:no-object-mutation
       this._cacheSegments = lines;
     }
     return this._cacheSegments;
@@ -422,16 +430,27 @@ export class Polyline extends Geometry{
    * @param otherGeom   The geometry to intersect with.
    * @returns           The parameter(s) where the intersections occur. Use [[pointAt]] to get actual points.
    */
-  public intersection(otherGeom:
-                        | Point
-                        | Line
-                        | Ray
-                        | BoundingBox
-                        | Circle
-                        | Rectangle
-                        | Polyline
-                        | Polygon
-                        | ReadonlyArray<Point | Line | Ray | BoundingBox | Circle | Rectangle | Polyline | Polygon>): readonly number[] {
+  public intersection(
+    otherGeom:
+      | Point
+      | Line
+      | Ray
+      | BoundingBox
+      | Circle
+      | Rectangle
+      | Polyline
+      | Polygon
+      | ReadonlyArray<
+          | Point
+          | Line
+          | Ray
+          | BoundingBox
+          | Circle
+          | Rectangle
+          | Polyline
+          | Polygon
+        >
+  ): readonly number[] {
     return Intersection.polyline(this, otherGeom);
   }
 
@@ -708,8 +727,10 @@ export class Polyline extends Geometry{
     if (this._cacheGeoJSON === undefined) {
       const ring = new Array<Pair>(this.points.length);
       for (let i = 0; i < this.points.length; i++) {
+        // tslint:disable-next-line:no-object-mutation
         ring[i] = [this.points[i].x, this.points[i].y];
       }
+      // tslint:disable-next-line:no-object-mutation
       this._cacheGeoJSON = ring;
     }
     return this._cacheGeoJSON;

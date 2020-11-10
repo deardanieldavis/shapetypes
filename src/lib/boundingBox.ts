@@ -7,7 +7,7 @@ import {
   Line,
   Point,
   Polyline,
-  Transform,
+  Transform
 } from '../index';
 
 /**
@@ -440,7 +440,7 @@ function closestInterval(
   interval: IntervalSorted,
   targetValue: number,
   includeInterior: boolean = true
-): { value: number; contained: boolean } {
+): { readonly value: number; readonly contained: boolean } {
   // Check to see if value is off ends
   if (targetValue <= interval.min) {
     return { value: interval.min, contained: false };

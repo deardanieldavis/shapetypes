@@ -1,4 +1,4 @@
-/* tslint:disable:readonly-keyword */
+/* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
 import { Circle, Intersection, Line, Point, Ray, Vector } from '../../index';
 

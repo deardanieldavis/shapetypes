@@ -1,12 +1,17 @@
-/* tslint:disable:readonly-keyword */
+/* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
 import {
   approximatelyEqual,
-  BoundingBox, Circle,
-  Intersection, Interval,
+  BoundingBox,
+  Circle,
+  Intersection,
+  Interval,
   Line,
-  Point, Polygon, Polyline,
-  Ray, Rectangle,
+  Point,
+  Polygon,
+  Polyline,
+  Ray,
+  Rectangle,
   Vector
 } from '../../index';
 
@@ -17,9 +22,16 @@ const test = anyTest as TestInterface<{
 }>;
 
 test.beforeEach('Create test geometry', t => {
-  t.context.line = Line.fromCoords([[0,0], [10,0]]);
-  t.context.ray = new Ray(new Point(0,0), new Vector(1,0));
-  t.context.poly = Polyline.fromCoords([[0,0], [5,5], [10, 0]]);
+  t.context.line = Line.fromCoords([
+    [0, 0],
+    [10, 0]
+  ]);
+  t.context.ray = new Ray(new Point(0, 0), new Vector(1, 0));
+  t.context.poly = Polyline.fromCoords([
+    [0, 0],
+    [5, 5],
+    [10, 0]
+  ]);
 });
 
 // -----------------------
@@ -27,30 +39,39 @@ test.beforeEach('Create test geometry', t => {
 // -----------------------
 
 test('line.point: On middle of line', t => {
-  const result = Intersection.line(t.context.line, new Point(5,0));
+  const result = Intersection.line(t.context.line, new Point(5, 0));
   t.is(result[0], 0.5);
 });
 test('line.point: Off end of line', t => {
-  const result = Intersection.line(t.context.line, new Point(15,0));
+  const result = Intersection.line(t.context.line, new Point(15, 0));
   t.is(result.length, 0);
 });
 test('line.point: Off middle of line', t => {
-  const result = Intersection.line(t.context.line, new Point(5,1));
+  const result = Intersection.line(t.context.line, new Point(5, 1));
   t.is(result.length, 0);
 });
 
 test('line.line: Line through middle', t => {
-  const l = Line.fromCoords([[5,-10], [5,10]]);
+  const l = Line.fromCoords([
+    [5, -10],
+    [5, 10]
+  ]);
   const result = Intersection.line(t.context.line, l);
   t.is(result[0], 0.5);
 });
 test('line.line: Line through middle touching at end', t => {
-  const l = Line.fromCoords([[5,-10], [5,0]]);
+  const l = Line.fromCoords([
+    [5, -10],
+    [5, 0]
+  ]);
   const result = Intersection.line(t.context.line, l);
   t.is(result[0], 0.5);
 });
 test('line.line: Line not touching', t => {
-  const l = Line.fromCoords([[5,-10], [5,-5]]);
+  const l = Line.fromCoords([
+    [5, -10],
+    [5, -5]
+  ]);
   const result = Intersection.line(t.context.line, l);
   t.is(result.length, 0);
 });
@@ -72,19 +93,19 @@ test('line.ray: Ray misses end', t => {
 });
 
 test('line.box: Through both sides of box', t => {
-  const b = new BoundingBox(new Interval(5, 10), new Interval(-5,5));
+  const b = new BoundingBox(new Interval(5, 10), new Interval(-5, 5));
   const result = Intersection.line(t.context.line, b);
   t.is(result[0], 0.5);
   t.is(result[1], 1);
 });
 test('line.box: Through only one side', t => {
-  const b = new BoundingBox(new Interval(5, 15), new Interval(-5,5));
+  const b = new BoundingBox(new Interval(5, 15), new Interval(-5, 5));
   const result = Intersection.line(t.context.line, b);
   t.is(result.length, 1);
   t.is(result[0], 0.5);
 });
 test('line.box: Not touching', t => {
-  const b = new BoundingBox(new Interval(11, 15), new Interval(-5,5));
+  const b = new BoundingBox(new Interval(11, 15), new Interval(-5, 5));
   const result = Intersection.line(t.context.line, b);
   t.is(result.length, 0);
 });
@@ -121,7 +142,10 @@ test('line.rectangle: Touches on corner, only intersects once', t => {
 });
 
 test('line.polygon: Large polygon without a hole', t => {
-  const b = Rectangle.fromCorners(new Point(0, -10), new Point(10, 10)).toPolyline();
+  const b = Rectangle.fromCorners(
+    new Point(0, -10),
+    new Point(10, 10)
+  ).toPolyline();
   const poly = new Polygon(b);
   const result = Intersection.line(t.context.line, poly);
   t.is(result.length, 2);
@@ -129,8 +153,14 @@ test('line.polygon: Large polygon without a hole', t => {
   t.is(result[1], 1);
 });
 test('line.polygon: Large polygon with a hole', t => {
-  const b = Rectangle.fromCorners(new Point(0, -10), new Point(10, 10)).toPolyline();
-  const h = Rectangle.fromCorners(new Point(4, -5), new Point(6, 5)).toPolyline();
+  const b = Rectangle.fromCorners(
+    new Point(0, -10),
+    new Point(10, 10)
+  ).toPolyline();
+  const h = Rectangle.fromCorners(
+    new Point(4, -5),
+    new Point(6, 5)
+  ).toPolyline();
   const poly = new Polygon(b, [h]);
   const result = Intersection.line(t.context.line, poly);
   t.is(result.length, 4);
@@ -141,9 +171,12 @@ test('line.polygon: Large polygon with a hole', t => {
 });
 
 test('line.array: Can apply to a number of shapes', t => {
-  const p = new Point(5,0)
-  const b = Rectangle.fromCorners(new Point(0, -10), new Point(10, 10)).toPolyline();
-  const result = Intersection.line(t.context.line, [b,p]);
+  const p = new Point(5, 0);
+  const b = Rectangle.fromCorners(
+    new Point(0, -10),
+    new Point(10, 10)
+  ).toPolyline();
+  const result = Intersection.line(t.context.line, [b, p]);
   t.is(result.length, 3);
   t.true(approximatelyEqual(result[0], 0));
   t.is(result[1], 0.5);
@@ -155,25 +188,31 @@ test('line.array: Can apply to a number of shapes', t => {
 // -----------------------
 
 test('ray.point: In front of ray', t => {
-  const result = Intersection.ray(t.context.ray, new Point(5,0));
+  const result = Intersection.ray(t.context.ray, new Point(5, 0));
   t.is(result[0], 5);
 });
 test('ray.point: Behind ray', t => {
-  const result = Intersection.ray(t.context.ray, new Point(-5,0));
+  const result = Intersection.ray(t.context.ray, new Point(-5, 0));
   t.is(result[0], -5);
 });
 test('ray.point: off ray', t => {
-  const result = Intersection.ray(t.context.ray, new Point(5,1));
+  const result = Intersection.ray(t.context.ray, new Point(5, 1));
   t.is(result.length, 0);
 });
 
 test('ray.line: intersecting', t => {
-  const l = Line.fromCoords([[5,-10], [5,10]]);
+  const l = Line.fromCoords([
+    [5, -10],
+    [5, 10]
+  ]);
   const result = Intersection.ray(t.context.ray, l);
   t.is(result[0], 5);
 });
 test('ray.line: Line not touching', t => {
-  const l = Line.fromCoords([[5,-10], [5,-5]]);
+  const l = Line.fromCoords([
+    [5, -10],
+    [5, -5]
+  ]);
   const result = Intersection.ray(t.context.ray, l);
   t.is(result.length, 0);
 });
@@ -190,13 +229,13 @@ test('ray.ray: Parallel, not intersecting', t => {
 });
 
 test('ray.box: Through both sides of box', t => {
-  const b = new BoundingBox(new Interval(5, 10), new Interval(-5,5));
+  const b = new BoundingBox(new Interval(5, 10), new Interval(-5, 5));
   const result = Intersection.ray(t.context.ray, b);
   t.is(result[0], 5);
   t.is(result[1], 10);
 });
 test('ray.box: Not touching', t => {
-  const b = new BoundingBox(new Interval(5, 10), new Interval(-5,-1));
+  const b = new BoundingBox(new Interval(5, 10), new Interval(-5, -1));
   const result = Intersection.ray(t.context.ray, b);
   t.is(result.length, 0);
 });
@@ -221,7 +260,10 @@ test('ray.rectangle: Through both sides', t => {
 });
 
 test('ray.polygon: Large polygon without a hole', t => {
-  const b = Rectangle.fromCorners(new Point(0, -10), new Point(10, 10)).toPolyline();
+  const b = Rectangle.fromCorners(
+    new Point(0, -10),
+    new Point(10, 10)
+  ).toPolyline();
   const poly = new Polygon(b);
   const result = Intersection.ray(t.context.ray, poly);
   t.is(result.length, 2);
@@ -229,8 +271,14 @@ test('ray.polygon: Large polygon without a hole', t => {
   t.is(result[1], 10);
 });
 test('ray.polygon: Large polygon with a hole', t => {
-  const b = Rectangle.fromCorners(new Point(0, -10), new Point(10, 10)).toPolyline();
-  const h = Rectangle.fromCorners(new Point(4, -5), new Point(6, 5)).toPolyline();
+  const b = Rectangle.fromCorners(
+    new Point(0, -10),
+    new Point(10, 10)
+  ).toPolyline();
+  const h = Rectangle.fromCorners(
+    new Point(4, -5),
+    new Point(6, 5)
+  ).toPolyline();
   const poly = new Polygon(b, [h]);
   const result = Intersection.ray(t.context.ray, poly);
   t.is(result.length, 4);
@@ -241,9 +289,12 @@ test('ray.polygon: Large polygon with a hole', t => {
 });
 
 test('ray.array: Can apply to a number of shapes', t => {
-  const p = new Point(5,0)
-  const b = Rectangle.fromCorners(new Point(0, -10), new Point(10, 10)).toPolyline();
-  const result = Intersection.ray(t.context.ray, [b,p]);
+  const p = new Point(5, 0);
+  const b = Rectangle.fromCorners(
+    new Point(0, -10),
+    new Point(10, 10)
+  ).toPolyline();
+  const result = Intersection.ray(t.context.ray, [b, p]);
   t.is(result.length, 3);
   t.true(approximatelyEqual(result[0], 0));
   t.is(result[1], 5);
@@ -255,16 +306,16 @@ test('ray.array: Can apply to a number of shapes', t => {
 // -----------------------
 
 test('poly.point: On middle of first segment', t => {
-  const result = Intersection.polyline(t.context.poly, new Point(2.5,2.5));
+  const result = Intersection.polyline(t.context.poly, new Point(2.5, 2.5));
   t.is(result[0], 0.5);
 });
 test('poly.point: On node', t => {
-  const result = Intersection.polyline(t.context.poly, new Point(5,5));
+  const result = Intersection.polyline(t.context.poly, new Point(5, 5));
   t.is(result.length, 1);
   t.is(result[0], 1);
 });
 test('poly.point: Off line', t => {
-  const result = Intersection.polyline(t.context.poly, new Point(-5,5));
+  const result = Intersection.polyline(t.context.poly, new Point(-5, 5));
   t.is(result.length, 0);
 });
 
@@ -296,7 +347,10 @@ test('poly.rectangle: Misses line', t => {
 });
 
 test('poly.array: Line and a point', t => {
-  const line = Line.fromCoords([[0, 2.5],[10, 2.5]]);
+  const line = Line.fromCoords([
+    [0, 2.5],
+    [10, 2.5]
+  ]);
   const p = new Point(5, 5);
   const result = Intersection.polyline(t.context.poly, [line, p]);
   t.is(result.length, 3);
@@ -304,4 +358,3 @@ test('poly.array: Line and a point', t => {
   t.is(result[1], 1);
   t.is(result[2], 1.5);
 });
-

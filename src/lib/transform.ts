@@ -516,6 +516,7 @@ export class Transform {
     const newPoints = new Array<Point>(points.length);
     // tslint:disable-next-line:no-let
     for (let i = 0; i < points.length; i++) {
+      // tslint:disable-next-line:no-object-mutation
       newPoints[i] = this.transformPoint(points[i]);
     }
     return newPoints;

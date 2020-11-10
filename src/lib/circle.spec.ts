@@ -1,4 +1,4 @@
-/* tslint:disable:readonly-keyword */
+/* tslint:disable:readonly-keyword no-object-mutation */
 import anyTest, { TestInterface } from 'ava';
 
 import {
@@ -338,19 +338,19 @@ test('rotate: correctly rotates circle', t => {
   shapetypesSettings.invertY = false;
   const c = t.context.basic.rotate(Math.PI / 2);
   t.is(c.radius, 10);
-  t.true(c.center.equals(new Point(0,0)));
+  t.true(c.center.equals(new Point(0, 0)));
   t.true(c.pointAt(0).equals(new Point(0, -10)));
 });
 
 test('scale: correctly scales radius of basic circle', t => {
   const c = t.context.basic.scale(2, 2);
   t.is(c.radius, 20);
-  t.true(c.center.equals(new Point(0,0)));
+  t.true(c.center.equals(new Point(0, 0)));
 });
 test('scale: correctly scales radius of shifted circle', t => {
-  const c = t.context.moved.scale(2, 2, new Point(3,4));
+  const c = t.context.moved.scale(2, 2, new Point(3, 4));
   t.is(c.radius, 20);
-  t.true(c.center.equals(new Point(3,4)));
+  t.true(c.center.equals(new Point(3, 4)));
 });
 test('scale: doesnt work with uneven scales', t => {
   t.throws(() => {
@@ -360,8 +360,7 @@ test('scale: doesnt work with uneven scales', t => {
 });
 
 test('translate: correctly moves circle', t => {
-  const c = t.context.basic.translate(new Vector(3,4));
+  const c = t.context.basic.translate(new Vector(3, 4));
   t.is(c.radius, 10);
-  t.true(c.center.equals(new Point(3,4)));
+  t.true(c.center.equals(new Point(3, 4)));
 });
-

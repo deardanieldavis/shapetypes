@@ -19,7 +19,11 @@ export function rayLine(
   ray: Ray,
   line: Line,
   onlyForward: boolean = false
-): { readonly intersects: boolean; readonly rayU: number; readonly lineU: number } {
+): {
+  readonly intersects: boolean;
+  readonly rayU: number;
+  readonly lineU: number;
+} {
   // Based on:
   // https://github.com/davidfig/pixi-intersects/blob/master/src/shape.js
   const aX = ray.direction.x;
@@ -65,7 +69,11 @@ export function rayRay(
   rayA: Ray,
   rayB: Ray,
   onlyForward: boolean = false
-): { readonly intersects: boolean; readonly rayAU: number; readonly rayBU: number } {
+): {
+  readonly intersects: boolean;
+  readonly rayAU: number;
+  readonly rayBU: number;
+} {
   // Based on:
   // https://github.com/davidfig/pixi-intersects/blob/master/src/shape.js
   const aX = rayA.direction.x;
