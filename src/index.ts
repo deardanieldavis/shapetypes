@@ -10,7 +10,6 @@ export * from './lib/vector';
 
 export * from './lib/boundingBox';
 export * from './lib/circle';
-export * from './lib/intersection';
 export * from './lib/interval';
 export * from './lib/intervalSorted';
 export * from './lib/line';
@@ -21,4 +20,5 @@ export * from './lib/polyline';
 export * from './lib/ray';
 export * from './lib/rectangle';
 
-export * as Intersection from './lib/intersection/index';
+export * from './lib/intersection';
+

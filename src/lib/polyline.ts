@@ -1,6 +1,6 @@
 /* tslint:disable:no-let */
 import { Pair, Ring } from 'polygon-clipping';
-import { horizontalRayPolyline } from './intersection';
+import { horizontalRayPolyline } from './intersection/horizontalRay';
 import { CurveOrientation, PointContainment } from './utilities';
 
 import {
