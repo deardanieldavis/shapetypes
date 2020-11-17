@@ -10,6 +10,7 @@ import {
   Rectangle,
   shapetypesSettings
 } from '../../index';
+import { RayIntersectionRange } from './ray';
 
 /**
  * Returns the parameters of intersection(s) between a line and any other type of geometry.
@@ -59,7 +60,7 @@ export function line(
       return [result.lineAU];
     }
   } else if (otherGeom instanceof Ray) {
-    const result = Intersection.rayLine(otherGeom, theLine, false);
+    const result = Intersection.rayLine(otherGeom, theLine, RayIntersectionRange.full);
     if (result.intersects) {
       return [result.lineU];
     }
@@ -124,52 +125,54 @@ export function ray(
         | Rectangle
         | Polyline
         | Polygon
-      >
+      >,
+  range: RayIntersectionRange = RayIntersectionRange.full
 ): readonly number[] {
   if (otherGeom instanceof Array) {
     const intersections = new Array<number>();
     for (const geom of otherGeom) {
-      intersections.push(...ray(theRay, geom));
+      intersections.push(...ray(theRay, geom, range));
     }
     return intersections.sort((a, b) => a - b); // ascending
   } else if (otherGeom instanceof Point) {
     const t = theRay.closestParameter(otherGeom);
+    // TODO: Need to deal with range
     const p = theRay.pointAt(t);
     if (p.equals(otherGeom)) {
       return [t];
     }
   } else if (otherGeom instanceof Line) {
-    const result = Intersection.rayLine(theRay, otherGeom);
+    const result = Intersection.rayLine(theRay, otherGeom, range);
     if (result.intersects) {
       return [result.rayU];
     }
   } else if (otherGeom instanceof Ray) {
-    const result = Intersection.rayRay(theRay, otherGeom);
+    const result = Intersection.rayRay(theRay, otherGeom, range);
     if (result.intersects) {
       return [result.rayAU];
     }
   } else if (otherGeom instanceof BoundingBox) {
-    return Intersection.ray(theRay, otherGeom.toPolyline());
+    return Intersection.ray(theRay, otherGeom.toPolyline(), range);
   } else if (otherGeom instanceof Circle) {
-    return Intersection.rayCircle(theRay, otherGeom).u;
+    return Intersection.rayCircle(theRay, otherGeom, range).u;
   } else if (otherGeom instanceof Rectangle) {
-    return Intersection.ray(theRay, otherGeom.toPolyline());
+    return Intersection.ray(theRay, otherGeom.toPolyline(), range);
   } else if (otherGeom instanceof Polyline) {
     const intersections = new Array<number>();
-    const result = Intersection.rayBox(theRay, otherGeom.boundingBox);
+    const result = Intersection.rayBox(theRay, otherGeom.boundingBox, range);
     if (result.intersects) {
-      intersections.push(...rayPolyline(theRay, otherGeom));
+      intersections.push(...rayPolyline(theRay, otherGeom, range));
     }
     return intersections.sort((a, b) => a - b); // ascending
   } else if (otherGeom instanceof Polygon) {
     const intersections = new Array<number>();
-    const result = Intersection.rayBox(theRay, otherGeom.boundary.boundingBox);
+    const result = Intersection.rayBox(theRay, otherGeom.boundary.boundingBox, range);
     if (result.intersects) {
-      intersections.push(...rayPolyline(theRay, otherGeom.boundary));
+      intersections.push(...rayPolyline(theRay, otherGeom.boundary, range));
       for (const hole of otherGeom.holes) {
-        const holeResult = Intersection.rayBox(theRay, hole.boundingBox);
+        const holeResult = Intersection.rayBox(theRay, hole.boundingBox, range);
         if (holeResult.intersects) {
-          intersections.push(...rayPolyline(theRay, hole));
+          intersections.push(...rayPolyline(theRay, hole, range));
         }
       }
     }
@@ -263,10 +266,10 @@ function linePolyline(theLine: Line, thePolyline: Polyline): readonly number[] {
   return intersections;
 }
 
-function rayPolyline(theRay: Ray, thePolyline: Polyline): readonly number[] {
+function rayPolyline(theRay: Ray, thePolyline: Polyline, range: RayIntersectionRange): readonly number[] {
   const intersections = new Array<number>();
   for (const edge of thePolyline.segments) {
-    const result = Intersection.rayLine(theRay, edge);
+    const result = Intersection.rayLine(theRay, edge, range);
     if (result.intersects) {
       intersections.push(result.rayU);
     }

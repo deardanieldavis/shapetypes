@@ -1,5 +1,11 @@
 import { Line, Ray } from '../../index';
 
+export enum RayIntersectionRange {
+  positive,
+  positiveAndZero,
+  full
+}
+
 /**
  * Calculates the intersection between a ray and a line
  *
@@ -18,7 +24,7 @@ import { Line, Ray } from '../../index';
 export function rayLine(
   ray: Ray,
   line: Line,
-  onlyForward: boolean = false
+  range: RayIntersectionRange = RayIntersectionRange.full
 ): {
   readonly intersects: boolean;
   readonly rayU: number;
@@ -44,11 +50,14 @@ export function rayLine(
 
   if (0 <= s && s <= 1) {
     // The ray intersects the line
-    if (onlyForward) {
-      if (0 <= t) {
-        // The intersection is forward of the ray's start
+    if (range === RayIntersectionRange.positive) {
+      if (0 < t) {
         return { intersects: true, rayU: t, lineU: s };
       }
+    } else if (range === RayIntersectionRange.positiveAndZero) {
+        if (0 <= t) {
+          return { intersects: true, rayU: t, lineU: s };
+        }
     } else {
       return { intersects: true, rayU: t, lineU: s };
     }
@@ -68,7 +77,7 @@ export function rayLine(
 export function rayRay(
   rayA: Ray,
   rayB: Ray,
-  onlyForward: boolean = false
+  range: RayIntersectionRange = RayIntersectionRange.full
 ): {
   readonly intersects: boolean;
   readonly rayAU: number;
@@ -92,7 +101,11 @@ export function rayRay(
   const s = (-aY * diffX + aX * diffY) / denominator;
   const t = (bX * diffY - bY * diffX) / denominator;
 
-  if (onlyForward) {
+  if (range === RayIntersectionRange.positive) {
+    if (0 < t && 0 < s) {
+      return { intersects: true, rayAU: t, rayBU: s };
+    }
+  } else if (range === RayIntersectionRange.positiveAndZero) {
     if (0 <= t && 0 <= s) {
       return { intersects: true, rayAU: t, rayBU: s };
     }

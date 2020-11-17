@@ -6,6 +6,7 @@ import {
   shapetypesSettings,
   Vector
 } from '../../index';
+import { RayIntersectionRange } from './ray';
 
 export enum LineCircleIntersection {
   none,
@@ -83,7 +84,7 @@ export function lineCircle(
 export function rayCircle(
   ray: Ray,
   circle: Circle,
-  onlyForward: boolean = false
+  range: RayIntersectionRange = RayIntersectionRange.full
 ): {
   /** The number of intersections between `ray` and `circle`. */
   readonly intersects: LineCircleIntersection;
@@ -110,7 +111,22 @@ export function rayCircle(
   const t1 = (-b - discriminantSqrt) / (2 * a);
   const t2 = (-b + discriminantSqrt) / (2 * a);
 
-  if (onlyForward) {
+  if (range === RayIntersectionRange.positive) {
+    if (0 < t1) {
+      if (t2 <= 0) {
+        // Only t1 is forward
+        return { intersects: LineCircleIntersection.single, u: [t1] };
+      }
+    } else {
+      if (0 < t2) {
+        // Only t2 is forward
+        return { intersects: LineCircleIntersection.single, u: [t2] };
+      } else {
+        // Neither is forward
+        return { intersects: LineCircleIntersection.none, u: [] };
+      }
+    }
+  } else if (range === RayIntersectionRange.positiveAndZero) {
     if (0 <= t1) {
       if (t2 < 0) {
         // Only t1 is forward
