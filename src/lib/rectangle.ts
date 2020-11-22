@@ -152,7 +152,7 @@ export class Rectangle extends Geometry {
   }
 
   /**
-   * @param minX  If true, point will be at the min x value. If false, will be at max.
+   * @param minX  If true, point will be at the min x value relative to recatngle's plane. If false, will be at max.
    * @param minY  If true, point will be at the min y value. If false, will be at max.
    */
   public corner(minX: boolean, minY: boolean): Point {
@@ -186,15 +186,16 @@ export class Rectangle extends Geometry {
   }
 
   /**
-   * Returns an array of the Rectangle's four corners.
-   * Order is: [minX, minY], [maxX, minY], [maxX, maxY], [minX, maxY]
+   * Returns the four corners of the rectangle.
+   * The order will always be: [[minX, minY], [minX, maxY], [maxX, maxY], [maxX, minY]].
+   * If the y-axis is pointing up, this is a clockwise order. And if the y-axis is pointing down, this is an anti-clockwise order.
    */
   public getCorners(): readonly Point[] {
     return [
       this._plane.pointAt(this._x.min, this._y.min),
-      this._plane.pointAt(this._x.max, this._y.min),
+      this._plane.pointAt(this._x.min, this._y.max),
       this._plane.pointAt(this._x.max, this._y.max),
-      this._plane.pointAt(this._x.min, this._y.max)
+      this._plane.pointAt(this._x.max, this._y.min)
     ];
   }
 

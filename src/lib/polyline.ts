@@ -89,7 +89,8 @@ export class Polyline extends Geometry {
   private _cacheArea: number | undefined;
   private _cacheClosed: boolean | undefined;
   private _cacheLength: number | undefined;
-  private _cacheOrientation: CurveOrientation | undefined;
+  private _cacheOrientationYUp: CurveOrientation | undefined;
+  private _cacheOrientationYDown: CurveOrientation | undefined;
   private _cacheSegments: readonly Line[] | undefined;
 
   // -----------------------
@@ -193,43 +194,6 @@ export class Polyline extends Geometry {
       this._cacheLength = length;
     }
     return this._cacheLength;
-  }
-
-  /**
-   * Returns whether a closed polyline is in a clockwise or counterclockwise orientation.
-   * If the polyline is not closed, returns [[CurveOrientation.undefined]].
-   */
-  get orientation(): CurveOrientation {
-    if (this.isClosed === false) {
-      // Curve must be closed to have an orientation
-      return CurveOrientation.undefined;
-    }
-
-    if (this._cacheOrientation === undefined) {
-      // Based on: https://stackoverflow.com/questions/46763647/how-to-reverse-the-array-in-typescript-for-the-following-data
-      let result = 0;
-      for (const segment of this.segments) {
-        result +=
-          (segment.to.x - segment.from.x) * (segment.to.y + segment.from.y);
-      }
-      // tslint:disable-next-line:prefer-conditional-expression
-      if (shapetypesSettings.invertY) {
-        // When the y-axis is inverted, the rotation is opposite as well.
-        // tslint:disable-next-line:no-object-mutation
-        this._cacheOrientation =
-          result > 0
-            ? CurveOrientation.counterclockwise
-            : CurveOrientation.clockwise;
-      } else {
-        // tslint:disable-next-line:no-object-mutation
-        this._cacheOrientation =
-          result > 0
-            ? CurveOrientation.clockwise
-            : CurveOrientation.counterclockwise;
-      }
-    }
-
-    return this._cacheOrientation;
   }
 
   /**
@@ -521,8 +485,7 @@ export class Polyline extends Geometry {
   /**
    * Returns the normal to the polyline at a given parameter.
    * If the polyline is closed, will always return the normal that points towards the inside.
-   * If the polyline is open and if shapetypesSettings.invertY is true, will be on the right side of the segment.
-   * If the polyline is open and if shapetypesSettings.invertY is false, will be on the left side of the segment.
+   * If the polyline is open, vector will be on the left side of the segment (which is the right side if the environment's y-axis points downwards).
    * @param u   Position on the polyline to calculate the normal (see [[pointAt]] for explanation)
    * @returns   A unit vector
    */
@@ -532,19 +495,55 @@ export class Polyline extends Geometry {
 
     const unit = segment.unitTangent;
     if (this.isClosed) {
-      if (this.orientation === CurveOrientation.clockwise) {
-        if (shapetypesSettings.invertY) {
-          return unit;
-        }
+      if (this.orientation() === CurveOrientation.clockwise) {
         return unit.reverse();
       } else {
-        if (shapetypesSettings.invertY) {
-          return unit.reverse();
-        }
         return unit;
       }
     }
     return unit;
+  }
+
+  /**
+   * Returns whether a closed polyline is in a clockwise or counterclockwise orientation.
+   * If the polyline is not closed, returns [[CurveOrientation.undefined]].
+   *
+   * @param isYDown If the environment's y-axis points downwards, this should be set to `true`. Otherwise clockwise and counterclockwise will be inverted.
+   */
+  public orientation(isYDown: boolean = false): CurveOrientation {
+    if (this.isClosed === false) {
+      // Curve must be closed to have an orientation
+      return CurveOrientation.undefined;
+    }
+
+    // Based on: https://stackoverflow.com/questions/46763647/how-to-reverse-the-array-in-typescript-for-the-following-data
+    if(isYDown) {
+      if (this._cacheOrientationYDown === undefined) {
+        let result = 0;
+        for (const segment of this.segments) {
+          result +=
+            (segment.to.x - segment.from.x) * (segment.to.y + segment.from.y);
+        }
+        this._cacheOrientationYDown =
+          result > 0
+            ? CurveOrientation.counterclockwise
+            : CurveOrientation.clockwise;
+      }
+      return this._cacheOrientationYDown;
+    } else {
+      if (this._cacheOrientationYUp === undefined) {
+        let result = 0;
+        for (const segment of this.segments) {
+          result +=
+            (segment.to.x - segment.from.x) * (segment.to.y + segment.from.y);
+        }
+        this._cacheOrientationYUp =
+          result > 0
+            ? CurveOrientation.clockwise
+            : CurveOrientation.counterclockwise;
+      }
+      return this._cacheOrientationYUp;
+    }
   }
 
   /**
@@ -706,12 +705,12 @@ export class Polyline extends Geometry {
    * @category Closed
    * @param goal      The new [[CurveOrientation]] of the polyline.
    */
-  public withOrientation(goal: CurveOrientation): Polyline {
+  public withOrientation(goal: CurveOrientation, isYDown: boolean = false): Polyline {
     if (this.isClosed === false && goal !== CurveOrientation.undefined) {
       throw new Error('Polyline must be closed to have an orientation');
     }
 
-    const current = this.orientation;
+    const current = this.orientation(isYDown);
     if (current === goal || current === CurveOrientation.undefined) {
       return this;
     }

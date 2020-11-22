@@ -13,7 +13,42 @@ import {
 } from '../index';
 
 /**
- * A ray is a line of infinite length. It has a start point ([[from]]) and a direction ([[direction]]) but no end point.
+ * Specifies a ray's range. The ray always stretches from the [[Ray.from |start point]] to infinity.
+ * The range specifies whether the start point is included in that range ([[positiveAndZero]])
+ * and whether the ray also stretches to negative infinity in the opposite direction ([[both]]).
+ */
+export enum RayRange {
+  /** The ray shoots in one direction from the start point to infinity but doesn't include the start point.  */
+  positive,
+
+  /** The ray shoots in one direction from the start point to infinity and includes the start point.  */
+  positiveAndZero,
+
+  /** The ray shoots in two directions: from the start point to infinity, and in the opposite direction to negative infinity.  */
+  both
+}
+
+/**
+ * Returns true if a value is in the range specified.
+ * @ignore
+ */
+export function inRayRange(distance: number, range: RayRange): boolean {
+  if(range === RayRange.both) {
+    return true;
+  }else if(range === RayRange.positive) {
+    if(distance > 0) {
+      return true;
+    }
+  }else if(range === RayRange.positiveAndZero) {
+    if(distance >= 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * A ray is a line of infinite length. It has a [[from|start point]] and a [[direction]] but no end point.
  */
 export class Ray extends Geometry {
   // -----------------------
@@ -24,7 +59,7 @@ export class Ray extends Geometry {
    * Returns a new ray that starts at the `from` point and continues through `pointOnRay`.
    * @category Create
    * @param from        The start of the ray.
-   * @param pointOnRay  A point in the direction of the ray.
+   * @param pointOnRay  A point on the ray.
    */
   public static fromPoints(from: Point, pointOnRay: Point): Ray {
     const direction = Vector.fromPoints(from, pointOnRay);
@@ -86,7 +121,7 @@ export class Ray extends Geometry {
    */
   public closestParameter(
     testPoint: Point,
-    onlyForward: boolean = false
+    range: RayRange = RayRange.both
   ): number {
     const xDelta = this._direction.x;
     const yDelta = this._direction.y;
@@ -95,12 +130,10 @@ export class Ray extends Geometry {
         (testPoint.y - this._from.y) * yDelta) /
       (xDelta * xDelta + yDelta * yDelta);
 
-    if (onlyForward) {
-      if (u < 0) {
-        return 0;
-      }
+    if(inRayRange(u, range)) {
+      return u;
     }
-    return u;
+    return 0;
   }
 
   /**
@@ -110,8 +143,8 @@ export class Ray extends Geometry {
    *                          for a point in front of [[from]]. If false, the ray is
    *                          treated as an infinite line and the point could be a for a point in either direction.
    */
-  public closestPoint(testPoint: Point, onlyPositive: boolean = false): Point {
-    return this.pointAt(this.closestParameter(testPoint, onlyPositive));
+  public closestPoint(testPoint: Point, range: RayRange = RayRange.both): Point {
+    return this.pointAt(this.closestParameter(testPoint, range));
   }
 
   /**

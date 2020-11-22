@@ -164,13 +164,14 @@ export class Circle extends Geometry {
     return false;
   }
 
+  /**
+   * Returns a point on the circle.
+   * @param t Position of the point, in radians. If the environment's y-axis points upwards, the position is measured counter-clockwise from the start of the circle. If the y-axis is pointing downwards, it is clockwise.
+   */
   public pointAt(t: number): Point {
     const u = Math.cos(t) * this._radius;
     const v = Math.sin(t) * this._radius;
-    if (shapetypesSettings.invertY) {
-      return this._plane.pointAt(u, v);
-    }
-    return this._plane.pointAt(u, -v);
+    return this._plane.pointAt(u, v);
   }
 
   public pointAtLength(distance: number): Point {

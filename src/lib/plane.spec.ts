@@ -1,6 +1,6 @@
 /* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
-import { Plane, Point, shapetypesSettings, Vector } from '../index';
+import { Plane, Point, Vector } from '../index';
 
 const test = anyTest as TestInterface<{
   angled: Plane;
@@ -56,11 +56,6 @@ test('xAxis: Returns correct Vector', t => {
 });
 
 test('yAxis: Returns correct Vector', t => {
-  shapetypesSettings.invertY = false;
-  t.true(t.context.angled.yAxis.equals(new Vector(-4 / 5, 3 / 5)));
-});
-test('yAxis: Returns correct Vector when inverted', t => {
-  shapetypesSettings.invertY = true;
   t.true(t.context.angled.yAxis.equals(new Vector(-4 / 5, 3 / 5)));
 });
 
@@ -96,14 +91,12 @@ const FLATPOINTS: readonly POINTS[] = [
 ];
 
 test('pointAt: calculates correct position for point', t => {
-  shapetypesSettings.invertY = false;
   for (const p of FLATPOINTS) {
     t.true(t.context.flat.pointAt(p.inPlane).equals(p.inWorld));
   }
 });
 
 test('remap: calculates correct position for point', t => {
-  shapetypesSettings.invertY = false;
   for (const p of FLATPOINTS) {
     t.true(t.context.flat.remapToPlaneSpace(p.inWorld).equals(p.inPlane));
   }
@@ -124,7 +117,6 @@ test('withxAxis: correctly changes planes xAxis', t => {
 // -----------------------
 
 test('changeBasis: correctly moves origin and axis', t => {
-  shapetypesSettings.invertY = false;
   const from = Plane.worldXY();
   const to = new Plane(new Point(3, 4), new Vector(0, -1));
   const before = new Plane(new Point(1, 0), new Vector(1, 0));
@@ -134,10 +126,9 @@ test('changeBasis: correctly moves origin and axis', t => {
 });
 
 test('rotate: correctly rotates the planes axis', t => {
-  shapetypesSettings.invertY = false;
   const plane = Plane.worldXY().rotate(Math.PI / 2);
   t.true(plane.origin.equals(new Point(0, 0)));
-  t.true(plane.xAxis.equals(new Vector(0, -1)));
+  t.true(plane.xAxis.equals(new Vector(0, 1)));
 });
 
 test('translate: correctly translates origin point', t => {

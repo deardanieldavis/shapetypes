@@ -1,6 +1,7 @@
 /* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
 import {
+  approximatelyEqual,
   CurveOrientation,
   Plane,
   Point,
@@ -8,7 +9,6 @@ import {
   Polygon,
   Polyline,
   Rectangle,
-  shapetypesSettings,
   Vector
 } from '../index';
 
@@ -59,7 +59,6 @@ test('Constructor: Using an open polyline throws error', t => {
   });
 });
 test('Constructor: Changes orientation of boundary to be clockwise', t => {
-  shapetypesSettings.invertY = false;
   const polyline = Polyline.fromCoords(
     [
       [0, 0],
@@ -70,8 +69,8 @@ test('Constructor: Changes orientation of boundary to be clockwise', t => {
   );
   const polygon = new Polygon(polyline);
 
-  t.is(polyline.orientation, CurveOrientation.counterclockwise);
-  t.is(polygon.boundary.orientation, CurveOrientation.clockwise);
+  t.is(polyline.orientation(), CurveOrientation.counterclockwise);
+  t.is(polygon.boundary.orientation(), CurveOrientation.clockwise);
 });
 test('Constructor: Using an open polyline for a hole throws error', t => {
   const polyline = Polyline.fromCoords(
@@ -114,8 +113,8 @@ test('Constructor: Changes curve orientation of hole to be anti-clockwise', t =>
   );
   const polygon = new Polygon(polyline, [hole]);
 
-  t.is(hole.orientation, CurveOrientation.clockwise);
-  t.is(polygon.holes[0].orientation, CurveOrientation.counterclockwise);
+  t.is(hole.orientation(), CurveOrientation.clockwise);
+  t.is(polygon.holes[0].orientation(), CurveOrientation.counterclockwise);
 });
 
 test('fromCoords: Can create polygon from coordinates', t => {
@@ -387,10 +386,10 @@ test('planeToPlane: can shift polygon', t => {
 test('rotate: can rotate the polygon', t => {
   const rotated = t.context.triangleHole.rotate(Math.PI / 2);
   const bb = rotated.boundingBox;
-  t.is(bb.xRange.min, 0);
-  t.is(bb.xRange.max, 3);
-  t.is(bb.yRange.min, -6);
-  t.is(bb.yRange.max, 0);
+  t.is(bb.xRange.min, -3);
+  t.true(approximatelyEqual(bb.xRange.max, 0));
+  t.true(approximatelyEqual(bb.yRange.min, 0));
+  t.is(bb.yRange.max, 6);
 });
 
 test('scale: can scale the polygon', t => {

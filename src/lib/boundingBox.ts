@@ -253,15 +253,16 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Returns an array of the BoundingBox's four corners.
-   * Order is: [minX, minY], [maxX, minY], [maxX, maxY], [minX, maxY]
+   * Returns the four corners of the BoundingBox.
+   * The order will always be: [[minX, minY], [minX, maxY], [maxX, maxY], [maxX, minY]].
+   * If the y-axis is pointing up, this is a clockwise order. And if the y-axis is pointing down, this is an anti-clockwise order.
    */
   public getCorners(): Point[] {
     return [
       new Point(this._xRange.min, this._yRange.min),
-      new Point(this._xRange.max, this._yRange.min),
+      new Point(this._xRange.min, this._yRange.max),
       new Point(this._xRange.max, this._yRange.max),
-      new Point(this._xRange.min, this._yRange.max)
+      new Point(this._xRange.max, this._yRange.min)
     ];
   }
 

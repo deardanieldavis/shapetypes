@@ -1,6 +1,12 @@
 /* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
-import { Plane, Point, Ray, shapetypesSettings, Vector } from '../index';
+import {
+  Plane,
+  Point,
+  Ray,
+  RayRange,
+  Vector
+} from '../index';
 
 const test = anyTest as TestInterface<{
   angled: Ray;
@@ -55,10 +61,10 @@ test('pointAt: Returns correct point', t => {
 test('closestParameter: Returns correct parameter', t => {
   t.is(t.context.angled.closestParameter(new Point(6, 8)), 5);
 });
-test('closestParameter: Returns correct parameter depending on if onlyPositive or not', t => {
+test('closestParameter: Returns correct parameter depending on if positive or not', t => {
   t.is(t.context.angled.closestParameter(new Point(0, 0)), -5);
-  t.is(t.context.angled.closestParameter(new Point(0, 0), false), -5);
-  t.is(t.context.angled.closestParameter(new Point(0, 0), true), 0);
+  t.is(t.context.angled.closestParameter(new Point(0, 0), RayRange.both), -5);
+  t.is(t.context.angled.closestParameter(new Point(0, 0), RayRange.positive), 0);
 });
 test('closestParameter: Returns correct parameter when point is off line', t => {
   t.is(t.context.flat.closestParameter(new Point(4, 0)), 1);
@@ -75,11 +81,11 @@ test('closestPoint: Returns correct point depending on if onlyPositive or not', 
   );
   t.true(
     t.context.angled
-      .closestPoint(new Point(0, 0), false)
+      .closestPoint(new Point(0, 0), RayRange.both)
       .equals(new Point(0, 0))
   );
   t.true(
-    t.context.angled.closestPoint(new Point(0, 0), true).equals(new Point(3, 4))
+    t.context.angled.closestPoint(new Point(0, 0), RayRange.positive).equals(new Point(3, 4))
   );
 });
 test('closestPoint: Returns correct point when point is off line', t => {
@@ -101,7 +107,6 @@ test('withDirection: correctly replaces direction', t => {
 // -----------------------
 
 test('changeBasis: correctly moves origin and axis', t => {
-  shapetypesSettings.invertY = false;
   const from = Plane.worldXY();
   const to = new Plane(new Point(3, 4), new Vector(0, -1));
   const ray = t.context.flat.changeBasis(from, to);
@@ -110,10 +115,9 @@ test('changeBasis: correctly moves origin and axis', t => {
 });
 
 test('rotate: correctly rotates the planes axis', t => {
-  shapetypesSettings.invertY = false;
   const ray = t.context.flat.rotate(Math.PI / 2, new Point(3, 4));
   t.true(ray.from.equals(new Point(3, 4)));
-  t.true(ray.direction.equals(new Vector(0, -1)));
+  t.true(ray.direction.equals(new Vector(0, 1)));
 });
 
 test('translate: correctly translates origin point', t => {

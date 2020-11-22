@@ -1,4 +1,4 @@
-import { Plane, Point, shapetypesSettings, Vector } from '../index';
+import { Plane, Point, Vector } from '../index';
 
 /**
  * A Transform contains a 3x3 transformation matrix used to rotate, scale, and translate points and vectors.
@@ -133,14 +133,17 @@ export class Transform {
   }
 
   /**
-   * Returns a new Transform matrix that rotates an object about a point
-   * @param angle   Angle of rotation, in radians. If positive, rotates clockwise. If negative, rotates counter clockwise.
+   * Returns a new Transform matrix that rotates an object about a point.
+   *
+   * @param angle   Angle of rotation, in radians.
+   *                If the environment's y-axis points upwards, a positive angle rotates counter-clockwise.
+   *                If the environment's y-axis points downwards, it rotates clockwise.
    * @param pivot   Pivot point for rotation. If undefined, the object will be rotated about 0,0.
    */
   public static rotate(angle: number, pivot?: Point | undefined): Transform {
     // Based on: https://www.javatpoint.com/general-pivot-point-rotation-or-rotation-about-fixed-point
     const tran = Transform.identity();
-    const actualAngle = shapetypesSettings.invertY ? angle * -1 : angle;
+    const actualAngle = angle * -1;
 
     const cos = Math.cos(actualAngle);
     const sin = Math.sin(actualAngle);

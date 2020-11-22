@@ -11,7 +11,6 @@ import {
   PointContainment,
   Polyline,
   Rectangle,
-  shapetypesSettings,
   Vector
 } from '../index';
 
@@ -128,20 +127,18 @@ test('length: returns correct length', t => {
 });
 
 test('orientation: an unclosed polyline cant have an orientation', t => {
-  t.is(t.context.elbow.orientation, CurveOrientation.undefined);
+  t.is(t.context.elbow.orientation(), CurveOrientation.undefined);
 });
 test('orientation: triangle is clockwise', t => {
-  shapetypesSettings.invertY = false;
-  t.is(t.context.triangle.orientation, CurveOrientation.clockwise);
+  t.is(t.context.triangle.orientation(), CurveOrientation.clockwise);
   t.is(
-    t.context.triangleReversed.orientation,
+    t.context.triangleReversed.orientation(),
     CurveOrientation.counterclockwise
   );
 });
 test('orientation: triangle is counterclockwise if inverted', t => {
-  shapetypesSettings.invertY = true;
-  t.is(t.context.triangle.orientation, CurveOrientation.counterclockwise);
-  t.is(t.context.triangleReversed.orientation, CurveOrientation.clockwise);
+  t.is(t.context.triangle.orientation(true), CurveOrientation.counterclockwise);
+  t.is(t.context.triangleReversed.orientation(true), CurveOrientation.clockwise);
 });
 
 test('points: returns correct points', t => {
@@ -316,32 +313,14 @@ test('mergeColinear: on closed polylines, merges final points if needed', t => {
 });
 
 test('normalAt: returns inward vector on closed shape', t => {
-  shapetypesSettings.invertY = false;
   const normal = t.context.triangle.normalAt(2.5);
   t.true(normal.equals(new Vector(0, 1)));
 });
-test('normalAt: returns inward vector on closed shape if axis inverted', t => {
-  shapetypesSettings.invertY = true;
-  const normal = t.context.triangle.normalAt(2.5);
-  t.true(normal.equals(new Vector(0, 1)));
-});
-test('normalAt: returns inward vector on closed shape when anticlockwise', t => {
-  shapetypesSettings.invertY = false;
-  const normal = t.context.triangleReversed.normalAt(0.5);
-  t.true(normal.equals(new Vector(0, 1)));
-});
-test('normalAt: returns inward vector on closed shape when anticlockwise if axis inverted', t => {
-  shapetypesSettings.invertY = true;
+test('normalAt: returns inward vector on closed shape when counter-clockwise', t => {
   const normal = t.context.triangleReversed.normalAt(0.5);
   t.true(normal.equals(new Vector(0, 1)));
 });
 test('normalAt: returns vector on left when not closed', t => {
-  shapetypesSettings.invertY = false;
-  const normal = t.context.elbow.normalAt(0.5);
-  t.true(normal.equals(new Vector(0, -1)));
-});
-test('normalAt: returns vector on right when not closed and axis inverted', t => {
-  shapetypesSettings.invertY = true;
   const normal = t.context.elbow.normalAt(0.5);
   t.true(normal.equals(new Vector(0, -1)));
 });
@@ -420,14 +399,12 @@ test('contains: throws error if applied to an open curve', t => {
 });
 
 test('withOrientation: returns same curve when orienting in current direction', t => {
-  shapetypesSettings.invertY = false;
   const oriented = t.context.triangle.withOrientation(
     CurveOrientation.clockwise
   );
   t.true(oriented.equals(t.context.triangle));
 });
 test('withOrientation: reverses direction of curve', t => {
-  shapetypesSettings.invertY = false;
   const oriented = t.context.triangle.withOrientation(
     CurveOrientation.counterclockwise
   );

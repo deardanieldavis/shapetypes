@@ -1,12 +1,13 @@
 import {
   approximatelyEqual,
   Circle,
+  inRayRange,
   Line,
   Ray,
+  RayRange,
   shapetypesSettings,
   Vector
 } from '../../index';
-import { RayIntersectionRange } from './ray';
 
 export enum LineCircleIntersection {
   none,
@@ -84,7 +85,7 @@ export function lineCircle(
 export function rayCircle(
   ray: Ray,
   circle: Circle,
-  range: RayIntersectionRange = RayIntersectionRange.full
+  range: RayRange = RayRange.both
 ): {
   /** The number of intersections between `ray` and `circle`. */
   readonly intersects: LineCircleIntersection;
@@ -111,40 +112,28 @@ export function rayCircle(
   const t1 = (-b - discriminantSqrt) / (2 * a);
   const t2 = (-b + discriminantSqrt) / (2 * a);
 
-  if (range === RayIntersectionRange.positive) {
-    if (0 < t1) {
-      if (t2 <= 0) {
-        // Only t1 is forward
+  if(range !== RayRange.both) {
+    // If the range isn't set to `both`, there can be intersections that happen on
+    // the ray that fall outside the allowed range. These should be discarded.
+    if(inRayRange(t1, range)) {
+      if(! inRayRange(t2, range)) {
+        // Of the two intersections, t1 was in range but t2 wasn't
         return { intersects: LineCircleIntersection.single, u: [t1] };
       }
+      // If here, both intersections were in range so skip to end.
     } else {
-      if (0 < t2) {
-        // Only t2 is forward
+      if(inRayRange(t2, range)) {
+        // Of the two intersections, t2 was in range but t1 wasn't
         return { intersects: LineCircleIntersection.single, u: [t2] };
       } else {
-        // Neither is forward
-        return { intersects: LineCircleIntersection.none, u: [] };
-      }
-    }
-  } else if (range === RayIntersectionRange.positiveAndZero) {
-    if (0 <= t1) {
-      if (t2 < 0) {
-        // Only t1 is forward
-        return { intersects: LineCircleIntersection.single, u: [t1] };
-      }
-    } else {
-      if (0 <= t2) {
-        // Only t2 is forward
-        return { intersects: LineCircleIntersection.single, u: [t2] };
-      } else {
-        // Neither is forward
+        // Of the two intersections, neither was in range
         return { intersects: LineCircleIntersection.none, u: [] };
       }
     }
   }
 
   if (approximatelyEqual(t1, t2, shapetypesSettings.absoluteTolerance)) {
-    // Ray is tangent to circle
+    // Both intersections are in the same place because the ray is tangent to the circle
     return { intersects: LineCircleIntersection.single, u: [t1] };
   } else {
     // Ray went through both sides

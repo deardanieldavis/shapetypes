@@ -3,7 +3,6 @@ import anyTest, { TestInterface } from 'ava';
 import {
   approximatelyEqual,
   Point,
-  shapetypesSettings,
   Transform,
   Vector
 } from '../index';
@@ -104,19 +103,18 @@ interface Vectors {
 }
 const VECTORS: readonly Vectors[] = [
   { angle: 0, signed: 0, v: new Vector(1, 0) }, // 0 degree
-  { angle: Math.PI / 4, signed: Math.PI / 4, v: new Vector(1, -1) }, // 45 degree
-  { angle: Math.PI / 2, signed: Math.PI / 2, v: new Vector(0, -1) }, // 90 degree
+  { angle: Math.PI / 4, signed: Math.PI / 4, v: new Vector(1, 1) }, // 45 degree
+  { angle: Math.PI / 2, signed: Math.PI / 2, v: new Vector(0, 1) }, // 90 degree
   {
     angle: (3 * Math.PI) / 4,
     signed: (3 * Math.PI) / 4,
-    v: new Vector(-1, -1)
+    v: new Vector(-1, 1)
   }, // 135 degree
-  { angle: Math.PI / 2, signed: (-1 * Math.PI) / 2, v: new Vector(0, 1) }, // 90 degree
-  { angle: Math.PI / 4, signed: (-1 * Math.PI) / 4, v: new Vector(1, 1) } // 45 degree
+  { angle: Math.PI / 2, signed: (-1 * Math.PI) / 2, v: new Vector(0, -1) }, // 90 degree
+  { angle: Math.PI / 4, signed: (-1 * Math.PI) / 4, v: new Vector(1, -1) } // 45 degree
 ];
 
 test('angle: calculates correct angle between x-axis and another vector', t => {
-  shapetypesSettings.invertY = false;
   for (const v of VECTORS) {
     t.true(approximatelyEqual(Vector.worldX().angle(v.v), v.angle));
   }
@@ -126,36 +124,13 @@ test('angle: calculates correct angle between x-axis and another vector', t => {
   }
 });
 
-test('angle: inverting the y axis doesnt change the angles calculated', t => {
-  shapetypesSettings.invertY = true;
-  for (const v of VECTORS) {
-    t.true(approximatelyEqual(Vector.worldX().angle(v.v), v.angle));
-  }
-  // reverse order should return same value
-  for (const v of VECTORS) {
-    t.true(approximatelyEqual(v.v.angle(Vector.worldX()), v.angle));
-  }
-});
-
 test('angleSigned: calculates correct signed angle between x-axis and another vector', t => {
-  shapetypesSettings.invertY = false;
   for (const v of VECTORS) {
     t.true(approximatelyEqual(Vector.worldX().angleSigned(v.v), v.signed));
   }
   // Reverse order, reverse angle direction
   for (const v of VECTORS) {
     t.true(approximatelyEqual(v.v.angleSigned(Vector.worldX()), -v.signed));
-  }
-});
-
-test('angleSigned: inverting the y axis inverts the signedAngle', t => {
-  shapetypesSettings.invertY = true;
-  for (const v of VECTORS) {
-    t.true(approximatelyEqual(Vector.worldX().angleSigned(v.v), -1 * v.signed));
-  }
-  // Reverse order, reverse angle direction
-  for (const v of VECTORS) {
-    t.true(approximatelyEqual(v.v.angleSigned(Vector.worldX()), v.signed));
   }
 });
 
@@ -242,20 +217,10 @@ test('multiply: can multiply by different x and y values', t => {
 });
 
 test('perpendicular: returns perpendicular vector in correct direction', t => {
-  shapetypesSettings.invertY = false;
   const perp = t.context.diagonal.perpendicular();
   t.true(perp.isPerpendicularTo(t.context.diagonal));
 
   // Has to be on the left side of the vector 10,10
-  t.is(perp.x, -10);
-  t.is(perp.y, 10);
-});
-test('perpendicular: returns perpendicular vector in correct direction when y axis inverted', t => {
-  shapetypesSettings.invertY = true;
-  const perp = t.context.diagonal.perpendicular();
-  t.true(perp.isPerpendicularTo(t.context.diagonal));
-
-  // Has to be on the right side of the vector 10,10
   t.is(perp.x, -10);
   t.is(perp.y, 10);
 });
@@ -320,11 +285,10 @@ test("transform: translate doesn't change the vector (because a vector can't be 
   t.is(vector.y, 4);
 });
 test('transform: rotate not impacted by pivot point', t => {
-  shapetypesSettings.invertY = false;
   const tran = Transform.rotate(Math.PI / 2, new Point(20, 30));
   const vector = t.context.basic.transform(tran);
-  t.true(approximatelyEqual(vector.x, 4));
-  t.true(approximatelyEqual(vector.y, -3));
+  t.true(approximatelyEqual(vector.x, -4));
+  t.true(approximatelyEqual(vector.y, 3));
 });
 test('transform: scale isnt affected by point location', t => {
   const tran = Transform.scale(2, 3, new Point(20, 20));
@@ -334,13 +298,6 @@ test('transform: scale isnt affected by point location', t => {
 });
 
 test('rotate: rotating 90 degrees changes x and y values correctly', t => {
-  shapetypesSettings.invertY = false;
-  const vector = t.context.basic.rotate(Math.PI / 2);
-  t.true(approximatelyEqual(vector.x, 4));
-  t.true(approximatelyEqual(vector.y, -3));
-});
-test('rotate: inverting y-axis rotates in other direction', t => {
-  shapetypesSettings.invertY = true;
   const vector = t.context.basic.rotate(Math.PI / 2);
   t.true(approximatelyEqual(vector.x, -4));
   t.true(approximatelyEqual(vector.y, 3));

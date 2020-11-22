@@ -7,7 +7,6 @@ import {
   Plane,
   Point,
   Rectangle,
-  shapetypesSettings,
   Vector
 } from '../index';
 
@@ -192,12 +191,12 @@ test('getCorners: Generates points in correct order', t => {
   t.is(corners.length, 4);
   t.is(corners[0].x, 0);
   t.is(corners[0].y, 5);
-  t.is(corners[1].x, 10);
-  t.is(corners[1].y, 5);
+  t.is(corners[1].x, 0);
+  t.is(corners[1].y, 25);
   t.is(corners[2].x, 10);
   t.is(corners[2].y, 25);
-  t.is(corners[3].x, 0);
-  t.is(corners[3].y, 25);
+  t.is(corners[3].x, 10);
+  t.is(corners[3].y, 5);
 });
 
 test('getEdges: Generates correct number of edges', t => {
@@ -261,13 +260,21 @@ test('translate: Translates the angled rectangle. Updates the plane and corners.
   t.true(rect.corner(false, false).equals(new Point(3 + 1, 4 + 2)));
 });
 
+//   t.context.basicPlane = new Plane(new Point(0, 5), Vector.worldX());
+//   t.context.basic = new Rectangle(t.context.basicPlane, 10, 20);
+//   t.context.basicX = new IntervalSorted(0, 10);
+//   t.context.basicY = new IntervalSorted(0, 20);
+//
+//   const angledPlane = new Plane(new Point(1, 0), new Vector(1, 1));
+//   const angledUnit = Math.sqrt(2);
+//   t.context.angled = new Rectangle(angledPlane, 3 * angledUnit, angledUnit);
+
 test('rotate: Rotates the rectangle 90 degrees', t => {
-  shapetypesSettings.invertY = false;
   const rect = t.context.basic.rotate(Math.PI / 2);
 
   t.true(approximatelyEqual(rect.area, 200));
-  t.true(rect.corner(true, true).equals(new Point(5, 0)));
-  t.true(rect.corner(false, false).equals(new Point(25, -10)));
+  t.true(rect.corner(true, true).equals(new Point(-5, 0)));
+  t.true(rect.corner(false, false).equals(new Point(-25, 10)));
 });
 
 test('scale: Scales the rectangle', t => {

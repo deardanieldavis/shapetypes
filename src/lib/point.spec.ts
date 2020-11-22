@@ -3,7 +3,6 @@ import anyTest, { TestInterface } from 'ava';
 import {
   approximatelyEqual,
   Point,
-  shapetypesSettings,
   Transform,
   Vector
 } from '../index';
@@ -146,22 +145,14 @@ test('transform: correctly applies transformation and changes x and y components
 });
 
 test('rotate: rotating 90 degrees changes x and y values correctly', t => {
-  shapetypesSettings.invertY = false;
-  const point = t.context.basic.rotate(Math.PI / 2);
-  t.true(approximatelyEqual(point.x, 4));
-  t.true(approximatelyEqual(point.y, -3));
-});
-test('rotate: inverting y-axis rotates in other direction', t => {
-  shapetypesSettings.invertY = true;
   const point = t.context.basic.rotate(Math.PI / 2);
   t.true(approximatelyEqual(point.x, -4));
   t.true(approximatelyEqual(point.y, 3));
 });
 test('rotate: rotating about a point changes x and y values correctly', t => {
-  shapetypesSettings.invertY = false;
   const point = t.context.diagonal.rotate(Math.PI / 2, new Point(9, 9));
-  t.true(approximatelyEqual(point.x, 9 + 1));
-  t.true(approximatelyEqual(point.y, 9 - 1));
+  t.true(approximatelyEqual(point.x, 9 - 1));
+  t.true(approximatelyEqual(point.y, 9 + 1));
 });
 
 test('scale: applies uniform scale to x and y components', t => {

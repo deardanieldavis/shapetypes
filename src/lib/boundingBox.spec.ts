@@ -7,7 +7,6 @@ import {
   Interval,
   IntervalSorted,
   Point,
-  shapetypesSettings,
   Transform,
   Vector
 } from '../index';
@@ -203,14 +202,15 @@ test('corner: Generates points in right position', t => {
 test('getCorners: Generates points in correct order', t => {
   const corners = t.context.bb.getCorners();
   t.is(corners.length, 4);
+  t.is(corners.length, 4);
   t.is(corners[0].x, 0);
   t.is(corners[0].y, 5);
-  t.is(corners[1].x, 10);
-  t.is(corners[1].y, 5);
+  t.is(corners[1].x, 0);
+  t.is(corners[1].y, 25);
   t.is(corners[2].x, 10);
   t.is(corners[2].y, 25);
-  t.is(corners[3].x, 0);
-  t.is(corners[3].y, 25);
+  t.is(corners[3].x, 10);
+  t.is(corners[3].y, 5);
 });
 
 test('getEdges: Generates correct number of edges', t => {
@@ -329,31 +329,14 @@ test('translate: Translates the bounding box and updates x and y ranges', t => {
 });
 
 test('rotate: Rotates the bounding box 90 degrees', t => {
-  shapetypesSettings.invertY = false;
   const bb = t.context.bb.rotate(Math.PI / 2);
 
   t.is(approximatelyEqual(bb.area, 200), true);
-  t.is(approximatelyEqual(bb.xRange.min, 5), true);
-  t.is(approximatelyEqual(bb.xRange.max, 25), true);
-  t.is(approximatelyEqual(bb.yRange.min, -10), true);
-  t.is(approximatelyEqual(bb.yRange.max, 0), true);
+  t.is(approximatelyEqual(bb.xRange.min, -25), true);
+  t.is(approximatelyEqual(bb.xRange.max, -5), true);
+  t.is(approximatelyEqual(bb.yRange.min, 0), true);
+  t.is(approximatelyEqual(bb.yRange.max, 10), true);
 });
-
-/*
-test('planeToPlane: Moves boundingBox from one plane to another', t => {
-  const before = new Plane(new Point(0,0), Vector.worldY());
-  const after = new Plane(new Point(0, 0), Vector.worldX());
-  const bb = t.context.bb.planeToPlane(before, after);
-
-  // before = (0, 10), (5, 25)
-  // after = (5 + 2, 25 + 2), (-10, 0)
-
-  t.is(approximatelyEqual(bb.area, 200), true);
-  t.is(approximatelyEqual(bb.xRange.min, 5 + 2), true);
-  t.is(approximatelyEqual(bb.xRange.max, 25 + 2), true);
-  t.is(approximatelyEqual(bb.yRange.min, -10), true);
-  t.is(approximatelyEqual(bb.yRange.max, 0), true);
-});*/
 
 test('scale: Scales the bounding box', t => {
   const bb = t.context.bb.scale(2, 3, new Point(0, 5));

@@ -1,7 +1,6 @@
 /* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
-import { Circle, Intersection, Line, Point, Ray, Vector } from '../../index';
-import { RayIntersectionRange } from './ray';
+import { Circle, Intersection, Line, Point, Ray, RayRange, Vector } from '../../index';
 
 const test = anyTest as TestInterface<{
   circle: Circle;
@@ -90,13 +89,13 @@ test('rayCircle: starts inside', t => {
 });
 test('rayCircle: starts inside, positive range', t => {
   const ray = new Ray(new Point(3, 4), new Vector(1, 0));
-  const result = Intersection.rayCircle(ray, t.context.circle, RayIntersectionRange.positive);
+  const result = Intersection.rayCircle(ray, t.context.circle, RayRange.positive);
   t.is(result.intersects, Intersection.LineCircleIntersection.single);
   t.is(result.u[0], 1);
 });
 test('rayCircle: starts beyond, will intersect, positive range', t => {
   const ray = new Ray(new Point(10, 4), new Vector(1, 0));
-  const result = Intersection.rayCircle(ray, t.context.circle, RayIntersectionRange.positive);
+  const result = Intersection.rayCircle(ray, t.context.circle, RayRange.positive);
   t.is(result.intersects, Intersection.LineCircleIntersection.none);
 });
 test('rayCircle: tangent', t => {

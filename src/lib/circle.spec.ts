@@ -8,7 +8,6 @@ import {
   Plane,
   Point,
   PointContainment,
-  shapetypesSettings,
   Vector
 } from '../index';
 
@@ -154,44 +153,17 @@ test('contains: identifies points on edges of circle', t => {
 });
 
 test('closestParameter: identifies points on edge of circle', t => {
-  shapetypesSettings.invertY = false;
-  t.is(t.context.basic.closestParameter(new Point(10, 0)), 0);
-  t.is(t.context.basic.closestParameter(new Point(0, -10)), Math.PI / 2);
+  t.true(approximatelyEqual(t.context.basic.closestParameter(new Point(10, 0)), 0));
+  t.is(t.context.basic.closestParameter(new Point(0, 10)), Math.PI / 2);
   t.is(t.context.basic.closestParameter(new Point(-10, 0)), Math.PI);
-  t.is(t.context.basic.closestParameter(new Point(0, 10)), (3 * Math.PI) / 2);
-});
-test('closestParameter: identifies points on edge of circle with inverted axis', t => {
-  shapetypesSettings.invertY = true;
-  t.true(
-    approximatelyEqual(t.context.basic.closestParameter(new Point(10, 0)), 0)
-  );
-  t.true(
-    approximatelyEqual(
-      t.context.basic.closestParameter(new Point(0, -10)),
-      (3 * Math.PI) / 2
-    )
-  );
-  t.true(
-    approximatelyEqual(
-      t.context.basic.closestParameter(new Point(-10, 0)),
-      Math.PI
-    )
-  );
-  t.true(
-    approximatelyEqual(
-      t.context.basic.closestParameter(new Point(0, 10)),
-      Math.PI / 2
-    )
-  );
+  t.is(t.context.basic.closestParameter(new Point(0, -10)), (3 * Math.PI) / 2);
 });
 test('closestParameter: if point is off edge, still finds closest parameter', t => {
-  shapetypesSettings.invertY = false;
   t.is(t.context.basic.closestParameter(new Point(-9, 0)), Math.PI);
   t.is(t.context.basic.closestParameter(new Point(-900, 0)), Math.PI);
 });
 test('closestParameter: identifies points on edges of moved circle', t => {
-  shapetypesSettings.invertY = false;
-  t.is(t.context.moved.closestParameter(new Point(13, 4)), Math.PI / 4);
+  t.is(t.context.moved.closestParameter(new Point(3, 14)), Math.PI / 4);
 });
 
 test('closestPoint: if point is off edge, still finds closest parameter', t => {
@@ -223,17 +195,7 @@ test('equals: can identify circles that are identical', t => {
   );
 });
 
-test('pointAt: generates points in clockwise order', t => {
-  shapetypesSettings.invertY = false;
-  t.true(t.context.basic.pointAt(0).equals(new Point(10, 0)));
-  t.true(t.context.basic.pointAt(Math.PI / 2).equals(new Point(0, -10), 0.01));
-  t.true(t.context.basic.pointAt(Math.PI).equals(new Point(-10, 0), 0.01));
-  t.true(
-    t.context.basic.pointAt((3 * Math.PI) / 2).equals(new Point(0, 10), 0.01)
-  );
-});
-test('pointAt: generates points in clockwise order when axis inverted', t => {
-  shapetypesSettings.invertY = true;
+test('pointAt: generates points in anti-clockwise order', t => {
   t.true(t.context.basic.pointAt(0).equals(new Point(10, 0)));
   t.true(t.context.basic.pointAt(Math.PI / 2).equals(new Point(0, 10), 0.01));
   t.true(t.context.basic.pointAt(Math.PI).equals(new Point(-10, 0), 0.01));
@@ -242,7 +204,6 @@ test('pointAt: generates points in clockwise order when axis inverted', t => {
   );
 });
 test('pointAt: generates points in correct position when plane off center', t => {
-  shapetypesSettings.invertY = false;
   t.true(
     t.context.moved
       .pointAt(0)
@@ -251,10 +212,9 @@ test('pointAt: generates points in correct position when plane off center', t =>
 });
 
 test('pointAtLength: generates points in correct position', t => {
-  shapetypesSettings.invertY = false;
   t.true(t.context.basic.pointAtLength(0).equals(new Point(10, 0), 0.01));
   t.true(
-    t.context.basic.pointAtLength(62.83 / 4).equals(new Point(0, -10), 0.01)
+    t.context.basic.pointAtLength(62.83 / 4).equals(new Point(0, 10), 0.01)
   );
 });
 
@@ -335,11 +295,10 @@ test('withPlane: creates a new circle with the correct plane', t => {
 // TRANSFORMABLE
 // -----------------------
 test('rotate: correctly rotates circle', t => {
-  shapetypesSettings.invertY = false;
   const c = t.context.basic.rotate(Math.PI / 2);
   t.is(c.radius, 10);
   t.true(c.center.equals(new Point(0, 0)));
-  t.true(c.pointAt(0).equals(new Point(0, -10)));
+  t.true(c.pointAt(0).equals(new Point(0, 10)));
 });
 
 test('scale: correctly scales radius of basic circle', t => {

@@ -161,18 +161,20 @@ export class Vector extends Geometry {
 
   /**
    * Returns the angle between this vector and another vector. Measured in radians.
-   * Angle will be positive if the second vector is clockwise form this vector.
-   * Will be negative if the second vector is anti-clockwise from this vector.
+   *
+   * If the environment's y-axis points upwards, the angle will be positive when `other`
+   * is counter-clockwise from this vector, and negative when `other` is clockwise from this vector.
+   *
+   * If the environment's y-axis points downwards, the angle will be positive when `other`
+   * is clockwise from this vector, and negative when `other` is counter-clockwise from this vector.
+   *
    * @param other   The vector to measure against.
-   * @returns       The smallest angle in radians
+   * @returns       The smallest angle in radians.
    */
   public angleSigned(other: Vector): number {
     const cross = other.x * this._y - other.y * this.x;
     const angle = Math.atan2(cross, other.dotProduct(this));
-    if (shapetypesSettings.invertY) {
-      return -1 * angle;
-    }
-    return angle;
+    return -1 * angle;
   }
 
   /**
@@ -310,8 +312,9 @@ export class Vector extends Geometry {
 
   /**
    * Returns a new Vector perpendicular to this one.
-   * If shapetypesSettings.invertY is true, will be on the right side of the Vector.
-   * If shapetypesSettings.invertY is false (the default value), will be on the left side of the Vector.
+   *
+   * If the environment's y-axis points upwards, the vector will be on the left side of this vector.
+   * If the environment's y-axis points downwards, the vector will be on the right side.
    */
   public perpendicular(): Vector {
     return new Vector(-this.y, this.x);

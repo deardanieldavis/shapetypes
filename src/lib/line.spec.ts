@@ -1,6 +1,6 @@
 /* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
-import { Line, Point, shapetypesSettings, Transform, Vector } from '../index';
+import { Line, Point, Transform, Vector } from '../index';
 
 const test = anyTest as TestInterface<{
   P00: Point;
@@ -83,13 +83,6 @@ test('length: returns correct distance', t => {
 });
 
 test('unitTangent: generates a correct unit vector when the y-axis is in normal orientation', t => {
-  shapetypesSettings.invertY = false;
-  t.is(t.context.horizontal.unitTangent.length, 1);
-  t.true(t.context.horizontal.unitTangent.equals(new Vector(0, 1)));
-});
-
-test('unitTangent: generates a correct unit vector when the y-axis is inverted', t => {
-  shapetypesSettings.invertY = true;
   t.is(t.context.horizontal.unitTangent.length, 1);
   t.true(t.context.horizontal.unitTangent.equals(new Vector(0, 1)));
 });
@@ -313,9 +306,8 @@ test('transform: translates the line and repositions the end points correctly', 
 });
 
 test('transform: rotates the line and repositions the end points correctly', t => {
-  shapetypesSettings.invertY = false;
   const line = t.context.horizontal.transform(Transform.rotate(Math.PI / 2));
   t.is(line.from.x, 0);
   t.is(line.from.y, 0);
-  t.true(line.to.equals(new Point(0, -10), 0.001));
+  t.true(line.to.equals(new Point(0, 10), 0.001));
 });

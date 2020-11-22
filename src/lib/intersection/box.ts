@@ -1,6 +1,5 @@
 // tslint:disable:no-let no-object-mutation
-import { BoundingBox, IntervalSorted, Line, Ray } from '../../index';
-import { RayIntersectionRange } from './ray';
+import { BoundingBox, IntervalSorted, Line, Ray, RayRange } from '../../index';
 
 /**
  * Returns the parameters of an intersection between a line and a bounding box.
@@ -107,7 +106,7 @@ export function lineBox(
 export function rayBox(
   ray: Ray,
   box: BoundingBox,
-  range: RayIntersectionRange = RayIntersectionRange.full
+  range: RayRange = RayRange.both
 ): {
   /** True if `ray` intersects `box` */
   readonly intersects: boolean;
@@ -134,7 +133,7 @@ export function rayBox(
   let negind = 1;
   posarr[0] = Number.POSITIVE_INFINITY;
 
-  negarr[0] = range === RayIntersectionRange.full ? Number.NEGATIVE_INFINITY : 0;
+  negarr[0] = range === RayRange.both ? Number.NEGATIVE_INFINITY : 0;
 
   if (
     (p1 === 0 && q1 < 0) ||
@@ -168,7 +167,7 @@ export function rayBox(
     }
   }
 
-  const min = range === RayIntersectionRange.full ? Number.NEGATIVE_INFINITY : 0;
+  const min = range === RayRange.both ? Number.NEGATIVE_INFINITY : 0;
   const rn1 = maxi(negarr, negind, min); // maximum of negative array
   const rn2 = mini(posarr, posind, Number.POSITIVE_INFINITY); // minimum of positive array
 

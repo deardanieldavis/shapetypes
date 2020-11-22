@@ -6,9 +6,9 @@ import {
   Line,
   Point,
   Ray,
+  RayRange,
   Vector
 } from '../../index';
-import { RayIntersectionRange } from './ray';
 
 const test = anyTest as TestInterface<{
   line: Line;
@@ -34,7 +34,7 @@ test('rayLine: Meet in cross at 0,0', t => {
 });
 test('rayLine: Meet in cross at 0,0 - range.postivie', t => {
   const ray = new Ray(new Point(0, -5), new Vector(0, 1));
-  const result = Intersection.rayLine(ray, t.context.line, RayIntersectionRange.positive);
+  const result = Intersection.rayLine(ray, t.context.line, RayRange.positive);
   t.true(result.intersects);
   t.is(result.rayU, 5);
   t.is(result.lineU, 0.5);
@@ -62,7 +62,7 @@ test('rayLine: Meet in cross at 0,0 - even though ray starts ahead of point', t 
 });
 test('rayLine: Do not meet because range is only positive and intersection is negative', t => {
   const ray = new Ray(new Point(0, -5), new Vector(0, -1));
-  const result = Intersection.rayLine(ray, t.context.line, RayIntersectionRange.positive);
+  const result = Intersection.rayLine(ray, t.context.line, RayRange.positive);
   t.is(result.intersects, false);
 });
 
@@ -105,7 +105,7 @@ test('rayRay: Meet in cross at 0,0 - even though A starts ahead of point', t => 
 test('rayRay: Meet in cross at 0,0 -  only positive range', t => {
   const rayA = new Ray(new Point(-5, 0), new Vector(1, 0));
   const rayB = new Ray(new Point(0, -5), new Vector(0, 1));
-  const result = Intersection.rayRay(rayA, rayB, RayIntersectionRange.positive);
+  const result = Intersection.rayRay(rayA, rayB, RayRange.positive);
   t.true(result.intersects);
   t.is(result.rayAU, 5);
   t.is(result.rayBU, 5);
@@ -113,6 +113,6 @@ test('rayRay: Meet in cross at 0,0 -  only positive range', t => {
 test('rayRay: Does not meet because range is positive and intersection is negative', t => {
   const rayA = new Ray(new Point(5, 0), new Vector(1, 0));
   const rayB = new Ray(new Point(0, -5), new Vector(0, 1));
-  const result = Intersection.rayRay(rayA, rayB, RayIntersectionRange.positive);
+  const result = Intersection.rayRay(rayA, rayB, RayRange.positive);
   t.is(result.intersects, false);
 });

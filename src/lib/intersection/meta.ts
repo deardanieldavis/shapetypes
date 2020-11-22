@@ -1,16 +1,17 @@
 import {
   BoundingBox,
   Circle,
+  inRayRange,
   Intersection,
   Line,
   Point,
   Polygon,
   Polyline,
   Ray,
+  RayRange,
   Rectangle,
   shapetypesSettings
 } from '../../index';
-import { RayIntersectionRange } from './ray';
 
 /**
  * Returns the parameters of intersection(s) between a line and any other type of geometry.
@@ -60,7 +61,7 @@ export function line(
       return [result.lineAU];
     }
   } else if (otherGeom instanceof Ray) {
-    const result = Intersection.rayLine(otherGeom, theLine, RayIntersectionRange.full);
+    const result = Intersection.rayLine(otherGeom, theLine, RayRange.both);
     if (result.intersects) {
       return [result.lineU];
     }
@@ -126,7 +127,7 @@ export function ray(
         | Polyline
         | Polygon
       >,
-  range: RayIntersectionRange = RayIntersectionRange.full
+  range: RayRange = RayRange.both
 ): readonly number[] {
   if (otherGeom instanceof Array) {
     const intersections = new Array<number>();
@@ -136,10 +137,11 @@ export function ray(
     return intersections.sort((a, b) => a - b); // ascending
   } else if (otherGeom instanceof Point) {
     const t = theRay.closestParameter(otherGeom);
-    // TODO: Need to deal with range
-    const p = theRay.pointAt(t);
-    if (p.equals(otherGeom)) {
-      return [t];
+    if(inRayRange(t, range)) {
+      const p = theRay.pointAt(t);
+      if (p.equals(otherGeom)) {
+        return [t];
+      }
     }
   } else if (otherGeom instanceof Line) {
     const result = Intersection.rayLine(theRay, otherGeom, range);
@@ -266,7 +268,7 @@ function linePolyline(theLine: Line, thePolyline: Polyline): readonly number[] {
   return intersections;
 }
 
-function rayPolyline(theRay: Ray, thePolyline: Polyline, range: RayIntersectionRange): readonly number[] {
+function rayPolyline(theRay: Ray, thePolyline: Polyline, range: RayRange): readonly number[] {
   const intersections = new Array<number>();
   for (const edge of thePolyline.segments) {
     const result = Intersection.rayLine(theRay, edge, range);

@@ -7,9 +7,9 @@ import {
   Line,
   Point,
   Ray,
+  RayRange,
   Vector
 } from '../../index';
-import { RayIntersectionRange } from './ray';
 
 const test = anyTest as TestInterface<{
   box: BoundingBox;
@@ -174,7 +174,7 @@ test('rayBox: Through left side', t => {
 });
 test('rayBox: Through left side, positive range', t => {
   const ray = new Ray(new Point(-20, 0), new Vector(1, 0));
-  const result = Intersection.rayBox(ray, t.context.box, RayIntersectionRange.positive);
+  const result = Intersection.rayBox(ray, t.context.box, RayRange.positive);
   t.is(result.intersects, true);
   t.is(result.domain.min, 10);
   t.is(result.domain.max, 30);
@@ -188,7 +188,7 @@ test('rayBox: Through left side, facing other way', t => {
 });
 test('rayBox: Through left side, facing other way, positive range', t => {
   const ray = new Ray(new Point(-20, 0), new Vector(-1, 0));
-  const result = Intersection.rayBox(ray, t.context.box, RayIntersectionRange.positive);
+  const result = Intersection.rayBox(ray, t.context.box, RayRange.positive);
   t.is(result.intersects, false);
 });
 test('rayBox: Through bottom side', t => {
@@ -200,7 +200,7 @@ test('rayBox: Through bottom side', t => {
 });
 test('rayBox: Through bottom side, positive range', t => {
   const ray = new Ray(new Point(0, 0), new Vector(0, -1));
-  const result = Intersection.rayBox(ray, t.context.box, RayIntersectionRange.positive);
+  const result = Intersection.rayBox(ray, t.context.box, RayRange.positive);
   t.is(result.intersects, true);
   t.is(result.domain.min, 0);
   t.is(result.domain.max, 10);
