@@ -22,17 +22,17 @@ const test = anyTest as TestInterface<{
 test.beforeEach('Create test geometry', t => {
   t.context.polyline = Polyline.fromCoords(
     [
-      [0, 0],
+      [6, 0],
       [3, 3],
-      [6, 0]
+      [0, 0]
     ],
     true
   );
   t.context.hole = Polyline.fromCoords(
     [
       [2, 1],
+      [3, 2],
       [4, 1],
-      [3, 2]
     ],
     true
   );
@@ -62,15 +62,15 @@ test('Constructor: Changes orientation of boundary to be clockwise', t => {
   const polyline = Polyline.fromCoords(
     [
       [0, 0],
-      [6, 0],
-      [3, 3]
+      [3, 3],
+      [6, 0]
     ],
     true
   );
   const polygon = new Polygon(polyline);
 
-  t.is(polyline.orientation(), CurveOrientation.counterclockwise);
-  t.is(polygon.boundary.orientation(), CurveOrientation.clockwise);
+  t.is(polyline.orientation(), CurveOrientation.clockwise);
+  t.is(polygon.boundary.orientation(), CurveOrientation.counterclockwise);
 });
 test('Constructor: Using an open polyline for a hole throws error', t => {
   const polyline = Polyline.fromCoords(
@@ -105,25 +105,25 @@ test('Constructor: Changes curve orientation of hole to be anti-clockwise', t =>
   );
   const hole = Polyline.fromCoords(
     [
-      [2, 1],
+      [4, 1],
       [3, 2],
-      [4, 1]
+      [2, 1],
     ],
     true
   );
   const polygon = new Polygon(polyline, [hole]);
 
-  t.is(hole.orientation(), CurveOrientation.clockwise);
-  t.is(polygon.holes[0].orientation(), CurveOrientation.counterclockwise);
+  t.is(hole.orientation(), CurveOrientation.counterclockwise);
+  t.is(polygon.holes[0].orientation(), CurveOrientation.clockwise);
 });
 
 test('fromCoords: Can create polygon from coordinates', t => {
   const polygon = Polygon.fromCoords([
     [
-      [0, 0],
-      [3, 3],
       [6, 0],
-      [0, 0]
+      [3, 3],
+      [0, 0],
+      [6, 0],
     ],
     [
       [2, 1],
@@ -266,17 +266,17 @@ test('equals: wrong shaped hole', t => {
 test('equals: exactly the same shapes', t => {
   const polyline = Polyline.fromCoords(
     [
-      [0, 0],
+      [6, 0],
       [3, 3],
-      [6, 0]
+      [0, 0],
     ],
     true
   );
   const hole = Polyline.fromCoords(
     [
       [2, 1],
+      [3, 2],
       [4, 1],
-      [3, 2]
     ],
     true
   );
@@ -287,7 +287,7 @@ test('equals: exactly the same shapes', t => {
 test('toString: returns string in right format', t => {
   t.is(
     t.context.triangleHole.toString(),
-    '[[(0,0),(3,3),(6,0),(0,0)],[(2,1),(4,1),(3,2),(2,1)]]'
+    '[[(6,0),(3,3),(0,0),(6,0)],[(2,1),(3,2),(4,1),(2,1)]]'
   );
 });
 
@@ -372,15 +372,7 @@ test('changeBasis: can shift polygon', t => {
   const from = Plane.worldXY();
   const to = new Plane(new Point(3, 4), Vector.worldX());
   const changed = t.context.triangleHole.changeBasis(from, to);
-  t.true(changed.boundary.from.equals(new Point(-3, -4)));
-});
-
-test('planeToPlane: can shift polygon', t => {
-  const from = Plane.worldXY();
-  const to = new Plane(new Point(3, 4), Vector.worldX());
-  const planed = t.context.triangleHole.planeToPlane(from, to);
-  t.true(planed.boundary.from.equals(new Point(3, 4)));
-  t.true(planed.holes[0].from.equals(new Point(2 + 3, 1 + 4)));
+  t.true(changed.boundary.from.equals(new Point(6 - 3, -4)));
 });
 
 test('rotate: can rotate the polygon', t => {
@@ -403,6 +395,6 @@ test('scale: can scale the polygon', t => {
 
 test('translate: can move the polygon', t => {
   const moved = t.context.triangleHole.translate(new Vector(3, 4));
-  t.true(moved.boundary.from.equals(new Point(3, 4)));
+  t.true(moved.boundary.from.equals(new Point(6+3, 4)));
   t.true(moved.holes[0].from.equals(new Point(2 + 3, 1 + 4)));
 });

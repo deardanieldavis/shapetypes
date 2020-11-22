@@ -26,7 +26,8 @@ import {
  * A polygon is a shape defined by an outer [[boundary]]. The surface of the polygon
  * may not be continous and may contain [[holes]].
  *
- * The boundary is always in a clockwise orientation. The holes are always counter-clockwise.
+ * If the world's y-axis points upwards, the boundary is always in a counter-clockwise orientation. The holes are always clockwise.
+ * If the world's y-axis points downwards, the boundary is always in a clockwise orientation. The holes are always counter-clockwise.
  */
 export class Polygon extends Geometry {
   // -----------------------
@@ -60,7 +61,7 @@ export class Polygon extends Geometry {
     if (boundary.isClosed === false) {
       throw new Error('Boundary must be closed to turn into polygon');
     }
-    this._boundary = boundary.withOrientation(CurveOrientation.clockwise);
+    this._boundary = boundary.withOrientation(CurveOrientation.counterclockwise);
 
     if (holes === undefined) {
       this._holes = new Array<Polyline>();
@@ -70,7 +71,7 @@ export class Polygon extends Geometry {
         if (hole.isClosed === false) {
           throw new Error('Hole must be closed to turn into polygon');
         }
-        newHoles.push(hole.withOrientation(CurveOrientation.counterclockwise));
+        newHoles.push(hole.withOrientation(CurveOrientation.clockwise));
       }
       this._holes = newHoles;
     }

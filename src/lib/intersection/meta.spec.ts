@@ -149,7 +149,7 @@ test('line.polygon: Large polygon without a hole', t => {
   const poly = new Polygon(b);
   const result = Intersection.line(t.context.line, poly);
   t.is(result.length, 2);
-  t.is(result[0], 0);
+  t.true(approximatelyEqual(result[0], 0));
   t.is(result[1], 1);
 });
 test('line.polygon: Large polygon with a hole', t => {
@@ -267,7 +267,7 @@ test('ray.polygon: Large polygon without a hole', t => {
   const poly = new Polygon(b);
   const result = Intersection.ray(t.context.ray, poly);
   t.is(result.length, 2);
-  t.is(result[0], 0);
+  t.true(approximatelyEqual(result[0], 0));
   t.is(result[1], 10);
 });
 test('ray.polygon: Large polygon with a hole', t => {

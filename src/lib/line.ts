@@ -136,7 +136,6 @@ export class Line extends Geometry {
    * Returns the line's tangent vector. This vector is perpendicular to [[direction]].
    * It is always has a length of 1.
    * If shapetypesSettings.invertY is true, will be on the right side of the Line if looking [[from]] -> [[to]].
-   * If shapetypesSettings.invertY is false (the default), will be on the left side of the Line.
    */
   get unitTangent(): Vector {
     const t = this.direction.perpendicular();

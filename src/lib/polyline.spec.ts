@@ -312,6 +312,14 @@ test('mergeColinear: on closed polylines, merges final points if needed', t => {
   t.true(result.points[2].equals(new Point(-1, 0)));
 });
 
+test('normalAt: returns vector on left when not closed', t => {
+  const normal = t.context.elbow.normalAt(0.5);
+  t.true(normal.equals(new Vector(0, -1)));
+});
+test('normalAt: returns vector on left when not closed, second segment', t => {
+  const normal = t.context.elbow.normalAt(1.5);
+  t.true(normal.equals(new Vector(-1, 0)));
+});
 test('normalAt: returns inward vector on closed shape', t => {
   const normal = t.context.triangle.normalAt(2.5);
   t.true(normal.equals(new Vector(0, 1)));
@@ -320,10 +328,12 @@ test('normalAt: returns inward vector on closed shape when counter-clockwise', t
   const normal = t.context.triangleReversed.normalAt(0.5);
   t.true(normal.equals(new Vector(0, 1)));
 });
-test('normalAt: returns vector on left when not closed', t => {
-  const normal = t.context.elbow.normalAt(0.5);
-  t.true(normal.equals(new Vector(0, -1)));
+test('normalAt: test from example', t => {
+  const poly = Polyline.fromCoords([[32,16],[32,19],[36,19],[36,16]], true);
+  t.true(poly.orientation() === CurveOrientation.clockwise);
+  t.true(poly.normalAt(0.5).equals(new Vector(1, 0)));
 });
+
 
 test('pointAt: returns correct point', t => {
   for (const point of POINTS) {
