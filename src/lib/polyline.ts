@@ -1,5 +1,5 @@
 /* tslint:disable:no-let */
-import { Pair, Ring } from 'polygon-clipping';
+import { Ring } from 'polygon-clipping';
 import { horizontalRayPolyline } from './intersection/horizontalRay';
 import { CurveOrientation, PointContainment } from './utilities';
 
@@ -64,11 +64,7 @@ export class Polyline extends Geometry {
     coordinates: Ring,
     makeClosed: boolean = false
   ): Polyline {
-    const points = new Array<Point>(coordinates.length);
-    for (let i = 0; i < coordinates.length; i++) {
-      // tslint:disable-next-line:no-object-mutation
-      points[i] = new Point(coordinates[i][0], coordinates[i][1]);
-    }
+    const points = coordinates.map(pair => new Point(pair[0], pair[1]));
     if (makeClosed) {
       if (!points[0].equals(points[points.length - 1])) {
         points.push(points[0]);
@@ -107,9 +103,8 @@ export class Polyline extends Geometry {
     if (makeClosed) {
       if (!points[0].equals(points[points.length - 1])) {
         // If the start point is different from the final point
-        let finalPoints = new Array<Point>();
-        finalPoints = points.concat();
-        finalPoints.push(points[0]);
+        // add the start point to the end
+        const finalPoints = points.concat(points[0]);
         this._points = finalPoints;
         return;
       }
@@ -183,10 +178,7 @@ export class Polyline extends Geometry {
    */
   get length(): number {
     if (this._cacheLength === undefined) {
-      let length = 0;
-      for (const segment of this.segments) {
-        length += segment.length;
-      }
+      const length = this.segments.reduce((accumulator, segment) => accumulator + segment.length, 0);
       this._cacheLength = length;
     }
     return this._cacheLength;
@@ -371,14 +363,8 @@ export class Polyline extends Geometry {
       return false;
     }
 
-    for (let i = 0; i < this._points.length; i++) {
-      const mine = this._points[i];
-      const other = otherPolyline.points[i];
-      if (!mine.equals(other)) {
-        return false;
-      }
-    }
-    return true;
+    const isEqual = this._points.every((point, index) => point.equals(otherPolyline.points[index]));
+    return isEqual;
   }
 
   /**
@@ -422,9 +408,7 @@ export class Polyline extends Geometry {
     if (this.isClosed) {
       return this;
     }
-    let points = new Array<Point>();
-    points = this._points.concat();
-    points.push(this.from);
+    const points = this._points.concat(this.from);
     return new Polyline(points);
   }
 
@@ -514,11 +498,7 @@ export class Polyline extends Geometry {
     // Based on: https://stackoverflow.com/questions/46763647/how-to-reverse-the-array-in-typescript-for-the-following-data
     if(isYDown) {
       if (this._cacheOrientationYDown === undefined) {
-        let result = 0;
-        for (const segment of this.segments) {
-          result +=
-            (segment.to.x - segment.from.x) * (segment.to.y + segment.from.y);
-        }
+        const result = this.segments.reduce((accumulator, segment) => accumulator + ((segment.to.x - segment.from.x) * (segment.to.y + segment.from.y)), 0);
         this._cacheOrientationYDown =
           result > 0
             ? CurveOrientation.counterclockwise
@@ -527,11 +507,7 @@ export class Polyline extends Geometry {
       return this._cacheOrientationYDown;
     } else {
       if (this._cacheOrientationYUp === undefined) {
-        let result = 0;
-        for (const segment of this.segments) {
-          result +=
-            (segment.to.x - segment.from.x) * (segment.to.y + segment.from.y);
-        }
+        const result = this.segments.reduce((accumulator, segment) => accumulator + ((segment.to.x - segment.from.x) * (segment.to.y + segment.from.y)), 0);
         this._cacheOrientationYUp =
           result > 0
             ? CurveOrientation.clockwise
@@ -628,9 +604,7 @@ export class Polyline extends Geometry {
    * Returns a copy of the polyline with the points in a reverse order.
    */
   public reverse(): Polyline {
-    let points = Array<Point>();
-    points = this._points.concat();
-    points.reverse();
+    const points = this._points.concat().reverse();
     return new Polyline(points);
   }
 
@@ -719,11 +693,7 @@ export class Polyline extends Geometry {
     // Converts polyline into specific format needed by the PolygonClipping library.
     // see: https://github.com/mfogel/polygon-clipping/issues/76
     if (this._cacheGeoJSON === undefined) {
-      const ring = new Array<Pair>(this.points.length);
-      for (let i = 0; i < this.points.length; i++) {
-        // tslint:disable-next-line:no-object-mutation
-        ring[i] = [this.points[i].x, this.points[i].y];
-      }
+      const ring : Ring = this.points.map(point => [point.x, point.y]);
       this._cacheGeoJSON = ring;
     }
     return this._cacheGeoJSON;
