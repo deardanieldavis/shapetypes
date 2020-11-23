@@ -1,4 +1,4 @@
-// tslint:disable:no-let no-object-mutation
+// tslint:disable:no-let
 import { BoundingBox, IntervalSorted, Line, Ray, RayRange } from '../../index';
 
 /**

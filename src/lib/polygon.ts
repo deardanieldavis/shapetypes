@@ -1,5 +1,4 @@
-/* tslint:disable:readonly-array */
-// tslint:disable:no-let
+/* tslint:disable:readonly-array no-let */
 
 import {
   difference as pcDifference,
@@ -82,10 +81,7 @@ export class Polygon extends Geometry {
   // -----------------------
 
   get area(): number {
-    let area = this._boundary.area;
-    for (const hole of this._holes) {
-      area -= hole.area;
-    }
+    const area = this._holes.reduce((accumulator, hole) => accumulator - hole.area, this._boundary.area);
     return area;
   }
 
@@ -200,14 +196,9 @@ export class Polygon extends Geometry {
     if (!this._boundary.equals(otherPolygon.boundary)) {
       return false;
     }
-    for (let i = 0; i < this._holes.length; i++) {
-      const myHole = this._holes[i];
-      const otherHole = otherPolygon.holes[i];
-      if (!myHole.equals(otherHole)) {
-        return false;
-      }
-    }
-    return true;
+
+    const isEqual = this._holes.every((hole, index) => hole.equals(otherPolygon.holes[index]));
+    return isEqual;
   }
 
   public toString(): string {
@@ -300,12 +291,7 @@ export class Polygon extends Geometry {
    */
   public transform(change: Transform): this {
     const newBoundary = this._boundary.transform(change);
-
-    const newHoles = new Array<Polyline>(this._holes.length);
-    for (let i = 0; i < this._holes.length; i++) {
-      // tslint:disable-next-line:no-object-mutation
-      newHoles[i] = this._holes[i].transform(change);
-    }
+    const newHoles = this._holes.map(hole => hole.transform(change));
 
     // @ts-ignore
     return new Polygon(newBoundary, newHoles);

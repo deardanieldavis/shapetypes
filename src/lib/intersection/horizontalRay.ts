@@ -17,14 +17,15 @@ export function horizontalRayPolyline(
   start: Point,
   polyline: Polyline
 ): number {
-  // tslint:disable-next-line:no-let
-  let count = 0;
-  for (const edge of polyline.segments) {
+  // https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
+  const count = polyline.segments.reduce((accumulator, edge) => {
     const result = horizontalRayLine(start, edge);
     if (result) {
-      count++;
+      return accumulator + 1;
     }
-  }
+    return accumulator;
+  }, 0);
+
   return count;
 }
 

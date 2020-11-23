@@ -16,7 +16,7 @@
     "readonly-keyword": [true, {"ignore-prefix": "_cache"}],
     "readonly-array": true,
     "no-let": true,
-    "no-object-mutation": true,
+    "no-object-mutation": [true, {"ignore-prefix": "_cache"}],
     "no-delete": true,
     "no-method-signature": true,
 

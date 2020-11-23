@@ -137,7 +137,6 @@ export class Polyline extends Geometry {
         const b = Vector.fromPoints(this._points[0], this._points[i + 1]);
         area += a.x * b.y - a.y * b.x;
       }
-      // tslint:disable-next-line:no-object-mutation
       this._cacheArea = Math.abs(area / 2.0);
     }
 
@@ -149,7 +148,6 @@ export class Polyline extends Geometry {
    */
   get boundingBox(): BoundingBox {
     if (this._cacheBoundingBox === undefined) {
-      // tslint:disable-next-line:no-object-mutation
       this._cacheBoundingBox = BoundingBox.fromPoints(this.points);
     }
     return this._cacheBoundingBox;
@@ -175,7 +173,6 @@ export class Polyline extends Geometry {
    */
   get isClosed(): boolean {
     if (this._cacheClosed === undefined) {
-      // tslint:disable-next-line:no-object-mutation
       this._cacheClosed = this.from.equals(this.to);
     }
     return this._cacheClosed;
@@ -190,7 +187,6 @@ export class Polyline extends Geometry {
       for (const segment of this.segments) {
         length += segment.length;
       }
-      // tslint:disable-next-line:no-object-mutation
       this._cacheLength = length;
     }
     return this._cacheLength;
@@ -223,7 +219,6 @@ export class Polyline extends Geometry {
         // tslint:disable-next-line:no-object-mutation
         lines[i] = line;
       }
-      // tslint:disable-next-line:no-object-mutation
       this._cacheSegments = lines;
     }
     return this._cacheSegments;
@@ -729,7 +724,6 @@ export class Polyline extends Geometry {
         // tslint:disable-next-line:no-object-mutation
         ring[i] = [this.points[i].x, this.points[i].y];
       }
-      // tslint:disable-next-line:no-object-mutation
       this._cacheGeoJSON = ring;
     }
     return this._cacheGeoJSON;

@@ -1,5 +1,3 @@
-// tslint:disable:readonly-array
-
 import {
   Geometry,
   Interval,
@@ -257,7 +255,7 @@ export class BoundingBox extends Geometry {
    * The order will always be: [[minX, minY], [minX, maxY], [maxX, maxY], [maxX, minY]].
    * If the y-axis is pointing up, this is a clockwise order. And if the y-axis is pointing down, this is an anti-clockwise order.
    */
-  public getCorners(): Point[] {
+  public getCorners(): readonly Point[] {
     return [
       new Point(this._xRange.min, this._yRange.min),
       new Point(this._xRange.min, this._yRange.max),
@@ -269,7 +267,7 @@ export class BoundingBox extends Geometry {
   /**
    * Returns an array of the BoundingBox's four edges.
    */
-  public getEdges(): Line[] {
+  public getEdges(): readonly Line[] {
     const corners = this.getCorners();
     return [
       new Line(corners[0], corners[1]),

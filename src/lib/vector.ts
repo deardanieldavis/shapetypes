@@ -85,7 +85,6 @@ export class Vector extends Geometry {
    */
   get length(): number {
     if (this._cacheLength === undefined) {
-      // tslint:disable-next-line:no-object-mutation
       this._cacheLength = Math.sqrt(this.x * this.x + this.y * this.y);
     }
     return this._cacheLength;

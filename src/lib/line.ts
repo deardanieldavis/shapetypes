@@ -94,7 +94,6 @@ export class Line extends Geometry {
    */
   get boundingBox(): BoundingBox {
     if (this._cacheBoundingBox === undefined) {
-      // tslint:disable-next-line:no-object-mutation
       this._cacheBoundingBox = BoundingBox.fromCorners(this._from, this._to);
     }
     return this._cacheBoundingBox;
@@ -105,7 +104,6 @@ export class Line extends Geometry {
    */
   get direction(): Vector {
     if (this._cacheVector === undefined) {
-      // tslint:disable-next-line:no-object-mutation
       this._cacheVector = Vector.fromPoints(this._from, this._to);
     }
     return this._cacheVector;

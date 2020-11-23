@@ -105,7 +105,6 @@ export class Plane extends Geometry {
     // We don't always need the yAxis, so it isn't generated in the constructor.
     // When this function is called, the first time, it generates the yAxis and caches it.
     if (this._cacheYAxis === undefined) {
-      // tslint:disable-next-line:no-object-mutation
       this._cacheYAxis = this._xAxis.perpendicular();
     }
     return this._cacheYAxis;
@@ -268,7 +267,6 @@ export class Plane extends Geometry {
 
   private getRemapTransform(): Transform {
     if (this._cacheRemap === undefined) {
-      // tslint:disable-next-line:no-object-mutation
       this._cacheRemap = Transform.changeBasis(Plane.worldXY(), this);
     }
     return this._cacheRemap;
