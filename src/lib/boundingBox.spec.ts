@@ -234,6 +234,19 @@ test('inflate: can inflate the box differently on x and y axis', t => {
   t.is(bb.yRange.max, 30);
 });
 
+test('overlaps: returns true because boxes overlap', t => {
+  const b = new BoundingBox(new IntervalSorted(5, 15), new IntervalSorted(5, 25));
+  t.is(t.context.bb.overlaps(b), true);
+});
+test('overlaps: returns false because boxes dont overlap on xaxis', t => {
+  const b = new BoundingBox(new IntervalSorted(15, 25), new IntervalSorted(5, 25));
+  t.is(t.context.bb.overlaps(b), false);
+});
+test('overlaps: returns false because boxes dont overlap on yaxis', t => {
+  const b = new BoundingBox(new IntervalSorted(0, 10), new IntervalSorted(35, 45));
+  t.is(t.context.bb.overlaps(b), false);
+});
+
 test('equals: can identify when boxes are exactly identical and slightly different', t => {
   t.is(
     t.context.bb.equals(

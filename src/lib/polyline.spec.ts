@@ -268,6 +268,12 @@ test('equals: polylines with different numbers of points arent equal', t => {
   t.is(t.context.triangle.equals(t.context.elbow), false);
 });
 
+test('intersection: generates correct intersections', t => {
+  const result = t.context.elbow.intersection([new Point(0,5), new Point(5,0)]);
+  t.is(result[0], 0.5);
+  t.is(result[1], 1.5);
+});
+
 test('makeClosed: correctly closes an open curve', t => {
   const closed = t.context.elbow.makeClosed();
   t.is(closed.segmentCount, 3);

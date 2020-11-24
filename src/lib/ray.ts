@@ -174,9 +174,10 @@ export class Ray extends Geometry {
           | Rectangle
           | Polyline
           | Polygon
-        >
+        >,
+    range = RayRange.both
   ): readonly number[] {
-    return Intersection.ray(this, otherGeom);
+    return Intersection.ray(this, otherGeom, range);
   }
 
   /**

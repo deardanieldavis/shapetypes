@@ -30,7 +30,7 @@ export function approximatelyEqual(
   value2: number,
   epsilon: number = shapetypesSettings.absoluteTolerance
 ): boolean {
-  return Math.abs(value1 - value2) < epsilon;
+  return Math.abs(value1 - value2) <= epsilon;
 }
 
 /**

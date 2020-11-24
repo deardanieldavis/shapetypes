@@ -1,12 +1,6 @@
 /* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
-import {
-  Plane,
-  Point,
-  Ray,
-  RayRange,
-  Vector
-} from '../index';
+import { inRayRange, Plane, Point, Ray, RayRange, Vector } from '../index';
 
 const test = anyTest as TestInterface<{
   angled: Ray;
@@ -16,6 +10,25 @@ const test = anyTest as TestInterface<{
 test.beforeEach('Create test geometry', t => {
   t.context.angled = new Ray(new Point(3, 4), new Vector(3, 4));
   t.context.flat = new Ray(new Point(3, 4), new Vector(1, 0));
+});
+
+// -----------------------
+// UTILITY
+// -----------------------
+test('inRayRange: A positive number returns true for all ranges', t => {
+  t.is(inRayRange(1, RayRange.positive), true);
+  t.is(inRayRange(1, RayRange.positiveAndZero), true);
+  t.is(inRayRange(1, RayRange.both), true);
+});
+test('inRayRange: Zero returns false for `positive` range', t => {
+  t.is(inRayRange(0, RayRange.positive), false);
+  t.is(inRayRange(0, RayRange.positiveAndZero), true);
+  t.is(inRayRange(0, RayRange.both), true);
+});
+test('inRayRange: A negative number only returns true for `both`', t => {
+  t.is(inRayRange(-1, RayRange.positive), false);
+  t.is(inRayRange(-1, RayRange.positiveAndZero), false);
+  t.is(inRayRange(-1, RayRange.both), true);
 });
 
 // -----------------------
@@ -90,6 +103,12 @@ test('closestPoint: Returns correct point depending on if onlyPositive or not', 
 });
 test('closestPoint: Returns correct point when point is off line', t => {
   t.true(t.context.flat.closestPoint(new Point(4, 0)).equals(new Point(4, 4)));
+});
+
+test('intersection: generates correct intersections', t => {
+  const result = t.context.flat.intersection([new Point(5,4), new Point(6,4)]);
+  t.is(result[0], 2);
+  t.is(result[1], 3);
 });
 
 test('withFrom: correctly replaces from', t => {

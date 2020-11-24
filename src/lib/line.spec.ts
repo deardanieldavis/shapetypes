@@ -229,6 +229,12 @@ test('flip: correctly flips the line and switches the end points', t => {
   t.true(line.to.equals(t.context.P00));
 });
 
+test('intersection: generates correct intersections', t => {
+  const result = t.context.horizontal.intersection([new Point(5,0), new Point(7,0)]);
+  t.is(result[0], 0.5);
+  t.is(result[1], 0.7);
+});
+
 test('pointAt: generates the correct point from a parameter when limited to a finite line', t => {
   for (const point of POINTS) {
     t.true(
