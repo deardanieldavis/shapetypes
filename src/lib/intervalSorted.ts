@@ -274,6 +274,13 @@ export class IntervalSorted {
     return new IntervalSorted(-1 * this._max, -1 * this._min);
   }
 
+  /***
+   * Returns the interval as a string in the format: `[min,max]`.
+   */
+  public toString(): string {
+    return '[' + this._min + ',' + this._max + ']';
+  }
+
   /**
    * Remaps a value from normalized parameters of this interval into the global number system.
    * The interval's parameter range from 0 to 1.

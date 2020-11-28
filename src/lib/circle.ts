@@ -272,8 +272,11 @@ export class Circle extends Geometry {
     return x.add(y);
   }
 
+  /***
+   * Returns the circle as a string in the format: `[plane,radius]`.
+   */
   public toString(): string {
-    return 'circle: ' + this._plane.toString() + 'r: ' + this._radius;
+    return '['+ this._plane.toString() + ',' + this._radius + ']';
   }
 
   /**
@@ -336,6 +339,35 @@ export class Circle extends Geometry {
   // -----------------------
   // TRANSFORMABLE
   // -----------------------
+
+  /***
+   * Returns a copy of the circle transformed by a [[transform]] matrix.
+   *
+   * ### Example
+   * ```js
+   * const circle = new Circle(10);
+   * console.log(circle.radius);
+   * // => 10
+   *
+   * // Using a transform matrix
+   * const matrix = Transform.scale(2);
+   * const scaled = scale.transform(matrix);
+   * console.log(scaled.radius);
+   * // => 20
+   *
+   * // Using a direct method
+   * const otherScaled = circle.scale(2);
+   * console.log(otherScaled.radius);
+   * // => 20
+   * ```
+   *
+   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * creating the [[Transform]] matrix once and calling this function is faster
+   * than using the direct methods.
+   *
+   * @category Transform
+   * @param change  The [[transform]] matrix to apply to the cirlce.
+   */
   public transform(change: Transform): this {
     const scaleX = Math.sqrt(change.M00 * change.M00 + change.M01 * change.M01);
     const scaleY = Math.sqrt(change.M10 * change.M10 + change.M11 * change.M11);

@@ -22,14 +22,14 @@ import {
  *
  * const line = new Line(new Point(1,1), new Point(4,5));
  *
- * console.log(line.from);
+ * console.log(line.from.toString());
  * // => (1,1)
- * console.log(line.to);
+ * console.log(line.to.toString());
  * // => (4,5)
  * console.log(line.length);
  * // => 5
  *
- * const mid = line.pointAt(0.5)
+ * const mid = line.pointAt(0.5);
  * console.log(mid.toString());
  * // => (2.5,3)
  *
@@ -64,7 +64,7 @@ export class Line extends Geometry {
   }
 
   /**
-   * Creates a new line from a set of coordinates for the end points.
+   * Creates a new line from a set of end point coordinates.
    *
    * @category Create
    * @param coords  End points of line in the format `[[x1,y1],[x2,y2]]`.
@@ -310,15 +310,15 @@ export class Line extends Geometry {
    * ### Example
    * ```js
    * let line = new Line(new Point(0, 0), new Point(10, 0));
-   * console.log(line.pointAt(0));
-   * // => 0,0
-   * console.log(line.pointAt(0.5));
-   * // => 5,0
-   * console.log(line.pointAt(1));
-   * // => 10,0
+   * console.log(line.pointAt(0).toString());
+   * // => (0,0)
+   * console.log(line.pointAt(0.5).toString());
+   * // => (5,0)
+   * console.log(line.pointAt(1).toString());
+   * // => (10,0)
    * ```
-   * @param u                     The normalized parameter. The parameter ranges from 0, which is the start of the line ([[from]]), through to 1, which is the end of the line ([[to]]). So 0.5 returns the mid point of the line.
-   * @param limitToFiniteSegment  If true, the point will always be within the bounds of the line (u-values over 1 and less than 0 will be clipped). If false, the line is treated as infinite.
+   * @param u                     The normalized parameter. The parameter ranges from 0, which is the start of the line ([[from]]), through to 1, which is the end of the line ([[to]]). The mid point of the line is 0.5.
+   * @param limitToFiniteSegment  If true, the point will always be within the bounds of the line (u-values less than 0 and greater than 1 will be clipped). If false, the line is treated as infinite.
    */
   public pointAt(u: number, limitToFiniteSegment: boolean = true): Point {
     if (limitToFiniteSegment) {
@@ -346,8 +346,8 @@ export class Line extends Geometry {
     return this.pointAt(u, limitToFiniteSegment);
   }
 
-  /**
-   * Returns the line as a string in the format `[(x,y),(x,y)]`
+  /***
+   * Returns the line as a string in the format: `[(x,y),(x,y)]`.
    */
   public toString(): string {
     return '[' + this._from.toString() + ',' + this._to.toString() + ']';
@@ -363,7 +363,7 @@ export class Line extends Geometry {
 
   /**
    * Returns a copy of the line with a different length. The [[from]] point will remain
-   * fixed in place and the [[to]] point will be moved to make the line a certain length.
+   * fixed in place and the [[to]] point will be moved to make the line the right length.
    * @param distance  New length for the line. Note: if the length is set to a negative number, the line's [[direction]] will be reversed but the length will remain positive.
    */
   public withLength(distance: number): Line {
@@ -383,31 +383,33 @@ export class Line extends Geometry {
   // TRANSFORMABLE
   // -----------------------
 
-  /**
-   * Returns a copy of the Line transformed by a [[transform]] matrix.
+  /***
+   * Returns a copy of the line transformed by a [[transform]] matrix.
    *
    * ### Example
    * ```js
    * const line = new Line(new Point(0,0), new Point(10,0));
    * console.log(line.toString());
-   * // => '[(0,0),(10,0)]'
+   * // => [(0,0),(10,0)]
    *
    * // Using a transform matrix
-   * const moved = line.transform(Transform.translate(new Vector(5, 4)));
+   * const matrix = Transform.translate(new Vector(5, 4));
+   * const moved = line.transform(matrix);
    * console.log(moved.toString());
-   * // => '[(5,4),(15,4)]'
+   * // => [(5,4),(15,4)]
    *
-   * // Direct method
+   * // Using a direct method
    * const otherMoved = line.translate(5, 4);
    * console.log(otherMoved.toString());
-   * // => '[(5,4),(15,4)]'
+   * // => [(5,4),(15,4)]
    * ```
    *
    * @note  Note: If you're applying the same transformation a lot of geometry,
    * creating the [[Transform]] matrix once and calling this function is faster
    * than using the direct methods.
    *
-   * @param change  A [[transform]] matrix to apply to the Line
+   * @category Transform
+   * @param change  The [[transform]] matrix to apply to the line.
    */
   public transform(change: Transform): this {
     // @ts-ignore

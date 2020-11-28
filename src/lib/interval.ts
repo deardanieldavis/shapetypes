@@ -299,6 +299,14 @@ export class Interval {
     return new Interval(this._T1, this._T0);
   }
 
+  /***
+   * Returns the interval as a string in the format: `[T0,T1]`.
+   */
+  public toString(): string {
+    return '[' + this._T0 + ',' + this._T1 + ']';
+  }
+
+
   /**
    * Remaps a value from normalized parameters of this interval into the global number system.
    * The interval's parameter range from 0 to 1.

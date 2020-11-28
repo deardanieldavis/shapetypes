@@ -266,6 +266,9 @@ export class Rectangle extends Geometry {
     return this._plane.pointAt(this._x.valueAt(uvPointorU), this._y.valueAt(v));
   }
 
+  /***
+   * Returns the rectangle as a string in the format: `[plane,widthX,widthY]`.
+   */
   public toString(): string {
     return (
       '[' + this._plane.toString() + ',' + this.widthX + ',' + this.widthY + ']'
@@ -293,29 +296,33 @@ export class Rectangle extends Geometry {
   // TRANSFORMABLE
   // -----------------------
 
-  /**
-   * Returns a copy of the BoundingBox transformed by a [[transform]] matrix.
+  /***
+   * Returns a copy of the rectangle transformed by a [[transform]] matrix.
    *
    * ### Example
    * ```js
-   * const bb = new BoundingBox(new IntervalSorted(0, 10), new IntervalSorted(5, 25));
-   * console.log(bb.area);
+   * const rect = new Rectangle(Plane.worldXY(), 10, 20);
+   * console.log(rect.area);
    * // => 200
    *
-   * const scaled = bb.transform(Transform.scale(2));
+   * // Using a transform matrix
+   * const matrix = Transform.scale(2);
+   * const scaled = rect.transform(matrix);
    * console.log(scaled.area);
    * // => 800
    *
-   * // Direct method
-   * const otherScaled = bb.scale(2);
+   * // Using a direct method
+   * const otherScaled = rect.scale(2);
    * console.log(otherScaled.area);
    * // => 800
    * ```
    *
-   * Note: If you're applying the same transformation a lot of geometry,
-   * creating the matrix and calling this function is faster than using the direct methods.
+   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * creating the [[Transform]] matrix once and calling this function is faster
+   * than using the direct methods.
    *
-   * @param change  A [[transform]] matrix to apply to the BoundingBox
+   * @category Transform
+   * @param change  The [[transform]] matrix to apply to the rectangle.
    */
   public transform(change: Transform): this {
     const cornerA = change.transformPoint(this.corner(true, true));

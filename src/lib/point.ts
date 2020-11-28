@@ -202,8 +202,8 @@ export class Point extends Geometry {
     return new Point(this._x - subtrahendOrX, this._y - y);
   }
 
-  /**
-   * Returns a string in the format '(x,y)'
+  /***
+   * Returns the point as a string in the format `(x,y)`.
    */
   public toString(): string {
     return '(' + this._x + ',' + this._y + ')';
@@ -229,27 +229,31 @@ export class Point extends Geometry {
   // TRANSFORMABLE
   // -----------------------
 
-  /**
-   * Returns a copy of the Point transformed by a [[transform]] matrix.
+  /***
+   * Returns a copy of the point transformed by a [[transform]] matrix.
    *
    * ### Example
    * ```js
    * const p = new Point(3, 4);
    *
-   * const transformed = p.transform(Transform.translate(new Vector(10, 20)));
+   * // Using a transform matrix
+   * const matrix = Transform.translate(new Vector(10, 20));
+   * const transformed = p.transform(matrix);
    * console.log(transformed.toString());
-   * // => '(13,24)'
+   * // => (13,24)
    *
-   * // Direct method
+   * // Using the direct method
    * const direct = p.translate(new Vector(10, 20));
    * console.log(p.toString());
-   * // => '(13,24)'
+   * // => (13,24)
    * ```
    *
-   * Note: If you're applying the same transformation a lot of geometry,
-   * creating the matrix and calling this function is faster than using the direct methods.
+   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * creating the [[Transform]] matrix once and calling this function is faster
+   * than using the direct methods.
    *
-   * @param change  A [[transform]] matrix to apply to the Point
+   * @category Transform
+   * @param change  The [[transform]] matrix to apply to the point.
    */
   public transform(change: Transform): this {
     // @ts-ignore

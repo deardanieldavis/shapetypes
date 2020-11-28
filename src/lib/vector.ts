@@ -398,10 +398,8 @@ export class Vector extends Geometry {
   // TRANSFORMABLE
   // -----------------------
 
-  /**
-   * Returns a copy of the Vector transformed by a [[transform]] matrix.
-   * Since the vector doesn't have a position in space, transformations that involve
-   * moving, such as translate, have no affect.
+  /***
+   * Returns a copy of the vector transformed by a [[transform]] matrix.
    *
    * ### Example
    * ```js
@@ -409,20 +407,24 @@ export class Vector extends Geometry {
    * console.log(vector.length);
    * // => 5
    *
-   * const scaled = vector.transform(Transform.scale(2));
+   * // Using a transform matrix
+   * const matrix = Transform.scale(2);
+   * const scaled = vector.transform(matrix);
    * console.log(vector.length);
    * // => 10
    *
-   * // Direct method
+   * // Using a direct method
    * const otherScaled = vector.scale(2);
    * console.log(otherScaled.length);
    * // => 10
    * ```
    *
-   * Note: If you're applying the same transformation a lot of geometry,
-   * creating the matrix and calling this function is faster than using the direct methods.
+   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * creating the [[Transform]] matrix once and calling this function is faster
+   * than using the direct methods.
    *
-   * @param change  A [[transform]] matrix to apply to the Vector
+   * @category Transform
+   * @param change  The [[transform]] matrix to apply to the vector.
    */
   public transform(change: Transform): this {
     // @ts-ignore

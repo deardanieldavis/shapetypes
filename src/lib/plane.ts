@@ -215,9 +215,8 @@ export class Plane extends Geometry {
     return new Plane(this._origin, newXAxis);
   }
 
-  /**
-   * Returns a string representing the plane in the format:
-   * `[origin,xAxis]`.
+  /***
+   * Returns the plane as a string in the format: `[origin,xAxis]`.
    */
   public toString(): string {
     return '[' + this._origin.toString() + ',' + this._xAxis.toString() + ']';
@@ -227,32 +226,33 @@ export class Plane extends Geometry {
   // TRANSFORMABLE
   // -----------------------
 
-  /**
+  /***
    * Returns a copy of the plane transformed by a [[Transform]] matrix.
-   *
-   * Note: If you're applying the same transformation a lot of geometry,
-   * creating the [[Transform]] matrix once and calling this function is faster
-   * than using the direct methods.
    *
    * ### Example
    * ```js
    * const plane = new Plane(new Point(2,2), Vector.worldX());
-   * console.log(plane.origin);
-   * // => [2,2]
+   * console.log(plane.origin.toString());
+   * // => (2,2)
    *
+   * // Using a transform matrix
    * const mover = Tranform.translate(new Vector(3,4));
    * const moved = plane.transform(mover);
-   * console.log(moved.origin);
-   * // => [5,6]
+   * console.log(moved.origin.toString());
+   * // => (5,6)
    *
-   * // Direct method
+   * // The direct method
    * const otherMoved = plane.translate(new Vector(3,4));
-   * console.log(otherMoved.origin);
-   * // => [5,6]
+   * console.log(otherMoved.origin.toString);
+   * // => (5,6)
    * ```
    *
+   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * creating the [[Transform]] matrix once and calling this function is faster
+   * than using the direct methods.
+   *
    * @category Transform
-   * @param change  A [[transform]] matrix to apply to the ray.
+   * @param change  The [[transform]] matrix to apply to the plane.
    */
   public transform(change: Transform): this {
     const origin = change.transformPoint(this._origin);

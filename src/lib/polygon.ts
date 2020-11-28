@@ -222,6 +222,9 @@ export class Polygon extends Geometry {
     return isEqual;
   }
 
+  /***
+   * Returns the polygon as a string in the format: `[boundary, ...holes]`.
+   */
   public toString(): string {
     const strings = new Array<string>();
     for (const loop of [this._boundary, ...this._holes]) {
@@ -281,7 +284,7 @@ export class Polygon extends Geometry {
   // TRANSFORMABLE
   // -----------------------
 
-  /**
+  /***
    * Returns a copy of the polyline transformed by a [[transform]] matrix.
    *
    * ### Example
@@ -291,24 +294,26 @@ export class Polygon extends Geometry {
    *
    * const triangle = new Polyline([new Point(0, 0), new Point(1, 1), new Point(2, 0)], true);
    * console.log(shifted.from.toString());
-   * // => [0,0]
+   * // => (0,0)
    *
-   * const tran = Transform.translate(new Vector(3,4);
-   * const shifted = triangle.transform(tran);
+   * // Using a transform matrix
+   * const matrix = Transform.translate(new Vector(3,4);
+   * const shifted = triangle.transform(matrix);
    * console.log(shifted.from.toString());
-   * // => [3,4]
+   * // => (3,4)
    *
-   * // Direct method
+   * // Using the direct method
    * const otherShifted = triangle.translate(new Vector(3, 4));
    * console.log(otherShifted.from.toString());
-   * // => [3,4]
+   * // => (3,4)
    * ```
    *
-   * Note: If you're applying the same transformation a lot of geometry,
-   * creating the matrix and calling this function is faster than using the direct methods.
+   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * creating the [[Transform]] matrix once and calling this function is faster
+   * than using the direct methods.
    *
    * @category Transform
-   * @param change  A [[transform]] matrix to apply to the polyline
+   * @param change  The [[transform]] matrix to apply to the polygon.
    */
   public transform(change: Transform): this {
     const newBoundary = this._boundary.transform(change);

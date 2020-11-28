@@ -430,9 +430,8 @@ export class Transform {
     return new Transform(M00, M10, M20, M01, M11, M21, M02, M12, M22);
   }
 
-  /**
-   * Returns a string representing the values of the matrix, in this format:
-   * '[M00,M10,M20,M01,M11,M21,M02,M12,M22]'
+  /***
+   * Returns the matrix as a string in the format: `[M00,M10,M20,M01,M11,M21,M02,M12,M22]`.
    */
   public toString(): string {
     return (

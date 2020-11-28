@@ -609,7 +609,7 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns the polyline as a string in the format `[(x1,y1),(x2,y2),(x3,y3)]`
+   * Returns the polyline as a string in the format: `[(x1,y1),(x2,y2),(x3,y3)]`.
    */
   public toString(): string {
     const strings = new Array<string>();
@@ -703,7 +703,7 @@ export class Polyline extends Geometry {
   // TRANSFORMABLE
   // -----------------------
 
-  /**
+  /***
    * Returns a copy of the polyline transformed by a [[transform]] matrix.
    *
    * ### Example
@@ -713,24 +713,27 @@ export class Polyline extends Geometry {
    *
    * const triangle = new Polyline([new Point(0, 0), new Point(1, 1), new Point(2, 0)], true);
    * console.log(shifted.from.toString());
-   * // => [0,0]
+   * // => (0,0)
    *
-   * const tran = Transform.translate(new Vector(3,4);
-   * const shifted = triangle.transform(tran);
+   * // Using a transform matrix
+   * const matrix = Transform.translate(new Vector(3,4);
+   * const shifted = triangle.transform(matrix);
    * console.log(shifted.from.toString());
-   * // => [3,4]
+   * // => (3,4)
    *
-   * // Direct method
+   * // Using direct method
    * const otherShifted = triangle.translate(new Vector(3, 4));
    * console.log(otherShifted.from.toString());
-   * // => [3,4]
+   * // => (3,4)
    * ```
    *
-   * Note: If you're applying the same transformation a lot of geometry,
-   * creating the matrix and calling this function is faster than using the direct methods.
+   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * creating the [[Transform]] matrix once and calling this function is faster
+   * than using the direct methods.
+   *
    *
    * @category Transform
-   * @param change  A [[transform]] matrix to apply to the polyline
+   * @param change  The [[transform]] matrix to apply to the polyline.
    */
   public transform(change: Transform): this {
     const corners = change.transformPoints(this.points);

@@ -229,6 +229,13 @@ export class Ray extends Geometry {
     );
   }
 
+  /***
+   * Returns the ray as a string in the format: `[from,direction]`.
+   */
+  public toString(): string {
+    return "[" + this._from.toString() + "," + this._direction.toString() + "]";
+  }
+
   /**
    * Returns a copy of the ray with a different [[from]] point.
    * @param newFrom   New [[from]] point for the ray.
@@ -249,33 +256,33 @@ export class Ray extends Geometry {
   // TRANSFORMABLE
   // -----------------------
 
-  /**
+  /***
    * Returns a copy of the ray transformed by a [[Transform]] matrix.
-   *
-   * Note: If you're applying the same transformation a lot of geometry,
-   * creating the [[Transform]] matrix once and calling this function is faster
-   * than using the direct methods.
    *
    * ### Example
    * ```js
    * const ray = new Ray(new Point(2,2), Vector.worldX());
-   * console.log(ray.from);
-   * // => [2,2]
+   * console.log(ray.from.toString());
+   * // => (2,2)
    *
    * // Using a transform matrix
-   * const mover = Tranform.translate(new Vector(3,4));
-   * const moved = ray.transform(mover);
-   * console.log(moved.from);
-   * // => [5,6]
+   * const matrix = Transform.translate(new Vector(3,4));
+   * const moved = ray.transform(matrix);
+   * console.log(moved.from.toString());
+   * // => (5,6)
    *
    * // Using the direct method
    * const otherMoved = ray.translate(new Vector(3,4));
-   * console.log(otherMoved.from);
-   * // => [5,6]
+   * console.log(otherMoved.from.toString());
+   * // => (5,6)
    * ```
    *
+   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * creating the [[Transform]] matrix once and calling this function is faster
+   * than using the direct methods.
+   *
    * @category Transform
-   * @param change  A [[transform]] matrix to apply to the ray.
+   * @param change  The [[transform]] matrix to apply to the ray.
    */
   public transform(change: Transform): this {
     const from = change.transformPoint(this._from);

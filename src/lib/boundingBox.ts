@@ -375,6 +375,13 @@ export class BoundingBox extends Geometry {
     return poly;
   }
 
+  /***
+   * Returns the bounding box as a string in the format: `[xRange,yRange]`.
+   */
+  public toString(): string {
+    return '[' + this._xRange + ',' + this._yRange + ']';
+  }
+
   /**
    * Returns a copy of the BoundingBox with a different xRange
    * @param newXRange The xRagne of the new BoundingBox
@@ -395,8 +402,8 @@ export class BoundingBox extends Geometry {
   // TRANSFORMABLE
   // -----------------------
 
-  /**
-   * Returns a copy of the BoundingBox transformed by a [[transform]] matrix.
+  /***
+   * Returns a copy of the bounding box transformed by a [[transform]] matrix.
    *
    * ### Example
    * ```js
@@ -404,20 +411,24 @@ export class BoundingBox extends Geometry {
    * console.log(bb.area);
    * // => 200
    *
-   * const scaled = bb.transform(Transform.scale(2));
+   * // Using a transform matrix
+   * const matrix = Transform.scale(2);
+   * const scaled = bb.transform(matrix);
    * console.log(scaled.area);
    * // => 800
    *
-   * // Direct method
+   * // Using the direct method
    * const otherScaled = bb.scale(2);
    * console.log(otherScaled.area);
    * // => 800
    * ```
    *
-   * Note: If you're applying the same transformation a lot of geometry,
-   * creating the matrix and calling this function is faster than using the direct methods.
+   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * creating the [[Transform]] matrix once and calling this function is faster
+   * than using the direct methods.
    *
-   * @param change  A [[transform]] matrix to apply to the BoundingBox
+   * @category Transform
+   * @param change  The [[transform]] matrix to apply to the bounding box.
    */
   public transform(change: Transform): this {
     const corners = change.transformPoints(this.getCorners());
