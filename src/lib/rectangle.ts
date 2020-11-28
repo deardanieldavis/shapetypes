@@ -55,7 +55,19 @@ export class Rectangle extends Geometry {
   // CONSTRUCTOR
   // -----------------------
 
+  /***
+   * Creates a rectangle centered and aligned to a plane.
+   * @param plane   Position of rectangle's center and axes.
+   * @param x       Width of rectangle along x-axis of plane.
+   * @param y       Width of rectangle along y-axis of plane.
+   */
   constructor(plane: Plane, x: number, y: number);
+  /**
+   * Creates a new rectangle on a plane.
+   * @param plane   The coordinate system to generate rectangle relative to.
+   * @param x       Position of rectangle along x-axis of plane.
+   * @param y       Position of rectangle along y-axis of plane.
+   */
   constructor(
     plane: Plane,
     x: Interval | IntervalSorted,
@@ -94,6 +106,9 @@ export class Rectangle extends Geometry {
     return this._x.length * this._y.length;
   }
 
+  /***
+   * Returns the smallest bounding box that contains the rectangle.
+   */
   get boundingBox(): BoundingBox {
     return BoundingBox.fromPoints(this.getCorners());
   }
@@ -129,6 +144,12 @@ export class Rectangle extends Geometry {
   // PUBLIC
   // -----------------------
 
+  /***
+   * Returns the closest point on the rectangle.
+   * @param testPoint       Finds the closest point relative to this point.
+   * @param includeInterior If false, the closest point must lie on the outer edge of the rectangle.
+   *                        If true, the closest point can also be a point on the interior of the rectangle.
+   */
   public closestPoint(
     testPoint: Point,
     includeInterior: boolean = false
@@ -171,6 +192,11 @@ export class Rectangle extends Geometry {
     }
   }
 
+  /***
+   * Returns true if the other rectangle has the same dimension and is in the same location.
+   * @param otherRectangle    Rectangle to compare against.
+   * @param tolerance         The amount the locations can differ and still be considered equal.
+   */
   public equals(
     otherRectangle: Rectangle,
     tolerance: number = shapetypesSettings.absoluteTolerance

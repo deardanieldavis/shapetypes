@@ -50,10 +50,10 @@ export class Point extends Geometry {
   // CONSTRUCTOR
   // -----------------------
 
-  /**
-   * Creates a two dimensional point
-   * @param x   Coordinate of the point on the x-axis
-   * @param y   Coordinate of the point on the y-axis
+  /***
+   * Creates a two dimensional point.
+   * @param x   Coordinate on the x-axis.
+   * @param y   Coordinate on the y-axis.
    */
   constructor(x: number, y: number) {
     super();
@@ -105,9 +105,9 @@ export class Point extends Geometry {
     return new Point(this._x + addendOrX, this._y + y);
   }
 
-  /**
-   * Returns the distance from this point to another.
-   * @param point
+  /***
+   * Returns the distance to another point.
+   * @param point Point to measure distance to.
    */
   public distanceTo(point: Point): number {
     const vector = Vector.fromPoints(this, point);
@@ -133,11 +133,11 @@ export class Point extends Geometry {
     return new Point(this._x / denominatorX, this._y / denominatorY);
   }
 
-  /**
-   * Returns true if this Point and another contain identical x and y values.
+  /***
+   * Returns true if the other point has the same [[x]] and [[y]] values.
    *
-   * @param comparison  Point to compare to
-   * @param tolerance   Amount of error that is acceptable for either coordinate
+   * @param comparison  Point to compare against.
+   * @param tolerance   The amount that the [[x]] and [[y]] values of the points can differ and still be considered equal.
    */
   public equals(
     comparison: Point,

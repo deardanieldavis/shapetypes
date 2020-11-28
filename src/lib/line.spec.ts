@@ -194,6 +194,11 @@ test('distanceTo: calculates minimum distance between two lines', t => {
   t.is(t.context.horizontal.distanceTo(t.context.diagonal), 5);
 });
 
+test('distanceTo: returns 0 if two lines cross.', t => {
+  const l = Line.fromCoords([[5,-10],[5,10]]);
+  t.is(t.context.horizontal.distanceTo(l), 0);
+});
+
 test('equals: can correctly identify lines that are exact matches', t => {
   t.is(
     t.context.horizontal.equals(new Line(new Point(0, 0), new Point(10, 0))),
@@ -268,7 +273,7 @@ test('pointAtLength: generates the correct point from a length', t => {
 });
 
 test('toString: returns a string', t => {
-  t.is(t.context.horizontal.toString(), '((0,0),(10,0))');
+  t.is(t.context.horizontal.toString(), '[(0,0),(10,0)]');
 });
 
 test('withTo: returns copy of line with updated to point', t => {

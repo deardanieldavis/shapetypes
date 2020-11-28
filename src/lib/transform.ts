@@ -270,12 +270,13 @@ export class Transform {
   // CONSTRUCTOR
   // -----------------------
 
-  /**
-   * A Transform contains a 3x3 transformation matrix used to rotate, scale, and translate points and vectors.
+  /***
+   * Creates a 3x3 transformation matrix.
+   *
    * The constructor specifies the 9 entries of the matrix. Conceptually, the matrix looks like:
-   * M00 M10 M20
-   * M01 M11 M21
-   * M02 M12 M22
+   * - `M00 M10 M20`
+   * - `M01 M11 M21`
+   * - `M02 M12 M22`
    *
    * @param M00
    * @param M10
@@ -348,9 +349,9 @@ export class Transform {
   // PUBLIC
   // -----------------------
 
-  /**
-   * Returns true if every value in this matrix matches the equivalent entry in the other matrix.
-   * @param otherMatrix
+  /***
+   * Returns true if the other transform matrix has exactly the same values.
+   * @param otherMatrix The matrix to compare against.
    */
   public equals(otherMatrix: Transform): boolean {
     return (

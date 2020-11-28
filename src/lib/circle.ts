@@ -11,11 +11,23 @@ import {
   Vector
 } from '../index';
 
+/**
+ * A circle has a [[center]] and a [[radius]].
+ * It also has an orientation (how much it is rotated about the center point), which is
+ * defined by [[plane]].
+ */
 export class Circle extends Geometry {
   // -----------------------
   // STATIC
   // -----------------------
 
+  /**
+   * Returns a new circle defined by its center and a point on the edge.
+   * @category Create
+   * @param center    The center of the circle.
+   * @param start     A point on the edge of the circle. The circle will be orientated so
+   *                  [[pointAt]] begins at this point.
+   */
   public static fromCenterStart(center: Point, start: Point): Circle {
     const axis = Vector.fromPoints(center, start);
     const radius = axis.length;
@@ -26,6 +38,17 @@ export class Circle extends Geometry {
     return new Circle(radius, plane);
   }
 
+  /**
+   * Returns a new circle that passes through the three points.
+   *
+   * @note  Throws an error if the three points are in a straight line.
+   *
+   * @category Create
+   * @param p1  The first point to pass through. The circle will be orientated so
+   *            [[pointAt]] begins at this point.
+   * @param p2  The second point to pass through.
+   * @param p3  The third point to pass through.
+   */
   public static fromThreePoints(p1: Point, p2: Point, p3: Point): Circle {
     // https://stackoverflow.com/questions/28910718/give-3-points-and-a-plot-circle
     const temp = p2.x * p2.x + p2.y * p2.y;
@@ -57,6 +80,16 @@ export class Circle extends Geometry {
   // -----------------------
   // CONSTRUCTOR
   // -----------------------
+
+  /**
+   * Creates a new circle.
+   *
+   * @param radius    Radius of the circle.
+   * @param position  The location of the circle.
+   *                  If no position given, will be located at (0,0).
+   *                  If the location is a point, the circle will be centered on the point and orientated to [[Vector.worldX]].
+   *                  If the location is a plane, the circle will be centered on the plane's origin and orientated to the plane's x-axis.
+   */
   constructor(radius: number, position?: Plane | Point) {
     super();
     if (radius <= 0) {
@@ -76,6 +109,9 @@ export class Circle extends Geometry {
   // -----------------------
   // GET AND SET
   // -----------------------
+  /***
+   * Returns the smallest boundingBox that contains the circle.
+   */
   get boundingBox(): BoundingBox {
     const xRange = new IntervalSorted(
       this._plane.origin.x - this._radius,
@@ -88,26 +124,46 @@ export class Circle extends Geometry {
     return new BoundingBox(xRange, yRange);
   }
 
+  /**
+   * Returns the center of the circle.
+   */
   get center(): Point {
     return this._plane.origin;
   }
 
+  /**
+   * Returns the plane defining the circle's position.
+   * The plane's origin is the center of the circle.
+   * The plane's x-axis is the orientation of the circle.
+   */
   get plane(): Plane {
     return this._plane;
   }
 
+  /**
+   * Returns the radius of the circle.
+   */
   get radius(): number {
     return this._radius;
   }
 
+  /**
+   * Returns the diameter of the circle.
+   */
   get diameter(): number {
     return this._radius * 2;
   }
 
+  /**
+   * Returns the circumference of the circle.
+   */
   get circumference(): number {
     return 2 * this._radius * Math.PI;
   }
 
+  /**
+   * Returns the area of the circle.
+   */
   get area(): number {
     return Math.PI * this._radius * this._radius;
   }
@@ -116,14 +172,20 @@ export class Circle extends Geometry {
   // PUBLIC
   // -----------------------
 
-  public contains(testPoint: Point): PointContainment {
+  /**
+   * Returns whether a point is inside, outside, or on the edge of the circle.
+   *
+   * @param testPoint   Point to test for containment.
+   * @param tolerance   Distance the point can be from the edge of the circle and still considered coincident.
+   */
+  public contains(testPoint: Point, tolerance = shapetypesSettings.absoluteTolerance): PointContainment {
     const difference = Vector.fromPoints(this._plane.origin, testPoint);
     const distance = difference.length;
     if (
       approximatelyEqual(
         distance,
         this._radius,
-        shapetypesSettings.absoluteTolerance
+        tolerance
       )
     ) {
       return PointContainment.coincident;
@@ -134,6 +196,11 @@ export class Circle extends Geometry {
     return PointContainment.outside;
   }
 
+  /***
+   * Returns the parameter of the closest point on the circle.
+   * @param testPoint   Finds the parameter of the closest point relative to this point.
+   * @returns           The parameter of the closest point. Entering the parameter into [[pointAt]] will return the closest point.
+   */
   public closestParameter(testPoint: Point): number {
     const difference = Vector.fromPoints(this._plane.origin, testPoint);
     const angle = this._plane.xAxis.angleSigned(difference);
@@ -144,7 +211,19 @@ export class Circle extends Geometry {
     return angle;
   }
 
-  public closestPoint(testPoint: Point): Point {
+  /***
+   * Returns the closest point on the circle.
+   * @param testPoint   Finds the closest point relative to this point.
+   * @param includeInterior If false, the closest point must lie on the outer edge of the circle.
+   *                        If true, the closest point can also be a point on the interior of the circle.
+   */
+  public closestPoint(testPoint: Point, includeInterior: boolean = false): Point {
+    if(includeInterior) {
+      if(this.contains(testPoint)) {
+        return testPoint;
+      }
+    }
+
     // The closest point will always lie on a vector between the circle's center and the testPoint.
     // By scaling this vector to the circle's radius, we get the point on the circumference
     const difference = Vector.fromPoints(this._plane.origin, testPoint);
@@ -152,6 +231,11 @@ export class Circle extends Geometry {
     return this._plane.origin.add(sized);
   }
 
+  /***
+   * Returns true if the other circle has the same [[plane]] and [[radius]].
+   * @param otherCircle   The circle to compare against.
+   * @param tolerance     The amount the radius and plane can differ and still be considered equal.
+   */
   public equals(
     otherCircle: Circle,
     tolerance: number = shapetypesSettings.absoluteTolerance
@@ -192,6 +276,10 @@ export class Circle extends Geometry {
     return 'circle: ' + this._plane.toString() + 'r: ' + this._radius;
   }
 
+  /**
+   * Returns a copy of the circle with a different [[area]].
+   * @param newArea   The area of the new circle.
+   */
   public withArea(newArea: number): Circle {
     if (newArea <= 0) {
       throw new Error('Area must be greater than 0');
@@ -200,24 +288,47 @@ export class Circle extends Geometry {
     return this.withRadius(radius);
   }
 
+  /**
+   * Returns a copy of the circle with a different [[circumference]].
+   * @param newCircumference    The circumference of the new circle.
+   */
   public withCircumference(newCircumference: number): Circle {
     const radius = newCircumference / (2 * Math.PI);
     return this.withRadius(radius);
   }
+
+  /**
+   * Returns a copy of the circle with a different [[diameter]].
+   * @param newDiameter   The diameter of the new circle.
+   */
   public withDiameter(newDiameter: number): Circle {
     const radius = newDiameter / 2;
     return this.withRadius(radius);
   }
+
+  /**
+   * Returns a copy of the circle with a different [[radius]].
+   * @param newRadius   The radius of the new circle.
+   */
   public withRadius(newRadius: number): Circle {
     if (newRadius <= 0) {
       throw new Error('Radius must be greater than 0');
     }
     return new Circle(newRadius, this._plane);
   }
+
+  /**
+   * Returns a copy of the circle with a different [[plane]].
+   * @param newPlane  The plane of the new circle.
+   */
   public withPlane(newPlane: Plane): Circle {
     return new Circle(this._radius, newPlane);
   }
 
+  /**
+   * Returns a copy of the circle with a different [[center]].
+   * @param newCenter The center of the new circle.
+   */
   public withCenter(newCenter: Point): Circle {
     return new Circle(this._radius, this._plane.withOrigin(newCenter));
   }

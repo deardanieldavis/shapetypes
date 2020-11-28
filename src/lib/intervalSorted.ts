@@ -113,11 +113,10 @@ export class IntervalSorted {
   // CONSTRUCTOR
   // -----------------------
 
-  /**
-   * An IntervalSorted represents a number range between two values ([[min]] & [[max]]).
-   *
-   * @param T0  One end of the interval (the constructor works out whether T0 is the min or the max, so it could be either extreme).
-   * @param T1  Another end of the interval (the constructor works out whether T1 is the min or the max, so it could be either extreme).
+  /***
+   * Creates a IntervalSorted between two values.
+   * @param T0  One end of the interval (the constructor works out whether T0 is the min or the max).
+   * @param T1  The other end of the interval (the constructor works out whether T1 is the min or the max).
    */
   constructor(T0: number, T1: number) {
     if (T0 < T1) {
@@ -196,9 +195,9 @@ export class IntervalSorted {
     return false;
   }
 
-  /**
-   * Returns true if this IntervalSorted and another contain identical min and max values.
-   * @param otherInterval  The interval to compare against
+  /***
+   * Returns true if the other interval has the same [[min]] and [[max]] values.
+   * @param otherInterval  The interval to compare against.
    */
   public equals(otherInterval: IntervalSorted): boolean {
     return this._min === otherInterval._min && this._max === otherInterval._max;

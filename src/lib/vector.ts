@@ -50,9 +50,8 @@ export class Vector extends Geometry {
   // CONSTRUCTOR
   // -----------------------
 
-  /**
-   * Creates a two dimensional Euclidean vector. Has two components: a magnitude
-   * in the x direction, and a magnitude in the y direction.
+  /***
+   * Creates a two dimensional Euclidean vector.
    * @param x   Magnitude of vector in x direction
    * @param y   Magnitude of vector in x direction
    */
@@ -204,15 +203,16 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns true if this Vector and another contain identical x and y values.
-   * @param comparison    Vector to compare to
-   * @param tolerance     Amount of error that is acceptable for either x or y values.
+   * Returns true if the other vector has the same [[x]] and [[y]] values.
+   * @param otherVector   The vector to compare against.
+   * @param tolerance     The amount that the [[x]] and [[y]] values of the
+   *                      vectors can differ and still be considered equal.
    */
   public equals(
-    comparison: Vector,
+    otherVector: Vector,
     tolerance: number = shapetypesSettings.absoluteTolerance
   ): boolean {
-    if (this.x === comparison.x && this.y === comparison.y) {
+    if (this.x === otherVector.x && this.y === otherVector.y) {
       return true;
     }
 
@@ -221,8 +221,8 @@ export class Vector extends Geometry {
       return false;
     }
 
-    if (approximatelyEqual(this._x, comparison.x, tolerance)) {
-      if (approximatelyEqual(this._y, comparison.y, tolerance)) {
+    if (approximatelyEqual(this._x, otherVector.x, tolerance)) {
+      if (approximatelyEqual(this._y, otherVector.y, tolerance)) {
         return true;
       }
     }

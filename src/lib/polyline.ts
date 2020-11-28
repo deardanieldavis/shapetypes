@@ -92,9 +92,10 @@ export class Polyline extends Geometry {
   // -----------------------
   // CONSTRUCTOR
   // -----------------------
-  /**
-   * A polyline is a continuous line made from a series of straight [[segments]] between points.
+  /***
+   * Creates a polyline from a set of corner points.
    *
+   * @note  Doesn't check for self-intersection or invalid segments.
    * @param points        The points defining the corners of the polyline.
    * @param makeClosed    If true, checks whether the resulting polyline [[isClosed]] and if it isn't, adds another point ensuring the polyline ends the same place it starts.
    */
@@ -138,7 +139,7 @@ export class Polyline extends Geometry {
     return this._cacheArea;
   }
 
-  /**
+  /***
    * Returns the smallest bounding box that contains the polyline.
    */
   get boundingBox(): BoundingBox {
@@ -247,15 +248,15 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns the index of the point in the list of [[points]] that is nearest to `targetPoint`.
-   * @param targetPoint   The target to measure distance from.
+   * Returns the index of the point in the list of [[points]] that is nearest to `testPoint`.
+   * @param testPoint   The target to measure distance from.
    */
-  public closestIndex(targetPoint: Point): number {
+  public closestIndex(testPoint: Point): number {
     let bestIndex: number = 0;
     let bestDistance: number | undefined;
 
     for (let i = 0; i < this._points.length; i++) {
-      const distance = targetPoint.distanceTo(this._points[i]);
+      const distance = testPoint.distanceTo(this._points[i]);
       if (bestDistance === undefined || distance < bestDistance) {
         bestDistance = distance;
         bestIndex = i;
@@ -264,22 +265,21 @@ export class Polyline extends Geometry {
     return bestIndex;
   }
 
-  /**
-   * Returns the parameter of the point on the polyline that is nearest
-   * to `targetPoint`. The resulting parameter can be supplied to [[pointAt]]
-   * to get the actual point.
+  /***
+   * Returns the parameter of the closest point on the polyline.
    *
-   * @param targetPoint   The target to measure distance from.
+   * @param testPoint   Finds the parameter of the closest point relative to this point.
+   * @returns           The parameter of the closest point. Entering the parameter into [[pointAt]] will return the closest point.
    */
-  public closestParameter(targetPoint: Point): number {
+  public closestParameter(testPoint: Point): number {
     let closestLength: number | undefined;
     let closestParameter = 0;
 
     for (let i = 0; i < this.segments.length; i++) {
       const edge = this.segments[i];
-      const test = edge.closestParameter(targetPoint, true);
+      const test = edge.closestParameter(testPoint, true);
       const p = edge.pointAt(test);
-      const length = targetPoint.distanceTo(p);
+      const length = testPoint.distanceTo(p);
 
       if (closestLength === undefined || length < closestLength) {
         closestLength = length;
@@ -290,30 +290,30 @@ export class Polyline extends Geometry {
     return closestParameter;
   }
 
-  /**
-   * Returns the point on the polyline that is nearest to `targetPoint`.
-   * @param targetPoint  The target to measure distance from.
+  /***
+   * Returns the closest point on the polyline.
+   * @param testPoint     Finds the closest point relative to this point.
    * @param includeInterior If false, the closest point must lie on the edge of the polyline.
-   *                        If true, the closest point can also be a point on the interior of the polyline (if it is closed).
+   *                        If true, the closest point can also be a point on the interior of the polyline (if it is closed and has an interior).
    */
   public closestPoint(
-    targetPoint: Point,
+    testPoint: Point,
     includeInterior: boolean = false
   ): Point {
     if (includeInterior) {
       if (this.isClosed) {
-        if (this.contains(targetPoint)) {
-          return targetPoint;
+        if (this.contains(testPoint)) {
+          return testPoint;
         }
       }
     }
 
     let closestLength: number | undefined;
-    let closestPoint: Point = targetPoint;
+    let closestPoint: Point = testPoint;
 
     for (const line of this.segments) {
-      const test = line.closestPoint(targetPoint, true);
-      const distance = line.distanceTo(targetPoint, true);
+      const test = line.closestPoint(testPoint, true);
+      const distance = line.distanceTo(testPoint, true);
 
       if (closestLength === undefined || distance < closestLength) {
         closestLength = distance;
@@ -353,17 +353,17 @@ export class Polyline extends Geometry {
     return new Polyline(points);
   }
 
-  /**
-   * Returns true if the [[points]] from the polyline are in the same position
-   * as the points on another polyline.
+  /***
+   * Returns true if the other polyline has the same points.
    * @param otherPolyline   Polyline to compare against.
+   * @param tolerance       The amount the points can differ and still be considered equal.
    */
-  public equals(otherPolyline: Polyline): boolean {
+  public equals(otherPolyline: Polyline, tolerance = shapetypesSettings.absoluteTolerance): boolean {
     if (this._points.length !== otherPolyline.points.length) {
       return false;
     }
 
-    const isEqual = this._points.every((point, index) => point.equals(otherPolyline.points[index]));
+    const isEqual = this._points.every((point, index) => point.equals(otherPolyline.points[index], tolerance));
     return isEqual;
   }
 

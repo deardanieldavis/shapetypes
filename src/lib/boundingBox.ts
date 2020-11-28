@@ -110,7 +110,7 @@ export class BoundingBox extends Geometry {
   // -----------------------
 
   /**
-   * A BoundingBox is a rectangle aligned to the X-Y axis. It is defined by two [[IntervalSorted]]s, which give the dimensions of the rectangle along the x and y axis.
+   * Create a bounding box from two intervals.
    * @param xRange: The dimensions of the BoundingBox along the x-axis. Eg. the box will be drawn from xRange.min to xRange.max.
    * @param yRange: The dimensions of the BoundingBox along the y-axis.
    */
@@ -357,8 +357,8 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Returns true if the two BoundingBoxes have identical xRanges and yRanges.
-   * @param otherBoundingBox  The BoundingBox to compare against
+   * Returns true if the other bounding box has the same [[xRange]] and [[yRange]].
+   * @param otherBoundingBox  The BoundingBox to compare against.
    */
   public equals(otherBoundingBox: BoundingBox): boolean {
     return (

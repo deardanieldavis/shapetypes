@@ -55,6 +55,13 @@ export class Polygon extends Geometry {
   private readonly _boundary: Polyline;
   private readonly _holes: readonly Polyline[];
 
+  /***
+   * Creates a polygon from an outer boundary and list of holes.
+   *
+   * @note  Doesn't check for self-intersection or whether the geometry is valid.
+   * @param boundary  The outer edge of the polygon (must be a closed polyline).
+   * @param holes     A list of holes cut from interior of polygon (holes must be closed polylines).
+   */
   constructor(boundary: Polyline, holes?: readonly Polyline[] | undefined) {
     super();
     if (boundary.isClosed === false) {
@@ -89,6 +96,12 @@ export class Polygon extends Geometry {
     return this._boundary;
   }
 
+  /***
+   * Returns the smallest bounding box that contains the polygon.
+   *
+   * @note  This is based on the [[boundary]] of the polygon.
+   * It doesn't accommodate any [[holes]] that mistakenly fall outside that boundary.
+   */
   get boundingBox(): BoundingBox {
     return this._boundary.boundingBox;
   }
@@ -102,16 +115,16 @@ export class Polygon extends Geometry {
   // -----------------------
 
   /**
-   * Returns the point on the polyline that is nearest to `targetPoint`.
-   * @param targetPoint  The target to measure distance from.
+   * Returns the point on the polyline that is nearest to `testPoint`.
+   * @param testPoint  The target to measure distance from.
    */
-  public closestLoop(targetPoint: Point): Polyline {
+  public closestLoop(testPoint: Point): Polyline {
     let closestLength: number | undefined;
     let closestLoop: Polyline = this._boundary;
 
     for (const polyline of [this.boundary, ...this.holes]) {
-      const test = polyline.closestPoint(targetPoint);
-      const length = targetPoint.distanceTo(test);
+      const test = polyline.closestPoint(testPoint);
+      const length = testPoint.distanceTo(test);
 
       if (closestLength === undefined || length < closestLength) {
         closestLength = length;
@@ -122,31 +135,34 @@ export class Polygon extends Geometry {
     return closestLoop;
   }
 
-  /**
-   * Returns the point on the polyline that is nearest to `targetPoint`.
-   * @param targetPoint  The target to measure distance from.
+  /***
+   * Returns the closest point on the polygon. This point could be on the edge
+   * of the [[boundary]] or one of the [[holes]], or it could be a point within
+   * the interior the polygon.
+   *
+   * @param testPoint  Finds the closest point relative to this point.
    */
-  public closestPoint(targetPoint: Point): Point {
-    if (this.contains(targetPoint) === PointContainment.inside) {
-      return targetPoint;
+  public closestPoint(testPoint: Point): Point {
+    if (this.contains(testPoint) === PointContainment.inside) {
+      return testPoint;
     }
 
     let closestLength: number | undefined;
-    let closestPoint: Point = targetPoint;
+    let closestPoint: Point = testPoint;
 
     for (const polyline of [this._boundary, ...this._holes]) {
       if (closestLength !== undefined) {
         // Rather than running closest point on every polyline, quickly check to see
         // if the polyline's boundingBox is close. If it's not, there is no way the polyline
         // can be close.
-        const closestBB = polyline.boundingBox.closestPoint(targetPoint, true);
-        const lengthBB = targetPoint.distanceTo(closestBB);
+        const closestBB = polyline.boundingBox.closestPoint(testPoint, true);
+        const lengthBB = testPoint.distanceTo(closestBB);
         if (lengthBB > closestLength) {
           continue;
         }
       }
-      const test = polyline.closestPoint(targetPoint);
-      const length = targetPoint.distanceTo(test);
+      const test = polyline.closestPoint(testPoint);
+      const length = testPoint.distanceTo(test);
 
       if (closestLength === undefined || length < closestLength) {
         closestLength = length;
@@ -189,7 +205,12 @@ export class Polygon extends Geometry {
     return PointContainment.inside;
   }
 
-  public equals(otherPolygon: Polygon): boolean {
+  /***
+   * Returns true if the other polygon has the same [[boundary]] and [[holes]].
+   * @param otherPolygon  Polygon to compare against.
+   * @param tolerance     The amount the points can differ and still be considered equal.
+   */
+  public equals(otherPolygon: Polygon, tolerance = shapetypesSettings.absoluteTolerance): boolean {
     if (this._holes.length !== otherPolygon.holes.length) {
       return false;
     }
@@ -197,7 +218,7 @@ export class Polygon extends Geometry {
       return false;
     }
 
-    const isEqual = this._holes.every((hole, index) => hole.equals(otherPolygon.holes[index]));
+    const isEqual = this._holes.every((hole, index) => hole.equals(otherPolygon.holes[index], tolerance));
     return isEqual;
   }
 

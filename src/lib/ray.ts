@@ -7,15 +7,15 @@ import {
   Point,
   Polygon,
   Polyline,
-  Rectangle,
+  Rectangle, shapetypesSettings,
   Transform,
   Vector
 } from '../index';
 
 /**
- * Specifies a ray's range. The ray always stretches from the [[Ray.from |start point]] to infinity.
- * The range specifies whether the start point is included in that range ([[positiveAndZero]])
- * and whether the ray also stretches to negative infinity in the opposite direction ([[both]]).
+ * Specifies a ray's range.
+ * A ray can be limited to only shooting forwards (a range that is either [[positive]] or [[positiveAndZero]])
+ * or the ray can shoot forwards and backwards (a range that is [[both]]).
  */
 export enum RayRange {
   /** The ray shoots in one direction from the start point to infinity but doesn't include the start point.  */
@@ -48,7 +48,29 @@ export function inRayRange(distance: number, range: RayRange): boolean {
 }
 
 /**
- * A ray is a line of infinite length. It has a [[from|start point]] and a [[direction]] but no end point.
+ * A ray is a line of infinite length. It has a start point ([[from]]) and a direction ([[direction]]) but no end point.
+ *
+ * ### Example
+ * ```js
+ * import { Ray } from 'shapetypes'
+ *
+ * const ray = new Ray(new Point(3,4), new Vector(1,0));
+ * console.log(ray.from);
+ * // -> [3,4]
+ *
+ * console.log(ray.direction);
+ * // -> ⟨1,0⟩
+ *
+ * console.log(ray.pointAt(5));
+ * // -> [8,4]
+ *
+ * console.log(ray.intersection(new Point(8,4)));
+ * // -> [5]
+ *
+ * const transformed = ray.translate(new Vector(3,4));
+ * console.log(transformed.from);
+ * // => [6,8]
+ * ```
  */
 export class Ray extends Geometry {
   // -----------------------
@@ -56,7 +78,7 @@ export class Ray extends Geometry {
   // -----------------------
 
   /**
-   * Returns a new ray that starts at the `from` point and continues through `pointOnRay`.
+   * Returns a new ray that starts at `from` and continues through `pointOnRay`.
    * @category Create
    * @param from        The start of the ray.
    * @param pointOnRay  A point on the ray.
@@ -77,10 +99,10 @@ export class Ray extends Geometry {
   // CONSTRUCTOR
   // -----------------------
 
-  /**
-   * A ray is a line of infinite length. It has a start point (`from`) and a direction (`direction`) but no end point.
-   * @param from        The start of the ray.
-   * @param direction   The direction of the ray.
+  /***
+   * Creates a ray.
+   * @param from        Location of the ray.
+   * @param direction   Direction of the ray.
    */
   constructor(from: Point, direction: Vector) {
     super();
@@ -100,7 +122,7 @@ export class Ray extends Geometry {
   }
 
   /**
-   * Returns the direction of the ray. Will always be a unit vector.
+   * Returns the direction that the ray shoots. Will always be a unit vector.
    */
   get direction(): Vector {
     return this._direction;
@@ -110,14 +132,15 @@ export class Ray extends Geometry {
   // PUBLIC
   // -----------------------
 
-  /**
+  /***
    * Returns the parameter of the closest point on the ray.
    * @param testPoint     Finds the parameter of the closest point relative to this point.
-   * @param onlyForward   If true, the ray is shooting forward and the parameter will be
-   *                      for a point in front of [[from]] (in other words, the
-   *                      parameter will be a value equal to or greater than zero).
-   *                      If false, the ray is treated as an infinite line and the parameter
-   *                      could be a for a point in either direction (it could be either positive or negative).
+   * @param range         Specifies whether the ray is shooting both forwards and backwards, or only forwards.
+   * @returns             The parameter of the closest point. The parameter is the
+   *                      distance between [[from]] and the closest point.
+   *                      If the value is negative, it means the closest point is in the
+   *                      opposite direction to the [[direction]] vector.
+   *                      Entering the parameter into [[pointAt]] will return the closest point.
    */
   public closestParameter(
     testPoint: Point,
@@ -136,15 +159,25 @@ export class Ray extends Geometry {
     return 0;
   }
 
-  /**
-   * Returns the closest point on the ray relative to a given point.
+  /***
+   * Returns the closest point on the ray.
    * @param testPoint         Finds the closest point relative to this point.
-   * @param onlyPositive      If true, the ray is shooting forward and the point will be
-   *                          for a point in front of [[from]]. If false, the ray is
-   *                          treated as an infinite line and the point could be a for a point in either direction.
+   * @param range             Specifies whether the ray is shooting both forwards and backwards, or only forwards.
    */
   public closestPoint(testPoint: Point, range: RayRange = RayRange.both): Point {
     return this.pointAt(this.closestParameter(testPoint, range));
+  }
+
+  /***
+   * Returns true if the other ray has the same [[from]] point and [[direction]].
+   * @param otherRay    The ray to compare against.
+   * @param tolerance   The amount the point and vector can differ and still be considered equal.
+   */
+  public equals(otherRay: Ray, tolerance = shapetypesSettings.absoluteTolerance): boolean {
+    if(this._from.equals(otherRay.from, tolerance) && this._direction.equals(otherRay.direction, tolerance)) {
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -153,7 +186,12 @@ export class Ray extends Geometry {
    * Note: This is an alias for the [[Intersection.ray]] function.
    *
    * @param otherGeom   The geometry to intersect with.
-   * @returns           The parameter(s) where the intersections occur. Use [[pointAt]] to get actual points.
+   * @param range       Specifies whether the ray is shooting both forwards and backwards, or only forwards.
+   * @returns           The parameter(s) where the intersections occur.
+   *                    The parameter is the distance between [[from]] and the intersection point.
+   *                    If the value is negative, it means the point of intersection is in the
+   *                    opposite direction to the [[direction]] vector.
+   *                    Entering the parameter into [[pointAt]] will return the intersection point.
    */
   public intersection(
     otherGeom:
@@ -193,7 +231,7 @@ export class Ray extends Geometry {
 
   /**
    * Returns a copy of the ray with a different [[from]] point.
-   * @param newFrom   New point to use as the [[from]] point.
+   * @param newFrom   New [[from]] point for the ray.
    */
   public withFrom(newFrom: Point): Ray {
     return new Ray(newFrom, this._direction);
@@ -201,7 +239,7 @@ export class Ray extends Geometry {
 
   /**
    * Returns a copy of the ray with a different [[direction]] vector.
-   * @param newDirection    New direction for the ray.
+   * @param newDirection    New [[direction]] for the ray.
    */
   public withDirection(newDirection: Vector): Ray {
     return new Ray(this._from, newDirection);
@@ -224,12 +262,13 @@ export class Ray extends Geometry {
    * console.log(ray.from);
    * // => [2,2]
    *
+   * // Using a transform matrix
    * const mover = Tranform.translate(new Vector(3,4));
    * const moved = ray.transform(mover);
    * console.log(moved.from);
    * // => [5,6]
    *
-   * // Direct method
+   * // Using the direct method
    * const otherMoved = ray.translate(new Vector(3,4));
    * console.log(otherMoved.from);
    * // => [5,6]

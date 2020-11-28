@@ -66,10 +66,10 @@ export class Plane extends Geometry {
   // CONSTRUCTOR
   // -----------------------
 
-  /**
-   * A Plane is a 2d frame with a center point ([[origin]]) and two perpendicular axes ([[xAxis]] and [[yAxis]]).
+  /***
+   * Creates a plane from a center point and x-axis.
    * @param origin    The center of the plane.
-   * @param xAxis     The direction of the [[xAxis]]. If not specified, will use [1,0]. The yAxis will be automatically generated perpendicular to this axis.
+   * @param xAxis     The direction of the [[xAxis]]. If not specified, will use [[Vector.worldX]]. The yAxis will be automatically generated perpendicular to this axis.
    */
   constructor(origin: Point, xAxis?: Vector) {
     super();
@@ -114,10 +114,10 @@ export class Plane extends Geometry {
   // PUBLIC
   // -----------------------
 
-  /**
-   * Returns true if the [[origin]] and [[xAxis]] of this plane exactly match another plane.
+  /***
+   * Returns true if the other plane has the same [[origin]] and [[xAxis]].
    * @param plane       The plane to compare against.
-   * @param tolerance   Amount of error that is acceptable for either coordinate of the [[origin]] point.
+   * @param tolerance   The amount the [[origin]] points can differ and to still be considered equal.
    */
   public equals(
     plane: Plane,

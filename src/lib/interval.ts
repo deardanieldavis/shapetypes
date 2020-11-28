@@ -104,10 +104,10 @@ export class Interval {
   // CONSTRUCTOR
   // -----------------------
 
-  /**
-   * An interval represents a number range between two values ([[T0]] & [[T1]]). This range can be increasing (when [[T0]] < [[T1]]) or decreasing (when [[T0]] > [[T1]]).
-   * @param T0  The start of the interval (Either the min or max value. If range is increasing, will be min).
-   * @param T1  The end of the interval (Either the min or max value. If range is increasing, will be max).
+  /***
+   * Creates an interval between two values.
+   * @param T0  The start of the interval (Either the min or max value. If interval is increasing, this should be the min).
+   * @param T1  The end of the interval (Either the min or max value. If interval is increasing, this should be the max).
    */
   constructor(T0: number, T1: number) {
     this._T0 = T0;
@@ -230,9 +230,9 @@ export class Interval {
     return false;
   }
 
-  /**
-   * Returns true if this Interval and another contain identical T0 and T1 values.
-   * @param otherInterval  The interval to compare against
+  /***
+   * Returns true if the other interval has the same [[T0]] and [[T1]] values.
+   * @param otherInterval  The interval to compare against.
    */
   public equals(otherInterval: Interval): boolean {
     return this._T0 === otherInterval._T0 && this._T1 === otherInterval._T1;
