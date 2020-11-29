@@ -64,7 +64,7 @@ export class Line extends Geometry {
   }
 
   /**
-   * Creates a new line from a set of end point coordinates.
+   * Creates a new line from a set of coordinates.
    *
    * @category Create
    * @param coords  End points of line in the format `[[x1,y1],[x2,y2]]`.

@@ -83,15 +83,15 @@ export class Point extends Geometry {
   // PUBLIC
   // -----------------------
 
-  /**
-   * Returns a copy of this point added to another point or vector.
-   * @param addend  Point or vector to add to the point
+  /***
+   * Returns the sum of this point and another point or vector.
+   * @param addend  Point or vector to add.
    */
   public add(addend: Point | Vector): Point;
   /**
-   * Returns a copy of this point with an x and y value added.
-   * @param x       Value to add to the x coordinate
-   * @param y       Value to add to the y coordinate
+   * Returns the sum of this and a pair of x,y values.
+   * @param x       Value to add to the x coordinate.
+   * @param y       Value to add to the y coordinate.
    */
   public add(x: number, y: number): Point;
   public add(addendOrX: Point | Vector | number, y?: number): Point {
@@ -114,15 +114,18 @@ export class Point extends Geometry {
     return vector.length;
   }
 
-  /**
-   * Returns a copy of this point where the coordinates have been divided by a set amount.
-   * @param denominator Amount to divide the point by
+  /***
+   * Returns a copy of the point where the coordinates have been divided by a set amount.
+   *
+   * This is the same as `new Point(x / denominator, y / denominator);`.
+   *
+   * @param denominator Amount to divide the point by.
    */
   public divide(denominator: number): Point;
   /**
-   * Returns a copy of this point where the coordinates have been divided by a set amount.
-   * @param denominatorX    Amount to divide the x coordinate by
-   * @param denominatorY    Amount to divide the y coordinate by
+   * Returns a copy of the point where the coordinates have been divided by different amounts in the x and y direction.
+   * @param denominatorX    Amount to divide the x coordinate by.
+   * @param denominatorY    Amount to divide the y coordinate by.
    */
   // tslint:disable-next-line:unified-signatures
   public divide(denominatorX: number, denominatorY: number): Point;
@@ -161,15 +164,18 @@ export class Point extends Geometry {
     return false;
   }
 
-  /**
-   * Returns a copy of this point where the coordinates have been multiplied by a set amount.
-   * @param factor  Amount to multiply by
+  /***
+   * Returns a copy of the point where the coordinates have been multiplied by a set amount.
+   *
+   * This is the same as `new Point(x * factor, y * factor);`.
+   *
+   * @param factor  Amount to multiply by.
    */
   public multiply(factor: number): Point;
   /**
-   * Returns a copy of this point where the coordinates have been multiplied by a set amount.
-   * @param factorX   Amount to multiply x coordinate by
-   * @param factorY   Amount to multiply y coordinate by
+   * Returns a copy of the point where the coordinates have been multiplied by different amounts in the x and y direction.
+   * @param factorX   Amount to multiply the x coordinate by.
+   * @param factorY   Amount to multiply the y coordinate by.
    */
   // tslint:disable-next-line:unified-signatures
   public multiply(factorX: number, factorY: number): Point;
@@ -180,15 +186,15 @@ export class Point extends Geometry {
     return new Point(this._x * factorX, this._y * factorY);
   }
 
-  /**
-   * Returns a copy of this point with another point or vector subtracted from it.
-   * @param subtrahend Point or vector to subtract from the point
+  /***
+   * Returns a copy of the point with another point or vector subtracted from it.
+   * @param subtrahend Point or vector to subtract from the point.
    */
   public subtract(subtrahend: Point | Vector): Point;
   /**
-   * Returns a copy of this point with an x and y value subtracted.
-   * @param x       Value to subtract from the x coordinate
-   * @param y       Value to subtract from the y coordinate
+   * Returns a copy of the point with a pair of x,y values subtracted.
+   * @param x       Value to subtract from the x coordinate.
+   * @param y       Value to subtract from the y coordinate.
    */
   public subtract(x: number, y: number): Point;
   public subtract(subtrahendOrX: Point | Vector | number, y?: number): Point {
