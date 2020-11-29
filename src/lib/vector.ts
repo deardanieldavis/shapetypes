@@ -80,8 +80,8 @@ export class Vector extends Geometry {
 
   /***
    * Creates a two dimensional vector.
-   * @param x   Magnitude of vector in x direction.
-   * @param y   Magnitude of vector in x direction.
+   * @param x   Magnitude in x direction.
+   * @param y   Magnitude in y direction.
    */
   constructor(x: number, y: number) {
     super();

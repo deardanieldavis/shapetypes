@@ -16,7 +16,9 @@ import {
  * const p = new Point(3, 4);
  * console.log(p.x);
  * // => 3
- * console.log(p.distanceTo(new Point(0,0)));
+ *
+ * const other = new Point(0,0);
+ * console.log(p.distanceTo(other));
  * // => 5
  *
  * const shifted = p.translate(new Vector(10, 20));
@@ -31,7 +33,9 @@ export class Point extends Geometry {
   // -----------------------
 
   /**
-   * Returns the point at 0,0.
+   * Returns a new point at 0,0.
+   *
+   * Equivalent to `new Point(0,0);`.
    */
   public static origin(): Point {
     return Point._origin;
@@ -52,8 +56,8 @@ export class Point extends Geometry {
 
   /***
    * Creates a two dimensional point.
-   * @param x   Coordinate on the x-axis.
-   * @param y   Coordinate on the y-axis.
+   * @param x   Value of the x coordinate.
+   * @param y   Value of the y coordinate.
    */
   constructor(x: number, y: number) {
     super();
@@ -66,14 +70,14 @@ export class Point extends Geometry {
   // -----------------------
 
   /**
-   * Returns the x coordinate of the point
+   * Returns the x coordinate.
    */
   get x(): number {
     return this._x;
   }
 
   /**
-   * Returns the y coordinate of the point
+   * Returns the y coordinate.
    */
   get y(): number {
     return this._y;
@@ -216,16 +220,16 @@ export class Point extends Geometry {
   }
 
   /**
-   * Returns a copy of this point a difference x value.
-   * @param newX New value for x.
+   * Returns a copy of the point with a different x coordinate.
+   * @param newX New x coordinate.
    */
   public withX(newX: number): Point {
     return new Point(newX, this._y);
   }
 
   /**
-   * Returns a copy of this point a difference y value.
-   * @param newY New value for y.
+   * Returns a copy of the point with a difference y coordinate.
+   * @param newY New y coordinate.
    */
   public withY(newY: number): Point {
     return new Point(this._x, newY);
