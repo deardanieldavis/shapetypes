@@ -107,7 +107,7 @@ export class Rectangle extends Geometry {
   }
 
   /***
-   * Returns the smallest bounding box that contains the rectangle.
+   * Gets the smallest bounding box that contains the rectangle.
    */
   get boundingBox(): BoundingBox {
     return BoundingBox.fromPoints(this.getCorners());
@@ -145,8 +145,8 @@ export class Rectangle extends Geometry {
   // -----------------------
 
   /***
-   * Returns the closest point on the rectangle.
-   * @param testPoint       Finds the closest point relative to this point.
+   * Finds the closest point on the rectangle and returns the point.
+   * @param testPoint       The target to get closest to.
    * @param includeInterior If false, the closest point must lie on the outer edge of the rectangle.
    *                        If true, the closest point can also be a point on the interior of the rectangle.
    */
@@ -193,7 +193,7 @@ export class Rectangle extends Geometry {
   }
 
   /***
-   * Returns true if the other rectangle has the same dimension and is in the same location.
+   * Checks whether another rectangle has the same dimensions and location. Returns true if it does.
    * @param otherRectangle    Rectangle to compare against.
    * @param tolerance         The amount the locations can differ and still be considered equal.
    */
@@ -267,7 +267,7 @@ export class Rectangle extends Geometry {
   }
 
   /***
-   * Returns the rectangle as a string in the format: `[plane,widthX,widthY]`.
+   * Gets the rectangle as a string in the format: `[plane,widthX,widthY]`.
    */
   public toString(): string {
     return (
@@ -297,7 +297,7 @@ export class Rectangle extends Geometry {
   // -----------------------
 
   /***
-   * Returns a copy of the rectangle transformed by a [[transform]] matrix.
+   * Transforms the rectangle by a [[transform]] matrix and returns the result.
    *
    * ### Example
    * ```js
@@ -317,7 +317,7 @@ export class Rectangle extends Geometry {
    * // => 800
    * ```
    *
-   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * @note If you're applying the same transformation a lot of geometry,
    * creating the [[Transform]] matrix once and calling this function is faster
    * than using the direct methods.
    *

@@ -110,7 +110,7 @@ export class Circle extends Geometry {
   // GET AND SET
   // -----------------------
   /***
-   * Returns the smallest boundingBox that contains the circle.
+   * Gets the smallest boundingBox that contains the circle.
    */
   get boundingBox(): BoundingBox {
     const xRange = new IntervalSorted(
@@ -197,8 +197,8 @@ export class Circle extends Geometry {
   }
 
   /***
-   * Returns the parameter of the closest point on the circle.
-   * @param testPoint   Finds the parameter of the closest point relative to this point.
+   * Finds the closest point on the circle and returns the parameter for the point.
+   * @param testPoint   The target to get closest to.
    * @returns           The parameter of the closest point. Entering the parameter into [[pointAt]] will return the closest point.
    */
   public closestParameter(testPoint: Point): number {
@@ -212,8 +212,8 @@ export class Circle extends Geometry {
   }
 
   /***
-   * Returns the closest point on the circle.
-   * @param testPoint   Finds the closest point relative to this point.
+   * Finds the closest point on the circle and returns the point.
+   * @param testPoint       Target to get closest to.
    * @param includeInterior If false, the closest point must lie on the outer edge of the circle.
    *                        If true, the closest point can also be a point on the interior of the circle.
    */
@@ -232,7 +232,7 @@ export class Circle extends Geometry {
   }
 
   /***
-   * Returns true if the other circle has the same [[plane]] and [[radius]].
+   * Checks whether another circle has the same [[plane]] and [[radius]]. Returns true if it does.
    * @param otherCircle   The circle to compare against.
    * @param tolerance     The amount the radius and plane can differ and still be considered equal.
    */
@@ -273,7 +273,7 @@ export class Circle extends Geometry {
   }
 
   /***
-   * Returns the circle as a string in the format: `[plane,radius]`.
+   * Gets the circle as a string in the format: `[plane,radius]`.
    */
   public toString(): string {
     return '['+ this._plane.toString() + ',' + this._radius + ']';
@@ -341,7 +341,7 @@ export class Circle extends Geometry {
   // -----------------------
 
   /***
-   * Returns a copy of the circle transformed by a [[transform]] matrix.
+   * Transforms the circle by a [[transform]] matrix and returns the result.
    *
    * ### Example
    * ```js
@@ -361,7 +361,7 @@ export class Circle extends Geometry {
    * // => 20
    * ```
    *
-   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * @note If you're applying the same transformation a lot of geometry,
    * creating the [[Transform]] matrix once and calling this function is faster
    * than using the direct methods.
    *

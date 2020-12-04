@@ -115,7 +115,7 @@ export class Plane extends Geometry {
   // -----------------------
 
   /***
-   * Returns true if the other plane has the same [[origin]] and [[xAxis]].
+   * Checks whether another plane has the same [[origin]] and [[xAxis]]. Returns true if it does.
    * @param plane       The plane to compare against.
    * @param tolerance   The amount the [[origin]] points can differ and to still be considered equal.
    */
@@ -216,7 +216,7 @@ export class Plane extends Geometry {
   }
 
   /***
-   * Returns the plane as a string in the format: `[origin,xAxis]`.
+   * Gets the plane as a string in the format: `[origin,xAxis]`.
    */
   public toString(): string {
     return '[' + this._origin.toString() + ',' + this._xAxis.toString() + ']';
@@ -227,7 +227,7 @@ export class Plane extends Geometry {
   // -----------------------
 
   /***
-   * Returns a copy of the plane transformed by a [[Transform]] matrix.
+   * Transforms the plane by a [[Transform]] matrix and returns the result.
    *
    * ### Example
    * ```js
@@ -247,7 +247,7 @@ export class Plane extends Geometry {
    * // => (5,6)
    * ```
    *
-   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * @note If you're applying the same transformation a lot of geometry,
    * creating the [[Transform]] matrix once and calling this function is faster
    * than using the direct methods.
    *

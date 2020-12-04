@@ -6,7 +6,7 @@ export abstract class Geometry {
   // -----------------------
 
   /**
-   * Returns a copy of the geometry transformed by a [[transform]] matrix.
+   * Transforms the geometry by a [[transform]] matrix and returns the result.
    *
    * ### Example
    * ```js

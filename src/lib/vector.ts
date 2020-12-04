@@ -7,7 +7,7 @@ import {
 } from '../index';
 
 /**
- * A two dimensional vector with an [[x]] magnitude and a [[y]] magnitude.
+ * A two dimensional vector. The vector is defined by an [[x]] magnitude and a [[y]] magnitude.
  *
  * ### Example
  * ```js
@@ -34,8 +34,7 @@ export class Vector extends Geometry {
   // -----------------------
 
   /**
-   * Creates a new vector from two points. The resulting vector is: `to - from`.
-   * In other words, the vector starts at `from` and ends at `to`.
+   * Creates a new vector from two points. The vector starts at `from` and ends at `to`.
    *
    * @category Create
    * @param from    Start of the vector.
@@ -46,7 +45,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns a unit vector of the world's x-axis. Equivalent to `new Vector(1, 0)`.
+   * Returns the world's x-axis as a unit vector. Equivalent to `new Vector(1, 0)`.
    *
    * @category Create
    */
@@ -55,7 +54,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns a unit vector of the world's y-axis. Equivalent to `new Vector(0, 1)`.
+   * Returns the world's y-axis as a unit vector. Equivalent to `new Vector(0, 1)`.
    *
    * @category Create
    */
@@ -79,7 +78,6 @@ export class Vector extends Geometry {
   // -----------------------
 
   /***
-   * Creates a two dimensional vector.
    * @param x   Magnitude in x direction.
    * @param y   Magnitude in y direction.
    */
@@ -94,21 +92,21 @@ export class Vector extends Geometry {
   // -----------------------
 
   /**
-   * Returns true if the vector's length is 1.
+   * Checks whether the vector's length is 1. Returns true if it is.
    */
   get isUnit(): boolean {
     return approximatelyEqual(this.length, 1);
   }
 
   /**
-   * Returns true if the vector's length is 0.
+   * Checks whether the vector's length is 0. Returns true if it is.
    */
   get isZero(): boolean {
     return approximatelyEqual(this.length, 0);
   }
 
   /**
-   * Returns the vector's length/magnitude.
+   * Gets the vector's length/magnitude.
    */
   get length(): number {
     if (this._cacheLength === undefined) {
@@ -118,15 +116,14 @@ export class Vector extends Geometry {
   }
 
   /**
-   *
-   * Returns the vector's magnitude in the x direction.
+   * Gets the vector's magnitude in the x direction.
    */
   get x(): number {
     return this._x;
   }
 
   /**
-   * Returns the vector's component in the x direction.
+   * Splits the vector into it's x & y components and returns the x component.
    *
    * This is the same as [[worldX]] * [[x]].
    */
@@ -135,14 +132,14 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns the vector's magnitude in the y direction.
+   * Gets the vector's magnitude in the y direction.
    */
   get y(): number {
     return this._y;
   }
 
   /**
-   * Returns the vector's component in the y direction.
+   * Splits the vector into it's x & y components and returns the y component.
    *
    * This is the same as [[worldY]] * [[y]].
    */
@@ -155,12 +152,12 @@ export class Vector extends Geometry {
   // -----------------------
 
   /***
-   * Returns the sum of this and another vector.
+   * Adds the x & y magnitudes of another vector and returns the result.
    * @param addend  Vector to add.
    */
   public add(addend: Vector): Vector;
   /**
-   * Returns the sum of this and a pair of x,y values.
+   * Adds an x & y value to the vector and returns the result.
    * @param x       Value to add to the x magnitude.
    * @param y       Value to add to the y magnitude.
    */
@@ -177,9 +174,8 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns the smallest angle between this vector and another vector.
-   * Measured in radians.
-   * Will always be the smallest angle between the two vectors, so value will be between 0 and Math.PI.
+   * Calculates the smallest angle between this vector and another vector.
+   * The result is measured in radians and will be between 0 and Math.PI.
    *
    * @param other   The vector to measure angle between.
    * @returns       The smallest angle between the two vectors in radians.
@@ -191,13 +187,13 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns the signed angle between this vector and another vector.
-   * Measured in radians.
+   * Calculates the signed angle between this vector and another vector.
+   * The result is measured in radians.
    *
-   * A positive value means that `other` is counter-clockwise from this vector
+   * A positive value means that `other` is counter-clockwise from the vector
    * (assuming the environment's y-axis points upwards, otherwise it's clockwise).
    *
-   * A negative value means that `other` is clockwise from this vector
+   * A negative value means that `other` is clockwise from the vector
    * (assuming the environment's y-axis points upwards, otherwise it's counter-clockwise).
    *
    * @param other   The vector to measure angle between.
@@ -210,17 +206,15 @@ export class Vector extends Geometry {
   }
 
   /***
-   * Returns a copy of the vector divided by a number.
+   * Divides the x & y magnitudes by a value and returns the result.
    *
-   * This is the same as `new Vector(x / denominator, y / denominator);`.
-   *
-   * @param denominator Amount to divide the vector's magnitude by.
+   * @param denominator Amount to divide the magnitudes by.
    */
   public divide(denominator: number): Vector;
   /**
-   * Returns a copy of the vector divided by different amounts in the x and y direction.
-   * @param denominatorX    Amount to divide the vector's x magnitude by.
-   * @param denominatorY    Amount to divide the vector's y magnitude by.
+   * Divides the x & y magnitudes by different amounts in the x and y direction. Returns the result.
+   * @param denominatorX    Amount to divide the x magnitude by.
+   * @param denominatorY    Amount to divide the y magnitude by.
    */
   // tslint:disable-next-line:unified-signatures
   public divide(denominatorX: number, denominatorY: number): Vector;
@@ -232,7 +226,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns the dot product of the vector and another vector.
+   * Calculates the dot product of this vector and another vector. Returns the result.
    * @param other Vector to calculate dot product with.
    */
   public dotProduct(other: Vector): number {
@@ -240,7 +234,7 @@ export class Vector extends Geometry {
   }
 
   /***
-   * Returns true if the other vector has the same [[x]] and [[y]] values.
+   * Checks whether another vector has the same [[x]] and [[y]] values. Returns true if it does.
    * @param otherVector   The vector to compare against.
    * @param tolerance     The amount that the [[x]] and [[y]] values of the
    *                      vectors can differ and still be considered equal.
@@ -268,7 +262,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns true if the vector is parallel to another vector.
+   * Checks whether another vector is parallel. Returns true if it is.
    * @param test              Vector to compare against.
    * @param angleTolerance    Acceptable deviation from parallel, measured as the angle between vectors, in radians.
    */
@@ -292,7 +286,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns true if the vector is perpendicular to another vector.
+   * Checks whether another vector is perpendicular. Returns true if it is.
    * @param test              Vector to compare against.
    * @param angleTolerance    Acceptable deviation from perpendicular, measured as the angle between vectors, in radians.
    */
@@ -308,7 +302,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns true if the vector is parallel to [[worldX]].
+   * Checks whether the vector is parallel to [[worldX]]. Returns true if it is.
    */
   public isXAxis(): boolean {
     if (this.x !== 0 && this.y === 0) {
@@ -318,7 +312,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns true if the vector is parallel to [[worldY]].
+   * Checks whether the vector is parallel to [[worldY]]. Returns true if it is.
    */
   public isYAxis(): boolean {
     if (this.x === 0 && this.y !== 0) {
@@ -328,17 +322,15 @@ export class Vector extends Geometry {
   }
 
   /***
-   * Returns a copy of the vector multiplied by a number.
+   * Multiplies the x & y magnitudes by a value and returns the result.
    *
-   * This is the same as `new Vector(x * factor, y * factor);`.
-   *
-   * @param factor  Amount to multiply the vectors magnitude by.
+   * @param factor  Amount to multiply the magnitudes by.
    */
   public multiply(factor: number): Vector;
   /**
-   * Returns a copy of the vector multiplied by different amounts in the x and y direction.
-   * @param factorX   Amount to multiply the vector's x magnitude by.
-   * @param factorY   Amount to multiply the vector's y magnitude by.
+   * Multiplies the x & y magnitudes by different amounts in the x and y direction. Returns the result.
+   * @param factorX   Amount to multiply the x magnitude by.
+   * @param factorY   Amount to multiply the y magnitude by.
    */
   // tslint:disable-next-line:unified-signatures
   public multiply(factorX: number, factorY: number): Vector;
@@ -350,7 +342,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns a new vector perpendicular to the vector.
+   * Creates a new vector that is perpendicular to this vector.
    *
    * The new vector will be on the left side of this vector if looking along [[from]]->[[to]]
    * (assuming the environment's y-axis points upwards, if it doesn't it will be on the right side).
@@ -360,21 +352,20 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns a copy of the vector where all components have been multiplied by -1.
-   *
-   * (1, 2) -> (-1, -2)
+   * Inverts the direction of vector and returns the result. This is the same as
+   * multiplying the vector by -1.
    */
   public reverse(): Vector {
     return this.multiply(-1);
   }
 
   /***
-   * Returns a copy of the vector with another vector subtracted from it.
+   * Subtracts the x & y magnitudes of another vector and returns the result.
    * @param subtrahend Vector to subtract.
    */
   public subtract(subtrahend: Vector): Vector;
   /**
-   * Returns a copy of the vector with a pair of x,y values subtracted.
+   * Subtracts an x & y value from the vector and returns the result.
    * @param x       Value to subtract from the x magnitude.
    * @param y       Value to subtract from the y magnitude.
    */
@@ -391,14 +382,14 @@ export class Vector extends Geometry {
   }
 
   /***
-   * Returns a string in the format '⟨x,y⟩'.
+   * Gets the vector as a string in the format: '⟨x,y⟩'.
    */
   public toString(): string {
     return '⟨' + this._x + ',' + this._y + '⟩';
   }
 
   /**
-   * Returns a copy of the vector where the length is equal to 1.
+   * Creates a copy of the vector where the length is equal to 1.
    */
   public unitize(): Vector {
     const length = this.length;
@@ -409,7 +400,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns a copy of the vector with the x and y components scaled to a given length.
+   * Creates a copy of the vector with the x and y magnitudes scaled to a given length.
    * @param newLength Length of new vector. If negative, the vector will be inverted but the resulting length will be positive.
    */
   public withLength(newLength: number): Vector {
@@ -419,7 +410,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns a copy of the vector a difference x value.
+   * Creates a copy of the vector with a different x magnitude.
    * @param newX New value for x.
    */
   public withX(newX: number): Vector {
@@ -427,7 +418,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Returns a copy of the vector a difference y value.
+   * Creates a copy of the vector with a different y magnitude.
    * @param newY New value for y.
    */
   public withY(newY: number): Vector {
@@ -439,7 +430,7 @@ export class Vector extends Geometry {
   // -----------------------
 
   /***
-   * Returns a copy of the vector transformed by a [[transform]] matrix.
+   * Transforms the vector by a [[Transform]] matrix and returns the result.
    *
    * ### Example
    * ```js
@@ -459,7 +450,7 @@ export class Vector extends Geometry {
    * // => 10
    * ```
    *
-   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * @note If you're applying the same transformation a lot of geometry,
    * creating the [[Transform]] matrix once and calling this function is faster
    * than using the direct methods.
    *

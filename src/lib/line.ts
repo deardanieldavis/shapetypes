@@ -14,7 +14,7 @@ import {
 } from '../index';
 
 /**
- * A Line is a straight edge between two points.
+ * A straight edge between two points.
  *
  * ### Example
  * ```js
@@ -47,12 +47,12 @@ export class Line extends Geometry {
   // STATIC
   // -----------------------
   /**
-   * Creates a new line from a start point and a vector.
+   * Creates a line from a start point and a vector.
    *
    * @category Create
    * @param from      The start of the line.
    * @param direction The direction of the line.
-   * @param length    The length of the line. If undefined, will use length of `direction` vector.
+   * @param length    The length of the line. If undefined, will use the length of the `direction` vector.
    */
   public static fromVector(
     from: Point,
@@ -64,10 +64,10 @@ export class Line extends Geometry {
   }
 
   /**
-   * Creates a new line from a set of coordinates.
+   * Creates a line from a set of coordinates.
    *
    * @category Create
-   * @param coords  End points of line in the format `[[x1,y1],[x2,y2]]`.
+   * @param coords  A 2x2 array of values specifying the line's start and end point. Format: `[[x1,y1],[x2,y2]]`.
    */
   public static fromCoords(
     coords: readonly [readonly [number, number], readonly [number, number]]
@@ -92,8 +92,6 @@ export class Line extends Geometry {
   // -----------------------
 
   /***
-   * Creates a new line.
-   *
    * @param from  The start of the line.
    * @param to    The end of the line.
    */
@@ -108,7 +106,7 @@ export class Line extends Geometry {
   // -----------------------
 
   /***
-   * Returns the smallest bounding box that contains the line.
+   * Gets the smallest bounding box that contains the line.
    */
   get boundingBox(): BoundingBox {
     if (this._cacheBoundingBox === undefined) {
@@ -118,7 +116,8 @@ export class Line extends Geometry {
   }
 
   /**
-   * Returns the vector between [[from]] and [[to]]. The length of the vector is the length of the line.
+   * Gets the vector running the length of the line, starting at [[from]] and ending at [[to]].
+   * The length of the vector is the length of the line.
    */
   get direction(): Vector {
     if (this._cacheVector === undefined) {
@@ -128,28 +127,28 @@ export class Line extends Geometry {
   }
 
   /**
-   * Returns the start point of the line.
+   * Gets the start point of the line.
    */
   get from(): Point {
     return this._from;
   }
 
   /**
-   * Returns the length of the line.
+   * Gets the length of the line.
    */
   get length(): number {
     return this.direction.length;
   }
 
   /**
-   * Returns the end point of the line.
+   * Gets the end point of the line.
    */
   get to(): Point {
     return this._to;
   }
 
   /**
-   * Returns the line's tangent vector. Always a unit vector perpendicular to [[direction]].
+   * Gets the line's tangent vector. This vector is perpendicular to [[direction]] and is a unit vector.
    *
    * If the environment's y-axis points upwards, will be on the left side of the line if looking [[from]] -> [[to]].
    * If the environment's y-axis points downwards, will be on the right side of the line if looking [[from]] -> [[to]].
@@ -164,8 +163,8 @@ export class Line extends Geometry {
   // -----------------------
 
   /***
-   * Returns the parameter of the closest point on the line.
-   * @param testPoint                 Finds the parameter of the closest point relative to this point.
+   * Finds the closest point on the line and returns the parameter for the point.
+   * @param testPoint                 The target to get closest to.
    * @param limitToFiniteSegment      If true, the closest point will always be within the bounds of the line. If false, the line is treated as infinite.
    * @return                          The normalized parameter of the closest point. Entering the parameter into [[pointAt]] will return the closest point.
    */
@@ -192,8 +191,8 @@ export class Line extends Geometry {
   }
 
   /***
-   * Returns the closest point on the line.
-   * @param testPoint                 Finds the closest point relative to this point.
+   * Finds the closest point on the line and returns the point.
+   * @param testPoint                 The target to get closest to.
    * @param limitToFiniteSegment      If true, the closest point will always be within the bounds of the line. If false, the line is treated as infinite.
    */
   public closestPoint(
@@ -207,7 +206,7 @@ export class Line extends Geometry {
   }
 
   /***
-   * Returns the smallest distance to a point or line.
+   * Calculates the smallest distance to a point or line.
    * @param geometry              Line or point to measure distance to.
    * @param limitToFiniteSegment  If false, the line is treated as infinite.
    */
@@ -234,9 +233,9 @@ export class Line extends Geometry {
   }
 
   /***
-   * Returns true if the other line has the same end points.
+   * Checks whether another line has the same start and end points. Returns true if it does.
    * @param otherLine   The line to compare against.
-   * @param tolerance   The amount that the line's end points can differ and still be considered equal.
+   * @param tolerance   The amount that the points can differ and still be considered equal.
    */
   public equals(
     otherLine: Line,
@@ -251,9 +250,9 @@ export class Line extends Geometry {
   }
 
   /**
-   * Returns a copy of the line with the end points extended in the direction of the line.
-   * @param fromDistance  Distance to move [[from]] point. If 0, [[from]] will remain in place. If greater than 0, the line will lengthen.
-   * @param toDistance    Distance to move [[to]] point. If 0, [[to]] will remain in place. If greater than 0, the line will lengthen.
+   * Lengthens the line by extending the end points. Returns the resulting line.
+   * @param fromDistance  The distance to move [[from]]. If 0, [[from]] will remain in place. If greater than 0, the line will lengthen.
+   * @param toDistance    The distance to move [[to]]. If 0, [[to]] will remain in place. If greater than 0, the line will lengthen.
    */
   public extend(fromDistance: number, toDistance: number): Line {
     const extendedFrom = this._from.translate(this.direction, -fromDistance);
@@ -267,18 +266,23 @@ export class Line extends Geometry {
   }
 
   /**
-   * Returns a copy of the line with [[from]] and [[to]] swapped.
+   * Creates a copy of the line with [[from]] and [[to]] swapped.
    */
   public flip(): Line {
     return new Line(this._to, this._from);
   }
 
-  /**
-   * Returns the parameters where this line intersects with other geometry.
+  /***
+   * Calculates where the line intersects other geometry and returns the parameters
+   * for these points of intersection.
    *
    * @note              This is an alias for the [[Intersection.line]] function.
-   * @param otherGeom   The geometry to intersect with.
-   * @returns           The parameter(s) where the intersections occur. Use [[pointAt]] to get actual points.
+   * @note              Only accounts for crossings, not coincident overlaps.
+   *
+   * @param otherGeom   The geometry to intersect.
+   * @returns           The parameters of the intersection points.
+   *                    The array will always be sorted smallest to largest parameter.
+   *                    Entering the parameter into [[pointAt]] will return the intersection point.
    */
   public intersection(
     otherGeom:
@@ -305,7 +309,11 @@ export class Line extends Geometry {
   }
 
   /**
-   * Returns the point at a normalized parameter along the line.
+   * Finds the point a normalized parameter along the line and returns the point.
+   *
+   * The parameter ranges from 0, which is the start of the line ([[from]]),
+   * through to 1, which is the end of the line ([[to]]).
+   * The mid point of the line is 0.5.
    *
    * ### Example
    * ```js
@@ -317,8 +325,8 @@ export class Line extends Geometry {
    * console.log(line.pointAt(1).toString());
    * // => (10,0)
    * ```
-   * @param u                     The normalized parameter. The parameter ranges from 0, which is the start of the line ([[from]]), through to 1, which is the end of the line ([[to]]). The mid point of the line is 0.5.
-   * @param limitToFiniteSegment  If true, the point will always be within the bounds of the line (u-values less than 0 and greater than 1 will be clipped). If false, the line is treated as infinite.
+   * @param u                     The normalized parameter.
+   * @param limitToFiniteSegment  If true, the point will always be within the bounds of the line (u-values less than 0 will become 0 and values greater than 1 will become 1). If false, the line is treated as infinite.
    */
   public pointAt(u: number, limitToFiniteSegment: boolean = true): Point {
     if (limitToFiniteSegment) {
@@ -334,8 +342,8 @@ export class Line extends Geometry {
   }
 
   /**
-   * Returns the point on the line that is a given distance from [[from]].
-   * @param distance              Distance between [[from]] and the new point.
+   * Finds the point a given distance from the line's start ([[from]]) and returns the point.
+   * @param distance              The distance from the [[from]] point.
    * @param limitToFiniteSegment  If true, the point will always be within the bounds of the line. If false, the line is treated as infinite.
    */
   public pointAtLength(
@@ -347,14 +355,14 @@ export class Line extends Geometry {
   }
 
   /***
-   * Returns the line as a string in the format: `[(x,y),(x,y)]`.
+   * Gets the line as a string in the format: `[(x,y),(x,y)]`.
    */
   public toString(): string {
     return '[' + this._from.toString() + ',' + this._to.toString() + ']';
   }
 
   /**
-   * Returns a copy of the line with a different [[from]] point.
+   * Creates a copy of the line with a different [[from]] point.
    * @param newFrom
    */
   public withFrom(newFrom: Point): Line {
@@ -362,9 +370,9 @@ export class Line extends Geometry {
   }
 
   /**
-   * Returns a copy of the line with a different length. The [[from]] point will remain
+   * Creates a copy of the line with a different length. The [[from]] point will remain
    * fixed in place and the [[to]] point will be moved to make the line the right length.
-   * @param distance  New length for the line. Note: if the length is set to a negative number, the line's [[direction]] will be reversed but the length will remain positive.
+   * @param distance  New length for the line. If the length is set to a negative number, the line's [[direction]] will be reversed but the length will remain positive.
    */
   public withLength(distance: number): Line {
     const to = this._from.translate(this.direction, distance);
@@ -372,7 +380,7 @@ export class Line extends Geometry {
   }
 
   /**
-   * Returns a copy of the line with a different [[to]] point.
+   * Creates a copy of the line with a different [[to]] point.
    * @param newTo
    */
   public withTo(newTo: Point): Line {
@@ -384,7 +392,7 @@ export class Line extends Geometry {
   // -----------------------
 
   /***
-   * Returns a copy of the line transformed by a [[transform]] matrix.
+   * Transforms the line by a [[transform]] matrix and returns the result.
    *
    * ### Example
    * ```js
@@ -404,7 +412,7 @@ export class Line extends Geometry {
    * // => [(5,4),(15,4)]
    * ```
    *
-   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * @note If you're applying the same transformation a lot of geometry,
    * creating the [[Transform]] matrix once and calling this function is faster
    * than using the direct methods.
    *

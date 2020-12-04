@@ -176,8 +176,8 @@ export class BoundingBox extends Geometry {
   // -----------------------
 
   /**
-   * Returns the closest point on the BoundingBox relative to given point.
-   * @param testPoint Will find the point on the BoundingBox that is closest to this point.
+   * Finds the closest point on the bounding box and returns the point.
+   * @param testPoint       Target to get closest to.
    * @param includeInterior If true, the closest point can be within the BoundingBox. If false, the closest point can only be on the BoundingBox's outer edge.
    */
   public closestPoint(
@@ -357,7 +357,7 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Returns true if the other bounding box has the same [[xRange]] and [[yRange]].
+   * Checks whether another bounding box has the same [[xRange]] and [[yRange]]. Returns true if it does.
    * @param otherBoundingBox  The BoundingBox to compare against.
    */
   public equals(otherBoundingBox: BoundingBox): boolean {
@@ -376,7 +376,7 @@ export class BoundingBox extends Geometry {
   }
 
   /***
-   * Returns the bounding box as a string in the format: `[xRange,yRange]`.
+   * Gets the bounding box as a string in the format: `[xRange,yRange]`.
    */
   public toString(): string {
     return '[' + this._xRange + ',' + this._yRange + ']';
@@ -403,7 +403,7 @@ export class BoundingBox extends Geometry {
   // -----------------------
 
   /***
-   * Returns a copy of the bounding box transformed by a [[transform]] matrix.
+   * Transforms the bounding box by a [[transform]] matrix and returns the result.
    *
    * ### Example
    * ```js
@@ -423,7 +423,7 @@ export class BoundingBox extends Geometry {
    * // => 800
    * ```
    *
-   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * @note If you're applying the same transformation a lot of geometry,
    * creating the [[Transform]] matrix once and calling this function is faster
    * than using the direct methods.
    *

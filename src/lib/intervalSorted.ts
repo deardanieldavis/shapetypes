@@ -196,7 +196,7 @@ export class IntervalSorted {
   }
 
   /***
-   * Returns true if the other interval has the same [[min]] and [[max]] values.
+   * Checks whether another interval has the same [[min]] and [[max]] values. Returns true if it does.
    * @param otherInterval  The interval to compare against.
    */
   public equals(otherInterval: IntervalSorted): boolean {
@@ -275,7 +275,7 @@ export class IntervalSorted {
   }
 
   /***
-   * Returns the interval as a string in the format: `[min,max]`.
+   * Gets the interval as a string in the format: `[min,max]`.
    */
   public toString(): string {
     return '[' + this._min + ',' + this._max + ']';

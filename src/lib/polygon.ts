@@ -97,7 +97,7 @@ export class Polygon extends Geometry {
   }
 
   /***
-   * Returns the smallest bounding box that contains the polygon.
+   * Gets the smallest bounding box that contains the polygon.
    *
    * @note  This is based on the [[boundary]] of the polygon.
    * It doesn't accommodate any [[holes]] that mistakenly fall outside that boundary.
@@ -136,11 +136,11 @@ export class Polygon extends Geometry {
   }
 
   /***
-   * Returns the closest point on the polygon. This point could be on the edge
-   * of the [[boundary]] or one of the [[holes]], or it could be a point within
-   * the interior the polygon.
+   * Finds the closest point on the polygon and returns the point. This point could
+   * be on the edge of the [[boundary]] or one of the [[holes]],
+   * or it could be a point within the interior the polygon.
    *
-   * @param testPoint  Finds the closest point relative to this point.
+   * @param testPoint  The target to get closest to.
    */
   public closestPoint(testPoint: Point): Point {
     if (this.contains(testPoint) === PointContainment.inside) {
@@ -206,7 +206,7 @@ export class Polygon extends Geometry {
   }
 
   /***
-   * Returns true if the other polygon has the same [[boundary]] and [[holes]].
+   * Checks whether another polygon has the same [[boundary]] and [[holes]]. Returns true if it does.
    * @param otherPolygon  Polygon to compare against.
    * @param tolerance     The amount the points can differ and still be considered equal.
    */
@@ -223,7 +223,7 @@ export class Polygon extends Geometry {
   }
 
   /***
-   * Returns the polygon as a string in the format: `[boundary, ...holes]`.
+   * Gets the polygon as a string in the format: `[boundary, ...holes]`.
    */
   public toString(): string {
     const strings = new Array<string>();
@@ -285,7 +285,7 @@ export class Polygon extends Geometry {
   // -----------------------
 
   /***
-   * Returns a copy of the polyline transformed by a [[transform]] matrix.
+   * Transforms the polyline by a [[transform]] matrix and returns the result.
    *
    * ### Example
    * ```js
@@ -308,7 +308,7 @@ export class Polygon extends Geometry {
    * // => (3,4)
    * ```
    *
-   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * @note If you're applying the same transformation a lot of geometry,
    * creating the [[Transform]] matrix once and calling this function is faster
    * than using the direct methods.
    *

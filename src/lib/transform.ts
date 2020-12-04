@@ -350,7 +350,7 @@ export class Transform {
   // -----------------------
 
   /***
-   * Returns true if the other transform matrix has exactly the same values.
+   * Checks whether another transform matrix has exactly the same values. Returns true if it does.
    * @param otherMatrix The matrix to compare against.
    */
   public equals(otherMatrix: Transform): boolean {
@@ -431,7 +431,7 @@ export class Transform {
   }
 
   /***
-   * Returns the matrix as a string in the format: `[M00,M10,M20,M01,M11,M21,M02,M12,M22]`.
+   * Gets the matrix as a string in the format: `[M00,M10,M20,M01,M11,M21,M02,M12,M22]`.
    */
   public toString(): string {
     return (

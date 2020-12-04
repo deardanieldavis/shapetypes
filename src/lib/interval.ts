@@ -231,7 +231,7 @@ export class Interval {
   }
 
   /***
-   * Returns true if the other interval has the same [[T0]] and [[T1]] values.
+   * Checks whether another interval has the same [[T0]] and [[T1]] values. Returns true if it does.
    * @param otherInterval  The interval to compare against.
    */
   public equals(otherInterval: Interval): boolean {
@@ -300,7 +300,7 @@ export class Interval {
   }
 
   /***
-   * Returns the interval as a string in the format: `[T0,T1]`.
+   * Gets the interval as a string in the format: `[T0,T1]`.
    */
   public toString(): string {
     return '[' + this._T0 + ',' + this._T1 + ']';
