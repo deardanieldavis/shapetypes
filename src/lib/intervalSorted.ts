@@ -1,9 +1,10 @@
-import { approximatelyEqual, Interval, PointContainment } from '../index';
+import {
+  Interval
+} from '../index';
 
 /**
- * A number range between two values ([[min]] & [[max]]).
- * Unlike [[Interval]], it doesn't have a direction, the interval is always sorted to
- * be increasing from smallest to largest.
+ * A special [[Interval]] where T0 is always the smallest value and T1 is always the largest.
+ * As a result [[isIncreasing]] will always return `true`.
  *
  * ### Example
  * ```js
@@ -16,36 +17,17 @@ import { approximatelyEqual, Interval, PointContainment } from '../index';
  * // => 7.5
  * console.log(interval.contains(8));
  * // => True
+ * console.log(interval.isIncreasing());
+ * // => True
  *
  * ```
  *
  */
 
-export class IntervalSorted {
+export class IntervalSorted extends Interval {
   // -----------------------
   // STATIC
   // -----------------------
-
-  /***
-   * Creates an interval that encompasses a set of values.
-   *
-   * ### Example
-   * ```js
-   * const interval = IntervalSorted.fromValues([5, 3, 4]);
-   * console.log(interval.min);
-   * // => 3
-   * console.log(interval.max);
-   * // => 5
-   * ```
-   * @category Create
-   * @param values  Values to contain within the interval.
-   */
-  public static fromValues(values: readonly number[]): IntervalSorted {
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-    return new IntervalSorted(min, max);
-  }
-
   /**
    * Creates an interval of a given length, centered on a value.
    *
@@ -60,68 +42,21 @@ export class IntervalSorted {
     return new IntervalSorted(center - width / 2, center + width / 2);
   }
 
-  /***
-   * Creates an interval that encompasses two intervals.
-   *
-   * @category Create
-   * @param a First interval to encompass.
-   * @param b Second interval to encompass.
-   */
-  public static union(
-    a: Interval | IntervalSorted,
-    b: Interval | IntervalSorted
-  ): IntervalSorted {
-    return IntervalSorted.fromValues([a.min, a.max, b.min, b.max]);
-  }
-
-  /***
-   * Finds the overlapping portion of two intervals and returns the resulting interval.
-   *
-   * @category Create
-   * @param a     First interval to intersect
-   * @param b   Second interval to intersect
-   * @returns   An interval representing the overlap between these two intervals. If there is no overlap, returns undefined.
-   */
-  public static intersection(
-    a: Interval | IntervalSorted,
-    b: Interval | IntervalSorted
-  ): IntervalSorted | undefined {
-    if (a.max < b.min) {
-      // No overlap
-      return;
-    }
-    if (b.max < a.min) {
-      // No overlap
-      return;
-    }
-
-    const min = a.min >= b.min ? a.min : b.min; // want largest min value
-    const max = a.max <= b.max ? a.max : b.max; // want smallest max value
-
-    return new IntervalSorted(min, max);
-  }
-
-  // -----------------------
-  // VARS
-  // -----------------------
-  private readonly _min: number;
-  private readonly _max: number;
-
   // -----------------------
   // CONSTRUCTOR
   // -----------------------
-
   /***
-   * @param T0  One end of the interval (the constructor works out whether T0 is the min or the max).
-   * @param T1  The other end of the interval (the constructor works out whether T1 is the min or the max).
+   * Creates a sorted interval from two values.
+   * The values don't need to be provided in order as they are sorted when the interval is constructed.
+   * This means that the T0 value may be reassigned to T1 if it's the largest value, and vice versa
+   * @param T0  One end of the interval. This value may be assigned to T1 if it is the largest parameter.
+   * @param T1  The other end of the interval. This value may be assigned to T0 if it is the smallest parameter.
    */
   constructor(T0: number, T1: number) {
     if (T0 < T1) {
-      this._min = T0;
-      this._max = T1;
+      super(T0, T1);
     } else {
-      this._min = T1;
-      this._max = T0;
+      super(T1, T0);
     }
   }
 
@@ -130,38 +65,31 @@ export class IntervalSorted {
   // -----------------------
 
   /**
-   * Returns true if [[min]] and [[max]] are the same value.
+   * A sorted interval is always increasing so this will return false.
    */
-  get isSingleton(): boolean {
-    return this._min === this._max;
+  get isDecreasing(): boolean {
+    return false;
   }
 
   /**
-   * Returns the distance between [[min]] and [[max]].
+   * A sorted interval is always increasing so this will return true.
    */
-  get length(): number {
-    return this._max - this._min;
+  get isIncreasing(): boolean {
+    return true;
   }
 
   /**
-   * Returns the maximum value of the interval.
-   */
-  get max(): number {
-    return this._max;
-  }
-
-  /**
-   * Returns the value at the middle of [[min]] and [[max]].
-   */
-  get mid(): number {
-    return (this._min + this._max) / 2;
-  }
-
-  /**
-   * Returns the minimum value of the interval.
+   * Gets [[T0]], which is always the min value in a sorted interval.
    */
   get min(): number {
-    return this._min;
+    return this._T0;
+  }
+
+  /**
+   * Gets [[T1]], which is always the min value in a sorted interval.
+   */
+  get max(): number {
+    return this._T1;
   }
 
   // -----------------------
@@ -169,79 +97,7 @@ export class IntervalSorted {
   // -----------------------
 
   /**
-   * Returns true if a given value is within the interval.
-   * @param value   Number to check for containment
-   * @param strict  If true, the value has to be fully inside the interval and can't equal [[min]] or [[max]]. If false, the value has to be inside interval but can equal [[min]] or [[max]].
-   */
-  public contains(
-    value: number,
-    strict: boolean = false,
-    tolerance: number = 0
-  ): boolean {
-    if (strict) {
-      // Must be fully inside
-      if (this.min < value && value < this.max) {
-        return true;
-      }
-    } else {
-      // Can equal the extremes
-      if (this.min - tolerance <= value && value <= this.max + tolerance) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public containsPoint(
-    value: number,
-    tolerance: number = 0
-  ): PointContainment {
-    if(approximatelyEqual(this.min, value, tolerance)) {
-      return PointContainment.coincident;
-    }
-    if(approximatelyEqual(this.max, value, tolerance)) {
-      return PointContainment.coincident;
-    }
-    if (this.min <= value && value <= this.max) {
-      return PointContainment.inside;
-    }
-    return PointContainment.outside;
-  }
-
-
-  /***
-   * Checks whether another interval has the same [[min]] and [[max]] values. Returns true if it does.
-   * @param otherInterval  The interval to compare against.
-   */
-  public equals(otherInterval: IntervalSorted): boolean {
-    return this._min === otherInterval._min && this._max === otherInterval._max;
-  }
-
-  /**
-   * Returns a copy of this interval expanded to contain a given value.
-   *
-   * ### Example
-   * ```js
-   * const interval = new IntervalSorted(5, 10);
-   * const grown = interval.grow(20);
-   * console.log(grown.min);
-   * // => 5
-   * console.log(grown.max);
-   * // => 20
-   * ```
-   * @param toInclude The number to contain within the new interval
-   */
-  public grow(toInclude: number): IntervalSorted {
-    if (toInclude < this._min) {
-      return new IntervalSorted(toInclude, this._max);
-    } else if (toInclude > this._max) {
-      return new IntervalSorted(this._min, toInclude);
-    }
-    return this;
-  }
-
-  /**
-   * Returns a copy of this interval where the min and max have been moved apart by a set amount.
+   * Moves the min and max apart by a set amount. Returns the result.
    *
    * ### Example
    * ```js
@@ -260,85 +116,33 @@ export class IntervalSorted {
       const mid = this.mid;
       return new IntervalSorted(mid, mid);
     } else {
-      return new IntervalSorted(this._min - amount, this._max + amount);
+      return new IntervalSorted(this.min - amount, this.max + amount);
     }
   }
 
   /**
-   * Remaps a value from the global number system into the normalized parameters of this interval.
-   * See [[valueAt]] to understand how the parameters are calculated.
-   *
-   * ### Example
-   * ```js
-   * let interval = new IntervalSorted(10, 20)
-   * console.log(interval.remapToInterval(11))
-   * // => 0.1
-   * ```
-   * @param value   The number to remap
-   * @returns       The number remapped to the normalized parameters of this interval
-   */
-  public remapToInterval(value: number): number {
-    return (value - this._min) / (this._max - this._min);
-  }
-
-  /**
-   * Returns a new IntervalSorted equal to [-[[max]], -[[min]]]
-   */
-  public reverse(): IntervalSorted {
-    return new IntervalSorted(-1 * this._max, -1 * this._min);
-  }
-
-  /***
-   * Gets the interval as a string in the format: `[min,max]`.
-   */
-  public toString(): string {
-    return '[' + this._min + ',' + this._max + ']';
-  }
-
-  /**
-   * Remaps a value from normalized parameters of this interval into the global number system.
-   * The interval's parameter range from 0 to 1.
-   * t=0 is the min value of the interval
-   * t=0.5 is the mid point of the interval
-   * t=1 os the max value of the interval
-   *
-   * ### Example
-   * ```js
-   * let interval = new IntervalSorted(10, 20)
-   * console.log(interval.parameterAt(0.1))
-   * // => 11
-   * ```
-   *
-   * @param t   The parameter to remap
-   * @returns   The parameter remapped to the global number system
-   */
-  public valueAt(t: number): number {
-    return this._min * (1 - t) + this._max * t;
-  }
-
-  /**
-   * Returns a copy of this interval with a different min value.
+   * Creates a copy of this interval with a different min value.
    *
    * @param newMin    New min value for the new interval
    * @note            Throws an error if the new minimum is greater than the current maximum.
    */
   public withMin(newMin: number): IntervalSorted {
-    if (newMin > this._max) {
+    if (newMin > this.max) {
       throw new RangeError('Min must be smaller than max');
     }
-    return new IntervalSorted(newMin, this._max);
+    return new IntervalSorted(newMin, this.max);
   }
 
   /**
-   * Returns a copy of this interval with a different max value.
+   * Creates a copy of this interval with a different max value.
    *
    * @param newMax    New max value for the new interval
    * @note            Throws an error if the new maximum is less than the current minimum.
    */
   public withMax(newMax: number): IntervalSorted {
-    if (newMax < this._min) {
+    if (newMax < this.min) {
       throw new RangeError('Max must be larger than min');
     }
-    return new IntervalSorted(this._min, newMax);
+    return new IntervalSorted(this.min, newMax);
   }
 }

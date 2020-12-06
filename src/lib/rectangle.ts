@@ -118,18 +118,18 @@ export class Rectangle extends Geometry {
     super();
     this._plane = plane;
 
-    if (x instanceof Interval) {
-      this._x = x.asSorted();
-    } else if (x instanceof IntervalSorted) {
+    if (x instanceof IntervalSorted) {
       this._x = x;
+    } else if (x instanceof Interval) {
+      this._x = x.asSorted();
     } else {
       this._x = new IntervalSorted(0, x);
     }
 
-    if (y instanceof Interval) {
-      this._y = y.asSorted();
-    } else if (y instanceof IntervalSorted) {
+    if (y instanceof IntervalSorted) {
       this._y = y;
+    } else if (y instanceof Interval) {
+      this._y = y.asSorted();
     } else {
       this._y = new IntervalSorted(0, y);
     }

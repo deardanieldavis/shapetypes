@@ -1,4 +1,4 @@
-import { IntervalSorted } from '../index';
+import { approximatelyEqual, IntervalSorted, PointContainment } from '../index';
 
 /**
  * A number range between two values ([[T0]] & [[T1]]).
@@ -93,8 +93,10 @@ export class Interval {
   // -----------------------
   // VARS
   // -----------------------
-  private readonly _T0: number;
-  private readonly _T1: number;
+  /** @ignore */
+  protected readonly _T0: number;
+  /** @ignore */
+  protected readonly _T1: number;
 
   // -----------------------
   // CONSTRUCTOR
@@ -208,7 +210,7 @@ export class Interval {
 
   /**
    * Checks whether a value is within the interval.
-   * @param value     Number to check for containment
+   * @param value     The value to check for containment.
    * @param strict    If true, the value has to be fully inside the interval and can't equal [[min]] or [[max]].
    *                  If false, the value can equal [[min]] or [[max]].
    * @param tolerance The amount the value can be outside the interval and still be considered inside.
@@ -227,6 +229,30 @@ export class Interval {
     }
     return false;
   }
+
+  /**
+   * Checks whether the value is within the interval and returns the result using
+   * the [[PointContainment]] enum.
+   * The value will be considered coincident if it equals the interval's min or max.
+   * @param value       The value to check for containment.
+   * @param tolerance   The distance the value can be from the interval's min or max and still considered coincident.
+   */
+  public containsPoint(
+    value: number,
+    tolerance: number = 0
+  ): PointContainment {
+    if(approximatelyEqual(this.min, value, tolerance)) {
+      return PointContainment.coincident;
+    }
+    if(approximatelyEqual(this.max, value, tolerance)) {
+      return PointContainment.coincident;
+    }
+    if (this.min <= value && value <= this.max) {
+      return PointContainment.inside;
+    }
+    return PointContainment.outside;
+  }
+
 
   /***
    * Checks whether another interval has the same [[T0]] and [[T1]] values. Returns true if it does.
