@@ -228,7 +228,7 @@ export class Ray extends Geometry {
   }
 
   /**
-   * Finds the point a given distance from the ray's start ([[from]]) and returns the point.
+   * Finds the point a given distance from the ray's start ([[from]]). Returns the point.
    * @param distance  The distance from the [[from]] point.
    *                  If positive, will be in the direction of [[direction]].
    *                  If negative, will be in the inverse.

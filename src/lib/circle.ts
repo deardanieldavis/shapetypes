@@ -12,9 +12,21 @@ import {
 } from '../index';
 
 /**
- * A circle has a [[center]] and a [[radius]].
- * It also has an orientation (how much it is rotated about the center point), which is
- * defined by [[plane]].
+ * A circle is defined by a [[center]] point and a [[radius]]. In addition,
+ * a circle has an orientation (defined by a [[plane]]). This is important as
+ * it controls where the circle's outer edge starts/ends, which is used in methods
+ * like [[pointAt]], to generate points on the circle's edge.
+ *
+ *  * ### Example
+ * ```js
+ * import { Circle } from 'shapetypes'
+ *
+ * const circle = new Circle(new Point(3,4), 10);
+ * console.log(circle.center);
+ * // => (3,4)
+ * console.log(circle.area);
+ * // => 314.16
+ * ```
  */
 export class Circle extends Geometry {
   // -----------------------
@@ -22,11 +34,12 @@ export class Circle extends Geometry {
   // -----------------------
 
   /**
-   * Returns a new circle defined by its center and a point on the edge.
+   * Creates a circle defined by a center point and a point on the edge. The circle
+   * will be orientated so [[pointAt]] begins at the edge point.
    * @category Create
    * @param center    The center of the circle.
-   * @param start     A point on the edge of the circle. The circle will be orientated so
-   *                  [[pointAt]] begins at this point.
+   * @param start     A point on the edge of the circle.
+   *
    */
   public static fromCenterStart(center: Point, start: Point): Circle {
     const axis = Vector.fromPoints(center, start);
@@ -39,7 +52,7 @@ export class Circle extends Geometry {
   }
 
   /**
-   * Returns a new circle that passes through the three points.
+   * Creates a circle that passes through the three points.
    *
    * @note  Throws an error if the three points are in a straight line.
    *
@@ -82,14 +95,23 @@ export class Circle extends Geometry {
   // -----------------------
 
   /**
-   * Creates a new circle.
-   *
-   * @param radius    Radius of the circle.
-   * @param position  The location of the circle.
-   *                  If no position given, will be located at (0,0).
-   *                  If the location is a point, the circle will be centered on the point and orientated to [[Vector.worldX]].
-   *                  If the location is a plane, the circle will be centered on the plane's origin and orientated to the plane's x-axis.
+   * @param radius    The radius of the circle. The circle will be located at [[Point.origin]]
+   *                  and aligned to [[Vector.xAxis]].
    */
+  constructor(radius: number);
+  /**
+   * @param radius   The radius of the circle.
+   * @param position The center of the circle. The circle will be aligned to [[Vector.xAxis]].
+   *
+   */
+  // tslint:disable-next-line:unified-signatures
+  constructor(radius: number, position: Point);
+  /**
+   * @param radius    The radius of the circle
+   * @param position  The location of the circle. The cirle will be centered on the plane's origin and aligned to the plane's x-axis.
+   */
+  // tslint:disable-next-line:unified-signatures
+  constructor(radius: number, position: Plane);
   constructor(radius: number, position?: Plane | Point) {
     super();
     if (radius <= 0) {
@@ -125,14 +147,14 @@ export class Circle extends Geometry {
   }
 
   /**
-   * Returns the center of the circle.
+   * Gets the center of the circle.
    */
   get center(): Point {
     return this._plane.origin;
   }
 
   /**
-   * Returns the plane defining the circle's position.
+   * Gets the plane defining the circle's position.
    * The plane's origin is the center of the circle.
    * The plane's x-axis is the orientation of the circle.
    */
@@ -141,28 +163,28 @@ export class Circle extends Geometry {
   }
 
   /**
-   * Returns the radius of the circle.
+   * Gets the radius of the circle.
    */
   get radius(): number {
     return this._radius;
   }
 
   /**
-   * Returns the diameter of the circle.
+   * Gets the diameter of the circle.
    */
   get diameter(): number {
     return this._radius * 2;
   }
 
   /**
-   * Returns the circumference of the circle.
+   * Gets the circumference of the circle.
    */
   get circumference(): number {
     return 2 * this._radius * Math.PI;
   }
 
   /**
-   * Returns the area of the circle.
+   * Gets the area of the circle.
    */
   get area(): number {
     return Math.PI * this._radius * this._radius;
@@ -172,8 +194,8 @@ export class Circle extends Geometry {
   // PUBLIC
   // -----------------------
 
-  /**
-   * Returns whether a point is inside, outside, or on the edge of the circle.
+  /***
+   * Checks whether a point is inside, outside, or on the edge of a circle.
    *
    * @param testPoint   Point to test for containment.
    * @param tolerance   Distance the point can be from the edge of the circle and still considered coincident.
@@ -249,8 +271,8 @@ export class Circle extends Geometry {
   }
 
   /**
-   * Returns a point on the circle.
-   * @param t Position of the point, in radians. If the environment's y-axis points upwards, the position is measured counter-clockwise from the start of the circle. If the y-axis is pointing downwards, it is clockwise.
+   * Finds the point a certain number of radians from the start. Returns the point.
+   * @param t Position of the point, in radians. This is measured counter-clockwise from the start of the circle.
    */
   public pointAt(t: number): Point {
     const u = Math.cos(t) * this._radius;
@@ -258,10 +280,18 @@ export class Circle extends Geometry {
     return this._plane.pointAt(u, v);
   }
 
+  /**
+   * Finds the point a certain distance from the start. Returns the point.
+   * @param distance  Position of the point. This is measured counter-clockwise from the start of the circle.
+   */
   public pointAtLength(distance: number): Point {
     return this.pointAt(distance / this._radius);
   }
 
+  /**
+   * Finds the tangent for the circle a certain number of radians from the start.
+   * @param t Position of the tangent, in radians. This is measured counter-clockwise from the start of the circle.
+   */
   public tangentAt(t: number): Vector {
     const r0 = this._radius * -Math.sin(t);
     const r1 = this._radius * Math.cos(t);
@@ -280,7 +310,8 @@ export class Circle extends Geometry {
   }
 
   /**
-   * Returns a copy of the circle with a different [[area]].
+   * Creates a copy of the circle with a different [[area]]. The circle will be
+   * in the same position but have a different radius.
    * @param newArea   The area of the new circle.
    */
   public withArea(newArea: number): Circle {
@@ -292,7 +323,8 @@ export class Circle extends Geometry {
   }
 
   /**
-   * Returns a copy of the circle with a different [[circumference]].
+   * Creates a copy of the circle with a different [[circumference]]. The circle
+   * will be in the same position but have a different radius.
    * @param newCircumference    The circumference of the new circle.
    */
   public withCircumference(newCircumference: number): Circle {
@@ -301,7 +333,8 @@ export class Circle extends Geometry {
   }
 
   /**
-   * Returns a copy of the circle with a different [[diameter]].
+   * Creates a copy of the circle with a different [[diameter]]. The circle will be
+   * in the same position but have a different radius/diameter.
    * @param newDiameter   The diameter of the new circle.
    */
   public withDiameter(newDiameter: number): Circle {
@@ -310,7 +343,7 @@ export class Circle extends Geometry {
   }
 
   /**
-   * Returns a copy of the circle with a different [[radius]].
+   * Creates a copy of the circle with a different [[radius]].
    * @param newRadius   The radius of the new circle.
    */
   public withRadius(newRadius: number): Circle {
@@ -321,7 +354,8 @@ export class Circle extends Geometry {
   }
 
   /**
-   * Returns a copy of the circle with a different [[plane]].
+   * Creates a copy of the circle with a different [[plane]]. The circle will be the
+   * same size but centered on the new plane.
    * @param newPlane  The plane of the new circle.
    */
   public withPlane(newPlane: Plane): Circle {
@@ -329,7 +363,8 @@ export class Circle extends Geometry {
   }
 
   /**
-   * Returns a copy of the circle with a different [[center]].
+   * Creates a copy of the circle with a different [[center]]. The circle will be the
+   * same size and have the same orientation but will be translated to the new center.
    * @param newCenter The center of the new circle.
    */
   public withCenter(newCenter: Point): Circle {

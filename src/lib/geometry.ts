@@ -24,22 +24,25 @@ export abstract class Geometry {
    * // => 800
    * ```
    *
-   * Note: If you're applying the same transformation a lot of geometry,
-   * creating the matrix and calling this function is faster than using the direct methods.
+   * @note If you're applying the same transformation a lot of geometry,
+   * creating the [[Transform]] matrix once and calling this function is faster
+   * than using the direct methods.
    *
-   * @param change  A [[transform]] matrix to apply to the BoundingBox
+   * @param change  A [[transform]] matrix to apply to the geometry.
    */
   public abstract transform(change: Transform): this;
 
   /**
-   * Returns a copy of the geometry described in another coordinate system.
-   * In other words, if the geometry is described relative to `planeFrom`, after
-   * changeBasis, it will be in the same position but described relative to `planeTo`.
+   * Translates the geometry from one coordinate system to another while keeping
+   * the geometry in the same position. In other words, if the geometry is currently
+   * described relative to `planeFrom`, after changeBasis,
+   * it will be in the same position but described relative to `planeTo`.
    *
-   * See: [[Transform.changeBasis]].
+   * @see [[Transform.changeBasis]].
    *
    * @param planeFrom   The coordinate system the geometry is currently described relative to.
    * @param planeTo     The coordinate system to describe the geometry relative to.
+   * @returns           The geometry in the new coordinate system.
    *
    * @category Transform
    */
@@ -49,12 +52,13 @@ export abstract class Geometry {
   }
 
   /**
-   * Returns a copy of the geometry moved to the same position relative to `planeTo` as it as relative to `planeFrom`.
+   * Moves the geometry from one plane to another. The resulting geometry will be
+   * in the same place relative to `planeTo` as it was relative to `planeFrom`.
    *
-   * See: [[Transform.planeToPlane]].
+   * @see [[Transform.planeToPlane]].
    *
-   * @param planeFrom   The plane to move from
-   * @param planeTo     The plane to move relative to
+   * @param planeFrom   The plane to move from.
+   * @param planeTo     The plane to move to.
    *
    *  @category Transform
    */
@@ -64,46 +68,100 @@ export abstract class Geometry {
   }
 
   /**
-   * Returns a rotated copy of the geometry.
+   * Rotates the geometry about (0,0).
    *
-   * See: [[Transform.rotate]].
+   * @see [[Transform.rotate]].
    *
-   * @param angle   Angle to rotate the geometry in radians.
+   * @param angle   Angle to rotate the geometry, in radians. The direction is counter-clockwise.
+   *
+   * @category Transform
+   */
+  public rotate(angle: number): this;
+
+  /**
+   * Rotates the geometry about a point.
+   *
+   * @see [[Transform.rotate]].
+   *
+   * @param angle   Angle to rotate the geometry, in radians. The direction is counter-clockwise.
    * @param pivot   Point to pivot the geometry about.
    *
    * @category Transform
    */
+  // tslint:disable-next-line:unified-signatures
+  public rotate(angle: number, pivot: Point): this;
   public rotate(angle: number, pivot?: Point | undefined): this {
     const tran = Transform.rotate(angle, pivot);
     return this.transform(tran);
   }
 
   /**
-   * Returns a scaled copy of the geometry.
+   * Scales the geometry and returns the result. The geometry will be scaled about
+   * (0,0), meaning everything will shrink or expand away from this point.
    *
-   * See: [[Transform.scale]].
+   * @see [[Transform.scale]].
    *
-   * @param x       Magnitude to scale in x direction
-   * @param y       Magnitude to scale in y direction. If not specified, will use x.
+   * @param amount  Magnitude to scale in x & y direction.
+   *
+   * @category Transform
+   */
+  public scale(amount: number): this;
+  // tslint:disable-next-line:unified-signatures
+  /**
+   * Scales the geometry and returns the result. The geometry will be scaled about
+   * (0,0), meaning everything will shrink or expand away from this point.
+   *
+   * @see [[Transform.scale]].
+   *
+   * @param x       Magnitude to scale in x direction.
+   * @param y       Magnitude to scale in y direction.
+   *
+   * @category Transform
+   */
+  public scale(x: number, y: number): this;
+  // tslint:disable-next-line:unified-signatures
+  /**
+   * Scales the geometry about a point and returns the result.
+   *
+   * @see [[Transform.scale]].
+   *
+   * @param x       Magnitude to scale in x direction.
+   * @param y       Magnitude to scale in y direction.
    * @param center  Center of scaling. Everything will shrink or expand away from this point.
    *
    * @category Transform
    */
+  // tslint:disable-next-line:unified-signatures
+  public scale(x: number, y: number, center: Point): this;
   public scale(x: number, y?: number, center?: Point): this {
     const tran = Transform.scale(x, y, center);
     return this.transform(tran);
   }
 
   /**
-   * Returns a translated copy of this geometry.
+   * Moves the geometry along a vector and returns the result.
+   * The translation is always linear.
    *
-   * See: [[Transform.translate]].
+   * @see [[Transform.translate]].
    *
-   * @param move      Direction to move the geometry.
-   * @param distance  Distance to move the geometry. If not specified, will use length of `move` vector.
+   * @param move      The direction and distance to move the geometry.
    *
    * @category Transform
    */
+  public translate(move: Vector): this;
+  /**
+   * Moves the geometry along a vector and returns the result.
+   * The translation is always linear.
+   *
+   * @see [[Transform.translate]].
+   *
+   * @param move      The direction to move the geometry.
+   * @param distance  The distance to move the geometry.
+   *
+   * @category Transform
+   */
+  // tslint:disable-next-line:unified-signatures
+  public translate(move: Vector, distance: number | undefined): this;
   public translate(move: Vector, distance?: number | undefined): this {
     const tran = Transform.translate(move, distance);
     return this.transform(tran);

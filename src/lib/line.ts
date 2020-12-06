@@ -309,7 +309,7 @@ export class Line extends Geometry {
   }
 
   /**
-   * Finds the point a normalized parameter along the line and returns the point.
+   * Finds the point a normalized parameter along the line. Returns the point.
    *
    * The parameter ranges from 0, which is the start of the line ([[from]]),
    * through to 1, which is the end of the line ([[to]]).

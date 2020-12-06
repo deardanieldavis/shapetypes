@@ -199,6 +199,7 @@ function maxi(arr: readonly number[], n: number, minValue: number): number {
 
 /**
  * Returns smallest number in list that is smaller than `maxValue`.
+ * @ignore
  * @param arr   List of numbers
  * @param n     Only searches list to this point
  * @param maxValue  The number must be smaller than this. If it's not, returns this value.

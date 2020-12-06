@@ -7,7 +7,8 @@ import {
 } from '../index';
 
 /**
- * A Plane is a 2d frame with a center point ([[origin]]) and two perpendicular axes ([[xAxis]] and [[yAxis]]).
+ * A 2d frame with a center point ([[origin]]) and two perpendicular axes ([[xAxis]] and [[yAxis]]).
+ * The axes are always right-handed.
  *
  * ### Example
  * ```js
@@ -29,7 +30,8 @@ export class Plane extends Geometry {
   // -----------------------
 
   /**
-   * Returns the world's base plane. This plane has an [[origin]] of [0,0], an [[xAxis]] of [1,0], and a [[yAxis]] of [0,1].
+   * Returns the environment's base plane.
+   * This plane has an [[origin]] of [0,0], an [[xAxis]] of [1,0], and a [[yAxis]] of [0,1].
    * @category Create
    */
   public static worldXY(): Plane {
@@ -37,10 +39,10 @@ export class Plane extends Geometry {
   }
 
   /**
-   * Returns a new plane centered on the `origin` point and with the [[xAxis]] aligned to `axisPoint`.
+   * Creates a plane defined by a center point and a point on the x-axis.
    * @category Create
    * @param origin      The center of the plane.
-   * @param axisPoint   A point on the xAxis.
+   * @param axisPoint   A point on the plane's x-axis.
    */
   public static fromPoints(origin: Point, axisPoint: Point): Plane {
     const axis = Vector.fromPoints(origin, axisPoint);
@@ -69,7 +71,8 @@ export class Plane extends Geometry {
   /***
    * Creates a plane from a center point and x-axis.
    * @param origin    The center of the plane.
-   * @param xAxis     The direction of the [[xAxis]]. If not specified, will use [[Vector.worldX]]. The yAxis will be automatically generated perpendicular to this axis.
+   * @param xAxis     The direction of the [[xAxis]]. If not specified, will use [[Vector.worldX]].
+   *                  The y-axis will be automatically generated perpendicular to this axis and will obey the right hand rule.
    */
   constructor(origin: Point, xAxis?: Vector) {
     super();
@@ -82,24 +85,24 @@ export class Plane extends Geometry {
   // -----------------------
 
   /**
-   * Returns the point at the center of this plane.
+   * Gets the point at the center of the plane.
    */
   get origin(): Point {
     return this._origin;
   }
 
   /**
-   * Returns the vector representing the direction of the plane's xAxis.
+   * Gets the plane's x-axis.
    */
   get xAxis(): Vector {
     return this._xAxis;
   }
 
   /**
-   * Returns the vector representing the direction of the plane's yAxis.
-   * This vector will always be perpendicular to the plane's [[xAxis]].
-   * If [[shapetypesSettings.invertY]] is true, the yAxis will be on right side of the xAxis.
-   * If [[shapetypesSettings.invertY]] is false, the yAxis will be on the left side of the xAxis.
+   * Gets the plane's y-axis.
+   *
+   * This vector will always be perpendicular to the plane's [[xAxis]] and
+   * orientated to obey the right-hand rule.
    */
   get yAxis(): Vector {
     // We don't always need the yAxis, so it isn't generated in the constructor.
@@ -149,7 +152,7 @@ export class Plane extends Geometry {
    *
    * @param u   The location of the point measured as a distance along the plane's [[xAxis]].
    * @param v   The location of the point measured as a distance along the plane's [[yAxis]].
-   * @returns   The point at uv remapped to the global coordinate system.
+   * @returns   The u-v point remapped to the global coordinate system.
    */
   public pointAt(u: number, v: number): Point;
   /**
@@ -158,7 +161,7 @@ export class Plane extends Geometry {
    * @param uvPoint   The location of the point in the plane's coordinate system.
    *                  The x coordinate of this point is the location of the point measured as a distance along the plane's [[xAxis]].
    *                  The y coordinate of this point is the location of the point measured as a distance along the plane's [[yAxis]].
-   * @returns         The point at uv remapped to the global coordinate system.
+   * @returns         The u-v point remapped to the global coordinate system.
    */
   public pointAt(uvPoint: Point): Point;
   public pointAt(uvPointorU: Point | number, v?: number): Point {
@@ -175,18 +178,6 @@ export class Plane extends Geometry {
     const x = this.origin.x + this._xAxis.x * realU + this.yAxis.x * realV;
     const y = this.origin.y + this._xAxis.y * realU + this.yAxis.y * realV;
     return new Point(x, y);
-
-    /*
-    Can also do this by inverting the remap matrix. But this doesn't seem efficient
-    since you need to generate the matrix and then run the inversion calculation.
-
-    if(uvPointorU instanceof Point) {
-      return this.getRemapInvert().transformPoint(uvPointorU);
-    }
-    if(v === undefined) {
-      throw new Error("Shouldn't be possible");
-    }
-    return this.getRemapInvert().transformPoint(new Point(uvPointorU, v));*/
   }
 
   /**
@@ -200,16 +191,17 @@ export class Plane extends Geometry {
   }
 
   /**
-   * Returns a copy of this plane with a different [[origin]] point.
-   * @param newOrigin   The origin point of the new plane.
+   * Creates a copy of the plane with a different [[origin]] point.
+   * @param newOrigin   The origin of the new plane.
    */
   public withOrigin(newOrigin: Point): Plane {
     return new Plane(newOrigin, this._xAxis);
   }
 
   /**
-   * Returns a copy of this plane with a different [[xAxis]].
-   * @param newXAxis    The xAxis of the new plane.
+   * Creates a copy of the plane with a different [[xAxis]]. This will also
+   * change the y-axis.
+   * @param newXAxis    The x-axis of the new plane.
    */
   public withXAxis(newXAxis: Vector): Plane {
     return new Plane(this._origin, newXAxis);

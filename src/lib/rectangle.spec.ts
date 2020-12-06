@@ -6,6 +6,7 @@ import {
   IntervalSorted,
   Plane,
   Point,
+  PointContainment,
   Rectangle,
   Vector
 } from '../index';
@@ -71,7 +72,7 @@ test('fromCorners: Sets correct interval ranges', t => {
 });
 
 test('fromCenter: Sets correct interval ranges', t => {
-  const r = Rectangle.fromCenter(Plane.worldXY(), 10, 20);
+  const r = Rectangle.fromCorner(Plane.worldXY(), 10, 20);
   t.true(r.x.equals(new IntervalSorted(-5, 5)));
   t.true(r.y.equals(new IntervalSorted(-10, 10)));
 });
@@ -141,18 +142,15 @@ test('closestPoint: works when point is inside the rectangle and interior is inc
 
 test('contains: works when point is inside the rectangle', t => {
   const insidePoint = new Point(5, 6);
-  t.is(t.context.basic.contains(insidePoint), true);
-  t.is(t.context.basic.contains(insidePoint, true), true);
+  t.is(t.context.basic.contains(insidePoint), PointContainment.inside);
 });
 test('contains: works when point is outside the rectangle', t => {
   const outsidePoint = new Point(5, 3);
-  t.is(t.context.basic.contains(outsidePoint), false);
-  t.is(t.context.basic.contains(outsidePoint, true), false);
+  t.is(t.context.basic.contains(outsidePoint), PointContainment.outside);
 });
 test('contains: works when point is on edge of rectangle', t => {
   const edgePoint = new Point(5, 5);
-  t.is(t.context.basic.contains(edgePoint), true);
-  t.is(t.context.basic.contains(edgePoint, true), false);
+  t.is(t.context.basic.contains(edgePoint), PointContainment.coincident);
 });
 
 test('corner: Generates points in right position', t => {

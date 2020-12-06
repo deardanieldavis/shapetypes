@@ -1,7 +1,9 @@
-import { Interval } from '../index';
+import { approximatelyEqual, Interval, PointContainment } from '../index';
 
 /**
- * An IntervalSorted represents a number range between two values ([[min]] & [[max]]). Unlike [[Interval]], it doesn't have a direction.
+ * A number range between two values ([[min]] & [[max]]).
+ * Unlike [[Interval]], it doesn't have a direction, the interval is always sorted to
+ * be increasing from smallest to largest.
  *
  * ### Example
  * ```js
@@ -24,8 +26,8 @@ export class IntervalSorted {
   // STATIC
   // -----------------------
 
-  /**
-   * Returns an IntervalSorted that encompasses all the values in the array.
+  /***
+   * Creates an interval that encompasses a set of values.
    *
    * ### Example
    * ```js
@@ -35,7 +37,8 @@ export class IntervalSorted {
    * console.log(interval.max);
    * // => 5
    * ```
-   * @param values  Numbers to contain within the interval.
+   * @category Create
+   * @param values  Values to contain within the interval.
    */
   public static fromValues(values: readonly number[]): IntervalSorted {
     const min = Math.min(...values);
@@ -44,9 +47,11 @@ export class IntervalSorted {
   }
 
   /**
-   * Returns a new IntervalSorted of a given `width` and centered on `center`.
-   * @param center    The mid point of the IntervalSorted
-   * @param width     The width of the IntervalSorted
+   * Creates an interval of a given length, centered on a value.
+   *
+   * @category Create
+   * @param center    The middle value of the interval.
+   * @param width     The length of the interval.
    */
   public static fromCenter(center: number, width: number): IntervalSorted {
     if (width < 0) {
@@ -55,8 +60,10 @@ export class IntervalSorted {
     return new IntervalSorted(center - width / 2, center + width / 2);
   }
 
-  /**
-   * Returns an IntervalSorted that encompasses two intervals.
+  /***
+   * Creates an interval that encompasses two intervals.
+   *
+   * @category Create
    * @param a First interval to encompass.
    * @param b Second interval to encompass.
    */
@@ -67,22 +74,13 @@ export class IntervalSorted {
     return IntervalSorted.fromValues([a.min, a.max, b.min, b.max]);
   }
 
-  /**
-   * Returns an IntervalSorted that represents the overlapping portion of two intervals.
+  /***
+   * Finds the overlapping portion of two intervals and returns the resulting interval.
    *
-   * ### Example
-   * ```js
-   * const a = new IntervalSorted(5, 10);
-   * const b = new IntervalSorted(-2, 7);
-   * const result = IntervalSorted.fromIntersection(a, b);
-   * console.log(result.min);
-   * // => 5
-   * console.log(result.max);
-   * // => 7
-   * ```
-   * @param a First interval to intersect
-   * @param b Second interval to intersect
-   * @returns   An interval representing the overlap between intervals. If there is no overlap, returns undefined.
+   * @category Create
+   * @param a     First interval to intersect
+   * @param b   Second interval to intersect
+   * @returns   An interval representing the overlap between these two intervals. If there is no overlap, returns undefined.
    */
   public static intersection(
     a: Interval | IntervalSorted,
@@ -114,7 +112,6 @@ export class IntervalSorted {
   // -----------------------
 
   /***
-   * Creates a IntervalSorted between two values.
    * @param T0  One end of the interval (the constructor works out whether T0 is the min or the max).
    * @param T1  The other end of the interval (the constructor works out whether T1 is the min or the max).
    */
@@ -194,6 +191,23 @@ export class IntervalSorted {
     }
     return false;
   }
+
+  public containsPoint(
+    value: number,
+    tolerance: number = 0
+  ): PointContainment {
+    if(approximatelyEqual(this.min, value, tolerance)) {
+      return PointContainment.coincident;
+    }
+    if(approximatelyEqual(this.max, value, tolerance)) {
+      return PointContainment.coincident;
+    }
+    if (this.min <= value && value <= this.max) {
+      return PointContainment.inside;
+    }
+    return PointContainment.outside;
+  }
+
 
   /***
    * Checks whether another interval has the same [[min]] and [[max]] values. Returns true if it does.

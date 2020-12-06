@@ -22,17 +22,56 @@ import {
 } from '../index';
 
 /**
- * A polygon is a shape defined by an outer [[boundary]]. The surface of the polygon
- * may not be continous and may contain [[holes]].
+ * A two-dimensional shape with an outer [[boundary]] and a set of interior [[holes]] (optional).
  *
- * If the world's y-axis points upwards, the boundary is always in a counter-clockwise orientation. The holes are always clockwise.
- * If the world's y-axis points downwards, the boundary is always in a clockwise orientation. The holes are always counter-clockwise.
+ * The boundary is always in a counter-clockwise orientation and the holes are always clockwise.
+ * If the environment's y-axis points downwards, the boundary will appear to be clockwise and the
+ * holes will appear to be counter-clockwise.
+ *
+ * ### Example
+ * ```js
+ * import { Polygon } from 'shapetypes'
+ *
+ * const triangle = new Polyline([new Point(0, 0), new Point(1, 1), new Point(2, 0)], true);
+ * const polygon = new Polygon(triangle);
+ * console.log(polygon.area);
+ * // => 1
+ *
+ * console.log(polygon.contains(new Point(1, 0.5));
+ * // => True
+ * console.log(polygon.boundary.from.toString());
+ * // => [0,0]
+ *
+ *
+ * const outer = new Rectangle(Plane.worldXY(), 10, 10).toPolyline();
+ * const outerPolygon = new Polygon(polyline);
+ * console.log(outerPolygon.area);
+ * // => 100
+ *
+ * const subtracted = outerPolygon.difference(triangle);
+ * console.log(subtracted[0].area);
+ * // => 99
+ *
+ * console.log(subtracted.contains(new Point(1, 0.5));
+ * // => False
+ *
+ * ```
+ *
+ *
  */
 export class Polygon extends Geometry {
   // -----------------------
   // STATIC
   // -----------------------
 
+  /**
+   * Creates a polygon from a list polylines (in the GeoJSON format).
+   * The first polyline is the boundary and any subsequent polylines are the holes.
+   *
+   * @note  May throw an error if coordinates do not form a closed polyline.
+   * @category Create
+   * @param coordinates   List of points in the format `[[[b_x1,b_y1],[b_x2,b_y2],...], [[h_x1,h_y1],[h_x2,h_y2],...],...]`.
+   */
   public static fromCoords(coordinates: pcPolygon): Polygon {
     if (coordinates.length === 0) {
       throw new RangeError('Coordiante of polygon must have a length');
@@ -58,9 +97,14 @@ export class Polygon extends Geometry {
   /***
    * Creates a polygon from an outer boundary and list of holes.
    *
-   * @note  Doesn't check for self-intersection or whether the geometry is valid.
+   * @note  Doesn't verify that this is a valid polygon. It is possible to
+   * create a polygon with self-intersection, zero-length segments, or holes that are in weird places.
+   * This may cause problems in some functions.
+   *
+   * @note  Will throw an error if the boundary or holes aren't closed.
+   *
    * @param boundary  The outer edge of the polygon (must be a closed polyline).
-   * @param holes     A list of holes cut from interior of polygon (holes must be closed polylines).
+   * @param holes     An optional list of holes cut from interior of polygon (must be closed polylines).
    */
   constructor(boundary: Polyline, holes?: readonly Polyline[] | undefined) {
     super();
@@ -87,25 +131,32 @@ export class Polygon extends Geometry {
   // GET
   // -----------------------
 
+  /**
+   * Gets the area of the polygon. Holes are not included in the area.
+   */
   get area(): number {
     const area = this._holes.reduce((accumulator, hole) => accumulator - hole.area, this._boundary.area);
     return area;
   }
 
+  /**
+   * Gets the polyline that defines the outer edge of the polygon.
+   */
   get boundary(): Polyline {
     return this._boundary;
   }
 
   /***
-   * Gets the smallest bounding box that contains the polygon.
+   * Gets the smallest bounding box that contains the boundary of the polygon.
    *
-   * @note  This is based on the [[boundary]] of the polygon.
-   * It doesn't accommodate any [[holes]] that mistakenly fall outside that boundary.
    */
   get boundingBox(): BoundingBox {
     return this._boundary.boundingBox;
   }
 
+  /**
+   * Gets the list of holes (if any) that define the subtracted regions of the polygon.
+   */
   get holes(): readonly Polyline[] {
     return this._holes;
   }
@@ -115,8 +166,9 @@ export class Polygon extends Geometry {
   // -----------------------
 
   /**
-   * Returns the point on the polyline that is nearest to `testPoint`.
-   * @param testPoint  The target to measure distance from.
+   * Finds the closest boundary or hole. Returns the polyline defining the closest boundary or hole.
+   *
+   * @param testPoint  The target to get closest to.
    */
   public closestLoop(testPoint: Point): Polyline {
     let closestLength: number | undefined;
@@ -173,13 +225,11 @@ export class Polygon extends Geometry {
     return closestPoint;
   }
 
-  /**
-   * Returns the relationship between a point and a polyline.
-   *
-   * Note: This method only works with closed polylines. It will throw an error if applied to an open polyline.
+  /***
+   * Checks whether a point is inside, outside, or on the edge of a polygon.
    *
    * @param point       Point to test for containment.
-   * @param tolerance   Distance the point can be from the edge of the polyline and still considered coincident.
+   * @param tolerance   Distance the point can be from the edge of the polygon and still considered coincident.
    */
   public contains(
     point: Point,
@@ -238,10 +288,10 @@ export class Polygon extends Geometry {
   // -----------------------
 
   /**
-   * Joins this polygon with another polyline or polygon.
-   * @param joiner: Either a polyline, polygon, or a list of the two.
-   * @returns:    A polyline or polygon representing the two objects joined together.
-   *              Note: may return two objects if the original objects don't overlap
+   * Joins this polygon with another polygon or closed polyline. Returns the result.
+   * @param joiner  Either a closed polyline, polygon, or a list of the two.
+   * @returns      The polygon created when the two objects were joined.
+   *                In some cases this may return multiple polygons if the objects don't overlap.
    */
   public union(
     joiner: Polyline | Polygon | readonly Polyline[] | readonly Polygon[]
@@ -250,6 +300,12 @@ export class Polygon extends Geometry {
     return fromGeoJSON(result);
   }
 
+  /**
+   * Intersects this polygon with another polygon or closed polyline. Returns the overlapping portion.
+   * @param intersector   Either a closed polyline, polygon, or a list of the two.
+   * @returns       The overlapping portion of the two objects.
+   *                In some cases this may return an empty list if the polygons don't overlap.
+   */
   public intersection(
     intersector: Polyline | Polygon | readonly Polyline[] | readonly Polygon[]
   ): ReadonlyArray<Polygon> {
@@ -257,6 +313,11 @@ export class Polygon extends Geometry {
     return fromGeoJSON(result);
   }
 
+  /**
+   * Subtracts a polygon or closed polyline from this polygon. Returns the part left over.
+   * @param subtractor    Either a closed polyline, polygon, or a list of the two.
+   * @returns       The part left over.
+   */
   public difference(
     subtractor: Polyline | Polygon | readonly Polyline[] | readonly Polygon[]
   ): ReadonlyArray<Polygon> {
@@ -265,10 +326,11 @@ export class Polygon extends Geometry {
   }
 
   /**
-   *  Converts polygon into specific format needed by the PolygonClipping library.
-   * (see: https://github.com/mfogel/polygon-clipping/issues/76)
+   * Gets the polygon in the GeoJSON format: `[[[b_x1,b_y1],[b_x2,b_y2],...], [[h_x1,h_y1],[h_x2,h_y2],...],...]`.
    */
   public asGeoJSON(): pcPolygon {
+    // This is the format needed for the clipping library
+    // see: https://github.com/mfogel/polygon-clipping/issues/76
     const rings = new Array<Ring>();
 
     rings.push(this._boundary.asGeoJSON());
@@ -290,21 +352,22 @@ export class Polygon extends Geometry {
    * ### Example
    * ```js
    *
-   * import { Polyline } from 'shapetypes'
+   * import { Polygon } from 'shapetypes'
    *
    * const triangle = new Polyline([new Point(0, 0), new Point(1, 1), new Point(2, 0)], true);
-   * console.log(shifted.from.toString());
+   * const polygon = new Polygon(triangle);
+   * console.log(polygon.boundary.from.toString());
    * // => (0,0)
    *
    * // Using a transform matrix
    * const matrix = Transform.translate(new Vector(3,4);
-   * const shifted = triangle.transform(matrix);
-   * console.log(shifted.from.toString());
+   * const shifted = polygon.transform(matrix);
+   * console.log(shifted.boundary.from.toString());
    * // => (3,4)
    *
    * // Using the direct method
-   * const otherShifted = triangle.translate(new Vector(3, 4));
-   * console.log(otherShifted.from.toString());
+   * const otherShifted = polygon.translate(new Vector(3, 4));
+   * console.log(otherShifted.boundary.from.toString());
    * // => (3,4)
    * ```
    *

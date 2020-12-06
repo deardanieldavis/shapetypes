@@ -9,7 +9,8 @@ import {
 } from '../index';
 
 /**
- * A BoundingBox is a rectangle aligned to the X-Y axis. It is defined by two [[IntervalSorted]]s, which give the dimensions of the rectangle along the x and y axis.
+ * A rectangle aligned to the environment's x-y axis ([[Vector.xAxis]].
+ * A bounding box is defined by two [[IntervalSorted]]s, which give the dimensions of the rectangle along the x and y axis.
  *
  * ### Example
  * ```js
@@ -39,9 +40,10 @@ export class BoundingBox extends Geometry {
   // -----------------------
 
   /**
-   * Returns a BoundingBox defined by two corner points.
-   * @param cornerA One of the BoundingBox
-   * @param cornerB The corner diagonally opposite [[cornerA]]
+   * Creates a bounding box from two corner points.
+   * @category Create
+   * @param cornerA One corner of the bounding box.
+   * @param cornerB The opposite corner of the bounding box.
    */
   public static fromCorners(cornerA: Point, cornerB: Point): BoundingBox {
     const xRange = new IntervalSorted(cornerA.x, cornerB.x);
@@ -50,8 +52,9 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Returns the smallest BoundingBox that encapsulates all the points.
-   * @param points  List of points to encapsulate in a BoundingBox.
+   * Returns the smallest bounding box that contains all the points.
+   * @category Create
+   * @param points  The points to encapsulate in a bounding box.
    */
   public static fromPoints(points: readonly Point[]): BoundingBox {
     const x = points.map(item => item.x); // gets all x locations of points
@@ -64,10 +67,10 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Returns a BoundingBox that encapsulates two BoundingBoxes.
-   * @param a First BoundingBox to encapsulate
-   * @param b Second BoundingBox to encapsulate
-   * @constructor
+   * Returns the smallest bounding box that contains two other bounding boxes.
+   * @category Create
+   * @param a   The first bounding box to encapsulate.
+   * @param b   The second bounding box to encapsulate.
    */
   public static union(a: BoundingBox, b: BoundingBox): BoundingBox {
     const xRange = IntervalSorted.union(a._xRange, b._xRange);
@@ -76,9 +79,10 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Returns a BoundingBox that represents the overlapping portion of two BoundingBoxes.
-   * @param a First BoundingBox to intersect
-   * @param b Second BoundingBox to intersect
+   * Finds the overlapping portion of two bounding boxes and returns it as a new bounding box.
+   * @category Create
+   * @param a   The first BoundingBox to intersect
+   * @param b   The second BoundingBox to intersect
    * @returns: A BoundingBox representing the overlap between these two boxes. If no overlap exists, returns undefined.
    */
   public static intersection(
@@ -111,8 +115,8 @@ export class BoundingBox extends Geometry {
 
   /**
    * Create a bounding box from two intervals.
-   * @param xRange: The dimensions of the BoundingBox along the x-axis. Eg. the box will be drawn from xRange.min to xRange.max.
-   * @param yRange: The dimensions of the BoundingBox along the y-axis.
+   * @param xRange  The dimensions of the BoundingBox along the environment's x-axis ([[Vector.xAxis]]). The box will be from xRange.min to xRange.max.
+   * @param yRange  The dimensions of the BoundingBox along the environment's y-axis.
    */
   constructor(
     xRange: IntervalSorted | Interval,
@@ -130,42 +134,42 @@ export class BoundingBox extends Geometry {
   // -----------------------
 
   /**
-   * Returns the area of the BoundingBox.
+   * Gets the area of the bounding box.
    */
   get area(): number {
     return this._xRange.length * this._yRange.length;
   }
 
   /**
-   * Returns the point at the center of the BoundingBox.
+   * Gets the point at the center of the bounding box.
    */
   get center(): Point {
     return new Point(this._xRange.mid, this._yRange.mid);
   }
 
   /**
-   * Returns the corner of the BoundingBox that has the smallest x and y values.
+   * Gets the corner of the bounding box that has the smallest x and y values.
    */
   get min(): Point {
     return new Point(this._xRange.min, this._yRange.min);
   }
 
   /**
-   * Returns the corner of the BoundingBox that has the largest x and y values.
+   * Gets the corner of the bounding box that has the largest x and y values.
    */
   get max(): Point {
     return new Point(this._xRange.max, this._yRange.max);
   }
 
   /**
-   * Returns the position of the BoundingBox along the x-axis.
+   * Gets the position of the bounding box along the environment's x-axis ([[Vector.xAxis]]).
    */
   get xRange(): IntervalSorted {
     return this._xRange;
   }
 
   /**
-   * Returns the position of the BoundingBox along the y-axis.
+   * Gets the position of the BoundingBox along the environment's x-axis ([[Vector.xAxis]]).
    */
   get yRange(): IntervalSorted {
     return this._yRange;
@@ -175,10 +179,10 @@ export class BoundingBox extends Geometry {
   // PUBLIC
   // -----------------------
 
-  /**
+  /***
    * Finds the closest point on the bounding box and returns the point.
    * @param testPoint       Target to get closest to.
-   * @param includeInterior If true, the closest point can be within the BoundingBox. If false, the closest point can only be on the BoundingBox's outer edge.
+   * @param includeInterior If true, the closest point can be within the bounding box. If false, the closest point can only be on the bounding box's outer edge.
    */
   public closestPoint(
     testPoint: Point,
@@ -212,9 +216,11 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Returns true if the point is within the BoundingBox.
-   * @param testPoint Point to test for containment
-   * @param strict  If true, points coincident with the edge of the box won't be counted as contained
+   * Checks whether a point is inside the bounding box.
+   * @param testPoint   Point to test for containment
+   * @param strict      If true, the point needs to be fully inside the bounding box
+   *                    and can't be coincident with the edge.
+   * @param tolerance   The distance the point can be outside the box and still considered inside.
    */
   public contains(
     testPoint: Point,
@@ -230,7 +236,7 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Returns one of the BoundingBox's four corner points.
+   * Gets one of the bounding box's four corners.
    * @param minX  If true, point will be at the min x value. If false, will be at max.
    * @param minY  If true, point will be at the min y value. If false, will be at max.
    */
@@ -250,10 +256,9 @@ export class BoundingBox extends Geometry {
     }
   }
 
-  /**
-   * Returns the four corners of the BoundingBox.
-   * The order will always be: [[minX, minY], [minX, maxY], [maxX, maxY], [maxX, minY]].
-   * If the y-axis is pointing up, this is a clockwise order. And if the y-axis is pointing down, this is an anti-clockwise order.
+  /***
+   * Gets the four corners of the bounding box.
+   * The order is: [[minX, minY], [minX, maxY], [maxX, maxY], [maxX, minY]].
    */
   public getCorners(): readonly Point[] {
     return [
@@ -265,7 +270,7 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Returns an array of the BoundingBox's four edges.
+   * Gets the four edges of the bounding box. Follows the order in [[getCorners]].
    */
   public getEdges(): readonly Line[] {
     const corners = this.getCorners();
@@ -278,8 +283,8 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Returns a copy of this BoundingBox where the size has been evenly increased in all directions.
-   * @param amount
+   * Evenly increases the size of the bounding box in all directions. Returns the result.
+   * @param amount  The amount to inflate each side of the bounding box.
    */
   public inflate(amount: number): BoundingBox;
   // tslint:disable-next-line:unified-signatures
@@ -295,8 +300,8 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Returns true if this boundingbox overlaps another.
-   * @param otherBox
+   * Checks whether the bounding box overlaps another. Returns true if it does.
+   * @param otherBox    The box to check for overlap.
    */
   public overlaps(otherBox: BoundingBox): boolean {
     const xRange = IntervalSorted.intersection(this._xRange, otherBox._xRange);
@@ -312,21 +317,22 @@ export class BoundingBox extends Geometry {
     return true;
   }
 
-  /**
-   * Remaps a point from the u-v space of the BoundingBox to the global coordinate system.
+  /***
+   * Remaps a point from the u-v space of the bounding box to the global coordinate system.
    * This is the opposite of [[remapToBox]].
-   * @param u         The normalized distance along the x-axis of the BoundingBox
-   * @param v         The normalized distance along the y-axis of the BoundingBox
-   * @returns         The uvPoint remapped to the global coordinate system
+   *
+   * @param u         The normalized distance along the x-axis of the bounding box.
+   * @param v         The normalized distance along the y-axis of the bounding box.
+   * @returns         The uvPoint remapped to the global coordinate system.
    */
   public pointAt(u: number, v: number): Point;
   /**
-   * Remaps a point from the u-v space of the BoundingBox to the global coordinate system.
+   * Remaps a point from the u-v space of the bounding box to the global coordinate system.
    * This is the opposite of [[remapToBox]].
    * @param uvPoint   A point in the u-v coordinates of the BoundingBox.
-   *                  The point's x value is the normalized distance along the x-axis of the BoundingBox (u direction).
-   *                  The point's y value is the normalized distance along the y-axis of the BoundingBox (y direction).
-   * @returns         The uvPoint remapped to the global coordinate system
+   *                  The point's x value is the normalized distance along the x-axis of the bounding box (u direction).
+   *                  The point's y value is the normalized distance along the y-axis of the bounding box (y direction).
+   * @returns         The uvPoint remapped to the global coordinate system.
    */
   public pointAt(uvPoint: Point): Point;
   public pointAt(uvPointorU: Point | number, v?: number): Point {
@@ -343,11 +349,11 @@ export class BoundingBox extends Geometry {
     return new Point(this._xRange.valueAt(uvPointorU), this._yRange.valueAt(v));
   }
 
-  /**
-   * Remaps a point to the u-v space of the BoundingBox.
+  /***
+   * Remaps a point to the u-v space of the bounding box.
    * This is the opposite of [[pointAt]].
-   * @param point   Point to remap
-   * @returns       A point in the u-v coordinates of the BoundingBox. See [[pointAt]] for more details.
+   * @param point   Point to remap.
+   * @returns       A point in the u-v coordinates of the bounding box. See [[pointAt]] for more details.
    */
   public remapToBox(point: Point): Point {
     return new Point(
@@ -356,9 +362,9 @@ export class BoundingBox extends Geometry {
     );
   }
 
-  /**
+  /***
    * Checks whether another bounding box has the same [[xRange]] and [[yRange]]. Returns true if it does.
-   * @param otherBoundingBox  The BoundingBox to compare against.
+   * @param otherBoundingBox  The bounding box to compare against.
    */
   public equals(otherBoundingBox: BoundingBox): boolean {
     return (
@@ -367,8 +373,8 @@ export class BoundingBox extends Geometry {
     );
   }
 
-  /**
-   * Returns a [[Polyline]] representing the outer edge of the BoundingBox
+  /***
+   * Gets the edge of the bounding box as a closed polyline.
    */
   public toPolyline(): Polyline {
     const poly = new Polyline(this.getCorners(), true);
@@ -383,16 +389,16 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Returns a copy of the BoundingBox with a different xRange
-   * @param newXRange The xRagne of the new BoundingBox
+   * Creates a copy of the bounding box with a different [[xRange]].
+   * @param newXRange The xRange of the new bounding box.
    */
   public withXRange(newXRange: IntervalSorted): BoundingBox {
     return new BoundingBox(newXRange, this._yRange);
   }
 
   /**
-   * Returns a copy of the BoundingBox with a different yRange
-   * @param newYRange The yRange of the new BoundingBox
+   * Creates a copy of the bounding box with a different [[yRange]].
+   * @param newYRange The yRange of the new bounding box.
    */
   public withYRange(newYRange: IntervalSorted): BoundingBox {
     return new BoundingBox(this._xRange, newYRange);
@@ -440,7 +446,7 @@ export class BoundingBox extends Geometry {
 /**
  * Returns the value in the interval that is nearest to `targetValue`.
  *
- *
+ * @ignore
  * @param interval        The interval to find the value within.
  * @param targetValue     The value to get nearest to.
  * @param includeInterior If false, the value will either be [[min]] or [[max]].

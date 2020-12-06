@@ -257,6 +257,11 @@ export function polyline(
 // HELPER
 // -----------------------
 
+/**
+ * @ignore
+ * @param theLine
+ * @param thePolyline
+ */
 function linePolyline(theLine: Line, thePolyline: Polyline): readonly number[] {
   const intersections = new Array<number>();
   for (const edge of thePolyline.segments) {
@@ -268,6 +273,12 @@ function linePolyline(theLine: Line, thePolyline: Polyline): readonly number[] {
   return intersections;
 }
 
+/**
+ * @ignore
+ * @param theRay
+ * @param thePolyline
+ * @param range
+ */
 function rayPolyline(theRay: Ray, thePolyline: Polyline, range: RayRange): readonly number[] {
   const intersections = new Array<number>();
   for (const edge of thePolyline.segments) {

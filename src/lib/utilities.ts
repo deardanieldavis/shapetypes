@@ -1,6 +1,10 @@
 // tslint:disable:readonly-array
 import { Polygon, Polyline, shapetypesSettings } from '../index';
 
+/**
+ * The relationship between a point and an object. The point can either be [[inside]],
+ * [[outside]], [[coincident]] (meaning it is on the edge), or [[unset]].
+ */
 export enum PointContainment {
   unset,
   inside,
@@ -8,6 +12,9 @@ export enum PointContainment {
   coincident
 }
 
+/**
+ * The orientation of a curve. This can either be [[clockwise]], [[counterclockwise]], or [[undefined]].
+ */
 export enum CurveOrientation {
   undefined,
   clockwise,

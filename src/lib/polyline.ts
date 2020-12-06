@@ -1,7 +1,11 @@
 /* tslint:disable:no-let */
 import { Ring } from 'polygon-clipping';
 import { horizontalRayPolyline } from './intersection/horizontalRay';
-import { CurveOrientation, PointContainment } from './utilities';
+import {
+  approximatelyEqual,
+  CurveOrientation,
+  PointContainment
+} from './utilities';
 
 import {
   BoundingBox,
@@ -21,12 +25,12 @@ import {
 } from '../index';
 
 /**
- * A polyline is a continuous line made from a series of straight [[segments]].
+ * A continuous line made from a series of straight [[segments]].
  * The corners of the polyline are defined by an array of [[points]].
  *
- * Polylines can either be open (the polyline starts and ends in a different place)
- * or closed (the polyline starts and ends in the same place). This can be checked with [[isClosed]].
- * Some operations, such as [[contains]] and [[union]] only work with closed polylines.
+ * If the polyline's start and end point are the same, it is considered closed.
+ * This can be checked with [[isClosed]].
+ * Some operations, such as [[contains]], only work with closed polylines.
  *
  * ### Example
  * ```js
@@ -55,9 +59,9 @@ export class Polyline extends Geometry {
   // -----------------------
 
   /**
-   * Returns a new polyline from a list of coordinates (in the GeoJSON format).
+   * Creates a polyline from a list of corner coordinates (in the GeoJSON format).
    * @category Create
-   * @param coordinates  List of points in the format `[[x1,y1],[x2,y2],[x3,y3]]`
+   * @param coordinates   List of points in the format `[[x1,y1],[x2,y2],[x3,y3],...]`
    * @param makeClosed    If true, checks whether the resulting polyline [[isClosed]] and if it isn't, adds another point ensuring the polyline ends the same place it starts.
    */
   public static fromCoords(
@@ -95,7 +99,9 @@ export class Polyline extends Geometry {
   /***
    * Creates a polyline from a set of corner points.
    *
-   * @note  Doesn't check for self-intersection or invalid segments.
+   * @note  Doesn't verify that this is a valid polyline. It is possible to
+   * create a polyline with self-intersection or zero-length segments, which may cause problems in some functions.
+   *
    * @param points        The points defining the corners of the polyline.
    * @param makeClosed    If true, checks whether the resulting polyline [[isClosed]] and if it isn't, adds another point ensuring the polyline ends the same place it starts.
    */
@@ -118,7 +124,7 @@ export class Polyline extends Geometry {
   // -----------------------
 
   /**
-   * Returns area enclosed by polyline. If polyline isn't closed, returns 0.
+   * Gets the area enclosed by the polyline. If the polyline isn't closed, returns 0.
    */
   get area(): number {
     if (this.isClosed === false) {
@@ -140,7 +146,7 @@ export class Polyline extends Geometry {
   }
 
   /***
-   * Returns the smallest bounding box that contains the polyline.
+   * Gets the smallest bounding box that contains the polyline.
    */
   get boundingBox(): BoundingBox {
     if (this._cacheBoundingBox === undefined) {
@@ -150,22 +156,22 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns number of points in the polyline.
+   * Gets the number of points in the polyline.
    */
   get count(): number {
     return this._points.length;
   }
 
   /**
-   * Returns starting point of polyline.
+   * Getse the starting point of the polyline.
    */
   get from(): Point {
     return this._points[0];
   }
 
   /**
-   * Returns true if the polyline starts and ends in the same place
-   * (if [[from]] is in the same position as [[to]]).
+   * Checks whether the polyline starts and ends in the same place (that [[from]] equals [[to]]).
+   * Returns true if it does.
    */
   get isClosed(): boolean {
     if (this._cacheClosed === undefined) {
@@ -175,7 +181,7 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns the length of the polyline.
+   * Gets the length of the polyline.
    */
   get length(): number {
     if (this._cacheLength === undefined) {
@@ -186,21 +192,21 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns the list of points that define the corners of the polyline.
+   * Gets the points that define the corners of the polyline.
    */
   get points(): readonly Point[] {
     return this._points;
   }
 
   /**
-   * Returns the number of segments that makeup the polyline.
+   * Gets the number of segments in the polyline.
    */
   get segmentCount(): number {
     return this._points.length - 1;
   }
 
   /**
-   * Returns the list of segments that makeup the edges of the polyline.
+   * Gets the segments (or edges) of the polyline.
    */
   get segments(): readonly Line[] {
     if (this._cacheSegments === undefined) {
@@ -218,7 +224,7 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns the end of the polyline.
+   * Gets the end of the polyline.
    */
   get to(): Point {
     return this._points[this._points.length - 1];
@@ -229,7 +235,7 @@ export class Polyline extends Geometry {
   // -----------------------
 
   /**
-   * Returns the weighted average of all segments.
+   * Calculates the weighted average of all segments and returns the result.
    */
   public center(): Point {
     let x = 0;
@@ -248,8 +254,8 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns the index of the point in the list of [[points]] that is nearest to `testPoint`.
-   * @param testPoint   The target to measure distance from.
+   * Finds the closest point in the list of [[points]] and returns its index.
+   * @param testPoint   The target to get closest to.
    */
   public closestIndex(testPoint: Point): number {
     let bestIndex: number = 0;
@@ -266,9 +272,9 @@ export class Polyline extends Geometry {
   }
 
   /***
-   * Returns the parameter of the closest point on the polyline.
+   * Finds the closest point on the polyline and returns the parameter for the point.
    *
-   * @param testPoint   Finds the parameter of the closest point relative to this point.
+   * @param testPoint   The target to get closest to.
    * @returns           The parameter of the closest point. Entering the parameter into [[pointAt]] will return the closest point.
    */
   public closestParameter(testPoint: Point): number {
@@ -291,9 +297,9 @@ export class Polyline extends Geometry {
   }
 
   /***
-   * Returns the closest point on the polyline.
-   * @param testPoint     Finds the closest point relative to this point.
-   * @param includeInterior If false, the closest point must lie on the edge of the polyline.
+   * Finds the closest point on the polyline and returns the point.
+   * @param testPoint       Target to get closest to.
+   * @param includeInterior If false, the closest point must lie on a segment of the polyline.
    *                        If true, the closest point can also be a point on the interior of the polyline (if it is closed and has an interior).
    */
   public closestPoint(
@@ -325,7 +331,7 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns a copy of the polyline with short segments removed. This is achieved by
+   * Creates a copy of the polyline with short segments removed. This is achieved by
    * traveling along the polyline and removing any point closer to the previous
    * point than `minimumSegmentSize`. Does not remove [[from]] or [[to]] points.
    * @param minimumSegmentSize   Shortest allowable segment.
@@ -354,7 +360,7 @@ export class Polyline extends Geometry {
   }
 
   /***
-   * Returns true if the other polyline has the same points.
+   * Checks whether another polyline has the same points. Returns true if it does.
    * @param otherPolyline   Polyline to compare against.
    * @param tolerance       The amount the points can differ and still be considered equal.
    */
@@ -367,13 +373,17 @@ export class Polyline extends Geometry {
     return isEqual;
   }
 
-  /**
-   * Returns the parameters where this polyline intersects with other geometry.
+  /***
+   * Calculates where the polyline intersects other geometry and returns the parameters
+   * for these points of intersection.
    *
-   * Note: This is an alias for the [[Intersection.polyline]] function.
+   * @note              This is an alias for the [[Intersection.polyline]] function.
+   * @note              Only accounts for crossings, not coincident overlaps.
    *
-   * @param otherGeom   The geometry to intersect with.
-   * @returns           The parameter(s) where the intersections occur. Use [[pointAt]] to get actual points.
+   * @param otherGeom   The geometry to intersect.
+   * @returns           The parameters of the intersection points.
+   *                    The array will always be sorted smallest to largest parameter.
+   *                    Entering the parameter into [[pointAt]] will return the intersection point.
    */
   public intersection(
     otherGeom:
@@ -413,7 +423,8 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns a copy of the polyline with any colinear segments merged together.
+   * Creates a copy of the polyline with colinear segments merged together.
+   * This is achieved by traveling along the polyline and merging any segments that travel in the same direction.
    * @param angleTolerance  The minimum angle at which segments are no longer colinear, in radians.
    * @param includeSeam     If true, will also test seam on closed polylines for colinearity. If they are colinear, will move [[from]] and [[to]] points.
    */
@@ -428,12 +439,8 @@ export class Polyline extends Geometry {
       const last = points[points.length - 1]; // last point added
       const current = this._points[i];
       const next = this._points[i + 1];
-      if (
-        !Vector.fromPoints(last, current).isParallelTo(
-          Vector.fromPoints(current, next),
-          angleTolerance
-        )
-      ) {
+      const angle = Vector.fromPoints(last, current).angleSigned(Vector.fromPoints(current, next));
+      if(! approximatelyEqual(angle, 0, angleTolerance)) {
         points.push(current);
       }
     }
@@ -443,12 +450,8 @@ export class Polyline extends Geometry {
         const last = points[points.length - 1];
         const current = this.to;
         const next = points[1];
-        if (
-          Vector.fromPoints(last, current).isParallelTo(
-            Vector.fromPoints(current, next),
-            angleTolerance
-          )
-        ) {
+        const angle = Vector.fromPoints(last, current).angleSigned(Vector.fromPoints(current, next));
+        if(approximatelyEqual(angle, 0, angleTolerance)) {
           // The start and end point are colinear
           points.shift(); // Remove the start point
           points.push(next); // Finish at the next point rather than the true end.
@@ -462,9 +465,13 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns the normal to the polyline at a given parameter.
+   * Calculates the normal to the polyline at a given parameter.
+   *
    * If the polyline is closed, will always return the normal that points towards the inside.
    * If the polyline is open, vector will be on the left side of the segment (which is the right side if the environment's y-axis points downwards).
+   *
+   * @note  At corners where two segments join, returns the normal to the segment with the smallest index.
+   *
    * @param u   Position on the polyline to calculate the normal (see [[pointAt]] for explanation)
    * @returns   A unit vector
    */
@@ -484,10 +491,13 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns whether a closed polyline is in a clockwise or counterclockwise orientation.
-   * If the polyline is not closed, returns [[CurveOrientation.undefined]].
+   * Calculates whether a polyline is in a clockwise or counterclockwise orientation and returns the result.
+   * If the polyline is not closed, it can't have an orientation, so the function returns [[CurveOrientation.undefined]].
    *
-   * @param isYDown If the environment's y-axis points downwards, this should be set to `true`. Otherwise clockwise and counterclockwise will be inverted.
+   * @param isYDown   The function assumes that the environment's y-axis points upwards.
+   *                  In environments where the y-axis points downwards, `isYDown` should be set to `true`.
+   *                  This inverts clockwise and counterclockwise to ensure that
+   *                  they are in the correct orientation for how you're viewing them.
    */
   public orientation(isYDown: boolean = false): CurveOrientation {
     if (this.isClosed === false) {
@@ -518,31 +528,35 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns the point at a given parameter along the polyline. The integer represents
-   * the segment and the fraction represents the position on that segment (similar to [[Line.pointAt]]).
+   * Finds the point a normalized parameter along the polyline. Returns the point.
+   *
+   * Each segment of the polyline is parameterized from 0 to 1 (like [[Line.pointAt]]).
+   * So `0` is the start of the first segment, and `1` is the end.
+   * `0.5` is the midpoint of the first segment, and `1.5` is the mid point of the second segment.
    *
    * ### Example
    * ```js
    * const triangle = new Polyline([new Point(0, 0), new Point(1, 1), new Point(2, 0)], true);
    *
-   * // The start point of the polyline
+   * // The start of first segment
    * console.log(triangle.pointAt(0).toString());
    * // => (0,0)
    *
-   * // The first point of the polyline
+   * // Midpoint of first segment
+   * console.log(triangle.pointAt(0.5).toString());
+   * // => (0.5,0.5)
+   *
+   * // The end of first segment / start of second segment
    * console.log(triangle.pointAt(1).toString());
    * // => (1,1)
    *
-   * // The second point of the polyline
-   * console.log(triangle.pointAt(2).toString());
-   * // => (2,0)
-   *
-   * // The point midway between the polyline's first and second point.
+   * // Midpoint of second segment
    * console.log(triangle.pointAt(1.5).toString());
    * // => (1.5,0.5)
+   *
    * ```
    *
-   * @param u   Position on the polyline
+   * @param u   The normalized parameter.
    */
   public pointAt(u: number): Point {
     const index = Math.floor(u);
@@ -552,11 +566,9 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns a segment of the polyline.
+   * Gets a segment of the polyline.
    *
-   * @param index   An integer representing the index of the segment.
-   * segmentAt(0) will return the line between points[0] and points[1]
-   * segmentAt(3) will return the line between points[3] and points[4]
+   * @param index   The index of the segment.
    */
   public segmentAt(index: number): Line {
     const i = Math.floor(index);
@@ -571,10 +583,11 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns a copy of the polyline trimmed to the sub-domain.
-   * @param domain  The section of the polyline to return. domain.min will be the
-   * start of the new polyline, domain.max will be the end of the new polyline.
-   * Positions are calculated using same method as [[pointAt]].
+   * Extracts a section of the polyline. Returns the result.
+   * @param domain  The section of the polyline to extract. The domain contains
+   * two numbers, the `min`, which is the parameter for the start of the new polyline.
+   * And the `max`, which will be the end. Everything between these two points is included
+   * in the new polyline. The position of the domain is calculated using same method as [[pointAt]].
    */
   public trim(domain: IntervalSorted | Interval): Polyline {
     const points = Array<Point>();
@@ -601,7 +614,7 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns a copy of the polyline with the points in a reverse order.
+   * Creates a copy of the polyline with the points in a reverse order.
    */
   public reverse(): Polyline {
     const points = this._points.concat().reverse();
@@ -609,7 +622,7 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns the polyline as a string in the format: `[(x1,y1),(x2,y2),(x3,y3)]`.
+   * Gets the polyline as a string in the format: `[(x1,y1),(x2,y2),(x3,y3)]`.
    */
   public toString(): string {
     const strings = new Array<string>();
@@ -623,14 +636,14 @@ export class Polyline extends Geometry {
   // CLOSED ONLY
   // -----------------------
 
-  /**
-   * Returns the relationship between a point and a polyline.
+  /***
+   * Checks whether a point is inside, outside, or on the edge of a polyline.
    *
-   * Note: This method only works with closed polylines. It will throw an error if applied to an open polyline.
+   * @note This method only works with closed polylines. It will throw an error if applied to an open polyline.
    *
    * @category Closed
-   * @param point       Point to test for containment.
-   * @param tolerance   Distance the point can be from the edge of the polyline and still considered coincident.
+   * @param point       The point to test for containment.
+   * @param tolerance   The distance the point can be from the edge of the polyline and still considered coincident.
    */
   public contains(
     point: Point,
@@ -669,10 +682,10 @@ export class Polyline extends Geometry {
    * Returns a copy of the polyline with a given [[CurveOrientation]].
    * If the polyline already has that orientation, returns self.
    *
-   * Note: This method only works with closed polylines. It may throw an error if applied to an open polyline.
+   * @note This method only works with closed polylines. It may throw an error if applied to an open polyline.
    *
    * @category Closed
-   * @param goal      The new [[CurveOrientation]] of the polyline.
+   * @param goal      The desired orientation of the new polyline.
    */
   public withOrientation(goal: CurveOrientation, isYDown: boolean = false): Polyline {
     if (this.isClosed === false && goal !== CurveOrientation.undefined) {
@@ -687,7 +700,7 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Returns the polyline in the GeoJSON format.
+   * Gets the polyline in the GeoJSON format: `[[x1,y1],[x2,y2],...]`.
    */
   public asGeoJSON(): Ring {
     // Converts polyline into specific format needed by the PolygonClipping library.
@@ -704,7 +717,7 @@ export class Polyline extends Geometry {
   // -----------------------
 
   /***
-   * Returns a copy of the polyline transformed by a [[transform]] matrix.
+   * Transforms the polyline by a [[transform]] matrix and returns the result.
    *
    * ### Example
    * ```js
@@ -727,7 +740,7 @@ export class Polyline extends Geometry {
    * // => (3,4)
    * ```
    *
-   * @note  Note: If you're applying the same transformation a lot of geometry,
+   * @note If you're applying the same transformation a lot of geometry,
    * creating the [[Transform]] matrix once and calling this function is faster
    * than using the direct methods.
    *
