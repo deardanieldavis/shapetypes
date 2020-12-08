@@ -82,14 +82,14 @@ export class IntervalSorted extends Interval {
    * Gets [[T0]], which is always the min value in a sorted interval.
    */
   get min(): number {
-    return this._T0;
+    return this.T0;
   }
 
   /**
    * Gets [[T1]], which is always the min value in a sorted interval.
    */
   get max(): number {
-    return this._T1;
+    return this.T1;
   }
 
   // -----------------------

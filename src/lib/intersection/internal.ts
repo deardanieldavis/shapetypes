@@ -1,6 +1,16 @@
 /**
- * And THIS, my friends, is module 2.  Hard to believe, but this module might
- * be even more useless than module 1.  I'll leave that judgement to you.
+ * The intersection module contains a set of helper functions to calculate where
+ * various geometry intersect.
+ *
+ * For the most part, if you want to get the point of
+ * intersection between a line and any other type of geometry, you can call this
+ * directly ([[Line.intersection]]) without using any of the functions in this module.
+ * The same is true for rays ([[Ray.intersection]]) and polylines ([[Polyline.intersection]]).
+ *
+ * This module is helpful if you need more detailed information about particular
+ * intersections. For example, the [[Intersection.lineLine]] function calculates
+ * where two lines intersect and returns where the intersection occurs relative to
+ * each line.
  *
  * @moduledefinition Intersection
  */

@@ -14,10 +14,14 @@ import {
 } from '../../index';
 
 /**
- * Returns the parameters of intersection(s) between a line and any other type of geometry.
+ * Calculates where the line intersects other geometry and returns the parameters
+ * for these points of intersection.
+ *
+ * This function can be accessed directly through [[Line.intersection]].
+ *
  * @param theLine       The line to intersect.
- * @param otherGeom     The other geometry to test for intersection.
- * @returns             The parameter(s) along `theLine` where the intersections occur. Use [[Line.pointAt]] to get actual points.
+ * @param otherGeom     The geometry to intersect with the line.
+ * @returns             The parameters along `theLine` where the intersections occur. Use [[Line.pointAt]] to get actual points.
  *
  * @module  Intersection
  */
@@ -99,10 +103,16 @@ export function line(
 }
 
 /**
- * Returns the parameters of intersection(s) between a ray and any other type of geometry.
+ * Calculates where the ray intersects other geometry and returns the parameters
+ * for these points of intersection.
+ *
+ * This function can be accessed directly through [[Ray.intersection]].
+ *
  * @param theRay        The ray to intersect.
- * @param otherGeom     The other geometry to test for intersection.
- * @returns             The parameter(s) along `theRay` where the intersections occur. Use [[Ray.pointAt]] to get actual points.
+ * @param otherGeom     The geometry to intersect with the ray.
+ * @param range         The extent of the ray. Specifies whether the ray is
+ *                      shooting both forwards and backwards, or only forwards.
+ * @returns             The parameters along `theRay` where the intersections occur. Use [[Ray.pointAt]] to get actual points.
  *
  * @module  Intersection
  */
@@ -184,10 +194,16 @@ export function ray(
 }
 
 /**
- * Returns the parameters of intersection(s) between a polyline and any other type of geometry.
+ * Calculates where the polyline intersects other geometry and returns the parameters
+ * for these points of intersection.
+ *
+ * This function can be accessed directly through [[Polyline.intersection]].
+ *
+ * @note Only accounts for crossings, not coincident overlaps.
+ *
  * @param thePolyline   The polyline to intersect.
- * @param otherGeom     The other geometry to test for intersection.
- * @returns             The parameter(s) along `thePolyline` where the intersections occur. Use [[Polyline.pointAt]] to get actual points.
+ * @param otherGeom     The geometry to intersect with the polyline.
+ * @returns             The parameters along `thePolyline` where the intersections occur. Use [[Polyline.pointAt]] to get actual points.
  *
  * @module  Intersection
  */

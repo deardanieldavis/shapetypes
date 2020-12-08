@@ -93,10 +93,8 @@ export class Interval {
   // -----------------------
   // VARS
   // -----------------------
-  /** @ignore */
-  protected readonly _T0: number;
-  /** @ignore */
-  protected readonly _T1: number;
+  private readonly _T0: number;
+  private readonly _T1: number;
 
   // -----------------------
   // CONSTRUCTOR

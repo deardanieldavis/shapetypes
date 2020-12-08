@@ -51,7 +51,7 @@ export abstract class Geometry {
     return this.transform(tran);
   }
 
-  /**
+  /***
    * Moves the geometry from one plane to another. The resulting geometry will be
    * in the same place relative to `planeTo` as it was relative to `planeFrom`.
    *
@@ -83,7 +83,8 @@ export abstract class Geometry {
    *
    * @see [[Transform.rotate]].
    *
-   * @param angle   Angle to rotate the geometry, in radians. The direction is counter-clockwise.
+   * @param angle   Angle to rotate the geometry, in radians.
+   *                If the environments y-axis points upwards, the direction is counter-clockwise.
    * @param pivot   Point to pivot the geometry about.
    *
    * @category Transform
@@ -95,13 +96,13 @@ export abstract class Geometry {
     return this.transform(tran);
   }
 
-  /**
+  /***
    * Scales the geometry and returns the result. The geometry will be scaled about
    * (0,0), meaning everything will shrink or expand away from this point.
    *
    * @see [[Transform.scale]].
    *
-   * @param amount  Magnitude to scale in x & y direction.
+   * @param amount  Magnitude to scale in x & y direction. If less than 1, the object will shrink. If greater than 1, it will grow.
    *
    * @category Transform
    */
@@ -113,8 +114,8 @@ export abstract class Geometry {
    *
    * @see [[Transform.scale]].
    *
-   * @param x       Magnitude to scale in x direction.
-   * @param y       Magnitude to scale in y direction.
+   * @param x       Magnitude to scale in x direction. If less than 1, the object will shrink. If greater than 1, it will grow.
+   * @param y       Magnitude to scale in y direction. If less than 1, the object will shrink. If greater than 1, it will grow.
    *
    * @category Transform
    */
@@ -125,8 +126,8 @@ export abstract class Geometry {
    *
    * @see [[Transform.scale]].
    *
-   * @param x       Magnitude to scale in x direction.
-   * @param y       Magnitude to scale in y direction.
+   * @param x       Magnitude to scale in x direction. If less than 1, the object will shrink. If greater than 1, it will grow.
+   * @param y       Magnitude to scale in y direction. If less than 1, the object will shrink. If greater than 1, it will grow.
    * @param center  Center of scaling. Everything will shrink or expand away from this point.
    *
    * @category Transform
@@ -138,7 +139,7 @@ export abstract class Geometry {
     return this.transform(tran);
   }
 
-  /**
+  /***
    * Moves the geometry along a vector and returns the result.
    * The translation is always linear.
    *

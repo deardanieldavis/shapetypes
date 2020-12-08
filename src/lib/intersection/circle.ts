@@ -9,6 +9,9 @@ import {
   Vector
 } from '../../index';
 
+/**
+ * The number of intersections between a line and a circle. Used in [[Intersection.lineCircle]].
+ */
 export enum LineCircleIntersection {
   none,
   single,
@@ -16,9 +19,9 @@ export enum LineCircleIntersection {
 }
 
 /**
- * Returns the parameters of intersection(s) between a line and a circle.
- * @param line      The line
- * @param circle    The circle
+ * Calculates the points of intersection between a line and a circle.
+ * @param line      The line to intersect with the circle.
+ * @param circle    The circle to intersect with the line.
  *
  * @module  Intersection
  */
@@ -26,9 +29,9 @@ export function lineCircle(
   line: Line,
   circle: Circle
 ): {
-  /** The number of intersections between `line` and `circle`. */
+  /** The number of times the line intersects the circle. */
   readonly intersects: LineCircleIntersection;
-  /** The parameter(s) along `line` where the intersections occur. Use [[Line.pointAt]] to get actual points. */
+  /** The parameters along the line where the intersections occur. Use [[Line.pointAt]] to get the actual points. */
   readonly u: readonly number[];
 } {
   // Based on: https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
@@ -76,9 +79,11 @@ export function lineCircle(
 }
 
 /**
- * Returns the parameters of intersection(s) between a ray and a circle.
- * @param ray     The ray
- * @param circle  The circle
+ * Calculates the points of intersection between a ray and a circle.
+ * @param ray     The ray to intersect with the circle.
+ * @param circle  The circle to intersect with the ray.
+ * @param range   The extent of the ray. Specifies whether the ray is
+ *                 shooting both forwards and backwards, or only forwards.
  *
  * @module Intersection
  */
@@ -87,9 +92,9 @@ export function rayCircle(
   circle: Circle,
   range: RayRange = RayRange.both
 ): {
-  /** The number of intersections between `ray` and `circle`. */
+  /** The number of times the ray intersects the circle. */
   readonly intersects: LineCircleIntersection;
-  /** The parameter(s) along `ray` where the intersections occur. Use [[Ray.pointAt]] to get actual points. */
+  /** The parameters along the ray where the intersections occur. Use [[Ray.pointAt]] to get the actual points. */
   readonly u: readonly number[];
 } {
   // Based on: https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm

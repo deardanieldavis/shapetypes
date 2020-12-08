@@ -2,9 +2,9 @@
 import { BoundingBox, IntervalSorted, Line, Ray, RayRange } from '../../index';
 
 /**
- * Returns the parameters of an intersection between a line and a bounding box.
- * @param line      The line
- * @param box       The bounding box
+ * Calculates which portion of a line is inside a bounding box. Returns the result.
+ * @param line      The line to intersect with the box.
+ * @param box       The bounding box to intersect with the line.
  *
  * @module  Intersection
  */
@@ -12,9 +12,9 @@ export function lineBox(
   line: Line,
   box: BoundingBox
 ): {
-  /** True if `line` intersects `box`. */
+  /** True if the line intersects the box. */
   readonly intersects: boolean;
-  /** The portion of `line` within the `box`. Use [[Line.pointAt]] to get actual points. */
+  /** The portion of the line within the box. Use [[Line.pointAt]] to get actual points. Note that the two ends of the interval aren't always points of intersection – for example, a line could be completely inside a box without touching the sides, in which case the interval would be the full length of the line (0 to 1) but neither 0 nor 1 would be a point of intersection. */
   readonly domain: IntervalSorted;
 } {
   // Reject lines that obviously wont intersect
@@ -97,9 +97,11 @@ export function lineBox(
 }
 
 /**
- * Returns the parameters of an intersection between a ray and a bounding box.
- * @param ray      The ray
- * @param box      The bounding box
+ * Calculates which portion of a ray is inside a bounding box. Returns the result.
+ * @param ray      The ray to intersect with the box.
+ * @param box      The bounding box to intersect with the ray.
+ * @param range    The extent of the ray. Specifies whether the ray is
+ *                 shooting both forwards and backwards, or only forwards.
  *
  * @module Intersection
  */
@@ -108,9 +110,9 @@ export function rayBox(
   box: BoundingBox,
   range: RayRange = RayRange.both
 ): {
-  /** True if `ray` intersects `box` */
+  /** True if the ray intersects the box. */
   readonly intersects: boolean;
-  /** The portion of `ray` within the `box`. Use [[Ray.pointAt]] to get actual points. */
+  /** The portion of the ray within the box. Use [[Ray.pointAt]] to get actual points. Note that if you've limited the ray's range to only shoot forwards, one value in the interval could be the start of the ray rather than the point of intersection. */
   readonly domain: IntervalSorted;
 } {
   // Use Liang-Barsky's algorithm to find possible intersections

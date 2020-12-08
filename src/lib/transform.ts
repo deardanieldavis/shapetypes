@@ -1,7 +1,16 @@
 import { Plane, Point, Vector } from '../index';
 
 /**
- * A Transform contains a 3x3 transformation matrix used to rotate, scale, and translate points and vectors.
+ * A 3x3 transformation matrix used to rotate, scale, and translate geometry.
+ *
+ *
+ * In many cases, you don't need to create this transformation matrix yourself,
+ * you can instead use the transformation functions avalible to all [[Geometry]] objects.
+ * That said, in some cases you may still want to create your own matrix, particularly if you're
+ * doing your own custom transformations, or you're applying the same transformation
+ * many times. In this case, all geometry objects have a method apply a transformation
+ * matrix (see: [[Vector.transform]] as an example).
+ *
  *
  * ### Example
  * ```js
@@ -21,11 +30,12 @@ export class Transform {
   // -----------------------
 
   /**
-   * Returns a new transform matrix where the diagonal elements ([[M00]], [[M11]], [[M22]]) are
-   * set to `diagonal` and the other elements are set to `base`.
+   * Creates a transform matrix where the diagonal elements ([[M00]], [[M11]], [[M22]]) are
+   * set to one value and the other elements are set to another value.
    *
-   * @param base        Value for all elements except [[M00]], [[M11]], [[M22]]
-   * @param diagonal    Value for elements [[M00]], [[M11]], [[M22]]
+   * @category Create
+   * @param base        The value for all elements except [[M00]], [[M11]], [[M22]].
+   * @param diagonal    The value for elements [[M00]], [[M11]], [[M22]].
    */
   public static fromDiagonal(base: number = 0, diagonal = 1): Transform {
     return new Transform(
@@ -42,17 +52,19 @@ export class Transform {
   }
 
   /**
-   * Returns a new transform matrix where the diagonal elements ([[M00]], [[M11]], [[M22]]) are
+   * Creates a transform matrix where the diagonal elements ([[M00]], [[M11]], [[M22]]) are
    * set to 1 and the other elements are set to 0.
+   * @category Create
    */
   public static identity(): Transform {
     return Transform._identity;
   }
 
-  /**
-   * Returns a new transform matrix that takes an object described in one coordinate system and describes it in another.
+  /***
+   * Creates transform matrix that transforms the geometry from one coordinate system
+   * to another while keeping the geometry in the same position.
    * In other words, if the geometry is described relative to `planeFrom`, after
-   * translation, it will be in the same position but described relative to `planeTo`.
+   * applying this translation, it will be in the same position but described relative to `planeTo`.
    *
    * ### Example
    * ```js
@@ -65,8 +77,9 @@ export class Transform {
    * // => [4,6]
    * ```
    *
-   * @param planeFrom   The coordinate system the geometry is described relative to.
-   * @param planeTo     The coordinate system to describe the geometry relative to.
+   * @category Create
+   * @param planeFrom   The coordinate system the geometry is currently described in.
+   * @param planeTo     The coordinate system to describe the geometry in.
    */
   public static changeBasis(planeFrom: Plane, planeTo: Plane): Transform {
     if (
@@ -100,8 +113,9 @@ export class Transform {
     return rotate.multiply(tran);
   }
 
-  /**
-   * Returns a new transform matrix that takes an object relative to one plane and moves it into the same position relative to another plane.
+  /***
+   * Creates transform matrix that moves the geometry from one plane to another.
+   * The resulting geometry will be in the same place relative to `planeTo` as it was relative to `planeFrom`.
    *
    * ### Example
    * ```js
@@ -114,8 +128,9 @@ export class Transform {
    * // => [1,2]
    * ```
    *
-   * @param planeFrom   The plane to move from
-   * @param planeTo     The plane to move relative to
+   * @category Create
+   * @param planeFrom   The plane to move from.
+   * @param planeTo     The plane to move to.
    */
   public static planeToPlane(planeFrom: Plane, planeTo: Plane): Transform {
     const translate = Transform.translate(
@@ -132,12 +147,12 @@ export class Transform {
     return translate.multiply(rotate);
   }
 
-  /**
-   * Returns a new Transform matrix that rotates an object about a point.
+  /***
+   * Creates a transform matrix that rotates an object about a point.
    *
+   * @category Create
    * @param angle   Angle of rotation, in radians.
-   *                If the environment's y-axis points upwards, a positive angle rotates counter-clockwise.
-   *                If the environment's y-axis points downwards, it rotates clockwise.
+   *                If the environments y-axis points upwards, the direction is counter-clockwise.
    * @param pivot   Pivot point for rotation. If undefined, the object will be rotated about 0,0.
    */
   public static rotate(angle: number, pivot?: Point | undefined): Transform {
@@ -172,9 +187,11 @@ export class Transform {
   }
 
   /**
-   * Returns a new Transform matrix that scales the geometry by a specified amount along the x and y axis
-   * @param x   The amount to scale the object along the x axis. If less than 1, the object will shrink. If greater than 1, it will grow. If 2, it will double.
-   * @param y   The amount to scale the object along the y axis. If undefined, uses value from [[x]].
+   * Creates a transform matrix that scales the geometry by a specified amount along the x and y axis.
+   *
+   * @category Create
+   * @param x   The amount to scale the object along the x axis. If less than 1, the object will shrink. If greater than 1, it will grow.
+   * @param y   The amount to scale the object along the y axis. If undefined, uses value from `x`.
    * @param center    The center of scaling. All objects will shrink towards and grow away from this point. If undefined, will use 0,0.
    */
   public static scale(x: number, y?: number, center?: Point): Transform {
@@ -200,9 +217,11 @@ export class Transform {
     );
   }
 
-  /**
-   * Returns a new Transform matrix that moves an object along a vector
-   * @param move        The direction to move the object
+  /***
+   * Creates a transform matrix that moves an object along a vector.
+   *
+   * @category Create
+   * @param move        The direction to move the object.
    * @param distance    The distance to move the object. If set to undefined, will use length of `move` vector.
    */
   public static translate(
@@ -307,7 +326,7 @@ export class Transform {
   // -----------------------
 
   /**
-   * Returns the determinant for the matrix
+   * Gets the determinant of the matrix.
    */
   get determinant(): number {
     return (
@@ -368,12 +387,20 @@ export class Transform {
   }
 
   /**
-   * Returns the inverse of this matrix. Generally, applying the inverse matrix to an object will undo the impact of the original matrix.
-   * @returns   Returns an object containing two values –
-   *            success: will be `true` if the matrix was successfully inverted (in some cases it can't be);
-   *            result: if successful, will return the inverted matrix. Otherwise returns the original matrix.
+   * Inverts the matrix and returns the result. Generally, applying the inverse
+   * matrix to an object will undo the impact of the original matrix. So if the
+   * original matrix rotated the object 90 degrees, the inverted matrix will rotate
+   * the object 90 degree in the opposite direction.
+   *
+   * @note  In some cases it isn't possible to invert the matrix.
+   * If it isn't possible the `success` return value will be `false`.
    */
-  public inverse(): { readonly success: boolean; readonly result: Transform } {
+  public inverse(): {
+    /** If the inversion was successful, will be `true`. */
+    readonly success: boolean;
+    /** If the inversion was successful, will contain the inverted matrix. Otherwise contains the original matrix. */
+    readonly result: Transform
+  } {
     // Based on: https://stackoverflow.com/questions/983999/simple-3x3-matrix-inverse-code-c
     const determinant = this.determinant;
 
@@ -402,8 +429,8 @@ export class Transform {
   }
 
   /**
-   * Returns a copy of this matrix multiplied by another matrix.
-   * @param factor    Transform matrix to multiply by.
+   * Multiplies this matrix by another matrix and returns the resulting matrix.
+   * @param factor    The matrix to multiply by.
    */
   public multiply(factor: Transform): Transform {
     const M00 =
@@ -458,16 +485,16 @@ export class Transform {
   }
 
   /**
-   * Returns a copy of the Transform matrix with certain values replaced.
+   * Creates a copy of the Transform matrix with certain values replaced.
    * @param M00   The new value for M00. If undefined, will use the existing value in the matrix.
-   * @param M10
-   * @param M20
-   * @param M01
-   * @param M11
-   * @param M21
-   * @param M02
-   * @param M12
-   * @param M22
+   * @param M10   The new value for M10. If undefined, will use the existing value in the matrix.
+   * @param M20   The new value for M20. If undefined, will use the existing value in the matrix.
+   * @param M01   The new value for M01. If undefined, will use the existing value in the matrix.
+   * @param M11   The new value for M11. If undefined, will use the existing value in the matrix.
+   * @param M21   The new value for M21. If undefined, will use the existing value in the matrix.
+   * @param M02   The new value for M02. If undefined, will use the existing value in the matrix.
+   * @param M12   The new value for M12. If undefined, will use the existing value in the matrix.
+   * @param M22   The new value for M22. If undefined, will use the existing value in the matrix.
    */
   public withValues(
     M00: number | undefined,

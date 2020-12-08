@@ -1,17 +1,12 @@
 import { inRayRange, Line, Ray, RayRange } from '../../index';
 
 /**
- * Calculates the intersection between a ray and a line
+ * Calculates the point of intersection between a ray and a line.
  *
- * Based on:
- * https://github.com/davidfig/pixi-intersects/blob/master/src/shape.js
- *
- * @param ray: Ray to shoot into line
- * @param line: Line to test intersection with
- * @param bothSides: If true, will include intersections that happen behind the start point (eg. a negative rayU)
- * @returns:    success: true if the lines intersect. eg. aren't parallel.
- *              rayU: parameter along ray where intersection occurs. U is the same as distance since the ray is normalized.
- *              lineU: parameter on the line where the ray intersects. Will always be between 0 & 1, the bounds of the line.
+ * @param ray   The ray to intersect with the line.
+ * @param line  The line to intersect with the ray.
+ * @param range The extent of the ray. Specifies whether the ray is
+ *              shooting both forwards and backwards, or only forwards.
  *
  * @module  Intersection
  */
@@ -20,8 +15,11 @@ export function rayLine(
   line: Line,
   range: RayRange = RayRange.both
 ): {
+  /** True if the ray and line intersect. */
   readonly intersects: boolean;
+  /** The parameter along `ray` where the intersection occurs. Use [[Ray.pointAt]] to get the actual point. */
   readonly rayU: number;
+  /** The parameter along `line` where the intersection occurs. Use [[Line.pointAt]] to get the actual point. */
   readonly lineU: number;
 } {
   // Based on:
@@ -53,10 +51,12 @@ export function rayLine(
 }
 
 /**
+ * Calculates the point of intersection between two rays.
  *
- * @param rayA
- * @param rayB
- * @param bothSides
+ * @param rayA      The first ray.
+ * @param rayB      The second ray.
+ * @param range     The extent of the ray. Specifies whether the ray is
+ *                  shooting both forwards and backwards, or only forwards.
  *
  * @module  Intersection
  */
@@ -65,8 +65,11 @@ export function rayRay(
   rayB: Ray,
   range: RayRange = RayRange.both
 ): {
+  /** True if the two rays intersect. */
   readonly intersects: boolean;
+  /** The parameter along `rayA` where the intersection occurs. Use [[Ray.pointAt]] to get the actual point. */
   readonly rayAU: number;
+  /** The parameter along `rayB` where the intersection occurs. Use [[Ray.pointAt]] to get the actual point. */
   readonly rayBU: number;
 } {
   // Based on:
