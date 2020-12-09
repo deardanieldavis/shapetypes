@@ -1,6 +1,6 @@
 {
   "name": "shapetypes",
-  "version": "1.1.8-alpha.3",
+  "version": "1.2.0",
   "description": "2d geometric objects and operations - including intersections, booleans, and transformations",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",

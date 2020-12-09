@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/deardanieldavis/shapetypes/compare/v1.1.8-alpha.3...v1.2.0) (2020-12-09)
+
 ### [1.1.8-alpha.3](https://github.com/deardanieldavis/shapetypes/compare/v1.1.8-alpha.2...v1.1.8-alpha.3) (2020-10-30)
 
 ### [1.1.8-alpha.2](https://github.com/deardanieldavis/shapetypes/compare/v1.1.8-alpha.1...v1.1.8-alpha.2) (2020-09-22)
