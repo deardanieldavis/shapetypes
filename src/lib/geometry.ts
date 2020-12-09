@@ -72,7 +72,7 @@ export abstract class Geometry {
    *
    * @see [[Transform.rotate]].
    *
-   * @param angle   Angle to rotate the geometry, in radians. The direction is counter-clockwise.
+   * @param angle   Angle to rotate the geometry (in radians). The direction is counter-clockwise.
    *
    * @category Transform
    */
@@ -83,8 +83,8 @@ export abstract class Geometry {
    *
    * @see [[Transform.rotate]].
    *
-   * @param angle   Angle to rotate the geometry, in radians.
-   *                If the environments y-axis points upwards, the direction is counter-clockwise.
+   * @param angle   Angle to rotate the geometry (in radians).
+   *                If the environment's y-axis points upwards, the direction is counter-clockwise.
    * @param pivot   Point to pivot the geometry about.
    *
    * @category Transform
@@ -97,37 +97,37 @@ export abstract class Geometry {
   }
 
   /***
-   * Scales the geometry and returns the result. The geometry will be scaled about
+   * Scales the geometry and returns the resized geometry. The geometry will be scaled about
    * (0,0), meaning everything will shrink or expand away from this point.
    *
    * @see [[Transform.scale]].
    *
-   * @param amount  Magnitude to scale in x & y direction. If less than 1, the object will shrink. If greater than 1, it will grow.
+   * @param amount  Magnitude to scale in x- and y-direction. If less than 1, the object will shrink. If greater than 1, it will grow.
    *
    * @category Transform
    */
   public scale(amount: number): this;
   // tslint:disable-next-line:unified-signatures
   /**
-   * Scales the geometry and returns the result. The geometry will be scaled about
+   * Scales the geometry and returns the resized geometry. The geometry will be scaled about
    * (0,0), meaning everything will shrink or expand away from this point.
    *
    * @see [[Transform.scale]].
    *
-   * @param x       Magnitude to scale in x direction. If less than 1, the object will shrink. If greater than 1, it will grow.
-   * @param y       Magnitude to scale in y direction. If less than 1, the object will shrink. If greater than 1, it will grow.
+   * @param x       Magnitude to scale in x-direction. If less than 1, the object will shrink. If greater than 1, it will grow.
+   * @param y       Magnitude to scale in y-direction. If less than 1, the object will shrink. If greater than 1, it will grow.
    *
    * @category Transform
    */
   public scale(x: number, y: number): this;
   // tslint:disable-next-line:unified-signatures
   /**
-   * Scales the geometry about a point and returns the result.
+   * Scales the geometry about a point and returns the resized geometry.
    *
    * @see [[Transform.scale]].
    *
-   * @param x       Magnitude to scale in x direction. If less than 1, the object will shrink. If greater than 1, it will grow.
-   * @param y       Magnitude to scale in y direction. If less than 1, the object will shrink. If greater than 1, it will grow.
+   * @param x       Magnitude to scale in x-direction. If less than 1, the object will shrink. If greater than 1, it will grow.
+   * @param y       Magnitude to scale in y-direction. If less than 1, the object will shrink. If greater than 1, it will grow.
    * @param center  Center of scaling. Everything will shrink or expand away from this point.
    *
    * @category Transform
@@ -140,7 +140,7 @@ export abstract class Geometry {
   }
 
   /***
-   * Moves the geometry along a vector and returns the result.
+   * Moves the geometry along a vector and returns the moved geometry.
    * The translation is always linear.
    *
    * @see [[Transform.translate]].
@@ -151,7 +151,7 @@ export abstract class Geometry {
    */
   public translate(move: Vector): this;
   /**
-   * Moves the geometry along a vector and returns the result.
+   * Moves the geometry along a vector and returns the moved geometry.
    * The translation is always linear.
    *
    * @see [[Transform.translate]].

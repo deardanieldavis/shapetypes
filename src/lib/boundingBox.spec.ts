@@ -69,7 +69,7 @@ test('union: Creates bounding box that encapsulates inputs', t => {
   t.is(result.yRange.max, 10);
 });
 
-test("intersection: boxes that don't overlap in x direction return undefined", t => {
+test("intersection: boxes that don't overlap in x-direction return undefined", t => {
   const boxA = new BoundingBox(new Interval(0, 10), new Interval(0, 10));
   const boxB = new BoundingBox(new Interval(20, 30), new Interval(0, 10));
   const result = BoundingBox.intersection(boxA, boxB);
@@ -302,6 +302,10 @@ test('toPolyline: Converts box to polyline that is the right size', t => {
   t.is(poly.points[0].y, 5);
   t.is(poly.points[2].x, 10);
   t.is(poly.points[2].y, 25);
+});
+
+test('toString: Returns string in correct format', t => {
+  t.is(t.context.bb.toString(), "[[0,10],[5,25]]");
 });
 
 test('withXRange: can change interval', t => {

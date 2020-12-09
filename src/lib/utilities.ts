@@ -13,7 +13,7 @@ export enum PointContainment {
 }
 
 /**
- * The orientation of a curve. This can either be [[clockwise]], [[counterclockwise]], or [[undefined]].
+ * The orientation of a curve. The orientation can either be [[clockwise]], [[counterclockwise]], or [[undefined]].
  */
 export enum CurveOrientation {
   undefined,

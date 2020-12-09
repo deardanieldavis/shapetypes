@@ -9,8 +9,8 @@ import {
 } from '../index';
 
 /**
- * A rectangle aligned to the environment's x-y axis ([[Vector.xAxis]].
- * A bounding box is defined by two [[IntervalSorted]]s, which give the dimensions of the rectangle along the x and y axis.
+ * A rectangle aligned to the environment's x- and y-axis ([[Vector.xAxis]].
+ * A bounding box is defined by two [[IntervalSorted]]s, which give the dimensions of the rectangle along the x- and y-axis.
  *
  * ### Example
  * ```js
@@ -81,9 +81,9 @@ export class BoundingBox extends Geometry {
   /**
    * Finds the overlapping portion of two bounding boxes and returns it as a new bounding box.
    * @category Create
-   * @param a   The first BoundingBox to intersect
-   * @param b   The second BoundingBox to intersect
-   * @returns: A BoundingBox representing the overlap between these two boxes. If no overlap exists, returns undefined.
+   * @param a   The first bounding box to intersect
+   * @param b   The second bounding box to intersect
+   * @returns: A bounding box representing the overlap between these two boxes. If no overlap exists, returns undefined.
    */
   public static intersection(
     a: BoundingBox,
@@ -115,8 +115,8 @@ export class BoundingBox extends Geometry {
 
   /**
    * Create a bounding box from two intervals.
-   * @param xRange  The dimensions of the BoundingBox along the environment's x-axis ([[Vector.xAxis]]). The box will be from xRange.min to xRange.max.
-   * @param yRange  The dimensions of the BoundingBox along the environment's y-axis.
+   * @param xRange  The dimensions of the bounding box along the environment's x-axis ([[Vector.xAxis]]). The box will be from xRange.min to xRange.max.
+   * @param yRange  The dimensions of the bounding box along the environment's y-axis.
    */
   constructor(
     xRange: IntervalSorted | Interval,
@@ -169,7 +169,7 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Gets the position of the BoundingBox along the environment's x-axis ([[Vector.xAxis]]).
+   * Gets the position of the bounding box along the environment's x-axis ([[Vector.xAxis]]).
    */
   get yRange(): IntervalSorted {
     return this._yRange;
@@ -218,7 +218,7 @@ export class BoundingBox extends Geometry {
   /**
    * Checks whether a point is inside the bounding box.
    * @param testPoint   Point to test for containment
-   * @param strict      If true, the point needs to be fully inside the bounding box
+   * @param strict      If true, the point needs to be entirely inside the bounding box
    *                    and can't be coincident with the edge.
    * @param tolerance   The distance the point can be outside the box and still considered inside.
    */
@@ -237,8 +237,8 @@ export class BoundingBox extends Geometry {
 
   /**
    * Gets one of the bounding box's four corners.
-   * @param minX  If true, point will be at the min x value. If false, will be at max.
-   * @param minY  If true, point will be at the min y value. If false, will be at max.
+   * @param minX  If true, point will be at the min x value. If false, it will be at max.
+   * @param minY  If true, point will be at the min y value. If false, it will be at max.
    */
   public corner(minX: boolean, minY: boolean): Point {
     if (minX) {
@@ -283,7 +283,7 @@ export class BoundingBox extends Geometry {
   }
 
   /**
-   * Evenly increases the size of the bounding box in all directions. Returns the result.
+   * Evenly increases the size of the bounding box in all directions. Returns the enlarged bounding box.
    * @param amount  The amount to inflate each side of the bounding box.
    */
   public inflate(amount: number): BoundingBox;
@@ -329,9 +329,9 @@ export class BoundingBox extends Geometry {
   /**
    * Remaps a point from the u-v space of the bounding box to the global coordinate system.
    * This is the opposite of [[remapToBox]].
-   * @param uvPoint   A point in the u-v coordinates of the BoundingBox.
-   *                  The point's x value is the normalized distance along the x-axis of the bounding box (u direction).
-   *                  The point's y value is the normalized distance along the y-axis of the bounding box (y direction).
+   * @param uvPoint   A point in the u-v coordinates of the bounding box.
+   *                  The point's x value is the normalized distance along the x-axis of the bounding box (u-direction).
+   *                  The point's y value is the normalized distance along the y-axis of the bounding box (v-direction).
    * @returns         The uvPoint remapped to the global coordinate system.
    */
   public pointAt(uvPoint: Point): Point;
@@ -385,7 +385,7 @@ export class BoundingBox extends Geometry {
    * Gets the bounding box as a string in the format: `[xRange,yRange]`.
    */
   public toString(): string {
-    return '[' + this._xRange + ',' + this._yRange + ']';
+    return '[' + this._xRange.toString() + ',' + this._yRange.toString() + ']';
   }
 
   /**

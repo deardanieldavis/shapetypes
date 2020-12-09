@@ -4,7 +4,7 @@ import { Line, Point, Polyline, shapetypesSettings } from '../../index';
  * Returns the number of times a horizontal ray intersects with a polyline.
  *
  * This is a more efficient version of [[Intersection.ray]] used for [[polyline.contains]].
- * Assumes point has already been tested for inclusion within the polyline's boundingbox.
+ * Assumes point has already been tested for inclusion within the polyline's bounding box.
  *
  *
  * @param start       The start of the ray. The ray will be shot with a vector of 1,0

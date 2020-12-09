@@ -3,10 +3,10 @@ import { inRayRange, Line, Ray, RayRange } from '../../index';
 /**
  * Calculates the point of intersection between a ray and a line.
  *
- * @param ray   The ray to intersect with the line.
- * @param line  The line to intersect with the ray.
+ * @param ray   The ray that intersects the line.
+ * @param line  The line that intersects the ray.
  * @param range The extent of the ray. Specifies whether the ray is
- *              shooting both forwards and backwards, or only forwards.
+ *              shooting both forward and backward, or only forward.
  *
  * @module  Intersection
  */
@@ -56,7 +56,7 @@ export function rayLine(
  * @param rayA      The first ray.
  * @param rayB      The second ray.
  * @param range     The extent of the ray. Specifies whether the ray is
- *                  shooting both forwards and backwards, or only forwards.
+ *                  shooting both forward and backward, or only forward.
  *
  * @module  Intersection
  */

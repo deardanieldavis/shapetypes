@@ -94,7 +94,7 @@ test('Constructor: Using an open polyline for a hole throws error', t => {
     new Polygon(polyline, [hole]);
   });
 });
-test('Constructor: Changes curve orientation of hole to be anti-clockwise', t => {
+test('Constructor: Changes curve orientation of hole to be counter-clockwise', t => {
   const polyline = Polyline.fromCoords(
     [
       [0, 0],

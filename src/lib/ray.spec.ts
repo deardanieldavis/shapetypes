@@ -105,10 +105,21 @@ test('closestPoint: Returns correct point when point is off line', t => {
   t.true(t.context.flat.closestPoint(new Point(4, 0)).equals(new Point(4, 4)));
 });
 
+test('equals: Identifies identical rays', t => {
+  t.is(t.context.angled.equals(new Ray(new Point(3, 4), new Vector(3, 4))), true);
+});
+test('equals: Identifies that a ray is slightly different', t => {
+  t.is(t.context.angled.equals(new Ray(new Point(3.01, 4), new Vector(3, 4))), false);
+});
+
 test('intersection: generates correct intersections', t => {
   const result = t.context.flat.intersection([new Point(5,4), new Point(6,4)]);
   t.is(result[0], 2);
   t.is(result[1], 3);
+});
+
+test('toString: returns string in correct format', t => {
+  t.is(t.context.flat.toString(), "[(3,4),⟨1,0⟩]");
 });
 
 test('withFrom: correctly replaces from', t => {

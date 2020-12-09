@@ -10,7 +10,7 @@ import {
 } from '../../index';
 
 /**
- * The number of intersections between a line and a circle. Used in [[Intersection.lineCircle]].
+ * The number of intersections between a line and a circle. This value is returned by [[Intersection.lineCircle]].
  */
 export enum LineCircleIntersection {
   none,
@@ -20,8 +20,8 @@ export enum LineCircleIntersection {
 
 /**
  * Calculates the points of intersection between a line and a circle.
- * @param line      The line to intersect with the circle.
- * @param circle    The circle to intersect with the line.
+ * @param line      The line to intersect.
+ * @param circle    The circle that intersects the line.
  *
  * @module  Intersection
  */
@@ -80,10 +80,10 @@ export function lineCircle(
 
 /**
  * Calculates the points of intersection between a ray and a circle.
- * @param ray     The ray to intersect with the circle.
- * @param circle  The circle to intersect with the ray.
+ * @param ray     The ray to intersect.
+ * @param circle  The circle that intersects the ray.
  * @param range   The extent of the ray. Specifies whether the ray is
- *                 shooting both forwards and backwards, or only forwards.
+ *                 shooting both forward and backward, or only forward.
  *
  * @module Intersection
  */

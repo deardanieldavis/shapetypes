@@ -152,6 +152,10 @@ test('contains: works when point is on edge of rectangle', t => {
   const edgePoint = new Point(5, 5);
   t.is(t.context.basic.contains(edgePoint), PointContainment.coincident);
 });
+test('contains: works when point is on other edge of rectangle', t => {
+  const edgePoint = new Point(0, 15);
+  t.is(t.context.basic.contains(edgePoint), PointContainment.coincident);
+});
 
 test('corner: Generates points in right position', t => {
   t.is(t.context.basic.corner(true, true).x, 0);

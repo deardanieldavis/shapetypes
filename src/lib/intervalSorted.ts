@@ -4,7 +4,7 @@ import {
 
 /**
  * A special [[Interval]] where T0 is always the smallest value and T1 is always the largest.
- * As a result [[isIncreasing]] will always return `true`.
+ * As a result, [[isIncreasing]] will always return `true`.
  *
  * ### Example
  * ```js
@@ -48,7 +48,7 @@ export class IntervalSorted extends Interval {
   /***
    * Creates a sorted interval from two values.
    * The values don't need to be provided in order as they are sorted when the interval is constructed.
-   * This means that the T0 value may be reassigned to T1 if it's the largest value, and vice versa
+   * This means that the T0 value may be reassigned to T1 if it's the largest value, and vice versa.
    * @param T0  One end of the interval. This value may be assigned to T1 if it is the largest parameter.
    * @param T1  The other end of the interval. This value may be assigned to T0 if it is the smallest parameter.
    */
@@ -65,14 +65,14 @@ export class IntervalSorted extends Interval {
   // -----------------------
 
   /**
-   * A sorted interval is always increasing so this will return false.
+   * A sorted interval is always increasing, so this will return false.
    */
   get isDecreasing(): boolean {
     return false;
   }
 
   /**
-   * A sorted interval is always increasing so this will return true.
+   * A sorted interval is always increasing, so this will return true.
    */
   get isIncreasing(): boolean {
     return true;
@@ -97,7 +97,7 @@ export class IntervalSorted extends Interval {
   // -----------------------
 
   /**
-   * Moves the min and max apart by a set amount. Returns the result.
+   * Moves the min and max apart by a set amount. Returns the enlarged interval.
    *
    * ### Example
    * ```js

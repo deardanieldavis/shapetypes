@@ -67,7 +67,7 @@ test('x: returns correct x value', t => {
   t.is(t.context.basic.x, 3);
 });
 
-test('xAxis: returns correct x axis', t => {
+test('xAxis: returns correct x-axis', t => {
   t.is(t.context.basic.xAxis.x, 3);
   t.is(t.context.basic.xAxis.y, 0);
 });
@@ -97,8 +97,8 @@ test('add: correctly adds x and y values', t => {
 });
 
 interface Vectors {
-  angle: number; // Angled relative to x axis
-  signed: number; // Signed angle relative to x axis
+  angle: number; // Angled relative to x-axis
+  signed: number; // Signed angle relative to x-axis
   v: Vector; // The test vector
 }
 const VECTORS: readonly Vectors[] = [

@@ -102,8 +102,8 @@ export class Interval {
 
   /***
    * Creates an interval from two values.
-   * @param T0  The start of the interval. Can either be the interval's min or max. If interval is increasing, this should be the min.
-   * @param T1  The end of the interval. Can either be the interval's min or max value. If interval is increasing, this should be the max.
+   * @param T0  The start of the interval. Could either be the interval's min or max. If the interval is increasing, this should be the min.
+   * @param T1  The end of the interval. Could either be the interval's min or max value. If the interval is increasing, this should be the max.
    */
   constructor(T0: number, T1: number) {
     this._T0 = T0;
@@ -178,7 +178,7 @@ export class Interval {
 
   /**
    * Gets the signed distance between [[T0]] and [[T1]].
-   * Will be positive if the interval is increasing, and negative if it is decreasing.
+   * It will be positive if the interval is increasing and negative if it is decreasing.
    */
   get length(): number {
     return this._T1 - this._T0;
@@ -186,7 +186,7 @@ export class Interval {
 
   /**
    * Gets the absolute distance between [[T0]] and [[T1]].
-   * Will be positive regardless of whether the interval is increasing or decreasing.
+   * It will be positive regardless of whether the interval is increasing or decreasing.
    */
   get lengthAbs(): number {
     if (this._T0 <= this._T1) {
@@ -200,7 +200,7 @@ export class Interval {
   // -----------------------
 
   /**
-   * Converts the interval into an [[IntervalSorted]] and returns the result.
+   * Converts the interval into an [[IntervalSorted]] and returns the sorted interval.
    */
   public asSorted(): IntervalSorted {
     return new IntervalSorted(this.T0, this.T1);
@@ -209,7 +209,7 @@ export class Interval {
   /**
    * Checks whether a value is within the interval.
    * @param value     The value to check for containment.
-   * @param strict    If true, the value has to be fully inside the interval and can't equal [[min]] or [[max]].
+   * @param strict    If true, the value must be entirely inside the interval and can't equal [[min]] or [[max]].
    *                  If false, the value can equal [[min]] or [[max]].
    * @param tolerance The amount the value can be outside the interval and still be considered inside.
    */
@@ -290,7 +290,7 @@ export class Interval {
    * See [[valueAt]] to understand how the parameters are calculated.
    *
    * @param value Value to remap to the parameter of the interval.
-   * @returns   The value as a normalize parameter for the interval.
+   * @returns   The value as a normalized parameter for the interval.
    */
   public remapToInterval(value: number): number {
     return (value - this._T0) / (this._T1 - this._T0);
@@ -322,7 +322,7 @@ export class Interval {
    * Remaps a value from normalized parameters of this interval into the global number system.
    * The interval's parameters range from 0 to 1.
    *
-   * A parameter of 0 is equal to the the start of the interval ([[T0]]). A parameter of
+   * A parameter of 0 is equal to the start of the interval ([[T0]]). A parameter of
    * 0.5 is the mid point of the interval. And a parameter of 1 is the end of the interval ([[T1]]).
    *
    * @param t   The parameter to remap.

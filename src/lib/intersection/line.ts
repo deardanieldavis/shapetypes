@@ -5,7 +5,7 @@ import { Line, shapetypesSettings } from '../../index';
  *
  * @param lineA                 The first line.
  * @param lineB                 The second line.
- * @param limitToFiniteSegment  If true, an intersection only counts if it falls within the bounds of the lines. If false, the lines will be treated as infinite.
+ * @param limitToFiniteSegment  If true, an intersection only counts if it falls within the bounds of the lines. If false, the lines are treated as infinite.
  * @return
  *
  * @module Intersection

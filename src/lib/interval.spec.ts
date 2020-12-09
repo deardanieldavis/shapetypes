@@ -1,6 +1,6 @@
 /* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
-import { Interval } from '../index';
+import { Interval, PointContainment } from '../index';
 
 const test = anyTest as TestInterface<{
   interval: Interval;
@@ -175,6 +175,21 @@ test('contains: correctly identifies which values are within the interval when c
   t.is(t.context.interval.contains(7.5, true), true);
   t.is(t.context.interval.contains(10, true), false);
   t.is(t.context.interval.contains(10.1, true), false);
+});
+
+test('containsPoint: correctly identifies outside points', t => {
+  t.is(t.context.interval.containsPoint(4), PointContainment.outside);
+  t.is(t.context.reverse.containsPoint(4), PointContainment.outside);
+});
+test('containsPoint: correctly identifies inside points', t => {
+  t.is(t.context.interval.containsPoint(6), PointContainment.inside);
+  t.is(t.context.reverse.containsPoint(6), PointContainment.inside);
+});
+test('containsPoint: correctly identifies coincident', t => {
+  t.is(t.context.interval.containsPoint(5), PointContainment.coincident);
+  t.is(t.context.interval.containsPoint(10), PointContainment.coincident);
+  t.is(t.context.reverse.containsPoint(5), PointContainment.coincident);
+  t.is(t.context.reverse.containsPoint(10), PointContainment.coincident);
 });
 
 test('valueAt: correctly turns a parameter on the interval into a value', t => {

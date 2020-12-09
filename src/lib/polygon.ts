@@ -24,8 +24,8 @@ import {
 /**
  * A two-dimensional shape with an outer [[boundary]] and a set of interior [[holes]] (optional).
  *
- * The boundary is always in a counter-clockwise orientation and the holes are always clockwise.
- * If the environment's y-axis points downwards, the boundary will appear to be clockwise and the
+ * The boundary is always in a counter-clockwise orientation, and the holes are always clockwise.
+ * If the environment's y-axis points downwards, the boundary will appear to be clockwise, and the
  * holes will appear to be counter-clockwise.
  *
  * ### Example
@@ -95,16 +95,16 @@ export class Polygon extends Geometry {
   private readonly _holes: readonly Polyline[];
 
   /***
-   * Creates a polygon from an outer boundary and list of holes.
+   * Creates a polygon from an outer boundary and a list of holes.
    *
    * @note  Doesn't verify that this is a valid polygon. It is possible to
-   * create a polygon with self-intersection, zero-length segments, or holes that are in weird places.
+   * create a polygon with self-intersection, zero-length segments, or holes in weird places.
    * This may cause problems in some functions.
    *
    * @note  Will throw an error if the boundary or holes aren't closed.
    *
    * @param boundary  The outer edge of the polygon (must be a closed polyline).
-   * @param holes     An optional list of holes cut from interior of polygon (must be closed polylines).
+   * @param holes     An optional list of holes cut from the interior of the polygon (must be closed polylines).
    */
   constructor(boundary: Polyline, holes?: readonly Polyline[] | undefined) {
     super();
@@ -190,7 +190,7 @@ export class Polygon extends Geometry {
   /***
    * Finds the closest point on the polygon and returns the point. This point could
    * be on the edge of the [[boundary]] or one of the [[holes]],
-   * or it could be a point within the interior the polygon.
+   * or it could be a point within the interior of the polygon.
    *
    * @param testPoint  The target to get closest to.
    */
@@ -205,7 +205,7 @@ export class Polygon extends Geometry {
     for (const polyline of [this._boundary, ...this._holes]) {
       if (closestLength !== undefined) {
         // Rather than running closest point on every polyline, quickly check to see
-        // if the polyline's boundingBox is close. If it's not, there is no way the polyline
+        // if the polyline's bounding box is close. If it's not, there is no way the polyline
         // can be close.
         const closestBB = polyline.boundingBox.closestPoint(testPoint, true);
         const lengthBB = testPoint.distanceTo(closestBB);
@@ -228,8 +228,8 @@ export class Polygon extends Geometry {
   /***
    * Checks whether a point is inside, outside, or on the edge of a polygon.
    *
-   * @param point       Point to test for containment.
-   * @param tolerance   Distance the point can be from the edge of the polygon and still considered coincident.
+   * @param point       The point to test for containment.
+   * @param tolerance   The distance the point can be from the edge of the polygon and still considered coincident.
    */
   public contains(
     point: Point,
@@ -291,7 +291,7 @@ export class Polygon extends Geometry {
    * Joins this polygon with another polygon or closed polyline. Returns the result.
    * @param joiner  Either a closed polyline, polygon, or a list of the two.
    * @returns      The polygon created when the two objects were joined.
-   *                In some cases this may return multiple polygons if the objects don't overlap.
+   *                In some cases, this may return multiple polygons if the objects don't overlap.
    */
   public union(
     joiner: Polyline | Polygon | readonly Polyline[] | readonly Polygon[]
@@ -304,7 +304,7 @@ export class Polygon extends Geometry {
    * Intersects this polygon with another polygon or closed polyline. Returns the overlapping portion.
    * @param intersector   Either a closed polyline, polygon, or a list of the two.
    * @returns       The overlapping portion of the two objects.
-   *                In some cases this may return an empty list if the polygons don't overlap.
+   *                In some cases, this may return an empty list if the polygons don't overlap.
    */
   public intersection(
     intersector: Polyline | Polygon | readonly Polyline[] | readonly Polygon[]

@@ -4,7 +4,7 @@
  *
  * For the most part, if you want to get the point of
  * intersection between a line and any other type of geometry, you can call this
- * directly ([[Line.intersection]]) without using any of the functions in this module.
+ * directly ([[Line.intersection]]) without using any of this module's functions.
  * The same is true for rays ([[Ray.intersection]]) and polylines ([[Polyline.intersection]]).
  *
  * This module is helpful if you need more detailed information about particular

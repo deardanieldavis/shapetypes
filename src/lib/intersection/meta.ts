@@ -20,7 +20,7 @@ import {
  * This function can be accessed directly through [[Line.intersection]].
  *
  * @param theLine       The line to intersect.
- * @param otherGeom     The geometry to intersect with the line.
+ * @param otherGeom     The geometry that intersects the line.
  * @returns             The parameters along `theLine` where the intersections occur. Use [[Line.pointAt]] to get actual points.
  *
  * @module  Intersection
@@ -109,9 +109,9 @@ export function line(
  * This function can be accessed directly through [[Ray.intersection]].
  *
  * @param theRay        The ray to intersect.
- * @param otherGeom     The geometry to intersect with the ray.
+ * @param otherGeom     The geometry that intersects the ray.
  * @param range         The extent of the ray. Specifies whether the ray is
- *                      shooting both forwards and backwards, or only forwards.
+ *                      shooting both forward and backward, or only forward.
  * @returns             The parameters along `theRay` where the intersections occur. Use [[Ray.pointAt]] to get actual points.
  *
  * @module  Intersection
@@ -202,7 +202,7 @@ export function ray(
  * @note Only accounts for crossings, not coincident overlaps.
  *
  * @param thePolyline   The polyline to intersect.
- * @param otherGeom     The geometry to intersect with the polyline.
+ * @param otherGeom     The geometry that intersects the polyline.
  * @returns             The parameters along `thePolyline` where the intersections occur. Use [[Polyline.pointAt]] to get actual points.
  *
  * @module  Intersection

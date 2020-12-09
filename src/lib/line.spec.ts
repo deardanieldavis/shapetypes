@@ -15,8 +15,8 @@ const test = anyTest as TestInterface<{
 test.beforeEach('Create test geometry', t => {
   // The diagonal line is used for testing because it's major components are whole numbers:
   // - It's length is 5 units
-  // - It travels 3 units in the x direction
-  // - It travels 4 units in the y direction
+  // - It travels 3 units in the x-direction
+  // - It travels 4 units in the y-direction
   t.context.P35 = new Point(3, 5); // Start of line
   t.context.P69 = new Point(6, 9); // End of line
   t.context.V34 = new Vector(3, 4); // Vector along line

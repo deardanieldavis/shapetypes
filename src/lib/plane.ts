@@ -71,8 +71,8 @@ export class Plane extends Geometry {
   /***
    * Creates a plane from a center point and x-axis.
    * @param origin    The center of the plane.
-   * @param xAxis     The direction of the [[xAxis]]. If not specified, will use [[Vector.worldX]].
-   *                  The y-axis will be automatically generated perpendicular to this axis and will obey the right hand rule.
+   * @param xAxis     The direction of the [[xAxis]]. If not specified, it will use [[Vector.worldX]].
+   *                  The y-axis will be automatically generated perpendicular to this axis and will obey the right-hand rule.
    */
   constructor(origin: Point, xAxis?: Vector) {
     super();
@@ -101,7 +101,7 @@ export class Plane extends Geometry {
   /**
    * Gets the plane's y-axis.
    *
-   * This vector will always be perpendicular to the plane's [[xAxis]] and
+   * This vector is always perpendicular to the plane's [[xAxis]] and
    * orientated to obey the right-hand rule.
    */
   get yAxis(): Vector {
@@ -120,7 +120,7 @@ export class Plane extends Geometry {
   /***
    * Checks whether another plane has the same [[origin]] and [[xAxis]]. Returns true if it does.
    * @param plane       The plane to compare against.
-   * @param tolerance   The amount the [[origin]] points can differ and to still be considered equal.
+   * @param tolerance   The amount the [[origin]] points can differ and still be considered equal.
    */
   public equals(
     plane: Plane,

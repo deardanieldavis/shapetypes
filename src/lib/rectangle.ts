@@ -48,7 +48,7 @@ export class Rectangle extends Geometry {
    * @param cornerA   One corner of the rectangle.
    * @param cornerB   The opposite corner of the rectangle.
    * @param plane     The plane the rectangle is orientated to.
-   *                  If unset, the rectangle will be aligned to the global xy axis.
+   *                  If unset, the rectangle will be aligned to the global x- and y-axis.
    */
   public static fromCorners(
     cornerA: Point,
@@ -64,7 +64,7 @@ export class Rectangle extends Geometry {
 
   /**
    * Creates a rectangle aligned to a plane. One corner of the rectangle will
-   * sit on the plane's origin with the rest of the rectangle growing along the
+   * sit on the plane's origin, with the rest of the rectangle growing along the
    * plane's axes from that point.
    *
    * @category Create
@@ -94,16 +94,16 @@ export class Rectangle extends Geometry {
 
   /***
    * Creates a rectangle centered and aligned to a plane.
-   * @param plane   The position of rectangle's center and axes.
-   * @param x       Width of rectangle along x-axis of plane (rectangle will be centered on the plane's origin).
-   * @param y       Width of rectangle along y-axis of plane (rectangle will be centered on the plane's origin).
+   * @param plane   The position of the rectangle's center and axes.
+   * @param x       Width of the rectangle along the x-axis of the plane (rectangle will be centered on the plane's origin).
+   * @param y       Width of the rectangle along the y-axis of the plane (rectangle will be centered on the plane's origin).
    */
   constructor(plane: Plane, x: number, y: number);
   /**
    * Creates a new rectangle on a plane.
-   * @param plane   The position of rectangle and its axes.
-   * @param x       Position of rectangle along x-axis of plane.
-   * @param y       Position of rectangle along y-axis of plane.
+   * @param plane   The position of the rectangle and its axes.
+   * @param x       Position of the rectangle along the x-axis of the plane.
+   * @param y       Position of the rectangle along the y-axis of the plane.
    */
   constructor(
     plane: Plane,
@@ -261,8 +261,8 @@ export class Rectangle extends Geometry {
   /**
    * Gets a corner of the rectangle.
    *
-   * @param minX  If true, point will be at the min x value relative to recatngle's plane. If false, will be at max.
-   * @param minY  If true, point will be at the min y value. If false, will be at max.
+   * @param minX  If true, point will be at the min x value relative to the rectangle's plane. If false, it will be at max.
+   * @param minY  If true, point will be at the min y value. If false, it will be at max.
    */
   public corner(minX: boolean, minY: boolean): Point {
     if (minX) {
@@ -335,8 +335,8 @@ export class Rectangle extends Geometry {
   /**
    * Remaps a point from the u-v space of the rectangle to the global coordinate system.
    * @param uvPoint   A point in the u-v coordinates of the rectangle.
-   *                  The point's x value is the normalized distance along the x-axis of the rectangle (u direction).
-   *                  The point's y value is the normalized distance along the y-axis of the rectangle (y direction).
+   *                  The point's x value is the normalized distance along the x-axis of the rectangle (u-direction).
+   *                  The point's y value is the normalized distance along the y-axis of the rectangle (v-direction).
    * @returns         The uvPoint remapped to the global coordinate system.
    */
   public pointAt(uvPoint: Point): Point;

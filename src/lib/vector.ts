@@ -7,7 +7,7 @@ import {
 } from '../index';
 
 /**
- * A two dimensional vector. The vector is defined by an [[x]] magnitude and a [[y]] magnitude.
+ * A two-dimensional vector. The vector is defined by an [[x]] magnitude and a [[y]] magnitude.
  *
  * ### Example
  * ```js
@@ -78,8 +78,8 @@ export class Vector extends Geometry {
   // -----------------------
 
   /***
-   * @param x   Magnitude in x direction.
-   * @param y   Magnitude in y direction.
+   * @param x   Magnitude in the x-direction.
+   * @param y   Magnitude in the y-direction.
    */
   constructor(x: number, y: number) {
     super();
@@ -116,14 +116,14 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Gets the vector's magnitude in the x direction.
+   * Gets the vector's magnitude in the x-direction.
    */
   get x(): number {
     return this._x;
   }
 
   /**
-   * Splits the vector into it's x & y components and returns the x component.
+   * Splits the vector into its x & y components and returns the x component.
    *
    * This is the same as [[worldX]] * [[x]].
    */
@@ -132,14 +132,14 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Gets the vector's magnitude in the y direction.
+   * Gets the vector's magnitude in the y-direction.
    */
   get y(): number {
     return this._y;
   }
 
   /**
-   * Splits the vector into it's x & y components and returns the y component.
+   * Splits the vector into its x & y components and returns the y component.
    *
    * This is the same as [[worldY]] * [[y]].
    */
@@ -152,12 +152,12 @@ export class Vector extends Geometry {
   // -----------------------
 
   /***
-   * Adds the x & y magnitudes of another vector and returns the result.
+   * Adds the x & y magnitudes of another vector and returns the resulting vector.
    * @param addend  Vector to add.
    */
   public add(addend: Vector): Vector;
   /**
-   * Adds an x & y value to the vector and returns the result.
+   * Adds an x & y value to the vector and returns the resulting vector.
    * @param x       Value to add to the x magnitude.
    * @param y       Value to add to the y magnitude.
    */
@@ -196,7 +196,7 @@ export class Vector extends Geometry {
    * A negative value means that `other` is clockwise from the vector
    * (assuming the environment's y-axis points upwards, otherwise it's counter-clockwise).
    *
-   * @param other   The vector to measure angle between.
+   * @param other   The vector to measure the angle between.
    * @returns       The signed angle in radians.
    */
   public angleSigned(other: Vector): number {
@@ -206,13 +206,13 @@ export class Vector extends Geometry {
   }
 
   /***
-   * Divides the x & y magnitudes by a value and returns the result.
+   * Divides the x & y magnitudes by a value and returns the resulting vector.
    *
    * @param denominator Amount to divide the magnitudes by.
    */
   public divide(denominator: number): Vector;
   /**
-   * Divides the x & y magnitudes by different amounts in the x and y direction. Returns the result.
+   * Divides the x & y magnitudes by different amounts in the x- and y-direction. Returns the resulting vector.
    * @param denominatorX    Amount to divide the x magnitude by.
    * @param denominatorY    Amount to divide the y magnitude by.
    */
@@ -226,7 +226,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Calculates the dot product of this vector and another vector. Returns the result.
+   * Calculates the dot product of this vector and another vector. Returns the resulting vector.
    * @param other Vector to calculate dot product with.
    */
   public dotProduct(other: Vector): number {
@@ -264,7 +264,7 @@ export class Vector extends Geometry {
   /**
    * Checks whether another vector is parallel. Returns true if it is.
    * @param test              Vector to compare against.
-   * @param angleTolerance    Acceptable deviation from parallel, measured as the angle between vectors, in radians.
+   * @param angleTolerance    Acceptable deviation from parallel, measured as the angle between vectors (in radians).
    */
   public isParallelTo(
     test: Vector,
@@ -288,7 +288,7 @@ export class Vector extends Geometry {
   /**
    * Checks whether another vector is perpendicular. Returns true if it is.
    * @param test              Vector to compare against.
-   * @param angleTolerance    Acceptable deviation from perpendicular, measured as the angle between vectors, in radians.
+   * @param angleTolerance    Acceptable deviation from perpendicular, measured as the angle between vectors (in radians).
    */
   public isPerpendicularTo(
     test: Vector,
@@ -322,13 +322,13 @@ export class Vector extends Geometry {
   }
 
   /***
-   * Multiplies the x & y magnitudes by a value and returns the result.
+   * Multiplies the x & y magnitudes by a value and returns the resulting vector.
    *
    * @param factor  Amount to multiply the magnitudes by.
    */
   public multiply(factor: number): Vector;
   /**
-   * Multiplies the x & y magnitudes by different amounts in the x and y direction. Returns the result.
+   * Multiplies the x & y magnitudes by different amounts in the x- and y-direction. Returns the resulting vector.
    * @param factorX   Amount to multiply the x magnitude by.
    * @param factorY   Amount to multiply the y magnitude by.
    */
@@ -352,7 +352,7 @@ export class Vector extends Geometry {
   }
 
   /**
-   * Inverts the direction of vector and returns the result. This is the same as
+   * Inverts the direction of the vector and returns the inverted vector. This is the same as
    * multiplying the vector by -1.
    */
   public reverse(): Vector {
@@ -360,12 +360,12 @@ export class Vector extends Geometry {
   }
 
   /***
-   * Subtracts the x & y magnitudes of another vector and returns the result.
+   * Subtracts the x & y magnitudes of another vector and returns the resulting vector.
    * @param subtrahend Vector to subtract.
    */
   public subtract(subtrahend: Vector): Vector;
   /**
-   * Subtracts an x & y value from the vector and returns the result.
+   * Subtracts an x & y value from the vector and returns the resulting vector.
    * @param x       Value to subtract from the x magnitude.
    * @param y       Value to subtract from the y magnitude.
    */

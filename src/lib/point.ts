@@ -7,7 +7,7 @@ import {
 } from '../index';
 
 /**
- * A two dimensional point. The point is defined by an [[x]] coordinate and a [[y]] coordinate.
+ * A two-dimensional point. The point is defined by an [[x]] coordinate and a [[y]] coordinate.
  *
  * ### Example
  * ```js
@@ -89,12 +89,12 @@ export class Point extends Geometry {
   // -----------------------
 
   /***
-   * Adds x & y coordinates of another point or vector and returns the result.
+   * Adds x & y coordinates of another point or vector and returns the resulting point.
    * @param addend  Point or vector to add.
    */
   public add(addend: Point | Vector): Point;
   /**
-   * Adds an x & y value to the point and returns the result.
+   * Adds an x & y value to the point and returns the resulting point.
    * @param x       Value to add to the x coordinate.
    * @param y       Value to add to the y coordinate.
    */
@@ -112,7 +112,7 @@ export class Point extends Geometry {
 
   /***
    * Returns the distance to another point.
-   * @param point Point to measure distance to.
+   * @param point Point to measure the distance to.
    */
   public distanceTo(point: Point): number {
     const vector = Vector.fromPoints(this, point);
@@ -120,13 +120,13 @@ export class Point extends Geometry {
   }
 
   /***
-   * Divides the x & y coordinates by a value and returns the result.
+   * Divides the x & y coordinates by a value and returns the resulting point.
    *
    * @param denominator Amount to divide the coordinates by.
    */
   public divide(denominator: number): Point;
   /**
-   * Divides the x & y coordinates by different amounts in the x and y direction. Returns the result.
+   * Divides the x & y coordinates by different amounts in the x- and y-direction. Returns the resulting point.
    * @param denominatorX    Amount to divide the x coordinate by.
    * @param denominatorY    Amount to divide the y coordinate by.
    */
@@ -168,13 +168,13 @@ export class Point extends Geometry {
   }
 
   /***
-   * Multiplies the x & y coordinates by a value and returns the result.
+   * Multiplies the x & y coordinates by a value and returns the resulting point.
    *
    * @param factor  Amount to multiply by.
    */
   public multiply(factor: number): Point;
   /**
-   * Multiplies the x & y coordinates by different amounts in the x and y direction. Returns the result.
+   * Multiplies the x & y coordinates by different amounts in the x- and y-direction. Returns the resulting point.
    * @param factorX   Amount to multiply the x coordinate by.
    * @param factorY   Amount to multiply the y coordinate by.
    */
@@ -188,12 +188,12 @@ export class Point extends Geometry {
   }
 
   /***
-   * Subtracts the x & y coordinates of another point or vector and returns the result.
+   * Subtracts the x & y coordinates of another point or vector and returns the resulting point.
    * @param subtrahend Point or vector to subtract from the point.
    */
   public subtract(subtrahend: Point | Vector): Point;
   /**
-   * Subtracts an x & y value from the point and returns the result.
+   * Subtracts an x & y value from the point and returns the resulting point.
    * @param x       Value to subtract from the x coordinate.
    * @param y       Value to subtract from the y coordinate.
    */
@@ -237,7 +237,7 @@ export class Point extends Geometry {
   // -----------------------
 
   /***
-   * Transforms the point by a [[transform]] matrix and returns the result.
+   * Transforms the point by a [[transform]] matrix and returns the resulting point.
    *
    * ### Example
    * ```js

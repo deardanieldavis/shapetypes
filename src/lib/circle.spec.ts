@@ -178,6 +178,18 @@ test('closestPoint: if point is off edge, still finds closest parameter', t => {
   );
 });
 
+test('closestPoint: if not include interior returns edge point', t => {
+  t.true(
+    t.context.basic.closestPoint(new Point(1, 0), false).equals(new Point(10, 0))
+  );
+});
+
+test('closestPoint: if include interior returns interior point', t => {
+  t.true(
+    t.context.basic.closestPoint(new Point(1, 0), true).equals(new Point(1, 0))
+  );
+});
+
 test('equals: can identify circles that are identical', t => {
   t.is(t.context.basic.equals(new Circle(10)), true);
   t.is(t.context.basic.equals(new Circle(9)), false);
@@ -195,7 +207,7 @@ test('equals: can identify circles that are identical', t => {
   );
 });
 
-test('pointAt: generates points in anti-clockwise order', t => {
+test('pointAt: generates points in counter-clockwise order', t => {
   t.true(t.context.basic.pointAt(0).equals(new Point(10, 0)));
   t.true(t.context.basic.pointAt(Math.PI / 2).equals(new Point(0, 10), 0.01));
   t.true(t.context.basic.pointAt(Math.PI).equals(new Point(-10, 0), 0.01));

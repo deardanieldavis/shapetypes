@@ -2,9 +2,9 @@
 import { BoundingBox, IntervalSorted, Line, Ray, RayRange } from '../../index';
 
 /**
- * Calculates which portion of a line is inside a bounding box. Returns the result.
- * @param line      The line to intersect with the box.
- * @param box       The bounding box to intersect with the line.
+ * Calculates which portion of a line is inside a bounding box. Returns the parameter of the interval inside.
+ * @param line      The line to intersect.
+ * @param box       The bounding box that intersects the line.
  *
  * @module  Intersection
  */
@@ -97,11 +97,11 @@ export function lineBox(
 }
 
 /**
- * Calculates which portion of a ray is inside a bounding box. Returns the result.
- * @param ray      The ray to intersect with the box.
- * @param box      The bounding box to intersect with the ray.
+ * Calculates which portion of a ray is inside a bounding box. Returns the parameters of the interval inside.
+ * @param ray      The ray to intersects.
+ * @param box      The bounding box that intersects the ray.
  * @param range    The extent of the ray. Specifies whether the ray is
- *                 shooting both forwards and backwards, or only forwards.
+ *                 shooting both forward and backward, or only forward.
  *
  * @module Intersection
  */
@@ -112,7 +112,7 @@ export function rayBox(
 ): {
   /** True if the ray intersects the box. */
   readonly intersects: boolean;
-  /** The portion of the ray within the box. Use [[Ray.pointAt]] to get actual points. Note that if you've limited the ray's range to only shoot forwards, one value in the interval could be the start of the ray rather than the point of intersection. */
+  /** The portion of the ray within the box. Use [[Ray.pointAt]] to get actual points. Note that if you've limited the ray's range to only shoot forward, one value in the interval could be the ray's start rather than the point of intersection. */
   readonly domain: IntervalSorted;
 } {
   // Use Liang-Barsky's algorithm to find possible intersections

@@ -26,7 +26,7 @@ import {
 
 /**
  * A continuous line made from a series of straight [[segments]].
- * The corners of the polyline are defined by an array of [[points]].
+ * An array of [[points]] defines the corners of the polyline.
  *
  * If the polyline's start and end point are the same, it is considered closed.
  * This can be checked with [[isClosed]].
@@ -163,7 +163,7 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Getse the starting point of the polyline.
+   * Gets the starting point of the polyline.
    */
   get from(): Point {
     return this._points[0];
@@ -300,7 +300,7 @@ export class Polyline extends Geometry {
    * Finds the closest point on the polyline and returns the point.
    * @param testPoint       Target to get closest to.
    * @param includeInterior If false, the closest point must lie on a segment of the polyline.
-   *                        If true, the closest point can also be a point on the interior of the polyline (if it is closed and has an interior).
+   *                        If true, the closest point can also be a point on the polyline's interior (if it is closed and has an interior).
    */
   public closestPoint(
     testPoint: Point,
@@ -382,7 +382,7 @@ export class Polyline extends Geometry {
    *
    * @param otherGeom   The geometry to intersect.
    * @returns           The parameters of the intersection points.
-   *                    The array will always be sorted smallest to largest parameter.
+   *                    The array is always sorted from the smallest to largest parameter.
    *                    Entering the parameter into [[pointAt]] will return the intersection point.
    */
   public intersection(
@@ -425,8 +425,8 @@ export class Polyline extends Geometry {
   /**
    * Creates a copy of the polyline with colinear segments merged together.
    * This is achieved by traveling along the polyline and merging any segments that travel in the same direction.
-   * @param angleTolerance  The minimum angle at which segments are no longer colinear, in radians.
-   * @param includeSeam     If true, will also test seam on closed polylines for colinearity. If they are colinear, will move [[from]] and [[to]] points.
+   * @param angleTolerance  The minimum angle at which segments are no longer colinear (in radians).
+   * @param includeSeam     If true, it will also test seam on closed polylines for colinearity. If they are colinear, will move [[from]] and [[to]] points.
    */
   public mergeColinearSegments(
     angleTolerance: number = shapetypesSettings.angleTolerance,
@@ -467,8 +467,8 @@ export class Polyline extends Geometry {
   /**
    * Calculates the normal to the polyline at a given parameter.
    *
-   * If the polyline is closed, will always return the normal that points towards the inside.
-   * If the polyline is open, vector will be on the left side of the segment (which is the right side if the environment's y-axis points downwards).
+   * If the polyline is closed, it will always return the normal that points towards the inside.
+   * If the polyline is open, the vector will be on the left side of the segment (which is the right side if the environment's y-axis points downwards).
    *
    * @note  At corners where two segments join, returns the normal to the segment with the smallest index.
    *
@@ -491,12 +491,12 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Calculates whether a polyline is in a clockwise or counterclockwise orientation and returns the result.
+   * Calculates whether a polyline is in a clockwise or counter-clockwise orientation and returns the result.
    * If the polyline is not closed, it can't have an orientation, so the function returns [[CurveOrientation.undefined]].
    *
    * @param isYDown   The function assumes that the environment's y-axis points upwards.
    *                  In environments where the y-axis points downwards, `isYDown` should be set to `true`.
-   *                  This inverts clockwise and counterclockwise to ensure that
+   *                  This inverts clockwise and counter-clockwise to ensure that
    *                  they are in the correct orientation for how you're viewing them.
    */
   public orientation(isYDown: boolean = false): CurveOrientation {
@@ -532,7 +532,7 @@ export class Polyline extends Geometry {
    *
    * Each segment of the polyline is parameterized from 0 to 1 (like [[Line.pointAt]]).
    * So `0` is the start of the first segment, and `1` is the end.
-   * `0.5` is the midpoint of the first segment, and `1.5` is the mid point of the second segment.
+   * `0.5` is the mid point of the first segment, and `1.5` is the mid point of the second segment.
    *
    * ### Example
    * ```js
@@ -542,7 +542,7 @@ export class Polyline extends Geometry {
    * console.log(triangle.pointAt(0).toString());
    * // => (0,0)
    *
-   * // Midpoint of first segment
+   * // Mid point of first segment
    * console.log(triangle.pointAt(0.5).toString());
    * // => (0.5,0.5)
    *
@@ -550,7 +550,7 @@ export class Polyline extends Geometry {
    * console.log(triangle.pointAt(1).toString());
    * // => (1,1)
    *
-   * // Midpoint of second segment
+   * // Mid point of second segment
    * console.log(triangle.pointAt(1.5).toString());
    * // => (1.5,0.5)
    *
@@ -583,11 +583,11 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Extracts a section of the polyline. Returns the result.
+   * Extracts a section of the polyline. Returns the resulting polyline.
    * @param domain  The section of the polyline to extract. The domain contains
    * two numbers, the `min`, which is the parameter for the start of the new polyline.
    * And the `max`, which will be the end. Everything between these two points is included
-   * in the new polyline. The position of the domain is calculated using same method as [[pointAt]].
+   * in the new polyline. The position of the domain is calculated using the same method as [[pointAt]].
    */
   public trim(domain: IntervalSorted | Interval): Polyline {
     const points = Array<Point>();
@@ -614,7 +614,7 @@ export class Polyline extends Geometry {
   }
 
   /**
-   * Creates a copy of the polyline with the points in a reverse order.
+   * Creates a copy of the polyline with the points in reverse order.
    */
   public reverse(): Polyline {
     const points = this._points.concat().reverse();

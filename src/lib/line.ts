@@ -52,7 +52,7 @@ export class Line extends Geometry {
    * @category Create
    * @param from      The start of the line.
    * @param direction The direction of the line.
-   * @param length    The length of the line. If undefined, will use the length of the `direction` vector.
+   * @param length    The length of the line. If undefined, it will use the length of the `direction` vector.
    */
   public static fromVector(
     from: Point,
@@ -150,8 +150,8 @@ export class Line extends Geometry {
   /**
    * Gets the line's tangent vector. This vector is perpendicular to [[direction]] and is a unit vector.
    *
-   * If the environment's y-axis points upwards, will be on the left side of the line if looking [[from]] -> [[to]].
-   * If the environment's y-axis points downwards, will be on the right side of the line if looking [[from]] -> [[to]].
+   * If the environment's y-axis points upwards, it will be on the left side of the line if looking [[from]] -> [[to]].
+   * If the environment's y-axis points downwards, it will be on the right side of the line if looking [[from]] -> [[to]].
    */
   get unitTangent(): Vector {
     const t = this.direction.perpendicular();
@@ -207,7 +207,7 @@ export class Line extends Geometry {
 
   /***
    * Calculates the smallest distance to a point or line.
-   * @param geometry              Line or point to measure distance to.
+   * @param geometry              Line or point to measure the distance to.
    * @param limitToFiniteSegment  If false, the line is treated as infinite.
    */
   public distanceTo(
@@ -222,7 +222,7 @@ export class Line extends Geometry {
       if(result.intersects) {
         return 0;
       } else {
-        // One end of the line has to be the closest.
+        // One end of the line must be the closest.
         const a = this.distanceTo(geometry.to, limitToFiniteSegment);
         const b = this.distanceTo(geometry.from, limitToFiniteSegment);
         const c = geometry.distanceTo(this._to, limitToFiniteSegment);
@@ -281,7 +281,7 @@ export class Line extends Geometry {
    *
    * @param otherGeom   The geometry to intersect.
    * @returns           The parameters of the intersection points.
-   *                    The array will always be sorted smallest to largest parameter.
+   *                    The array is always sorted from the smallest to largest parameter.
    *                    Entering the parameter into [[pointAt]] will return the intersection point.
    */
   public intersection(
@@ -311,8 +311,8 @@ export class Line extends Geometry {
   /**
    * Finds the point a normalized parameter along the line. Returns the point.
    *
-   * The parameter ranges from 0, which is the start of the line ([[from]]),
-   * through to 1, which is the end of the line ([[to]]).
+   * The parameter ranges from 0, which is the line's start ([[from]]),
+   * through to 1, which is the line's end ([[to]]).
    * The mid point of the line is 0.5.
    *
    * ### Example

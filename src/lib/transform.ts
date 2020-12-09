@@ -1,14 +1,14 @@
 import { Plane, Point, Vector } from '../index';
 
 /**
- * A 3x3 transformation matrix used to rotate, scale, and translate geometry.
+ * A 3x3 transformation matrix that is used to rotate, scale, and translate geometry.
  *
  *
  * In many cases, you don't need to create this transformation matrix yourself,
- * you can instead use the transformation functions avalible to all [[Geometry]] objects.
- * That said, in some cases you may still want to create your own matrix, particularly if you're
+ * you can instead use the transformation functions available to all [[Geometry]] objects.
+ * That said, in some cases, you may still want to create your own matrix, particularly if you're
  * doing your own custom transformations, or you're applying the same transformation
- * many times. In this case, all geometry objects have a method apply a transformation
+ * many times. All geometry objects have a method to apply a transformation
  * matrix (see: [[Vector.transform]] as an example).
  *
  *
@@ -61,7 +61,7 @@ export class Transform {
   }
 
   /***
-   * Creates transform matrix that transforms the geometry from one coordinate system
+   * Creates a transform matrix that transforms the geometry from one coordinate system
    * to another while keeping the geometry in the same position.
    * In other words, if the geometry is described relative to `planeFrom`, after
    * applying this translation, it will be in the same position but described relative to `planeTo`.
@@ -114,7 +114,7 @@ export class Transform {
   }
 
   /***
-   * Creates transform matrix that moves the geometry from one plane to another.
+   * Creates a transform matrix that moves the geometry from one plane to another.
    * The resulting geometry will be in the same place relative to `planeTo` as it was relative to `planeFrom`.
    *
    * ### Example
@@ -151,9 +151,9 @@ export class Transform {
    * Creates a transform matrix that rotates an object about a point.
    *
    * @category Create
-   * @param angle   Angle of rotation, in radians.
-   *                If the environments y-axis points upwards, the direction is counter-clockwise.
-   * @param pivot   Pivot point for rotation. If undefined, the object will be rotated about 0,0.
+   * @param angle   The angle of rotation (in radians).
+   *                If the environment's y-axis points upwards, the direction is counter-clockwise.
+   * @param pivot   The pivot point for rotation. If undefined, the object will be rotated about 0,0.
    */
   public static rotate(angle: number, pivot?: Point | undefined): Transform {
     // Based on: https://www.javatpoint.com/general-pivot-point-rotation-or-rotation-about-fixed-point
@@ -187,12 +187,12 @@ export class Transform {
   }
 
   /**
-   * Creates a transform matrix that scales the geometry by a specified amount along the x and y axis.
+   * Creates a transform matrix that scales the geometry by a specified amount along the x- and y-axis.
    *
    * @category Create
-   * @param x   The amount to scale the object along the x axis. If less than 1, the object will shrink. If greater than 1, it will grow.
-   * @param y   The amount to scale the object along the y axis. If undefined, uses value from `x`.
-   * @param center    The center of scaling. All objects will shrink towards and grow away from this point. If undefined, will use 0,0.
+   * @param x   The amount to scale the object along the x-axis. If less than 1, the object will shrink. If greater than 1, it will grow.
+   * @param y   The amount to scale the object along the y-axis. If undefined, uses value from `x`.
+   * @param center    The center of scaling. All objects will shrink towards and grow away from this point. If undefined, it will use 0,0.
    */
   public static scale(x: number, y?: number, center?: Point): Transform {
     //  https://www.javatpoint.com/computer-graphics-3d-scaling
@@ -222,7 +222,7 @@ export class Transform {
    *
    * @category Create
    * @param move        The direction to move the object.
-   * @param distance    The distance to move the object. If set to undefined, will use length of `move` vector.
+   * @param distance    The distance to move the object. If set to undefined, it will use length of `move` vector.
    */
   public static translate(
     move: Vector,
@@ -387,18 +387,18 @@ export class Transform {
   }
 
   /**
-   * Inverts the matrix and returns the result. Generally, applying the inverse
+   * Inverts the matrix and returns the resulting matrix. Generally, applying the inverse
    * matrix to an object will undo the impact of the original matrix. So if the
    * original matrix rotated the object 90 degrees, the inverted matrix will rotate
-   * the object 90 degree in the opposite direction.
+   * the object 90 degrees in the opposite direction.
    *
-   * @note  In some cases it isn't possible to invert the matrix.
-   * If it isn't possible the `success` return value will be `false`.
+   * @note  In some cases, it isn't possible to invert the matrix.
+   * If it isn't possible, the `success` return value will be `false`.
    */
   public inverse(): {
-    /** If the inversion was successful, will be `true`. */
+    /** If the inversion was successful, it will be `true`. */
     readonly success: boolean;
-    /** If the inversion was successful, will contain the inverted matrix. Otherwise contains the original matrix. */
+    /** If the inversion was successful, it will contain the inverted matrix. Otherwise contains the original matrix. */
     readonly result: Transform
   } {
     // Based on: https://stackoverflow.com/questions/983999/simple-3x3-matrix-inverse-code-c
@@ -486,15 +486,15 @@ export class Transform {
 
   /**
    * Creates a copy of the Transform matrix with certain values replaced.
-   * @param M00   The new value for M00. If undefined, will use the existing value in the matrix.
-   * @param M10   The new value for M10. If undefined, will use the existing value in the matrix.
-   * @param M20   The new value for M20. If undefined, will use the existing value in the matrix.
-   * @param M01   The new value for M01. If undefined, will use the existing value in the matrix.
-   * @param M11   The new value for M11. If undefined, will use the existing value in the matrix.
-   * @param M21   The new value for M21. If undefined, will use the existing value in the matrix.
-   * @param M02   The new value for M02. If undefined, will use the existing value in the matrix.
-   * @param M12   The new value for M12. If undefined, will use the existing value in the matrix.
-   * @param M22   The new value for M22. If undefined, will use the existing value in the matrix.
+   * @param M00   The new value for M00. If undefined, it will use the existing value in the matrix.
+   * @param M10   The new value for M10. If undefined, it will use the existing value in the matrix.
+   * @param M20   The new value for M20. If undefined, it will use the existing value in the matrix.
+   * @param M01   The new value for M01. If undefined, it will use the existing value in the matrix.
+   * @param M11   The new value for M11. If undefined, it will use the existing value in the matrix.
+   * @param M21   The new value for M21. If undefined, it will use the existing value in the matrix.
+   * @param M02   The new value for M02. If undefined, it will use the existing value in the matrix.
+   * @param M12   The new value for M12. If undefined, it will use the existing value in the matrix.
+   * @param M22   The new value for M22. If undefined, it will use the existing value in the matrix.
    */
   public withValues(
     M00: number | undefined,

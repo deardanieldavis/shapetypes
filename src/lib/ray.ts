@@ -14,8 +14,8 @@ import {
 
 /**
  * The extent of a ray.
- * A ray can be limited to only shooting forwards (either [[positive]] or [[positiveAndZero]])
- * or the ray can shoot both forwards and backwards ([[both]]).
+ * A ray can be limited to only shooting forward (either [[positive]] or [[positiveAndZero]]),
+ * or the ray can shoot both forward and backward ([[both]]).
  */
 export enum RayRange {
   /** The ray shoots in one direction from the start point to infinity but doesn't include the start point.  */
@@ -51,8 +51,8 @@ export function inRayRange(distance: number, range: RayRange): boolean {
  * A line of infinite length. A ray has a start point ([[from]]) and a direction ([[direction]]) but no end point.
  *
  * In general, the ray is considered infinite in both directions, meaning it shoots
- * both forwards and back. Certain methods accept [[RayRange]] as a parameter,
- * which allows you to specify whether the ray should shoot in both directions or only forwards.
+ * both forward and back. Certain methods accept [[RayRange]] as a parameter,
+ * which allows you to specify whether the ray should shoot in both directions or only forward.
  *
  * ### Example
  * ```js
@@ -125,7 +125,7 @@ export class Ray extends Geometry {
   }
 
   /**
-   * Gets the direction that the ray shoots. Will always be a unit vector.
+   * Gets the direction that the ray shoots. Is always a unit vector.
    */
   get direction(): Vector {
     return this._direction;
@@ -139,7 +139,7 @@ export class Ray extends Geometry {
    * Finds the closest point on the ray and returns the parameter for the point.
    * @param testPoint     The target to get closest to.
    * @param range         The extent of the ray. Specifies whether the ray is
-   *                      shooting both forwards and backwards, or only forwards.
+   *                      shooting both forward and backward, or only forward.
    * @returns             The parameter of the closest point. The parameter is the
    *                      distance between [[from]] and the closest point.
    *                      If the value is negative, it means the closest point is in the
@@ -167,7 +167,7 @@ export class Ray extends Geometry {
    * Finds the closest point on the ray and returns the point.
    * @param testPoint         The target to get closest to.
    * @param range             The extent of the ray. Specifies whether the ray is
-   *                          shooting both forwards and backwards, or only forwards.
+   *                          shooting both forward and backward, or only forward.
    */
   public closestPoint(testPoint: Point, range: RayRange = RayRange.both): Point {
     return this.pointAt(this.closestParameter(testPoint, range));
@@ -194,9 +194,9 @@ export class Ray extends Geometry {
    *
    * @param otherGeom   The geometry to intersect.
    * @param range       The extent of the ray. Specifies whether the ray is
-   *                    shooting both forwards and backwards, or only forwards.
+   *                    shooting both forward and backward, or only forward.
    * @returns           The parameters of the intersection points.
-   *                    The array will always be sorted smallest to largest parameter.
+   *                    The array is always sorted from the smallest to largest parameter.
    *                    The parameter is the distance between [[from]] and the intersection point.
    *                    If the value is negative, it means the point of intersection is in the
    *                    opposite direction to the [[direction]] vector.
@@ -230,8 +230,8 @@ export class Ray extends Geometry {
   /**
    * Finds the point a given distance from the ray's start ([[from]]). Returns the point.
    * @param distance  The distance from the [[from]] point.
-   *                  If positive, will be in the direction of [[direction]].
-   *                  If negative, will be in the inverse.
+   *                  If positive, it will be in the direction of [[direction]].
+   *                  If negative, it will be in the inverse.
    */
   public pointAt(distance: number): Point {
     return new Point(

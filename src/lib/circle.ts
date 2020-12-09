@@ -12,8 +12,8 @@ import {
 } from '../index';
 
 /**
- * A circle is defined by a [[center]] point and a [[radius]]. In addition,
- * a circle has an orientation (defined by a [[plane]]). This is important as
+ * A circle is defined by a [[center]] point and a [[radius]].
+ * A circle also has an orientation (defined by a [[plane]]). The orientation is important as
  * it controls where the circle's outer edge starts/ends, which is used in methods
  * like [[pointAt]], to generate points on the circle's edge.
  *
@@ -132,7 +132,7 @@ export class Circle extends Geometry {
   // GET AND SET
   // -----------------------
   /***
-   * Gets the smallest boundingBox that contains the circle.
+   * Gets the smallest bounding box that contains the circle.
    */
   get boundingBox(): BoundingBox {
     const xRange = new IntervalSorted(
@@ -197,8 +197,8 @@ export class Circle extends Geometry {
   /***
    * Checks whether a point is inside, outside, or on the edge of a circle.
    *
-   * @param testPoint   Point to test for containment.
-   * @param tolerance   Distance the point can be from the edge of the circle and still considered coincident.
+   * @param testPoint   The point to test for containment.
+   * @param tolerance   The distance the point can be from the edge of the circle and still considered coincident.
    */
   public contains(testPoint: Point, tolerance = shapetypesSettings.absoluteTolerance): PointContainment {
     const difference = Vector.fromPoints(this._plane.origin, testPoint);
@@ -272,7 +272,7 @@ export class Circle extends Geometry {
 
   /**
    * Finds the point a certain number of radians from the start. Returns the point.
-   * @param t Position of the point, in radians. This is measured counter-clockwise from the start of the circle.
+   * @param t Position of the point (in radians). This is measured counter-clockwise from the start of the circle.
    */
   public pointAt(t: number): Point {
     const u = Math.cos(t) * this._radius;
@@ -290,7 +290,7 @@ export class Circle extends Geometry {
 
   /**
    * Finds the tangent for the circle a certain number of radians from the start.
-   * @param t Position of the tangent, in radians. This is measured counter-clockwise from the start of the circle.
+   * @param t Position of the tangent (in radians). This is measured counter-clockwise from the start of the circle.
    */
   public tangentAt(t: number): Vector {
     const r0 = this._radius * -Math.sin(t);
@@ -408,7 +408,7 @@ export class Circle extends Geometry {
     const scaleY = Math.sqrt(change.M10 * change.M10 + change.M11 * change.M11);
     if (scaleX !== scaleY) {
       throw new Error(
-        'Cant scale circle by uneven amounts in x and y direction'
+        'Cant scale circle by uneven amounts in x- and y-direction'
       );
     }
     const radius = this._radius * scaleX;
