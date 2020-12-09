@@ -2,7 +2,7 @@
 
 # Shapetypes
 
-A 2d geometry library based loosely on the [Rhino Common API](https://developer.rhino3d.com/api/). 
+A 2d geometry library based loosely on the [Open NURBS API](https://github.com/mcneel/opennurbs/). 
 
 # Features
 - Essential geometry types – point, line, vector, rectangle, polyline, and polygon
