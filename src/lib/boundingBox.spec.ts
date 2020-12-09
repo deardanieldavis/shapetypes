@@ -235,15 +235,24 @@ test('inflate: can inflate the box differently on x and y axis', t => {
 });
 
 test('overlaps: returns true because boxes overlap', t => {
-  const b = new BoundingBox(new IntervalSorted(5, 15), new IntervalSorted(5, 25));
+  const b = new BoundingBox(
+    new IntervalSorted(5, 15),
+    new IntervalSorted(5, 25)
+  );
   t.is(t.context.bb.overlaps(b), true);
 });
 test('overlaps: returns false because boxes dont overlap on xaxis', t => {
-  const b = new BoundingBox(new IntervalSorted(15, 25), new IntervalSorted(5, 25));
+  const b = new BoundingBox(
+    new IntervalSorted(15, 25),
+    new IntervalSorted(5, 25)
+  );
   t.is(t.context.bb.overlaps(b), false);
 });
 test('overlaps: returns false because boxes dont overlap on yaxis', t => {
-  const b = new BoundingBox(new IntervalSorted(0, 10), new IntervalSorted(35, 45));
+  const b = new BoundingBox(
+    new IntervalSorted(0, 10),
+    new IntervalSorted(35, 45)
+  );
   t.is(t.context.bb.overlaps(b), false);
 });
 
@@ -305,7 +314,7 @@ test('toPolyline: Converts box to polyline that is the right size', t => {
 });
 
 test('toString: Returns string in correct format', t => {
-  t.is(t.context.bb.toString(), "[[0,10],[5,25]]");
+  t.is(t.context.bb.toString(), '[[0,10],[5,25]]');
 });
 
 test('withXRange: can change interval', t => {

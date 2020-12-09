@@ -111,7 +111,9 @@ export class Polygon extends Geometry {
     if (boundary.isClosed === false) {
       throw new Error('Boundary must be closed to turn into polygon');
     }
-    this._boundary = boundary.withOrientation(CurveOrientation.counterclockwise);
+    this._boundary = boundary.withOrientation(
+      CurveOrientation.counterclockwise
+    );
 
     if (holes === undefined) {
       this._holes = new Array<Polyline>();
@@ -135,7 +137,10 @@ export class Polygon extends Geometry {
    * Gets the area of the polygon. Holes are not included in the area.
    */
   get area(): number {
-    const area = this._holes.reduce((accumulator, hole) => accumulator - hole.area, this._boundary.area);
+    const area = this._holes.reduce(
+      (accumulator, hole) => accumulator - hole.area,
+      this._boundary.area
+    );
     return area;
   }
 
@@ -260,7 +265,10 @@ export class Polygon extends Geometry {
    * @param otherPolygon  Polygon to compare against.
    * @param tolerance     The amount the points can differ and still be considered equal.
    */
-  public equals(otherPolygon: Polygon, tolerance = shapetypesSettings.absoluteTolerance): boolean {
+  public equals(
+    otherPolygon: Polygon,
+    tolerance = shapetypesSettings.absoluteTolerance
+  ): boolean {
     if (this._holes.length !== otherPolygon.holes.length) {
       return false;
     }
@@ -268,7 +276,9 @@ export class Polygon extends Geometry {
       return false;
     }
 
-    const isEqual = this._holes.every((hole, index) => hole.equals(otherPolygon.holes[index], tolerance));
+    const isEqual = this._holes.every((hole, index) =>
+      hole.equals(otherPolygon.holes[index], tolerance)
+    );
     return isEqual;
   }
 

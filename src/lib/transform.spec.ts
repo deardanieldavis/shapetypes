@@ -1,12 +1,6 @@
 /* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
-import {
-  approximatelyEqual,
-  Plane,
-  Point,
-  Transform,
-  Vector
-} from '../index';
+import { approximatelyEqual, Plane, Point, Transform, Vector } from '../index';
 
 const test = anyTest as TestInterface<{
   abc: Transform;
@@ -197,11 +191,11 @@ interface ROTATEPOINT {
   normalY: Point; // Location of point in plane's UV coordinates
 }
 const ROTATEPOINTS: readonly ROTATEPOINT[] = [
-  { angle: 0, normalY: new Point(1, 0)},
-  { angle: Math.PI / 2, normalY: new Point(0, 1)},
-  { angle: Math.PI, normalY: new Point(-1, 0)},
+  { angle: 0, normalY: new Point(1, 0) },
+  { angle: Math.PI / 2, normalY: new Point(0, 1) },
+  { angle: Math.PI, normalY: new Point(-1, 0) },
   { angle: (Math.PI * 3) / 2, normalY: new Point(0, -1) },
-  { angle: Math.PI * 2, normalY: new Point(1, 0)}
+  { angle: Math.PI * 2, normalY: new Point(1, 0) }
 ];
 test('rotate: rotates counter-clockwise', t => {
   for (const p of ROTATEPOINTS) {

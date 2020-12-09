@@ -147,7 +147,7 @@ export function ray(
     return intersections.sort((a, b) => a - b); // ascending
   } else if (otherGeom instanceof Point) {
     const t = theRay.closestParameter(otherGeom);
-    if(inRayRange(t, range)) {
+    if (inRayRange(t, range)) {
       const p = theRay.pointAt(t);
       if (p.equals(otherGeom)) {
         return [t];
@@ -178,7 +178,11 @@ export function ray(
     return intersections.sort((a, b) => a - b); // ascending
   } else if (otherGeom instanceof Polygon) {
     const intersections = new Array<number>();
-    const result = Intersection.rayBox(theRay, otherGeom.boundary.boundingBox, range);
+    const result = Intersection.rayBox(
+      theRay,
+      otherGeom.boundary.boundingBox,
+      range
+    );
     if (result.intersects) {
       intersections.push(...rayPolyline(theRay, otherGeom.boundary, range));
       for (const hole of otherGeom.holes) {
@@ -295,7 +299,11 @@ function linePolyline(theLine: Line, thePolyline: Polyline): readonly number[] {
  * @param thePolyline
  * @param range
  */
-function rayPolyline(theRay: Ray, thePolyline: Polyline, range: RayRange): readonly number[] {
+function rayPolyline(
+  theRay: Ray,
+  thePolyline: Polyline,
+  range: RayRange
+): readonly number[] {
   const intersections = new Array<number>();
   for (const edge of thePolyline.segments) {
     const result = Intersection.rayLine(theRay, edge, range);

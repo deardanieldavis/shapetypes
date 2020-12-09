@@ -106,8 +106,8 @@ export abstract class Geometry {
    *
    * @category Transform
    */
-  public scale(amount: number): this;
   // tslint:disable-next-line:unified-signatures
+  public scale(amount: number): this;
   /**
    * Scales the geometry and returns the resized geometry. The geometry will be scaled about
    * (0,0), meaning everything will shrink or expand away from this point.
@@ -119,8 +119,8 @@ export abstract class Geometry {
    *
    * @category Transform
    */
-  public scale(x: number, y: number): this;
   // tslint:disable-next-line:unified-signatures
+  public scale(x: number, y: number): this;
   /**
    * Scales the geometry about a point and returns the resized geometry.
    *

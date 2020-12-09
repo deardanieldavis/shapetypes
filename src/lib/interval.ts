@@ -213,7 +213,11 @@ export class Interval {
    *                  If false, the value can equal [[min]] or [[max]].
    * @param tolerance The amount the value can be outside the interval and still be considered inside.
    */
-  public contains(value: number, strict: boolean = false, tolerance: number = 0): boolean {
+  public contains(
+    value: number,
+    strict: boolean = false,
+    tolerance: number = 0
+  ): boolean {
     if (strict) {
       // Must be fully inside
       if (this.min < value && value < this.max) {
@@ -235,14 +239,11 @@ export class Interval {
    * @param value       The value to check for containment.
    * @param tolerance   The distance the value can be from the interval's min or max and still considered coincident.
    */
-  public containsPoint(
-    value: number,
-    tolerance: number = 0
-  ): PointContainment {
-    if(approximatelyEqual(this.min, value, tolerance)) {
+  public containsPoint(value: number, tolerance: number = 0): PointContainment {
+    if (approximatelyEqual(this.min, value, tolerance)) {
       return PointContainment.coincident;
     }
-    if(approximatelyEqual(this.max, value, tolerance)) {
+    if (approximatelyEqual(this.max, value, tolerance)) {
       return PointContainment.coincident;
     }
     if (this.min <= value && value <= this.max) {
@@ -250,7 +251,6 @@ export class Interval {
     }
     return PointContainment.outside;
   }
-
 
   /***
    * Checks whether another interval has the same [[T0]] and [[T1]] values. Returns true if it does.
@@ -316,7 +316,6 @@ export class Interval {
   public toString(): string {
     return '[' + this._T0 + ',' + this._T1 + ']';
   }
-
 
   /**
    * Remaps a value from normalized parameters of this interval into the global number system.

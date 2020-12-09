@@ -32,7 +32,7 @@ test.beforeEach('Create test geometry', t => {
     [
       [2, 1],
       [3, 2],
-      [4, 1],
+      [4, 1]
     ],
     true
   );
@@ -107,7 +107,7 @@ test('Constructor: Changes curve orientation of hole to be counter-clockwise', t
     [
       [4, 1],
       [3, 2],
-      [2, 1],
+      [2, 1]
     ],
     true
   );
@@ -123,7 +123,7 @@ test('fromCoords: Can create polygon from coordinates', t => {
       [6, 0],
       [3, 3],
       [0, 0],
-      [6, 0],
+      [6, 0]
     ],
     [
       [2, 1],
@@ -268,7 +268,7 @@ test('equals: exactly the same shapes', t => {
     [
       [6, 0],
       [3, 3],
-      [0, 0],
+      [0, 0]
     ],
     true
   );
@@ -276,7 +276,7 @@ test('equals: exactly the same shapes', t => {
     [
       [2, 1],
       [3, 2],
-      [4, 1],
+      [4, 1]
     ],
     true
   );
@@ -395,6 +395,6 @@ test('scale: can scale the polygon', t => {
 
 test('translate: can move the polygon', t => {
   const moved = t.context.triangleHole.translate(new Vector(3, 4));
-  t.true(moved.boundary.from.equals(new Point(6+3, 4)));
+  t.true(moved.boundary.from.equals(new Point(6 + 3, 4)));
   t.true(moved.holes[0].from.equals(new Point(2 + 3, 1 + 4)));
 });

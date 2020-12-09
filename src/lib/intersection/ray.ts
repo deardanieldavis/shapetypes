@@ -42,7 +42,7 @@ export function rayLine(
 
   if (0 <= s && s <= 1) {
     // The ray intersects the line
-    if(inRayRange(t, range)) {
+    if (inRayRange(t, range)) {
       return { intersects: true, rayU: t, lineU: s };
     }
   }
@@ -90,7 +90,7 @@ export function rayRay(
   const s = (-aY * diffX + aX * diffY) / denominator;
   const t = (bX * diffY - bY * diffX) / denominator;
 
-  if(inRayRange(s, range) && inRayRange(t, range)) {
+  if (inRayRange(s, range) && inRayRange(t, range)) {
     return { intersects: true, rayAU: t, rayBU: s };
   }
   return { intersects: false, rayAU: 0, rayBU: 0 };

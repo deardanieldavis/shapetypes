@@ -153,7 +153,9 @@ test('contains: identifies points on edges of circle', t => {
 });
 
 test('closestParameter: identifies points on edge of circle', t => {
-  t.true(approximatelyEqual(t.context.basic.closestParameter(new Point(10, 0)), 0));
+  t.true(
+    approximatelyEqual(t.context.basic.closestParameter(new Point(10, 0)), 0)
+  );
   t.is(t.context.basic.closestParameter(new Point(0, 10)), Math.PI / 2);
   t.is(t.context.basic.closestParameter(new Point(-10, 0)), Math.PI);
   t.is(t.context.basic.closestParameter(new Point(0, -10)), (3 * Math.PI) / 2);
@@ -180,7 +182,9 @@ test('closestPoint: if point is off edge, still finds closest parameter', t => {
 
 test('closestPoint: if not include interior returns edge point', t => {
   t.true(
-    t.context.basic.closestPoint(new Point(1, 0), false).equals(new Point(10, 0))
+    t.context.basic
+      .closestPoint(new Point(1, 0), false)
+      .equals(new Point(10, 0))
   );
 });
 

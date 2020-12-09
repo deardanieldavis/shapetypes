@@ -1,11 +1,6 @@
 /* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
-import {
-  approximatelyEqual,
-  Point,
-  Transform,
-  Vector
-} from '../index';
+import { approximatelyEqual, Point, Transform, Vector } from '../index';
 
 const test = anyTest as TestInterface<{
   basic: Vector;

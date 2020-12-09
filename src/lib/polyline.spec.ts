@@ -138,7 +138,10 @@ test('orientation: triangle is clockwise', t => {
 });
 test('orientation: triangle is counterclockwise if inverted', t => {
   t.is(t.context.triangle.orientation(true), CurveOrientation.counterclockwise);
-  t.is(t.context.triangleReversed.orientation(true), CurveOrientation.clockwise);
+  t.is(
+    t.context.triangleReversed.orientation(true),
+    CurveOrientation.clockwise
+  );
 });
 
 test('points: returns correct points', t => {
@@ -269,7 +272,10 @@ test('equals: polylines with different numbers of points arent equal', t => {
 });
 
 test('intersection: generates correct intersections', t => {
-  const result = t.context.elbow.intersection([new Point(0,5), new Point(5,0)]);
+  const result = t.context.elbow.intersection([
+    new Point(0, 5),
+    new Point(5, 0)
+  ]);
   t.is(result[0], 0.5);
   t.is(result[1], 1.5);
 });
@@ -335,11 +341,18 @@ test('normalAt: returns inward vector on closed shape when counter-clockwise', t
   t.true(normal.equals(new Vector(0, 1)));
 });
 test('normalAt: test from example', t => {
-  const poly = Polyline.fromCoords([[32,16],[32,19],[36,19],[36,16]], true);
+  const poly = Polyline.fromCoords(
+    [
+      [32, 16],
+      [32, 19],
+      [36, 19],
+      [36, 16]
+    ],
+    true
+  );
   t.true(poly.orientation() === CurveOrientation.clockwise);
   t.true(poly.normalAt(0.5).equals(new Vector(1, 0)));
 });
-
 
 test('pointAt: returns correct point', t => {
   for (const point of POINTS) {

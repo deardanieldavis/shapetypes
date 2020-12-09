@@ -4,7 +4,8 @@ import {
   IntervalSorted,
   Line,
   Point,
-  Polyline, shapetypesSettings,
+  Polyline,
+  shapetypesSettings,
   Transform
 } from '../index';
 

@@ -195,7 +195,10 @@ test('distanceTo: calculates minimum distance between two lines', t => {
 });
 
 test('distanceTo: returns 0 if two lines cross.', t => {
-  const l = Line.fromCoords([[5,-10],[5,10]]);
+  const l = Line.fromCoords([
+    [5, -10],
+    [5, 10]
+  ]);
   t.is(t.context.horizontal.distanceTo(l), 0);
 });
 
@@ -235,7 +238,10 @@ test('flip: correctly flips the line and switches the end points', t => {
 });
 
 test('intersection: generates correct intersections', t => {
-  const result = t.context.horizontal.intersection([new Point(5,0), new Point(7,0)]);
+  const result = t.context.horizontal.intersection([
+    new Point(5, 0),
+    new Point(7, 0)
+  ]);
   t.is(result[0], 0.5);
   t.is(result[1], 0.7);
 });

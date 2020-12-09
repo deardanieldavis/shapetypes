@@ -1,6 +1,4 @@
-import {
-  Interval
-} from '../index';
+import { Interval } from '../index';
 
 /**
  * A special [[Interval]] where T0 is always the smallest value and T1 is always the largest.

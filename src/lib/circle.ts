@@ -200,16 +200,13 @@ export class Circle extends Geometry {
    * @param testPoint   The point to test for containment.
    * @param tolerance   The distance the point can be from the edge of the circle and still considered coincident.
    */
-  public contains(testPoint: Point, tolerance = shapetypesSettings.absoluteTolerance): PointContainment {
+  public contains(
+    testPoint: Point,
+    tolerance = shapetypesSettings.absoluteTolerance
+  ): PointContainment {
     const difference = Vector.fromPoints(this._plane.origin, testPoint);
     const distance = difference.length;
-    if (
-      approximatelyEqual(
-        distance,
-        this._radius,
-        tolerance
-      )
-    ) {
+    if (approximatelyEqual(distance, this._radius, tolerance)) {
       return PointContainment.coincident;
     }
     if (distance <= this._radius) {
@@ -239,9 +236,12 @@ export class Circle extends Geometry {
    * @param includeInterior If false, the closest point must lie on the outer edge of the circle.
    *                        If true, the closest point can also be a point on the interior of the circle.
    */
-  public closestPoint(testPoint: Point, includeInterior: boolean = false): Point {
-    if(includeInterior) {
-      if(this.contains(testPoint)) {
+  public closestPoint(
+    testPoint: Point,
+    includeInterior: boolean = false
+  ): Point {
+    if (includeInterior) {
+      if (this.contains(testPoint)) {
         return testPoint;
       }
     }
@@ -306,7 +306,7 @@ export class Circle extends Geometry {
    * Gets the circle as a string in the format: `[plane,radius]`.
    */
   public toString(): string {
-    return '['+ this._plane.toString() + ',' + this._radius + ']';
+    return '[' + this._plane.toString() + ',' + this._radius + ']';
   }
 
   /**

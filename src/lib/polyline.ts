@@ -185,7 +185,10 @@ export class Polyline extends Geometry {
    */
   get length(): number {
     if (this._cacheLength === undefined) {
-      const length = this.segments.reduce((accumulator, segment) => accumulator + segment.length, 0);
+      const length = this.segments.reduce(
+        (accumulator, segment) => accumulator + segment.length,
+        0
+      );
       this._cacheLength = length;
     }
     return this._cacheLength;
@@ -364,12 +367,17 @@ export class Polyline extends Geometry {
    * @param otherPolyline   Polyline to compare against.
    * @param tolerance       The amount the points can differ and still be considered equal.
    */
-  public equals(otherPolyline: Polyline, tolerance = shapetypesSettings.absoluteTolerance): boolean {
+  public equals(
+    otherPolyline: Polyline,
+    tolerance = shapetypesSettings.absoluteTolerance
+  ): boolean {
     if (this._points.length !== otherPolyline.points.length) {
       return false;
     }
 
-    const isEqual = this._points.every((point, index) => point.equals(otherPolyline.points[index], tolerance));
+    const isEqual = this._points.every((point, index) =>
+      point.equals(otherPolyline.points[index], tolerance)
+    );
     return isEqual;
   }
 
@@ -439,8 +447,10 @@ export class Polyline extends Geometry {
       const last = points[points.length - 1]; // last point added
       const current = this._points[i];
       const next = this._points[i + 1];
-      const angle = Vector.fromPoints(last, current).angleSigned(Vector.fromPoints(current, next));
-      if(! approximatelyEqual(angle, 0, angleTolerance)) {
+      const angle = Vector.fromPoints(last, current).angleSigned(
+        Vector.fromPoints(current, next)
+      );
+      if (!approximatelyEqual(angle, 0, angleTolerance)) {
         points.push(current);
       }
     }
@@ -450,8 +460,10 @@ export class Polyline extends Geometry {
         const last = points[points.length - 1];
         const current = this.to;
         const next = points[1];
-        const angle = Vector.fromPoints(last, current).angleSigned(Vector.fromPoints(current, next));
-        if(approximatelyEqual(angle, 0, angleTolerance)) {
+        const angle = Vector.fromPoints(last, current).angleSigned(
+          Vector.fromPoints(current, next)
+        );
+        if (approximatelyEqual(angle, 0, angleTolerance)) {
           // The start and end point are colinear
           points.shift(); // Remove the start point
           points.push(next); // Finish at the next point rather than the true end.
@@ -506,9 +518,14 @@ export class Polyline extends Geometry {
     }
 
     // Based on: https://stackoverflow.com/questions/46763647/how-to-reverse-the-array-in-typescript-for-the-following-data
-    if(isYDown) {
+    if (isYDown) {
       if (this._cacheOrientationYDown === undefined) {
-        const result = this.segments.reduce((accumulator, segment) => accumulator + ((segment.to.x - segment.from.x) * (segment.to.y + segment.from.y)), 0);
+        const result = this.segments.reduce(
+          (accumulator, segment) =>
+            accumulator +
+            (segment.to.x - segment.from.x) * (segment.to.y + segment.from.y),
+          0
+        );
         this._cacheOrientationYDown =
           result > 0
             ? CurveOrientation.counterclockwise
@@ -517,7 +534,12 @@ export class Polyline extends Geometry {
       return this._cacheOrientationYDown;
     } else {
       if (this._cacheOrientationYUp === undefined) {
-        const result = this.segments.reduce((accumulator, segment) => accumulator + ((segment.to.x - segment.from.x) * (segment.to.y + segment.from.y)), 0);
+        const result = this.segments.reduce(
+          (accumulator, segment) =>
+            accumulator +
+            (segment.to.x - segment.from.x) * (segment.to.y + segment.from.y),
+          0
+        );
         this._cacheOrientationYUp =
           result > 0
             ? CurveOrientation.clockwise
@@ -687,7 +709,10 @@ export class Polyline extends Geometry {
    * @category Closed
    * @param goal      The desired orientation of the new polyline.
    */
-  public withOrientation(goal: CurveOrientation, isYDown: boolean = false): Polyline {
+  public withOrientation(
+    goal: CurveOrientation,
+    isYDown: boolean = false
+  ): Polyline {
     if (this.isClosed === false && goal !== CurveOrientation.undefined) {
       throw new Error('Polyline must be closed to have an orientation');
     }
@@ -706,7 +731,7 @@ export class Polyline extends Geometry {
     // Converts polyline into specific format needed by the PolygonClipping library.
     // see: https://github.com/mfogel/polygon-clipping/issues/76
     if (this._cacheGeoJSON === undefined) {
-      const ring : Ring = this.points.map(point => [point.x, point.y]);
+      const ring: Ring = this.points.map(point => [point.x, point.y]);
       this._cacheGeoJSON = ring;
     }
     return this._cacheGeoJSON;

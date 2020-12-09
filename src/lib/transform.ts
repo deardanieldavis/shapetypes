@@ -399,7 +399,7 @@ export class Transform {
     /** If the inversion was successful, it will be `true`. */
     readonly success: boolean;
     /** If the inversion was successful, it will contain the inverted matrix. Otherwise contains the original matrix. */
-    readonly result: Transform
+    readonly result: Transform;
   } {
     // Based on: https://stackoverflow.com/questions/983999/simple-3x3-matrix-inverse-code-c
     const determinant = this.determinant;

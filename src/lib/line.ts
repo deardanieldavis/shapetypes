@@ -218,8 +218,12 @@ export class Line extends Geometry {
       const closest = this.closestPoint(geometry, limitToFiniteSegment);
       return closest.distanceTo(geometry);
     } else {
-      const result = Intersection.lineLine(this, geometry, limitToFiniteSegment);
-      if(result.intersects) {
+      const result = Intersection.lineLine(
+        this,
+        geometry,
+        limitToFiniteSegment
+      );
+      if (result.intersects) {
         return 0;
       } else {
         // One end of the line must be the closest.

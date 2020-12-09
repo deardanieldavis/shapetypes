@@ -1,12 +1,9 @@
 /* tslint:disable:readonly-keyword no-object-mutation*/
 import anyTest, { TestInterface } from 'ava';
-import {
-  approximatelyEqual, Plane, Polygon, Rectangle
-} from '../index';
+import { approximatelyEqual, Plane, Polygon, Rectangle } from '../index';
 import { isPolygonArray, isPolylineArray } from './utilities';
 
-const test = anyTest as TestInterface<{
-}>;
+const test = anyTest as TestInterface<{}>;
 
 test('approximatelyEqual: values are equal if exactly equal', t => {
   t.is(approximatelyEqual(1, 1, 0), true);
@@ -26,7 +23,7 @@ test('isPolylineArray: empty array is false', t => {
   t.is(isPolylineArray([]), false);
 });
 test('isPolylineArray: array random values returns false', t => {
-  t.is(isPolylineArray([2, "Hi"]), false);
+  t.is(isPolylineArray([2, 'Hi']), false);
 });
 
 test('isPolygonArray: array of polygons returns true', t => {
@@ -38,5 +35,5 @@ test('isPolygonArray: empty array is false', t => {
   t.is(isPolygonArray([]), false);
 });
 test('isPolygonArray: array random values returns false', t => {
-  t.is(isPolygonArray([2, "Hi"]), false);
+  t.is(isPolygonArray([2, 'Hi']), false);
 });

@@ -117,17 +117,17 @@ export function rayCircle(
   const t1 = (-b - discriminantSqrt) / (2 * a);
   const t2 = (-b + discriminantSqrt) / (2 * a);
 
-  if(range !== RayRange.both) {
+  if (range !== RayRange.both) {
     // If the range isn't set to `both`, there can be intersections that happen on
     // the ray that fall outside the allowed range. These should be discarded.
-    if(inRayRange(t1, range)) {
-      if(! inRayRange(t2, range)) {
+    if (inRayRange(t1, range)) {
+      if (!inRayRange(t2, range)) {
         // Of the two intersections, t1 was in range but t2 wasn't
         return { intersects: LineCircleIntersection.single, u: [t1] };
       }
       // If here, both intersections were in range so skip to end.
     } else {
-      if(inRayRange(t2, range)) {
+      if (inRayRange(t2, range)) {
         // Of the two intersections, t2 was in range but t1 wasn't
         return { intersects: LineCircleIntersection.single, u: [t2] };
       } else {

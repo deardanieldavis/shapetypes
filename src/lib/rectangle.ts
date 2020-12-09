@@ -234,25 +234,28 @@ export class Rectangle extends Geometry {
    * @param testPoint   The point to test for containment.
    * @param tolerance   The distance the point can be from the edge of the rectangle and still considered coincident.
    */
-  public contains(testPoint: Point, tolerance = shapetypesSettings.absoluteTolerance): PointContainment {
+  public contains(
+    testPoint: Point,
+    tolerance = shapetypesSettings.absoluteTolerance
+  ): PointContainment {
     const planePoint = this._plane.remapToPlaneSpace(testPoint);
 
     const x = this._x.containsPoint(planePoint.x, tolerance);
     const y = this._y.containsPoint(planePoint.y, tolerance);
 
-    if(x === PointContainment.coincident) {
-      if(y === PointContainment.inside || y === PointContainment.coincident) {
+    if (x === PointContainment.coincident) {
+      if (y === PointContainment.inside || y === PointContainment.coincident) {
         return PointContainment.coincident;
       }
     }
 
-    if(y === PointContainment.coincident) {
-      if(x === PointContainment.inside || x === PointContainment.coincident) {
+    if (y === PointContainment.coincident) {
+      if (x === PointContainment.inside || x === PointContainment.coincident) {
         return PointContainment.coincident;
       }
     }
 
-    if(x === PointContainment.inside && y === PointContainment.inside) {
+    if (x === PointContainment.inside && y === PointContainment.inside) {
       return PointContainment.inside;
     }
     return PointContainment.outside;

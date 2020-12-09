@@ -7,7 +7,8 @@ import {
   Point,
   Polygon,
   Polyline,
-  Rectangle, shapetypesSettings,
+  Rectangle,
+  shapetypesSettings,
   Transform,
   Vector
 } from '../index';
@@ -33,14 +34,14 @@ export enum RayRange {
  * @ignore
  */
 export function inRayRange(distance: number, range: RayRange): boolean {
-  if(range === RayRange.both) {
+  if (range === RayRange.both) {
     return true;
-  }else if(range === RayRange.positive) {
-    if(distance > 0) {
+  } else if (range === RayRange.positive) {
+    if (distance > 0) {
       return true;
     }
-  }else if(range === RayRange.positiveAndZero) {
-    if(distance >= 0) {
+  } else if (range === RayRange.positiveAndZero) {
+    if (distance >= 0) {
       return true;
     }
   }
@@ -157,7 +158,7 @@ export class Ray extends Geometry {
         (testPoint.y - this._from.y) * yDelta) /
       (xDelta * xDelta + yDelta * yDelta);
 
-    if(inRayRange(u, range)) {
+    if (inRayRange(u, range)) {
       return u;
     }
     return 0;
@@ -169,7 +170,10 @@ export class Ray extends Geometry {
    * @param range             The extent of the ray. Specifies whether the ray is
    *                          shooting both forward and backward, or only forward.
    */
-  public closestPoint(testPoint: Point, range: RayRange = RayRange.both): Point {
+  public closestPoint(
+    testPoint: Point,
+    range: RayRange = RayRange.both
+  ): Point {
     return this.pointAt(this.closestParameter(testPoint, range));
   }
 
@@ -178,8 +182,14 @@ export class Ray extends Geometry {
    * @param otherRay    The ray to compare against.
    * @param tolerance   The amount the point and vector can differ and still be considered equal.
    */
-  public equals(otherRay: Ray, tolerance = shapetypesSettings.absoluteTolerance): boolean {
-    if(this._from.equals(otherRay.from, tolerance) && this._direction.equals(otherRay.direction, tolerance)) {
+  public equals(
+    otherRay: Ray,
+    tolerance = shapetypesSettings.absoluteTolerance
+  ): boolean {
+    if (
+      this._from.equals(otherRay.from, tolerance) &&
+      this._direction.equals(otherRay.direction, tolerance)
+    ) {
       return true;
     }
     return false;
@@ -244,7 +254,7 @@ export class Ray extends Geometry {
    * Gets the ray as a string in the format: `[from,direction]`.
    */
   public toString(): string {
-    return "[" + this._from.toString() + "," + this._direction.toString() + "]";
+    return '[' + this._from.toString() + ',' + this._direction.toString() + ']';
   }
 
   /**

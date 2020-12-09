@@ -10,3 +10,6 @@ Run `npm run cov`
 
 # Building documentation
 Run `npm run doc`
+
+# Tslint fixes
+Run `npm run fix`
