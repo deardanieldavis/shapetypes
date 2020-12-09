@@ -1,0 +1,1605 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>BoundingBox | shapetypes</title>
+	<meta name="description" content="Documentation for shapetypes">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">shapetypes</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="boundingbox.html">BoundingBox</a>
+				</li>
+			</ul>
+			<h1>Class BoundingBox</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A rectangle aligned to the environment&#39;s x- and y-axis (<a href="vector.html#xaxis">Vector.xAxis</a>.
+						A bounding box is defined by two <a href="intervalsorted.html">IntervalSorted</a>s, which give the dimensions of the rectangle along the x- and y-axis.</p>
+					</div>
+					<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+						<h3>Example</h3>
+					</a>
+					<pre><code class="language-js"><span class="hljs-keyword">import</span> { BoundingBox } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>
+
+<span class="hljs-keyword">const</span> bb = <span class="hljs-keyword">new</span> BoundingBox(<span class="hljs-keyword">new</span> IntervalSorted(<span class="hljs-number">0</span>, <span class="hljs-number">10</span>), <span class="hljs-keyword">new</span> IntervalSorted(<span class="hljs-number">5</span>, <span class="hljs-number">25</span>));
+<span class="hljs-built_in">console</span>.log(bb.area);
+<span class="hljs-comment">// =&gt; 200</span>
+<span class="hljs-built_in">console</span>.log(bb.center);
+<span class="hljs-comment">// =&gt; x: 5, y: 15</span>
+<span class="hljs-built_in">console</span>.log(bb.contains(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">5</span>, <span class="hljs-number">15</span>));
+<span class="hljs-comment">// =&gt; True</span>
+
+<span class="hljs-keyword">const</span> shifted = bb.withXRange(<span class="hljs-keyword">new</span> IntervalSorted(<span class="hljs-number">0</span>, <span class="hljs-number">20</span>));
+<span class="hljs-built_in">console</span>.log(shifted.area);
+<span class="hljs-comment">// =&gt; 400</span>
+
+<span class="hljs-keyword">const</span> scaled = bb.scale(<span class="hljs-number">2</span>);
+<span class="hljs-built_in">console</span>.log(scaled.area);
+<span class="hljs-comment">// =&gt; 800</span></code></pre>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<a href="geometry.html" class="tsd-signature-type">Geometry</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">BoundingBox</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="boundingbox.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="boundingbox.html#area" class="tsd-kind-icon">area</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="boundingbox.html#center" class="tsd-kind-icon">center</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="boundingbox.html#max" class="tsd-kind-icon">max</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="boundingbox.html#min" class="tsd-kind-icon">min</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="boundingbox.html#xrange" class="tsd-kind-icon">x<wbr>Range</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="boundingbox.html#yrange" class="tsd-kind-icon">y<wbr>Range</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Create Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="boundingbox.html#fromcorners" class="tsd-kind-icon">from<wbr>Corners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="boundingbox.html#frompoints" class="tsd-kind-icon">from<wbr>Points</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="boundingbox.html#intersection" class="tsd-kind-icon">intersection</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="boundingbox.html#union" class="tsd-kind-icon">union</a></li>
+							</ul>
+							<h3>Other Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#closestpoint" class="tsd-kind-icon">closest<wbr>Point</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#contains" class="tsd-kind-icon">contains</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#corner" class="tsd-kind-icon">corner</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#equals" class="tsd-kind-icon">equals</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#getcorners" class="tsd-kind-icon">get<wbr>Corners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#getedges" class="tsd-kind-icon">get<wbr>Edges</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#inflate" class="tsd-kind-icon">inflate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#overlaps" class="tsd-kind-icon">overlaps</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#pointat" class="tsd-kind-icon">point<wbr>At</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#remaptobox" class="tsd-kind-icon">remap<wbr>ToBox</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#topolyline" class="tsd-kind-icon">to<wbr>Polyline</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#withxrange" class="tsd-kind-icon">withXRange</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="boundingbox.html#withyrange" class="tsd-kind-icon">withYRange</a></li>
+							</ul>
+							<h3>Transform Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="boundingbox.html#changebasis" class="tsd-kind-icon">change<wbr>Basis</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="boundingbox.html#planetoplane" class="tsd-kind-icon">plane<wbr>ToPlane</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="boundingbox.html#rotate" class="tsd-kind-icon">rotate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="boundingbox.html#scale" class="tsd-kind-icon">scale</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="boundingbox.html#transform" class="tsd-kind-icon">transform</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="boundingbox.html#translate" class="tsd-kind-icon">translate</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Bounding<wbr>Box<span class="tsd-signature-symbol">(</span>xRange<span class="tsd-signature-symbol">: </span><a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a><span class="tsd-signature-symbol"> | </span><a href="interval.html" class="tsd-signature-type">Interval</a>, yRange<span class="tsd-signature-symbol">: </span><a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a><span class="tsd-signature-symbol"> | </span><a href="interval.html" class="tsd-signature-type">Interval</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L111">lib/boundingBox.ts:111</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a bounding box from two intervals.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>xRange: <a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a><span class="tsd-signature-symbol"> | </span><a href="interval.html" class="tsd-signature-type">Interval</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The dimensions of the bounding box along the environment&#39;s x-axis (<a href="vector.html#xaxis">Vector.xAxis</a>). The box will be from xRange.min to xRange.max.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>yRange: <a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a><span class="tsd-signature-symbol"> | </span><a href="interval.html" class="tsd-signature-type">Interval</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The dimensions of the bounding box along the environment&#39;s y-axis.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="area" class="tsd-anchor"></a>
+					<h3>area</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> area<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L140">lib/boundingBox.ts:140</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the area of the bounding box.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="center" class="tsd-anchor"></a>
+					<h3>center</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> center<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L147">lib/boundingBox.ts:147</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the point at the center of the bounding box.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="point.html" class="tsd-signature-type">Point</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="max" class="tsd-anchor"></a>
+					<h3>max</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> max<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L161">lib/boundingBox.ts:161</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the corner of the bounding box that has the largest x and y values.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="point.html" class="tsd-signature-type">Point</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="min" class="tsd-anchor"></a>
+					<h3>min</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> min<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L154">lib/boundingBox.ts:154</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the corner of the bounding box that has the smallest x and y values.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="point.html" class="tsd-signature-type">Point</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="xrange" class="tsd-anchor"></a>
+					<h3>x<wbr>Range</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> xRange<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L168">lib/boundingBox.ts:168</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the position of the bounding box along the environment&#39;s x-axis (<a href="vector.html#xaxis">Vector.xAxis</a>).</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="yrange" class="tsd-anchor"></a>
+					<h3>y<wbr>Range</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> yRange<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L175">lib/boundingBox.ts:175</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the position of the bounding box along the environment&#39;s x-axis (<a href="vector.html#xaxis">Vector.xAxis</a>).</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Create Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="fromcorners" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Corners</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Corners<span class="tsd-signature-symbol">(</span>cornerA<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a>, cornerB<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L49">lib/boundingBox.ts:49</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a bounding box from two corner points.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>cornerA: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>One corner of the bounding box.</p>
+									</div>
+								</li>
+								<li>
+									<h5>cornerB: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The opposite corner of the bounding box.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="frompoints" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Points</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Points<span class="tsd-signature-symbol">(</span>points<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L60">lib/boundingBox.ts:60</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the smallest bounding box that contains all the points.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>points: <span class="tsd-signature-symbol">keyof </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The points to encapsulate in a bounding box.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="intersection" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> intersection</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">intersection<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a>, b<span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L89">lib/boundingBox.ts:89</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Finds the overlapping portion of two bounding boxes and returns it as a new bounding box.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>returns:</dt>
+									<dd><p>A bounding box representing the overlap between these two boxes. If no overlap exists, returns undefined.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>a: <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The first bounding box to intersect</p>
+									</div>
+								</li>
+								<li>
+									<h5>b: <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The second bounding box to intersect</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="union" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> union</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">union<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a>, b<span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L76">lib/boundingBox.ts:76</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the smallest bounding box that contains two other bounding boxes.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>a: <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The first bounding box to encapsulate.</p>
+									</div>
+								</li>
+								<li>
+									<h5>b: <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The second bounding box to encapsulate.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Other Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="closestpoint" class="tsd-anchor"></a>
+					<h3>closest<wbr>Point</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">closest<wbr>Point<span class="tsd-signature-symbol">(</span>testPoint<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a>, includeInterior<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L188">lib/boundingBox.ts:188</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Finds the closest point on the bounding box and returns the point.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>testPoint: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Target to get closest to.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> includeInterior: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If true, the closest point can be within the bounding box. If false, the closest point can only be on the bounding box&#39;s outer edge.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="point.html" class="tsd-signature-type">Point</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="contains" class="tsd-anchor"></a>
+					<h3>contains</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">contains<span class="tsd-signature-symbol">(</span>testPoint<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, tolerance<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L226">lib/boundingBox.ts:226</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks whether a point is inside the bounding box.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>testPoint: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Point to test for containment</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If true, the point needs to be entirely inside the bounding box
+										and can&#39;t be coincident with the edge.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> tolerance: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = shapetypesSettings.absoluteTolerance</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The distance the point can be outside the box and still considered inside.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="corner" class="tsd-anchor"></a>
+					<h3>corner</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">corner<span class="tsd-signature-symbol">(</span>minX<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, minY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L244">lib/boundingBox.ts:244</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets one of the bounding box&#39;s four corners.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>minX: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If true, point will be at the min x value. If false, it will be at max.</p>
+									</div>
+								</li>
+								<li>
+									<h5>minY: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If true, point will be at the min y value. If false, it will be at max.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="point.html" class="tsd-signature-type">Point</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="equals" class="tsd-anchor"></a>
+					<h3>equals</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">equals<span class="tsd-signature-symbol">(</span>otherBoundingBox<span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L370">lib/boundingBox.ts:370</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks whether another bounding box has the same <a href="boundingbox.html#xrange">xRange</a> and <a href="boundingbox.html#yrange">yRange</a>. Returns true if it does.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>otherBoundingBox: <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The bounding box to compare against.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcorners" class="tsd-anchor"></a>
+					<h3>get<wbr>Corners</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Corners<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L264">lib/boundingBox.ts:264</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the four corners of the bounding box.
+									The order is: [[minX, minY], [minX, maxY], [maxX, maxY], [maxX, minY]].</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">keyof </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getedges" class="tsd-anchor"></a>
+					<h3>get<wbr>Edges</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Edges<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L276">lib/boundingBox.ts:276</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the four edges of the bounding box. Follows the order in <a href="boundingbox.html#getcorners">getCorners</a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">keyof </span><a href="line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="inflate" class="tsd-anchor"></a>
+					<h3>inflate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">inflate<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></li>
+						<li class="tsd-signature tsd-kind-icon">inflate<span class="tsd-signature-symbol">(</span>amountX<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, amountY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L290">lib/boundingBox.ts:290</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Evenly increases the size of the bounding box in all directions. Returns the enlarged bounding box.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amount: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount to inflate each side of the bounding box.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L292">lib/boundingBox.ts:292</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amountX: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>amountY: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="overlaps" class="tsd-anchor"></a>
+					<h3>overlaps</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">overlaps<span class="tsd-signature-symbol">(</span>otherBox<span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L307">lib/boundingBox.ts:307</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks whether the bounding box overlaps another. Returns true if it does.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>otherBox: <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The box to check for overlap.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="pointat" class="tsd-anchor"></a>
+					<h3>point<wbr>At</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">point<wbr>At<span class="tsd-signature-symbol">(</span>u<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, v<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a></li>
+						<li class="tsd-signature tsd-kind-icon">point<wbr>At<span class="tsd-signature-symbol">(</span>uvPoint<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L329">lib/boundingBox.ts:329</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remaps a point from the u-v space of the bounding box to the global coordinate system.
+									This is the opposite of <a href="boundingbox.html#remaptobox">remapToBox</a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>u: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The normalized distance along the x-axis of the bounding box.</p>
+									</div>
+								</li>
+								<li>
+									<h5>v: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The normalized distance along the y-axis of the bounding box.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="point.html" class="tsd-signature-type">Point</a></h4>
+							<p>The uvPoint remapped to the global coordinate system.</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L338">lib/boundingBox.ts:338</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remaps a point from the u-v space of the bounding box to the global coordinate system.
+									This is the opposite of <a href="boundingbox.html#remaptobox">remapToBox</a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>uvPoint: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A point in the u-v coordinates of the bounding box.
+											The point&#39;s x value is the normalized distance along the x-axis of the bounding box (u-direction).
+										The point&#39;s y value is the normalized distance along the y-axis of the bounding box (v-direction).</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="point.html" class="tsd-signature-type">Point</a></h4>
+							<p>The uvPoint remapped to the global coordinate system.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="remaptobox" class="tsd-anchor"></a>
+					<h3>remap<wbr>ToBox</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">remap<wbr>ToBox<span class="tsd-signature-symbol">(</span>point<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L359">lib/boundingBox.ts:359</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remaps a point to the u-v space of the bounding box.
+									This is the opposite of <a href="boundingbox.html#pointat">pointAt</a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>point: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Point to remap.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="point.html" class="tsd-signature-type">Point</a></h4>
+							<p>A point in the u-v coordinates of the bounding box. See <a href="boundingbox.html#pointat">pointAt</a> for more details.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="topolyline" class="tsd-anchor"></a>
+					<h3>to<wbr>Polyline</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">to<wbr>Polyline<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="polyline.html" class="tsd-signature-type">Polyline</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L380">lib/boundingBox.ts:380</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the edge of the bounding box as a closed polyline.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="polyline.html" class="tsd-signature-type">Polyline</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tostring" class="tsd-anchor"></a>
+					<h3>to<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">to<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L388">lib/boundingBox.ts:388</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the bounding box as a string in the format: <code>[xRange,yRange]</code>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="withxrange" class="tsd-anchor"></a>
+					<h3>withXRange</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">withXRange<span class="tsd-signature-symbol">(</span>newXRange<span class="tsd-signature-symbol">: </span><a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L396">lib/boundingBox.ts:396</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a copy of the bounding box with a different <a href="boundingbox.html#xrange">xRange</a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newXRange: <a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The xRange of the new bounding box.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="withyrange" class="tsd-anchor"></a>
+					<h3>withYRange</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">withYRange<span class="tsd-signature-symbol">(</span>newYRange<span class="tsd-signature-symbol">: </span><a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L404">lib/boundingBox.ts:404</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a copy of the bounding box with a different <a href="boundingbox.html#yrange">yRange</a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newYRange: <a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The yRange of the new bounding box.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Transform Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="changebasis" class="tsd-anchor"></a>
+					<h3>change<wbr>Basis</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">change<wbr>Basis<span class="tsd-signature-symbol">(</span>planeFrom<span class="tsd-signature-symbol">: </span><a href="plane.html" class="tsd-signature-type">Plane</a>, planeTo<span class="tsd-signature-symbol">: </span><a href="plane.html" class="tsd-signature-type">Plane</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#changebasis">changeBasis</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L49">lib/geometry.ts:49</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Translates the geometry from one coordinate system to another while keeping
+										the geometry in the same position. In other words, if the geometry is currently
+										described relative to <code>planeFrom</code>, after changeBasis,
+									it will be in the same position but described relative to <code>planeTo</code>.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#changebasis">Transform.changeBasis</a>.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>planeFrom: <a href="plane.html" class="tsd-signature-type">Plane</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The coordinate system the geometry is currently described relative to.</p>
+									</div>
+								</li>
+								<li>
+									<h5>planeTo: <a href="plane.html" class="tsd-signature-type">Plane</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The coordinate system to describe the geometry relative to.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+							<p>The geometry in the new coordinate system.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="planetoplane" class="tsd-anchor"></a>
+					<h3>plane<wbr>ToPlane</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">plane<wbr>ToPlane<span class="tsd-signature-symbol">(</span>planeFrom<span class="tsd-signature-symbol">: </span><a href="plane.html" class="tsd-signature-type">Plane</a>, planeTo<span class="tsd-signature-symbol">: </span><a href="plane.html" class="tsd-signature-type">Plane</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#planetoplane">planeToPlane</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L65">lib/geometry.ts:65</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Moves the geometry from one plane to another. The resulting geometry will be
+									in the same place relative to <code>planeTo</code> as it was relative to <code>planeFrom</code>.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#planetoplane">Transform.planeToPlane</a>.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>planeFrom: <a href="plane.html" class="tsd-signature-type">Plane</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The plane to move from.</p>
+									</div>
+								</li>
+								<li>
+									<h5>planeTo: <a href="plane.html" class="tsd-signature-type">Plane</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The plane to move to.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="rotate" class="tsd-anchor"></a>
+					<h3>rotate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">rotate<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">rotate<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, pivot<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#rotate">rotate</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L79">lib/geometry.ts:79</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Rotates the geometry about (0,0).</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#rotate">Transform.rotate</a>.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>angle: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Angle to rotate the geometry (in radians). The direction is counter-clockwise.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#rotate">rotate</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L93">lib/geometry.ts:93</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Rotates the geometry about a point.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#rotate">Transform.rotate</a>.</p>
+									</dd>
+									<dt>category</dt>
+									<dd><p>Transform</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>angle: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Angle to rotate the geometry (in radians).
+										If the environment&#39;s y-axis points upwards, the direction is counter-clockwise.</p>
+									</div>
+								</li>
+								<li>
+									<h5>pivot: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Point to pivot the geometry about.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="scale" class="tsd-anchor"></a>
+					<h3>scale</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">scale<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">scale<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">scale<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, center<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L110">lib/geometry.ts:110</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Scales the geometry and returns the resized geometry. The geometry will be scaled about
+									(0,0), meaning everything will shrink or expand away from this point.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#scale">Transform.scale</a>.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amount: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Magnitude to scale in x- and y-direction. If less than 1, the object will shrink. If greater than 1, it will grow.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L123">lib/geometry.ts:123</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Scales the geometry and returns the resized geometry. The geometry will be scaled about
+									(0,0), meaning everything will shrink or expand away from this point.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#scale">Transform.scale</a>.</p>
+									</dd>
+									<dt>category</dt>
+									<dd><p>Transform</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>x: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Magnitude to scale in x-direction. If less than 1, the object will shrink. If greater than 1, it will grow.</p>
+									</div>
+								</li>
+								<li>
+									<h5>y: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Magnitude to scale in y-direction. If less than 1, the object will shrink. If greater than 1, it will grow.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L136">lib/geometry.ts:136</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Scales the geometry about a point and returns the resized geometry.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#scale">Transform.scale</a>.</p>
+									</dd>
+									<dt>category</dt>
+									<dd><p>Transform</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>x: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Magnitude to scale in x-direction. If less than 1, the object will shrink. If greater than 1, it will grow.</p>
+									</div>
+								</li>
+								<li>
+									<h5>y: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Magnitude to scale in y-direction. If less than 1, the object will shrink. If greater than 1, it will grow.</p>
+									</div>
+								</li>
+								<li>
+									<h5>center: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Center of scaling. Everything will shrink or expand away from this point.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="transform" class="tsd-anchor"></a>
+					<h3>transform</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">transform<span class="tsd-signature-symbol">(</span>change<span class="tsd-signature-symbol">: </span><a href="transform.html" class="tsd-signature-type">Transform</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="geometry.html">Geometry</a>.<a href="geometry.html#transform">transform</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/boundingBox.ts#L440">lib/boundingBox.ts:440</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transforms the bounding box by a <a href="boundingbox.html#transform">transform</a> matrix and returns the result.</p>
+								</div>
+								<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+									<h3>Example</h3>
+								</a>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> bb = <span class="hljs-keyword">new</span> BoundingBox(<span class="hljs-keyword">new</span> IntervalSorted(<span class="hljs-number">0</span>, <span class="hljs-number">10</span>), <span class="hljs-keyword">new</span> IntervalSorted(<span class="hljs-number">5</span>, <span class="hljs-number">25</span>));
+<span class="hljs-built_in">console</span>.log(bb.area);
+<span class="hljs-comment">// =&gt; 200</span>
+
+<span class="hljs-comment">// Using a transform matrix</span>
+<span class="hljs-keyword">const</span> matrix = Transform.scale(<span class="hljs-number">2</span>);
+<span class="hljs-keyword">const</span> scaled = bb.transform(matrix);
+<span class="hljs-built_in">console</span>.log(scaled.area);
+<span class="hljs-comment">// =&gt; 800</span>
+
+<span class="hljs-comment">// Using the direct method</span>
+<span class="hljs-keyword">const</span> otherScaled = bb.scale(<span class="hljs-number">2</span>);
+<span class="hljs-built_in">console</span>.log(otherScaled.area);
+<span class="hljs-comment">// =&gt; 800</span></code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>note</dt>
+									<dd><p>If you&#39;re applying the same transformation a lot of geometry,
+											creating the <a href="transform.html">Transform</a> matrix once and calling this function is faster
+										than using the direct methods.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>change: <a href="transform.html" class="tsd-signature-type">Transform</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The <a href="boundingbox.html#transform">transform</a> matrix to apply to the bounding box.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="translate" class="tsd-anchor"></a>
+					<h3>translate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">translate<span class="tsd-signature-symbol">(</span>move<span class="tsd-signature-symbol">: </span><a href="vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">translate<span class="tsd-signature-symbol">(</span>move<span class="tsd-signature-symbol">: </span><a href="vector.html" class="tsd-signature-type">Vector</a>, distance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#translate">translate</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L152">lib/geometry.ts:152</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Moves the geometry along a vector and returns the moved geometry.
+									The translation is always linear.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#translate">Transform.translate</a>.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>move: <a href="vector.html" class="tsd-signature-type">Vector</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The direction and distance to move the geometry.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#translate">translate</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L165">lib/geometry.ts:165</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Moves the geometry along a vector and returns the moved geometry.
+									The translation is always linear.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#translate">Transform.translate</a>.</p>
+									</dd>
+									<dt>category</dt>
+									<dd><p>Transform</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>move: <a href="vector.html" class="tsd-signature-type">Vector</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The direction to move the geometry.</p>
+									</div>
+								</li>
+								<li>
+									<h5>distance: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The distance to move the geometry.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/intersection.html">Intersection</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="../enums/curveorientation.html" class="tsd-kind-icon">Curve<wbr>Orientation</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="../enums/linecircleintersection.html" class="tsd-kind-icon">Line<wbr>Circle<wbr>Intersection</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="../enums/pointcontainment.html" class="tsd-kind-icon">Point<wbr>Containment</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="../enums/rayrange.html" class="tsd-kind-icon">Ray<wbr>Range</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="boundingbox.html" class="tsd-kind-icon">Bounding<wbr>Box</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="boundingbox.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="boundingbox.html#area" class="tsd-kind-icon">area</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="boundingbox.html#center" class="tsd-kind-icon">center</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="boundingbox.html#max" class="tsd-kind-icon">max</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="boundingbox.html#min" class="tsd-kind-icon">min</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="boundingbox.html#xrange" class="tsd-kind-icon">x<wbr>Range</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="boundingbox.html#yrange" class="tsd-kind-icon">y<wbr>Range</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="boundingbox.html#changebasis" class="tsd-kind-icon">change<wbr>Basis</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#closestpoint" class="tsd-kind-icon">closest<wbr>Point</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#contains" class="tsd-kind-icon">contains</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#corner" class="tsd-kind-icon">corner</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#equals" class="tsd-kind-icon">equals</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#getcorners" class="tsd-kind-icon">get<wbr>Corners</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#getedges" class="tsd-kind-icon">get<wbr>Edges</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#inflate" class="tsd-kind-icon">inflate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#overlaps" class="tsd-kind-icon">overlaps</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="boundingbox.html#planetoplane" class="tsd-kind-icon">plane<wbr>ToPlane</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#pointat" class="tsd-kind-icon">point<wbr>At</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#remaptobox" class="tsd-kind-icon">remap<wbr>ToBox</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="boundingbox.html#rotate" class="tsd-kind-icon">rotate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="boundingbox.html#scale" class="tsd-kind-icon">scale</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#topolyline" class="tsd-kind-icon">to<wbr>Polyline</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="boundingbox.html#transform" class="tsd-kind-icon">transform</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="boundingbox.html#translate" class="tsd-kind-icon">translate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#withxrange" class="tsd-kind-icon">withXRange</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="boundingbox.html#withyrange" class="tsd-kind-icon">withYRange</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="boundingbox.html#fromcorners" class="tsd-kind-icon">from<wbr>Corners</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="boundingbox.html#frompoints" class="tsd-kind-icon">from<wbr>Points</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="boundingbox.html#intersection" class="tsd-kind-icon">intersection</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="boundingbox.html#union" class="tsd-kind-icon">union</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-class">
+						<a href="circle.html" class="tsd-kind-icon">Circle</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="geometry.html" class="tsd-kind-icon">Geometry</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="interval.html" class="tsd-kind-icon">Interval</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="intervalsorted.html" class="tsd-kind-icon">Interval<wbr>Sorted</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="line.html" class="tsd-kind-icon">Line</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="plane.html" class="tsd-kind-icon">Plane</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="point.html" class="tsd-kind-icon">Point</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="polygon.html" class="tsd-kind-icon">Polygon</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="polyline.html" class="tsd-kind-icon">Polyline</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="ray.html" class="tsd-kind-icon">Ray</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="rectangle.html" class="tsd-kind-icon">Rectangle</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="transform.html" class="tsd-kind-icon">Transform</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="vector.html" class="tsd-kind-icon">Vector</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="../globals.html#shapetypessettings" class="tsd-kind-icon">shapetypes<wbr>Settings</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

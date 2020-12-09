@@ -1,0 +1,1585 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Circle | shapetypes</title>
+	<meta name="description" content="Documentation for shapetypes">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">shapetypes</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="circle.html">Circle</a>
+				</li>
+			</ul>
+			<h1>Class Circle</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A circle is defined by a <a href="circle.html#center">center</a> point and a <a href="circle.html#radius">radius</a>.
+							A circle also has an orientation (defined by a <a href="circle.html#plane">plane</a>). The orientation is important as
+							it controls where the circle&#39;s outer edge starts/ends, which is used in methods
+						like <a href="circle.html#pointat">pointAt</a>, to generate points on the circle&#39;s edge.</p>
+					</div>
+					<ul>
+						<li>
+							<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+								<h3>Example</h3>
+							</a>
+							<pre><code class="language-js"><span class="hljs-keyword">import</span> { Circle } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>
+</code></pre>
+						</li>
+					</ul>
+					<p>const circle = new Circle(new Point(3,4), 10);
+						console.log(circle.center);
+						// =&gt; (3,4)
+						console.log(circle.area);
+					// =&gt; 314.16</p>
+					<pre><code></code></pre>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<a href="geometry.html" class="tsd-signature-type">Geometry</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">Circle</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="circle.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="circle.html#area" class="tsd-kind-icon">area</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="circle.html#boundingbox" class="tsd-kind-icon">bounding<wbr>Box</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="circle.html#center" class="tsd-kind-icon">center</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="circle.html#circumference" class="tsd-kind-icon">circumference</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="circle.html#diameter" class="tsd-kind-icon">diameter</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="circle.html#plane" class="tsd-kind-icon">plane</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="circle.html#radius" class="tsd-kind-icon">radius</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Create Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="circle.html#fromcenterstart" class="tsd-kind-icon">from<wbr>Center<wbr>Start</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="circle.html#fromthreepoints" class="tsd-kind-icon">from<wbr>Three<wbr>Points</a></li>
+							</ul>
+							<h3>Other Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#closestparameter" class="tsd-kind-icon">closest<wbr>Parameter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#closestpoint" class="tsd-kind-icon">closest<wbr>Point</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#contains" class="tsd-kind-icon">contains</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#equals" class="tsd-kind-icon">equals</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#pointat" class="tsd-kind-icon">point<wbr>At</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#pointatlength" class="tsd-kind-icon">point<wbr>AtLength</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#tangentat" class="tsd-kind-icon">tangent<wbr>At</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#witharea" class="tsd-kind-icon">with<wbr>Area</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#withcenter" class="tsd-kind-icon">with<wbr>Center</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#withcircumference" class="tsd-kind-icon">with<wbr>Circumference</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#withdiameter" class="tsd-kind-icon">with<wbr>Diameter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#withplane" class="tsd-kind-icon">with<wbr>Plane</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="circle.html#withradius" class="tsd-kind-icon">with<wbr>Radius</a></li>
+							</ul>
+							<h3>Transform Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="circle.html#changebasis" class="tsd-kind-icon">change<wbr>Basis</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="circle.html#planetoplane" class="tsd-kind-icon">plane<wbr>ToPlane</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="circle.html#rotate" class="tsd-kind-icon">rotate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="circle.html#scale" class="tsd-kind-icon">scale</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="circle.html#transform" class="tsd-kind-icon">transform</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="circle.html#translate" class="tsd-kind-icon">translate</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Circle<span class="tsd-signature-symbol">(</span>radius<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="circle.html" class="tsd-signature-type">Circle</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Circle<span class="tsd-signature-symbol">(</span>radius<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, position<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="circle.html" class="tsd-signature-type">Circle</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Circle<span class="tsd-signature-symbol">(</span>radius<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, position<span class="tsd-signature-symbol">: </span><a href="plane.html" class="tsd-signature-type">Plane</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="circle.html" class="tsd-signature-type">Circle</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L91">lib/circle.ts:91</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>radius: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The radius of the circle. The circle will be located at <a href="point.html#origin">Point.origin</a>
+											and aligned to <a href="vector.html#xaxis">Vector.xAxis</a>.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="circle.html" class="tsd-signature-type">Circle</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L101">lib/circle.ts:101</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>radius: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The radius of the circle. The circle will be located at <a href="point.html#origin">Point.origin</a>
+											and aligned to <a href="vector.html#xaxis">Vector.xAxis</a>.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>position: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The center of the circle. The circle will be aligned to <a href="vector.html#xaxis">Vector.xAxis</a>.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="circle.html" class="tsd-signature-type">Circle</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L108">lib/circle.ts:108</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>radius: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The radius of the circle. The circle will be located at <a href="point.html#origin">Point.origin</a>
+											and aligned to <a href="vector.html#xaxis">Vector.xAxis</a>.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>position: <a href="plane.html" class="tsd-signature-type">Plane</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The center of the circle. The circle will be aligned to <a href="vector.html#xaxis">Vector.xAxis</a>.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="circle.html" class="tsd-signature-type">Circle</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="area" class="tsd-anchor"></a>
+					<h3>area</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> area<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L189">lib/circle.ts:189</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the area of the circle.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="boundingbox" class="tsd-anchor"></a>
+					<h3>bounding<wbr>Box</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> boundingBox<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L137">lib/circle.ts:137</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the smallest bounding box that contains the circle.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="boundingbox.html" class="tsd-signature-type">BoundingBox</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="center" class="tsd-anchor"></a>
+					<h3>center</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> center<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L152">lib/circle.ts:152</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the center of the circle.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="point.html" class="tsd-signature-type">Point</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="circumference" class="tsd-anchor"></a>
+					<h3>circumference</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> circumference<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L182">lib/circle.ts:182</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the circumference of the circle.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="diameter" class="tsd-anchor"></a>
+					<h3>diameter</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> diameter<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L175">lib/circle.ts:175</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the diameter of the circle.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="plane" class="tsd-anchor"></a>
+					<h3>plane</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> plane<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="plane.html" class="tsd-signature-type">Plane</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L161">lib/circle.ts:161</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the plane defining the circle&#39;s position.
+										The plane&#39;s origin is the center of the circle.
+									The plane&#39;s x-axis is the orientation of the circle.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="plane.html" class="tsd-signature-type">Plane</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="radius" class="tsd-anchor"></a>
+					<h3>radius</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> radius<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L168">lib/circle.ts:168</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the radius of the circle.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Create Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="fromcenterstart" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Center<wbr>Start</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Center<wbr>Start<span class="tsd-signature-symbol">(</span>center<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a>, start<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="circle.html" class="tsd-signature-type">Circle</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L44">lib/circle.ts:44</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a circle defined by a center point and a point on the edge. The circle
+									will be orientated so <a href="circle.html#pointat">pointAt</a> begins at the edge point.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>center: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The center of the circle.</p>
+									</div>
+								</li>
+								<li>
+									<h5>start: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A point on the edge of the circle.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="circle.html" class="tsd-signature-type">Circle</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="fromthreepoints" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Three<wbr>Points</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Three<wbr>Points<span class="tsd-signature-symbol">(</span>p1<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a>, p2<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a>, p3<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="circle.html" class="tsd-signature-type">Circle</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L65">lib/circle.ts:65</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a circle that passes through the three points.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>note</dt>
+									<dd><p>Throws an error if the three points are in a straight line.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>p1: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The first point to pass through. The circle will be orientated so
+										<a href="circle.html#pointat">pointAt</a> begins at this point.</p>
+									</div>
+								</li>
+								<li>
+									<h5>p2: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The second point to pass through.</p>
+									</div>
+								</li>
+								<li>
+									<h5>p3: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The third point to pass through.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="circle.html" class="tsd-signature-type">Circle</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Other Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="closestparameter" class="tsd-anchor"></a>
+					<h3>closest<wbr>Parameter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">closest<wbr>Parameter<span class="tsd-signature-symbol">(</span>testPoint<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L223">lib/circle.ts:223</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Finds the closest point on the circle and returns the parameter for the point.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>testPoint: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The target to get closest to.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The parameter of the closest point. Entering the parameter into <a href="circle.html#pointat">pointAt</a> will return the closest point.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="closestpoint" class="tsd-anchor"></a>
+					<h3>closest<wbr>Point</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">closest<wbr>Point<span class="tsd-signature-symbol">(</span>testPoint<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a>, includeInterior<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L239">lib/circle.ts:239</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Finds the closest point on the circle and returns the point.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>testPoint: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Target to get closest to.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> includeInterior: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If false, the closest point must lie on the outer edge of the circle.
+										If true, the closest point can also be a point on the interior of the circle.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="point.html" class="tsd-signature-type">Point</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="contains" class="tsd-anchor"></a>
+					<h3>contains</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">contains<span class="tsd-signature-symbol">(</span>testPoint<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a>, tolerance<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/pointcontainment.html" class="tsd-signature-type">PointContainment</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L203">lib/circle.ts:203</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks whether a point is inside, outside, or on the edge of a circle.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>testPoint: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The point to test for containment.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> tolerance: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = shapetypesSettings.absoluteTolerance</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The distance the point can be from the edge of the circle and still considered coincident.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../enums/pointcontainment.html" class="tsd-signature-type">PointContainment</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="equals" class="tsd-anchor"></a>
+					<h3>equals</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">equals<span class="tsd-signature-symbol">(</span>otherCircle<span class="tsd-signature-symbol">: </span><a href="circle.html" class="tsd-signature-type">Circle</a>, tolerance<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L261">lib/circle.ts:261</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks whether another circle has the same <a href="circle.html#plane">plane</a> and <a href="circle.html#radius">radius</a>. Returns true if it does.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>otherCircle: <a href="circle.html" class="tsd-signature-type">Circle</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The circle to compare against.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> tolerance: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = shapetypesSettings.absoluteTolerance</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The amount the radius and plane can differ and still be considered equal.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="pointat" class="tsd-anchor"></a>
+					<h3>point<wbr>At</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">point<wbr>At<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L277">lib/circle.ts:277</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Finds the point a certain number of radians from the start. Returns the point.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>t: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Position of the point (in radians). This is measured counter-clockwise from the start of the circle.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="point.html" class="tsd-signature-type">Point</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="pointatlength" class="tsd-anchor"></a>
+					<h3>point<wbr>AtLength</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">point<wbr>AtLength<span class="tsd-signature-symbol">(</span>distance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L287">lib/circle.ts:287</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Finds the point a certain distance from the start. Returns the point.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>distance: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Position of the point. This is measured counter-clockwise from the start of the circle.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="point.html" class="tsd-signature-type">Point</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tangentat" class="tsd-anchor"></a>
+					<h3>tangent<wbr>At</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">tangent<wbr>At<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="vector.html" class="tsd-signature-type">Vector</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L295">lib/circle.ts:295</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Finds the tangent for the circle a certain number of radians from the start.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>t: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Position of the tangent (in radians). This is measured counter-clockwise from the start of the circle.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="vector.html" class="tsd-signature-type">Vector</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tostring" class="tsd-anchor"></a>
+					<h3>to<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">to<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L308">lib/circle.ts:308</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the circle as a string in the format: <code>[plane,radius]</code>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="witharea" class="tsd-anchor"></a>
+					<h3>with<wbr>Area</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">with<wbr>Area<span class="tsd-signature-symbol">(</span>newArea<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="circle.html" class="tsd-signature-type">Circle</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L317">lib/circle.ts:317</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a copy of the circle with a different <a href="circle.html#area">area</a>. The circle will be
+									in the same position but have a different radius.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newArea: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The area of the new circle.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="circle.html" class="tsd-signature-type">Circle</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="withcenter" class="tsd-anchor"></a>
+					<h3>with<wbr>Center</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">with<wbr>Center<span class="tsd-signature-symbol">(</span>newCenter<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="circle.html" class="tsd-signature-type">Circle</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L370">lib/circle.ts:370</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a copy of the circle with a different <a href="circle.html#center">center</a>. The circle will be the
+									same size and have the same orientation but will be translated to the new center.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newCenter: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The center of the new circle.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="circle.html" class="tsd-signature-type">Circle</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="withcircumference" class="tsd-anchor"></a>
+					<h3>with<wbr>Circumference</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">with<wbr>Circumference<span class="tsd-signature-symbol">(</span>newCircumference<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="circle.html" class="tsd-signature-type">Circle</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L330">lib/circle.ts:330</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a copy of the circle with a different <a href="circle.html#circumference">circumference</a>. The circle
+									will be in the same position but have a different radius.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newCircumference: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The circumference of the new circle.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="circle.html" class="tsd-signature-type">Circle</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="withdiameter" class="tsd-anchor"></a>
+					<h3>with<wbr>Diameter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">with<wbr>Diameter<span class="tsd-signature-symbol">(</span>newDiameter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="circle.html" class="tsd-signature-type">Circle</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L340">lib/circle.ts:340</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a copy of the circle with a different <a href="circle.html#diameter">diameter</a>. The circle will be
+									in the same position but have a different radius/diameter.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newDiameter: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The diameter of the new circle.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="circle.html" class="tsd-signature-type">Circle</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="withplane" class="tsd-anchor"></a>
+					<h3>with<wbr>Plane</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">with<wbr>Plane<span class="tsd-signature-symbol">(</span>newPlane<span class="tsd-signature-symbol">: </span><a href="plane.html" class="tsd-signature-type">Plane</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="circle.html" class="tsd-signature-type">Circle</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L361">lib/circle.ts:361</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a copy of the circle with a different <a href="circle.html#plane">plane</a>. The circle will be the
+									same size but centered on the new plane.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newPlane: <a href="plane.html" class="tsd-signature-type">Plane</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The plane of the new circle.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="circle.html" class="tsd-signature-type">Circle</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="withradius" class="tsd-anchor"></a>
+					<h3>with<wbr>Radius</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">with<wbr>Radius<span class="tsd-signature-symbol">(</span>newRadius<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="circle.html" class="tsd-signature-type">Circle</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L349">lib/circle.ts:349</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a copy of the circle with a different <a href="circle.html#radius">radius</a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newRadius: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The radius of the new circle.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="circle.html" class="tsd-signature-type">Circle</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Transform Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="changebasis" class="tsd-anchor"></a>
+					<h3>change<wbr>Basis</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">change<wbr>Basis<span class="tsd-signature-symbol">(</span>planeFrom<span class="tsd-signature-symbol">: </span><a href="plane.html" class="tsd-signature-type">Plane</a>, planeTo<span class="tsd-signature-symbol">: </span><a href="plane.html" class="tsd-signature-type">Plane</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#changebasis">changeBasis</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L49">lib/geometry.ts:49</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Translates the geometry from one coordinate system to another while keeping
+										the geometry in the same position. In other words, if the geometry is currently
+										described relative to <code>planeFrom</code>, after changeBasis,
+									it will be in the same position but described relative to <code>planeTo</code>.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#changebasis">Transform.changeBasis</a>.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>planeFrom: <a href="plane.html" class="tsd-signature-type">Plane</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The coordinate system the geometry is currently described relative to.</p>
+									</div>
+								</li>
+								<li>
+									<h5>planeTo: <a href="plane.html" class="tsd-signature-type">Plane</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The coordinate system to describe the geometry relative to.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+							<p>The geometry in the new coordinate system.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="planetoplane" class="tsd-anchor"></a>
+					<h3>plane<wbr>ToPlane</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">plane<wbr>ToPlane<span class="tsd-signature-symbol">(</span>planeFrom<span class="tsd-signature-symbol">: </span><a href="plane.html" class="tsd-signature-type">Plane</a>, planeTo<span class="tsd-signature-symbol">: </span><a href="plane.html" class="tsd-signature-type">Plane</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#planetoplane">planeToPlane</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L65">lib/geometry.ts:65</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Moves the geometry from one plane to another. The resulting geometry will be
+									in the same place relative to <code>planeTo</code> as it was relative to <code>planeFrom</code>.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#planetoplane">Transform.planeToPlane</a>.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>planeFrom: <a href="plane.html" class="tsd-signature-type">Plane</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The plane to move from.</p>
+									</div>
+								</li>
+								<li>
+									<h5>planeTo: <a href="plane.html" class="tsd-signature-type">Plane</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The plane to move to.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="rotate" class="tsd-anchor"></a>
+					<h3>rotate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">rotate<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">rotate<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, pivot<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#rotate">rotate</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L79">lib/geometry.ts:79</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Rotates the geometry about (0,0).</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#rotate">Transform.rotate</a>.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>angle: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Angle to rotate the geometry (in radians). The direction is counter-clockwise.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#rotate">rotate</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L93">lib/geometry.ts:93</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Rotates the geometry about a point.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#rotate">Transform.rotate</a>.</p>
+									</dd>
+									<dt>category</dt>
+									<dd><p>Transform</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>angle: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Angle to rotate the geometry (in radians).
+										If the environment&#39;s y-axis points upwards, the direction is counter-clockwise.</p>
+									</div>
+								</li>
+								<li>
+									<h5>pivot: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Point to pivot the geometry about.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="scale" class="tsd-anchor"></a>
+					<h3>scale</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">scale<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">scale<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">scale<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, center<span class="tsd-signature-symbol">: </span><a href="point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L110">lib/geometry.ts:110</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Scales the geometry and returns the resized geometry. The geometry will be scaled about
+									(0,0), meaning everything will shrink or expand away from this point.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#scale">Transform.scale</a>.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amount: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Magnitude to scale in x- and y-direction. If less than 1, the object will shrink. If greater than 1, it will grow.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L123">lib/geometry.ts:123</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Scales the geometry and returns the resized geometry. The geometry will be scaled about
+									(0,0), meaning everything will shrink or expand away from this point.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#scale">Transform.scale</a>.</p>
+									</dd>
+									<dt>category</dt>
+									<dd><p>Transform</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>x: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Magnitude to scale in x-direction. If less than 1, the object will shrink. If greater than 1, it will grow.</p>
+									</div>
+								</li>
+								<li>
+									<h5>y: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Magnitude to scale in y-direction. If less than 1, the object will shrink. If greater than 1, it will grow.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L136">lib/geometry.ts:136</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Scales the geometry about a point and returns the resized geometry.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#scale">Transform.scale</a>.</p>
+									</dd>
+									<dt>category</dt>
+									<dd><p>Transform</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>x: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Magnitude to scale in x-direction. If less than 1, the object will shrink. If greater than 1, it will grow.</p>
+									</div>
+								</li>
+								<li>
+									<h5>y: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Magnitude to scale in y-direction. If less than 1, the object will shrink. If greater than 1, it will grow.</p>
+									</div>
+								</li>
+								<li>
+									<h5>center: <a href="point.html" class="tsd-signature-type">Point</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Center of scaling. Everything will shrink or expand away from this point.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="transform" class="tsd-anchor"></a>
+					<h3>transform</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">transform<span class="tsd-signature-symbol">(</span>change<span class="tsd-signature-symbol">: </span><a href="transform.html" class="tsd-signature-type">Transform</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="geometry.html">Geometry</a>.<a href="geometry.html#transform">transform</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/circle.ts#L406">lib/circle.ts:406</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transforms the circle by a <a href="circle.html#transform">transform</a> matrix and returns the result.</p>
+								</div>
+								<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+									<h3>Example</h3>
+								</a>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> circle = <span class="hljs-keyword">new</span> Circle(<span class="hljs-number">10</span>);
+<span class="hljs-built_in">console</span>.log(circle.radius);
+<span class="hljs-comment">// =&gt; 10</span>
+
+<span class="hljs-comment">// Using a transform matrix</span>
+<span class="hljs-keyword">const</span> matrix = Transform.scale(<span class="hljs-number">2</span>);
+<span class="hljs-keyword">const</span> scaled = scale.transform(matrix);
+<span class="hljs-built_in">console</span>.log(scaled.radius);
+<span class="hljs-comment">// =&gt; 20</span>
+
+<span class="hljs-comment">// Using a direct method</span>
+<span class="hljs-keyword">const</span> otherScaled = circle.scale(<span class="hljs-number">2</span>);
+<span class="hljs-built_in">console</span>.log(otherScaled.radius);
+<span class="hljs-comment">// =&gt; 20</span></code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>note</dt>
+									<dd><p>If you&#39;re applying the same transformation a lot of geometry,
+											creating the <a href="transform.html">Transform</a> matrix once and calling this function is faster
+										than using the direct methods.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>change: <a href="transform.html" class="tsd-signature-type">Transform</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The <a href="circle.html#transform">transform</a> matrix to apply to the cirlce.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="translate" class="tsd-anchor"></a>
+					<h3>translate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">translate<span class="tsd-signature-symbol">(</span>move<span class="tsd-signature-symbol">: </span><a href="vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">translate<span class="tsd-signature-symbol">(</span>move<span class="tsd-signature-symbol">: </span><a href="vector.html" class="tsd-signature-type">Vector</a>, distance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#translate">translate</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L152">lib/geometry.ts:152</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Moves the geometry along a vector and returns the moved geometry.
+									The translation is always linear.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#translate">Transform.translate</a>.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>move: <a href="vector.html" class="tsd-signature-type">Vector</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The direction and distance to move the geometry.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#translate">translate</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L165">lib/geometry.ts:165</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Moves the geometry along a vector and returns the moved geometry.
+									The translation is always linear.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="transform.html#translate">Transform.translate</a>.</p>
+									</dd>
+									<dt>category</dt>
+									<dd><p>Transform</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>move: <a href="vector.html" class="tsd-signature-type">Vector</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The direction to move the geometry.</p>
+									</div>
+								</li>
+								<li>
+									<h5>distance: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The distance to move the geometry.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/intersection.html">Intersection</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="../enums/curveorientation.html" class="tsd-kind-icon">Curve<wbr>Orientation</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="../enums/linecircleintersection.html" class="tsd-kind-icon">Line<wbr>Circle<wbr>Intersection</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="../enums/pointcontainment.html" class="tsd-kind-icon">Point<wbr>Containment</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="../enums/rayrange.html" class="tsd-kind-icon">Ray<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="boundingbox.html" class="tsd-kind-icon">Bounding<wbr>Box</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="circle.html" class="tsd-kind-icon">Circle</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="circle.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="circle.html#area" class="tsd-kind-icon">area</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="circle.html#boundingbox" class="tsd-kind-icon">bounding<wbr>Box</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="circle.html#center" class="tsd-kind-icon">center</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="circle.html#circumference" class="tsd-kind-icon">circumference</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="circle.html#diameter" class="tsd-kind-icon">diameter</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="circle.html#plane" class="tsd-kind-icon">plane</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="circle.html#radius" class="tsd-kind-icon">radius</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="circle.html#changebasis" class="tsd-kind-icon">change<wbr>Basis</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#closestparameter" class="tsd-kind-icon">closest<wbr>Parameter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#closestpoint" class="tsd-kind-icon">closest<wbr>Point</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#contains" class="tsd-kind-icon">contains</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#equals" class="tsd-kind-icon">equals</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="circle.html#planetoplane" class="tsd-kind-icon">plane<wbr>ToPlane</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#pointat" class="tsd-kind-icon">point<wbr>At</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#pointatlength" class="tsd-kind-icon">point<wbr>AtLength</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="circle.html#rotate" class="tsd-kind-icon">rotate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="circle.html#scale" class="tsd-kind-icon">scale</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#tangentat" class="tsd-kind-icon">tangent<wbr>At</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="circle.html#transform" class="tsd-kind-icon">transform</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="circle.html#translate" class="tsd-kind-icon">translate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#witharea" class="tsd-kind-icon">with<wbr>Area</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#withcenter" class="tsd-kind-icon">with<wbr>Center</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#withcircumference" class="tsd-kind-icon">with<wbr>Circumference</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#withdiameter" class="tsd-kind-icon">with<wbr>Diameter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#withplane" class="tsd-kind-icon">with<wbr>Plane</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="circle.html#withradius" class="tsd-kind-icon">with<wbr>Radius</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="circle.html#fromcenterstart" class="tsd-kind-icon">from<wbr>Center<wbr>Start</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="circle.html#fromthreepoints" class="tsd-kind-icon">from<wbr>Three<wbr>Points</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-class">
+						<a href="geometry.html" class="tsd-kind-icon">Geometry</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="interval.html" class="tsd-kind-icon">Interval</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="intervalsorted.html" class="tsd-kind-icon">Interval<wbr>Sorted</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="line.html" class="tsd-kind-icon">Line</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="plane.html" class="tsd-kind-icon">Plane</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="point.html" class="tsd-kind-icon">Point</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="polygon.html" class="tsd-kind-icon">Polygon</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="polyline.html" class="tsd-kind-icon">Polyline</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="ray.html" class="tsd-kind-icon">Ray</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="rectangle.html" class="tsd-kind-icon">Rectangle</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="transform.html" class="tsd-kind-icon">Transform</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="vector.html" class="tsd-kind-icon">Vector</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="../globals.html#shapetypessettings" class="tsd-kind-icon">shapetypes<wbr>Settings</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

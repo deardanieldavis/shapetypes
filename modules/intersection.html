@@ -1,0 +1,760 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Intersection | shapetypes</title>
+	<meta name="description" content="Documentation for shapetypes">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">shapetypes</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="intersection.html">Intersection</a>
+				</li>
+			</ul>
+			<h1>Module Intersection</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The intersection module contains a set of helper functions to calculate where
+						various geometry intersect.</p>
+					</div>
+					<p>For the most part, if you want to get the point of
+						intersection between a line and any other type of geometry, you can call this
+						directly (<a href="../classes/line.html#intersection">Line.intersection</a>) without using any of this module&#39;s functions.
+					The same is true for rays (<a href="../classes/ray.html#intersection">Ray.intersection</a>) and polylines (<a href="../classes/polyline.html#intersection">Polyline.intersection</a>).</p>
+					<p>This module is helpful if you need more detailed information about particular
+						intersections. For example, the <a href="intersection.html#lineline">Intersection.lineLine</a> function calculates
+						where two lines intersect and returns where the intersection occurs relative to
+					each line.</p>
+				</div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="intersection.html#line" class="tsd-kind-icon">line</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="intersection.html#linebox" class="tsd-kind-icon">line<wbr>Box</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="intersection.html#linecircle" class="tsd-kind-icon">line<wbr>Circle</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="intersection.html#lineline" class="tsd-kind-icon">line<wbr>Line</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="intersection.html#polyline" class="tsd-kind-icon">polyline</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="intersection.html#ray" class="tsd-kind-icon">ray</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="intersection.html#raybox" class="tsd-kind-icon">ray<wbr>Box</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="intersection.html#raycircle" class="tsd-kind-icon">ray<wbr>Circle</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="intersection.html#rayline" class="tsd-kind-icon">ray<wbr>Line</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="intersection.html#rayray" class="tsd-kind-icon">ray<wbr>Ray</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="line" class="tsd-anchor"></a>
+					<h3>line</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">line<span class="tsd-signature-symbol">(</span>theLine<span class="tsd-signature-symbol">: </span><a href="../classes/line.html" class="tsd-signature-type">Line</a>, otherGeom<span class="tsd-signature-symbol">: </span><a href="../classes/point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> | </span><a href="../classes/line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol"> | </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a><span class="tsd-signature-symbol"> | </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/rectangle.html" class="tsd-signature-type">Rectangle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polygon.html" class="tsd-signature-type">Polygon</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> | </span><a href="../classes/line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol"> | </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a><span class="tsd-signature-symbol"> | </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/rectangle.html" class="tsd-signature-type">Rectangle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polygon.html" class="tsd-signature-type">Polygon</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intersection/meta.ts#L28">lib/intersection/meta.ts:28</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates where the line intersects other geometry and returns the parameters
+									for these points of intersection.</p>
+								</div>
+								<p>This function can be accessed directly through <a href="../classes/line.html#intersection">Line.intersection</a>.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>theLine: <a href="../classes/line.html" class="tsd-signature-type">Line</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The line to intersect.</p>
+									</div>
+								</li>
+								<li>
+									<h5>otherGeom: <a href="../classes/point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> | </span><a href="../classes/line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol"> | </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a><span class="tsd-signature-symbol"> | </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/rectangle.html" class="tsd-signature-type">Rectangle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polygon.html" class="tsd-signature-type">Polygon</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> | </span><a href="../classes/line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol"> | </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a><span class="tsd-signature-symbol"> | </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/rectangle.html" class="tsd-signature-type">Rectangle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polygon.html" class="tsd-signature-type">Polygon</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The geometry that intersects the line.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4>
+							<p>The parameters along <code>theLine</code> where the intersections occur. Use <a href="../classes/line.html#pointat">Line.pointAt</a> to get actual points.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="linebox" class="tsd-anchor"></a>
+					<h3>line<wbr>Box</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">line<wbr>Box<span class="tsd-signature-symbol">(</span>line<span class="tsd-signature-symbol">: </span><a href="../classes/line.html" class="tsd-signature-type">Line</a>, box<span class="tsd-signature-symbol">: </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>domain<span class="tsd-signature-symbol">: </span><a href="../classes/intervalsorted.html" class="tsd-signature-type">IntervalSorted</a><span class="tsd-signature-symbol">; </span>intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intersection/box.ts#L11">lib/intersection/box.ts:11</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates which portion of a line is inside a bounding box. Returns the parameter of the interval inside.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>line: <a href="../classes/line.html" class="tsd-signature-type">Line</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The line to intersect.</p>
+									</div>
+								</li>
+								<li>
+									<h5>box: <a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The bounding box that intersects the line.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>domain<span class="tsd-signature-symbol">: </span><a href="../classes/intervalsorted.html" class="tsd-signature-type">IntervalSorted</a><span class="tsd-signature-symbol">; </span>intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> domain<span class="tsd-signature-symbol">: </span><a href="../classes/intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The portion of the line within the box. Use <a href="../classes/line.html#pointat">Line.pointAt</a> to get actual points. Note that the two ends of the interval aren&#39;t always points of intersection – for example, a line could be completely inside a box without touching the sides, in which case the interval would be the full length of the line (0 to 1) but neither 0 nor 1 would be a point of intersection.</p>
+										</div>
+									</div>
+								</li>
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>True if the line intersects the box.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="linecircle" class="tsd-anchor"></a>
+					<h3>line<wbr>Circle</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">line<wbr>Circle<span class="tsd-signature-symbol">(</span>line<span class="tsd-signature-symbol">: </span><a href="../classes/line.html" class="tsd-signature-type">Line</a>, circle<span class="tsd-signature-symbol">: </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>intersects<span class="tsd-signature-symbol">: </span><a href="../enums/linecircleintersection.html" class="tsd-signature-type">LineCircleIntersection</a><span class="tsd-signature-symbol">; </span>u<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intersection/circle.ts#L28">lib/intersection/circle.ts:28</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates the points of intersection between a line and a circle.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>line: <a href="../classes/line.html" class="tsd-signature-type">Line</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The line to intersect.</p>
+									</div>
+								</li>
+								<li>
+									<h5>circle: <a href="../classes/circle.html" class="tsd-signature-type">Circle</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The circle that intersects the line.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>intersects<span class="tsd-signature-symbol">: </span><a href="../enums/linecircleintersection.html" class="tsd-signature-type">LineCircleIntersection</a><span class="tsd-signature-symbol">; </span>u<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> intersects<span class="tsd-signature-symbol">: </span><a href="../enums/linecircleintersection.html" class="tsd-signature-type">LineCircleIntersection</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The number of times the line intersects the circle.</p>
+										</div>
+									</div>
+								</li>
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> u<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The parameters along the line where the intersections occur. Use <a href="../classes/line.html#pointat">Line.pointAt</a> to get the actual points.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="lineline" class="tsd-anchor"></a>
+					<h3>line<wbr>Line</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">line<wbr>Line<span class="tsd-signature-symbol">(</span>lineA<span class="tsd-signature-symbol">: </span><a href="../classes/line.html" class="tsd-signature-type">Line</a>, lineB<span class="tsd-signature-symbol">: </span><a href="../classes/line.html" class="tsd-signature-type">Line</a>, limitToFiniteSegment<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>lineAU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>lineBU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intersection/line.ts#L13">lib/intersection/line.ts:13</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates the point of intersection between two lines.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lineA: <a href="../classes/line.html" class="tsd-signature-type">Line</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The first line.</p>
+									</div>
+								</li>
+								<li>
+									<h5>lineB: <a href="../classes/line.html" class="tsd-signature-type">Line</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The second line.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> limitToFiniteSegment: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If true, an intersection only counts if it falls within the bounds of the lines. If false, the lines are treated as infinite.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>lineAU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>lineBU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>True if the two lines intersect.</p>
+										</div>
+									</div>
+								</li>
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> lineAU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The parameter along <code>lineA</code> where the intersection occurs. Use <a href="../classes/line.html#pointat">Line.pointAt</a> to get the actual point.</p>
+										</div>
+									</div>
+								</li>
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> lineBU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The parameter along <code>lineB</code> where the intersection occurs. Use <a href="../classes/line.html#pointat">Line.pointAt</a> to get the actual point.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="polyline" class="tsd-anchor"></a>
+					<h3>polyline</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">polyline<span class="tsd-signature-symbol">(</span>thePolyline<span class="tsd-signature-symbol">: </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a>, otherGeom<span class="tsd-signature-symbol">: </span><a href="../classes/point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> | </span><a href="../classes/line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol"> | </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a><span class="tsd-signature-symbol"> | </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/rectangle.html" class="tsd-signature-type">Rectangle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polygon.html" class="tsd-signature-type">Polygon</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> | </span><a href="../classes/line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol"> | </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a><span class="tsd-signature-symbol"> | </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/rectangle.html" class="tsd-signature-type">Rectangle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polygon.html" class="tsd-signature-type">Polygon</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intersection/meta.ts#L214">lib/intersection/meta.ts:214</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates where the polyline intersects other geometry and returns the parameters
+									for these points of intersection.</p>
+								</div>
+								<p>This function can be accessed directly through <a href="../classes/polyline.html#intersection">Polyline.intersection</a>.</p>
+								<dl class="tsd-comment-tags">
+									<dt>note</dt>
+									<dd><p>Only accounts for crossings, not coincident overlaps.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>thePolyline: <a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The polyline to intersect.</p>
+									</div>
+								</li>
+								<li>
+									<h5>otherGeom: <a href="../classes/point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> | </span><a href="../classes/line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol"> | </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a><span class="tsd-signature-symbol"> | </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/rectangle.html" class="tsd-signature-type">Rectangle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polygon.html" class="tsd-signature-type">Polygon</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> | </span><a href="../classes/line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol"> | </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a><span class="tsd-signature-symbol"> | </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/rectangle.html" class="tsd-signature-type">Rectangle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polygon.html" class="tsd-signature-type">Polygon</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The geometry that intersects the polyline.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4>
+							<p>The parameters along <code>thePolyline</code> where the intersections occur. Use <a href="../classes/polyline.html#pointat">Polyline.pointAt</a> to get actual points.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="ray" class="tsd-anchor"></a>
+					<h3>ray</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">ray<span class="tsd-signature-symbol">(</span>theRay<span class="tsd-signature-symbol">: </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a>, otherGeom<span class="tsd-signature-symbol">: </span><a href="../classes/point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> | </span><a href="../classes/line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol"> | </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a><span class="tsd-signature-symbol"> | </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/rectangle.html" class="tsd-signature-type">Rectangle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polygon.html" class="tsd-signature-type">Polygon</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> | </span><a href="../classes/line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol"> | </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a><span class="tsd-signature-symbol"> | </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/rectangle.html" class="tsd-signature-type">Rectangle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polygon.html" class="tsd-signature-type">Polygon</a><span class="tsd-signature-symbol">&gt;</span>, range<span class="tsd-signature-symbol">?: </span><a href="../enums/rayrange.html" class="tsd-signature-type">RayRange</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intersection/meta.ts#L119">lib/intersection/meta.ts:119</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates where the ray intersects other geometry and returns the parameters
+									for these points of intersection.</p>
+								</div>
+								<p>This function can be accessed directly through <a href="../classes/ray.html#intersection">Ray.intersection</a>.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>theRay: <a href="../classes/ray.html" class="tsd-signature-type">Ray</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ray to intersect.</p>
+									</div>
+								</li>
+								<li>
+									<h5>otherGeom: <a href="../classes/point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> | </span><a href="../classes/line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol"> | </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a><span class="tsd-signature-symbol"> | </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/rectangle.html" class="tsd-signature-type">Rectangle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polygon.html" class="tsd-signature-type">Polygon</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> | </span><a href="../classes/line.html" class="tsd-signature-type">Line</a><span class="tsd-signature-symbol"> | </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a><span class="tsd-signature-symbol"> | </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a><span class="tsd-signature-symbol"> | </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/rectangle.html" class="tsd-signature-type">Rectangle</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polyline.html" class="tsd-signature-type">Polyline</a><span class="tsd-signature-symbol"> | </span><a href="../classes/polygon.html" class="tsd-signature-type">Polygon</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The geometry that intersects the ray.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> range: <a href="../enums/rayrange.html" class="tsd-signature-type">RayRange</a><span class="tsd-signature-symbol"> = RayRange.both</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The extent of the ray. Specifies whether the ray is
+										shooting both forward and backward, or only forward.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4>
+							<p>The parameters along <code>theRay</code> where the intersections occur. Use <a href="../classes/ray.html#pointat">Ray.pointAt</a> to get actual points.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="raybox" class="tsd-anchor"></a>
+					<h3>ray<wbr>Box</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">ray<wbr>Box<span class="tsd-signature-symbol">(</span>ray<span class="tsd-signature-symbol">: </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a>, box<span class="tsd-signature-symbol">: </span><a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a>, range<span class="tsd-signature-symbol">?: </span><a href="../enums/rayrange.html" class="tsd-signature-type">RayRange</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>domain<span class="tsd-signature-symbol">: </span><a href="../classes/intervalsorted.html" class="tsd-signature-type">IntervalSorted</a><span class="tsd-signature-symbol">; </span>intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intersection/box.ts#L108">lib/intersection/box.ts:108</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates which portion of a ray is inside a bounding box. Returns the parameters of the interval inside.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ray: <a href="../classes/ray.html" class="tsd-signature-type">Ray</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ray to intersects.</p>
+									</div>
+								</li>
+								<li>
+									<h5>box: <a href="../classes/boundingbox.html" class="tsd-signature-type">BoundingBox</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The bounding box that intersects the ray.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> range: <a href="../enums/rayrange.html" class="tsd-signature-type">RayRange</a><span class="tsd-signature-symbol"> = RayRange.both</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The extent of the ray. Specifies whether the ray is
+										shooting both forward and backward, or only forward.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>domain<span class="tsd-signature-symbol">: </span><a href="../classes/intervalsorted.html" class="tsd-signature-type">IntervalSorted</a><span class="tsd-signature-symbol">; </span>intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> domain<span class="tsd-signature-symbol">: </span><a href="../classes/intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The portion of the ray within the box. Use <a href="../classes/ray.html#pointat">Ray.pointAt</a> to get actual points. Note that if you&#39;ve limited the ray&#39;s range to only shoot forward, one value in the interval could be the ray&#39;s start rather than the point of intersection.</p>
+										</div>
+									</div>
+								</li>
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>True if the ray intersects the box.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="raycircle" class="tsd-anchor"></a>
+					<h3>ray<wbr>Circle</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">ray<wbr>Circle<span class="tsd-signature-symbol">(</span>ray<span class="tsd-signature-symbol">: </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a>, circle<span class="tsd-signature-symbol">: </span><a href="../classes/circle.html" class="tsd-signature-type">Circle</a>, range<span class="tsd-signature-symbol">?: </span><a href="../enums/rayrange.html" class="tsd-signature-type">RayRange</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>intersects<span class="tsd-signature-symbol">: </span><a href="../enums/linecircleintersection.html" class="tsd-signature-type">LineCircleIntersection</a><span class="tsd-signature-symbol">; </span>u<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intersection/circle.ts#L90">lib/intersection/circle.ts:90</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates the points of intersection between a ray and a circle.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ray: <a href="../classes/ray.html" class="tsd-signature-type">Ray</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ray to intersect.</p>
+									</div>
+								</li>
+								<li>
+									<h5>circle: <a href="../classes/circle.html" class="tsd-signature-type">Circle</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The circle that intersects the ray.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> range: <a href="../enums/rayrange.html" class="tsd-signature-type">RayRange</a><span class="tsd-signature-symbol"> = RayRange.both</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The extent of the ray. Specifies whether the ray is
+										shooting both forward and backward, or only forward.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>intersects<span class="tsd-signature-symbol">: </span><a href="../enums/linecircleintersection.html" class="tsd-signature-type">LineCircleIntersection</a><span class="tsd-signature-symbol">; </span>u<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> intersects<span class="tsd-signature-symbol">: </span><a href="../enums/linecircleintersection.html" class="tsd-signature-type">LineCircleIntersection</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The number of times the ray intersects the circle.</p>
+										</div>
+									</div>
+								</li>
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> u<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The parameters along the ray where the intersections occur. Use <a href="../classes/ray.html#pointat">Ray.pointAt</a> to get the actual points.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="rayline" class="tsd-anchor"></a>
+					<h3>ray<wbr>Line</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">ray<wbr>Line<span class="tsd-signature-symbol">(</span>ray<span class="tsd-signature-symbol">: </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a>, line<span class="tsd-signature-symbol">: </span><a href="../classes/line.html" class="tsd-signature-type">Line</a>, range<span class="tsd-signature-symbol">?: </span><a href="../enums/rayrange.html" class="tsd-signature-type">RayRange</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>lineU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>rayU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intersection/ray.ts#L13">lib/intersection/ray.ts:13</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates the point of intersection between a ray and a line.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ray: <a href="../classes/ray.html" class="tsd-signature-type">Ray</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ray that intersects the line.</p>
+									</div>
+								</li>
+								<li>
+									<h5>line: <a href="../classes/line.html" class="tsd-signature-type">Line</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The line that intersects the ray.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> range: <a href="../enums/rayrange.html" class="tsd-signature-type">RayRange</a><span class="tsd-signature-symbol"> = RayRange.both</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The extent of the ray. Specifies whether the ray is
+										shooting both forward and backward, or only forward.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>lineU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>rayU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>True if the ray and line intersect.</p>
+										</div>
+									</div>
+								</li>
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> lineU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The parameter along <code>line</code> where the intersection occurs. Use <a href="../classes/line.html#pointat">Line.pointAt</a> to get the actual point.</p>
+										</div>
+									</div>
+								</li>
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> rayU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The parameter along <code>ray</code> where the intersection occurs. Use <a href="../classes/ray.html#pointat">Ray.pointAt</a> to get the actual point.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="rayray" class="tsd-anchor"></a>
+					<h3>ray<wbr>Ray</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">ray<wbr>Ray<span class="tsd-signature-symbol">(</span>rayA<span class="tsd-signature-symbol">: </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a>, rayB<span class="tsd-signature-symbol">: </span><a href="../classes/ray.html" class="tsd-signature-type">Ray</a>, range<span class="tsd-signature-symbol">?: </span><a href="../enums/rayrange.html" class="tsd-signature-type">RayRange</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>rayAU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>rayBU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intersection/ray.ts#L63">lib/intersection/ray.ts:63</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates the point of intersection between two rays.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>rayA: <a href="../classes/ray.html" class="tsd-signature-type">Ray</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The first ray.</p>
+									</div>
+								</li>
+								<li>
+									<h5>rayB: <a href="../classes/ray.html" class="tsd-signature-type">Ray</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The second ray.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> range: <a href="../enums/rayrange.html" class="tsd-signature-type">RayRange</a><span class="tsd-signature-symbol"> = RayRange.both</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The extent of the ray. Specifies whether the ray is
+										shooting both forward and backward, or only forward.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>rayAU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>rayBU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> intersects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>True if the two rays intersect.</p>
+										</div>
+									</div>
+								</li>
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> rayAU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The parameter along <code>rayA</code> where the intersection occurs. Use <a href="../classes/ray.html#pointat">Ray.pointAt</a> to get the actual point.</p>
+										</div>
+									</div>
+								</li>
+								<li class="tsd-parameter">
+									<h5><span class="tsd-flag ts-flagReadonly">Readonly</span> rayBU<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The parameter along <code>rayB</code> where the intersection occurs. Use <a href="../classes/ray.html#pointat">Ray.pointAt</a> to get the actual point.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="intersection.html">Intersection</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="intersection.html#line" class="tsd-kind-icon">line</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="intersection.html#linebox" class="tsd-kind-icon">line<wbr>Box</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="intersection.html#linecircle" class="tsd-kind-icon">line<wbr>Circle</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="intersection.html#lineline" class="tsd-kind-icon">line<wbr>Line</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="intersection.html#polyline" class="tsd-kind-icon">polyline</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="intersection.html#ray" class="tsd-kind-icon">ray</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="intersection.html#raybox" class="tsd-kind-icon">ray<wbr>Box</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="intersection.html#raycircle" class="tsd-kind-icon">ray<wbr>Circle</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="intersection.html#rayline" class="tsd-kind-icon">ray<wbr>Line</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="intersection.html#rayray" class="tsd-kind-icon">ray<wbr>Ray</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Interval | shapetypes</title>
+	<title>IntervalSorted | shapetypes</title>
 	<meta name="description" content="Documentation for shapetypes">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="interval.html">Interval</a>
+					<a href="intervalsorted.html">IntervalSorted</a>
 				</li>
 			</ul>
-			<h1>Class Interval</h1>
+			<h1>Class IntervalSorted</h1>
 		</div>
 	</div>
 </header>
@@ -69,41 +69,34 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A number range between two values (<a href="interval.html#t0">T0</a> &amp; <a href="interval.html#t1">T1</a>).
-						This range is increasing when <a href="interval.html#t0">T0</a> &lt; <a href="interval.html#t1">T1</a> and decreasing when <a href="interval.html#t0">T0</a> &gt; <a href="interval.html#t1">T1</a>.</p>
+						<p>A special <a href="interval.html">Interval</a> where T0 is always the smallest value and T1 is always the largest.
+						As a result, <a href="intervalsorted.html#isincreasing">isIncreasing</a> will always return <code>true</code>.</p>
 					</div>
 					<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 						<h3>Example</h3>
 					</a>
-					<pre><code class="language-js"><span class="hljs-keyword">import</span> { Interval } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>
+					<pre><code class="language-js"><span class="hljs-keyword">import</span> { IntervalSorted } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>
 
-<span class="hljs-keyword">const</span> interval = <span class="hljs-keyword">new</span> Interval(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
+<span class="hljs-keyword">const</span> interval = <span class="hljs-keyword">new</span> IntervalSorted(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
 <span class="hljs-built_in">console</span>.log(interval.length);
 <span class="hljs-comment">// =&gt; 5</span>
 <span class="hljs-built_in">console</span>.log(interval.mid);
 <span class="hljs-comment">// =&gt; 7.5</span>
 <span class="hljs-built_in">console</span>.log(interval.contains(<span class="hljs-number">8</span>));
 <span class="hljs-comment">// =&gt; True</span>
-<span class="hljs-built_in">console</span>.log(interval.isIncreasing);
+<span class="hljs-built_in">console</span>.log(interval.isIncreasing());
 <span class="hljs-comment">// =&gt; True</span>
-
-<span class="hljs-keyword">const</span> interval = <span class="hljs-keyword">new</span> Interval(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>);
-<span class="hljs-built_in">console</span>.log(interval.length);
-<span class="hljs-comment">// =&gt; -5</span>
-<span class="hljs-built_in">console</span>.log(interval.contains(<span class="hljs-number">8</span>));
-<span class="hljs-comment">// =&gt; True</span>
-<span class="hljs-built_in">console</span>.log(interval.isIncreasing);
-<span class="hljs-comment">// =&gt; False</span></code></pre>
+</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Interval</span>
+						<a href="interval.html" class="tsd-signature-type">Interval</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a>
+								<span class="target">IntervalSorted</span>
 							</li>
 						</ul>
 					</li>
@@ -116,45 +109,49 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="interval.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="intervalsorted.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#t0" class="tsd-kind-icon">T0</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#t1" class="tsd-kind-icon">T1</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#isdecreasing" class="tsd-kind-icon">is<wbr>Decreasing</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#isincreasing" class="tsd-kind-icon">is<wbr>Increasing</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#issingleton" class="tsd-kind-icon">is<wbr>Singleton</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#length" class="tsd-kind-icon">length</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#lengthabs" class="tsd-kind-icon">length<wbr>Abs</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#max" class="tsd-kind-icon">max</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#mid" class="tsd-kind-icon">mid</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="interval.html#min" class="tsd-kind-icon">min</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#t0" class="tsd-kind-icon">T0</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#t1" class="tsd-kind-icon">T1</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite"><a href="intervalsorted.html#isdecreasing" class="tsd-kind-icon">is<wbr>Decreasing</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite"><a href="intervalsorted.html#isincreasing" class="tsd-kind-icon">is<wbr>Increasing</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#issingleton" class="tsd-kind-icon">is<wbr>Singleton</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#length" class="tsd-kind-icon">length</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#lengthabs" class="tsd-kind-icon">length<wbr>Abs</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite"><a href="intervalsorted.html#max" class="tsd-kind-icon">max</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#mid" class="tsd-kind-icon">mid</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite"><a href="intervalsorted.html#min" class="tsd-kind-icon">min</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Create Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="interval.html#fromvalues" class="tsd-kind-icon">from<wbr>Values</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="interval.html#intersection" class="tsd-kind-icon">intersection</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="interval.html#union" class="tsd-kind-icon">union</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="intervalsorted.html#fromcenter" class="tsd-kind-icon">from<wbr>Center</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="intervalsorted.html#fromvalues" class="tsd-kind-icon">from<wbr>Values</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="intervalsorted.html#intersection" class="tsd-kind-icon">intersection</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="intervalsorted.html#union" class="tsd-kind-icon">union</a></li>
 							</ul>
 							<h3>Other Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#assorted" class="tsd-kind-icon">as<wbr>Sorted</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#contains" class="tsd-kind-icon">contains</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#containspoint" class="tsd-kind-icon">contains<wbr>Point</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#equals" class="tsd-kind-icon">equals</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#grow" class="tsd-kind-icon">grow</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#remaptointerval" class="tsd-kind-icon">remap<wbr>ToInterval</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#reverse" class="tsd-kind-icon">reverse</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#swap" class="tsd-kind-icon">swap</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#valueat" class="tsd-kind-icon">value<wbr>At</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#witht0" class="tsd-kind-icon">with<wbr>T0</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interval.html#witht1" class="tsd-kind-icon">with<wbr>T1</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#assorted" class="tsd-kind-icon">as<wbr>Sorted</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#contains" class="tsd-kind-icon">contains</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#containspoint" class="tsd-kind-icon">contains<wbr>Point</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#equals" class="tsd-kind-icon">equals</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#grow" class="tsd-kind-icon">grow</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="intervalsorted.html#inflate" class="tsd-kind-icon">inflate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#remaptointerval" class="tsd-kind-icon">remap<wbr>ToInterval</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#reverse" class="tsd-kind-icon">reverse</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#swap" class="tsd-kind-icon">swap</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#valueat" class="tsd-kind-icon">value<wbr>At</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="intervalsorted.html#withmax" class="tsd-kind-icon">with<wbr>Max</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="intervalsorted.html#withmin" class="tsd-kind-icon">with<wbr>Min</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#witht0" class="tsd-kind-icon">with<wbr>T0</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="intervalsorted.html#witht1" class="tsd-kind-icon">with<wbr>T1</a></li>
 							</ul>
 						</section>
 					</div>
@@ -162,22 +159,25 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Interval<span class="tsd-signature-symbol">(</span>T0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, T1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Interval<wbr>Sorted<span class="tsd-signature-symbol">(</span>T0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, T1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="interval.html">Interval</a>.<a href="interval.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L97">lib/interval.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intervalSorted.ts#L41">lib/intervalSorted.ts:41</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates an interval from two values.</p>
+									<p>Creates a sorted interval from two values.
+										The values don&#39;t need to be provided in order as they are sorted when the interval is constructed.
+									This means that the T0 value may be reassigned to T1 if it&#39;s the largest value, and vice versa.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -186,7 +186,7 @@
 									<h5>T0: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The start of the interval. Could either be the interval&#39;s min or max. If the interval is increasing, this should be the min.</p>
+											<p>One end of the interval. This value may be assigned to T1 if it is the largest parameter.</p>
 										</div>
 									</div>
 								</li>
@@ -194,27 +194,28 @@
 									<h5>T1: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The end of the interval. Could either be the interval&#39;s min or max value. If the interval is increasing, this should be the max.</p>
+											<p>The other end of the interval. This value may be assigned to T0 if it is the smallest parameter.</p>
 										</div>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="interval.html" class="tsd-signature-type">Interval</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 					<a name="t0" class="tsd-anchor"></a>
 					<h3>T0</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> T0<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#t0">T0</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L120">lib/interval.ts:120</a></li>
 								</ul>
@@ -228,15 +229,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 					<a name="t1" class="tsd-anchor"></a>
 					<h3>T1</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> T1<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#t1">T1</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L127">lib/interval.ts:127</a></li>
 								</ul>
@@ -250,88 +252,92 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
 					<a name="isdecreasing" class="tsd-anchor"></a>
 					<h3>is<wbr>Decreasing</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isDecreasing<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="interval.html">Interval</a>.<a href="interval.html#isdecreasing">isDecreasing</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L134">lib/interval.ts:134</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intervalSorted.ts#L68">lib/intervalSorted.ts:68</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Checks whether <a href="interval.html#t0">T0</a> &gt; <a href="interval.html#t1">T1</a>. Returns true if it is.</p>
+									<p>A sorted interval is always increasing, so this will return false.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
 					<a name="isincreasing" class="tsd-anchor"></a>
 					<h3>is<wbr>Increasing</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isIncreasing<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="interval.html">Interval</a>.<a href="interval.html#isincreasing">isIncreasing</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L141">lib/interval.ts:141</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intervalSorted.ts#L75">lib/intervalSorted.ts:75</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Checks whether <a href="interval.html#t0">T0</a> &lt; <a href="interval.html#t1">T1</a>. Returns true if it is.</p>
+									<p>A sorted interval is always increasing, so this will return true.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 					<a name="issingleton" class="tsd-anchor"></a>
 					<h3>is<wbr>Singleton</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isSingleton<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#issingleton">isSingleton</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L148">lib/interval.ts:148</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Checks whether <a href="interval.html#t0">T0</a> and <a href="interval.html#t1">T1</a> are the same value. Returns true if they are.</p>
+									<p>Checks whether <a href="intervalsorted.html#t0">T0</a> and <a href="intervalsorted.html#t1">T1</a> are the same value. Returns true if they are.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 					<a name="length" class="tsd-anchor"></a>
 					<h3>length</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> length<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#length">length</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L183">lib/interval.ts:183</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets the signed distance between <a href="interval.html#t0">T0</a> and <a href="interval.html#t1">T1</a>.
+									<p>Gets the signed distance between <a href="intervalsorted.html#t0">T0</a> and <a href="intervalsorted.html#t1">T1</a>.
 									It will be positive if the interval is increasing and negative if it is decreasing.</p>
 								</div>
 							</div>
@@ -339,22 +345,23 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 					<a name="lengthabs" class="tsd-anchor"></a>
 					<h3>length<wbr>Abs</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> lengthAbs<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#lengthabs">lengthAbs</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L191">lib/interval.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets the absolute distance between <a href="interval.html#t0">T0</a> and <a href="interval.html#t1">T1</a>.
+									<p>Gets the absolute distance between <a href="intervalsorted.html#t0">T0</a> and <a href="intervalsorted.html#t1">T1</a>.
 									It will be positive regardless of whether the interval is increasing or decreasing.</p>
 								</div>
 							</div>
@@ -362,66 +369,69 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
 					<a name="max" class="tsd-anchor"></a>
 					<h3>max</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> max<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="interval.html">Interval</a>.<a href="interval.html#max">max</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L172">lib/interval.ts:172</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intervalSorted.ts#L89">lib/intervalSorted.ts:89</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets the larger of <a href="interval.html#t0">T0</a> and <a href="interval.html#t1">T1</a>.</p>
+									<p>Gets <a href="intervalsorted.html#t1">T1</a>, which is always the min value in a sorted interval.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 					<a name="mid" class="tsd-anchor"></a>
 					<h3>mid</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> mid<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#mid">mid</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L165">lib/interval.ts:165</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets the value in the middle of <a href="interval.html#t0">T0</a> and <a href="interval.html#t1">T1</a>.</p>
+									<p>Gets the value in the middle of <a href="intervalsorted.html#t0">T0</a> and <a href="intervalsorted.html#t1">T1</a>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
 					<a name="min" class="tsd-anchor"></a>
 					<h3>min</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> min<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="interval.html">Interval</a>.<a href="interval.html#min">min</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L155">lib/interval.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intervalSorted.ts#L82">lib/intervalSorted.ts:82</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets the smaller of <a href="interval.html#t0">T0</a> and <a href="interval.html#t1">T1</a>.</p>
+									<p>Gets <a href="intervalsorted.html#t0">T0</a>, which is always the min value in a sorted interval.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -432,14 +442,52 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Create Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="fromcenter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Center</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Center<span class="tsd-signature-symbol">(</span>center<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intervalSorted.ts#L36">lib/intervalSorted.ts:36</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an interval of a given length, centered on a value.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>center: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The middle value of the interval.</p>
+									</div>
+								</li>
+								<li>
+									<h5>width: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The length of the interval.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="fromvalues" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Values</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 						<li class="tsd-signature tsd-kind-icon">from<wbr>Values<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#fromvalues">fromValues</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L52">lib/interval.ts:52</a></li>
 								</ul>
@@ -470,15 +518,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="intersection" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> intersection</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 						<li class="tsd-signature tsd-kind-icon">intersection<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a>, b<span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#intersection">intersection</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L77">lib/interval.ts:77</a></li>
 								</ul>
@@ -508,15 +557,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="union" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> union</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 						<li class="tsd-signature tsd-kind-icon">union<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a>, b<span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#union">union</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L65">lib/interval.ts:65</a></li>
 								</ul>
@@ -548,15 +598,16 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Other Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="assorted" class="tsd-anchor"></a>
 					<h3>as<wbr>Sorted</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">as<wbr>Sorted<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#assorted">asSorted</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L205">lib/interval.ts:205</a></li>
 								</ul>
@@ -570,15 +621,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="contains" class="tsd-anchor"></a>
 					<h3>contains</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">contains<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, tolerance<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#contains">contains</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L216">lib/interval.ts:216</a></li>
 								</ul>
@@ -599,8 +651,8 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>If true, the value must be entirely inside the interval and can&#39;t equal <a href="interval.html#min">min</a> or <a href="interval.html#max">max</a>.
-										If false, the value can equal <a href="interval.html#min">min</a> or <a href="interval.html#max">max</a>.</p>
+										<p>If true, the value must be entirely inside the interval and can&#39;t equal <a href="intervalsorted.html#min">min</a> or <a href="intervalsorted.html#max">max</a>.
+										If false, the value can equal <a href="intervalsorted.html#min">min</a> or <a href="intervalsorted.html#max">max</a>.</p>
 									</div>
 								</li>
 								<li>
@@ -614,15 +666,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="containspoint" class="tsd-anchor"></a>
 					<h3>contains<wbr>Point</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">contains<wbr>Point<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, tolerance<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/pointcontainment.html" class="tsd-signature-type">PointContainment</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#containspoint">containsPoint</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L242">lib/interval.ts:242</a></li>
 								</ul>
@@ -653,22 +706,23 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="equals" class="tsd-anchor"></a>
 					<h3>equals</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">equals<span class="tsd-signature-symbol">(</span>otherInterval<span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#equals">equals</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L259">lib/interval.ts:259</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Checks whether another interval has the same <a href="interval.html#t0">T0</a> and <a href="interval.html#t1">T1</a> values. Returns true if it does.</p>
+									<p>Checks whether another interval has the same <a href="intervalsorted.html#t0">T0</a> and <a href="intervalsorted.html#t1">T1</a> values. Returns true if it does.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -684,15 +738,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="grow" class="tsd-anchor"></a>
 					<h3>grow</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">grow<span class="tsd-signature-symbol">(</span>toInclude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#grow">grow</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L271">lib/interval.ts:271</a></li>
 								</ul>
@@ -719,14 +774,55 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="inflate" class="tsd-anchor"></a>
+					<h3>inflate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">inflate<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intervalSorted.ts#L111">lib/intervalSorted.ts:111</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Moves the min and max apart by a set amount. Returns the enlarged interval.</p>
+								</div>
+								<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+									<h3>Example</h3>
+								</a>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> interval = <span class="hljs-keyword">new</span> IntervalSorted(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
+<span class="hljs-keyword">const</span> expanded = interval.inflate(<span class="hljs-number">2</span>);
+<span class="hljs-built_in">console</span>.log(expanded.min);
+<span class="hljs-comment">// =&gt; 3</span>
+<span class="hljs-built_in">console</span>.log(expanded.max);
+<span class="hljs-comment">// =&gt; 12</span></code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>amount: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The distance to move the min and max values. If positive, the overall length of the interval will grow. If negative, the overall length will shrink.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="remaptointerval" class="tsd-anchor"></a>
 					<h3>remap<wbr>ToInterval</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">remap<wbr>ToInterval<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#remaptointerval">remapToInterval</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L295">lib/interval.ts:295</a></li>
 								</ul>
@@ -734,7 +830,7 @@
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Remaps a value from the global number system into the normalized parameters of this interval.
-									See <a href="interval.html#valueat">valueAt</a> to understand how the parameters are calculated.</p>
+									See <a href="intervalsorted.html#valueat">valueAt</a> to understand how the parameters are calculated.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -751,59 +847,62 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="reverse" class="tsd-anchor"></a>
 					<h3>reverse</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">reverse<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#reverse">reverse</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L302">lib/interval.ts:302</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates a new interval equal to [-<a href="interval.html#t1">T1</a>, -<a href="interval.html#t0">T0</a>].</p>
+									<p>Creates a new interval equal to [-<a href="intervalsorted.html#t1">T1</a>, -<a href="intervalsorted.html#t0">T0</a>].</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="interval.html" class="tsd-signature-type">Interval</a></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="swap" class="tsd-anchor"></a>
 					<h3>swap</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">swap<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#swap">swap</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L309">lib/interval.ts:309</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Swaps <a href="interval.html#t0">T0</a> and <a href="interval.html#t1">T1</a> to create a new interval. The new interval is equal to [[[T1]], <a href="interval.html#t0">T0</a>].</p>
+									<p>Swaps <a href="intervalsorted.html#t0">T0</a> and <a href="intervalsorted.html#t1">T1</a> to create a new interval. The new interval is equal to [[[T1]], <a href="intervalsorted.html#t0">T0</a>].</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="interval.html" class="tsd-signature-type">Interval</a></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="tostring" class="tsd-anchor"></a>
 					<h3>to<wbr>String</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">to<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#tostring">toString</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L316">lib/interval.ts:316</a></li>
 								</ul>
@@ -817,15 +916,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="valueat" class="tsd-anchor"></a>
 					<h3>value<wbr>At</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">value<wbr>At<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#valueat">valueAt</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L330">lib/interval.ts:330</a></li>
 								</ul>
@@ -835,8 +935,8 @@
 									<p>Remaps a value from normalized parameters of this interval into the global number system.
 									The interval&#39;s parameters range from 0 to 1.</p>
 								</div>
-								<p>A parameter of 0 is equal to the start of the interval (<a href="interval.html#t0">T0</a>). A parameter of
-								0.5 is the mid point of the interval. And a parameter of 1 is the end of the interval (<a href="interval.html#t1">T1</a>).</p>
+								<p>A parameter of 0 is equal to the start of the interval (<a href="intervalsorted.html#t0">T0</a>). A parameter of
+								0.5 is the mid point of the interval. And a parameter of 1 is the end of the interval (<a href="intervalsorted.html#t1">T1</a>).</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -853,14 +953,87 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="withmax" class="tsd-anchor"></a>
+					<h3>with<wbr>Max</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">with<wbr>Max<span class="tsd-signature-symbol">(</span>newMax<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intervalSorted.ts#L140">lib/intervalSorted.ts:140</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a copy of this interval with a different max value.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>note</dt>
+									<dd><p>Throws an error if the new maximum is less than the current minimum.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newMax: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>New max value for the new interval</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="withmin" class="tsd-anchor"></a>
+					<h3>with<wbr>Min</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">with<wbr>Min<span class="tsd-signature-symbol">(</span>newMin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/intervalSorted.ts#L127">lib/intervalSorted.ts:127</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a copy of this interval with a different min value.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>note</dt>
+									<dd><p>Throws an error if the new minimum is greater than the current maximum.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newMin: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>New min value for the new interval</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="intervalsorted.html" class="tsd-signature-type">IntervalSorted</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="witht0" class="tsd-anchor"></a>
 					<h3>with<wbr>T0</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">with<wbr>T0<span class="tsd-signature-symbol">(</span>newT0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#witht0">withT0</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L338">lib/interval.ts:338</a></li>
 								</ul>
@@ -882,15 +1055,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="witht1" class="tsd-anchor"></a>
 					<h3>with<wbr>T1</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">with<wbr>T1<span class="tsd-signature-symbol">(</span>newT1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interval.html" class="tsd-signature-type">Interval</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="interval.html">Interval</a>.<a href="interval.html#witht1">withT1</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/interval.ts#L346">lib/interval.ts:346</a></li>
 								</ul>
@@ -948,96 +1122,108 @@
 					<li class=" tsd-kind-class">
 						<a href="geometry.html" class="tsd-kind-icon">Geometry</a>
 					</li>
+					<li class=" tsd-kind-class">
+						<a href="interval.html" class="tsd-kind-icon">Interval</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="interval.html" class="tsd-kind-icon">Interval</a>
+						<a href="intervalsorted.html" class="tsd-kind-icon">Interval<wbr>Sorted</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="interval.html#constructor" class="tsd-kind-icon">constructor</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+								<a href="intervalsorted.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="interval.html#t0" class="tsd-kind-icon">T0</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#t0" class="tsd-kind-icon">T0</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="interval.html#t1" class="tsd-kind-icon">T1</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#t1" class="tsd-kind-icon">T1</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="interval.html#isdecreasing" class="tsd-kind-icon">is<wbr>Decreasing</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
+								<a href="intervalsorted.html#isdecreasing" class="tsd-kind-icon">is<wbr>Decreasing</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="interval.html#isincreasing" class="tsd-kind-icon">is<wbr>Increasing</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
+								<a href="intervalsorted.html#isincreasing" class="tsd-kind-icon">is<wbr>Increasing</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="interval.html#issingleton" class="tsd-kind-icon">is<wbr>Singleton</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#issingleton" class="tsd-kind-icon">is<wbr>Singleton</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="interval.html#length" class="tsd-kind-icon">length</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#length" class="tsd-kind-icon">length</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="interval.html#lengthabs" class="tsd-kind-icon">length<wbr>Abs</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#lengthabs" class="tsd-kind-icon">length<wbr>Abs</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="interval.html#max" class="tsd-kind-icon">max</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
+								<a href="intervalsorted.html#max" class="tsd-kind-icon">max</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="interval.html#mid" class="tsd-kind-icon">mid</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#mid" class="tsd-kind-icon">mid</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="interval.html#min" class="tsd-kind-icon">min</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
+								<a href="intervalsorted.html#min" class="tsd-kind-icon">min</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="interval.html#assorted" class="tsd-kind-icon">as<wbr>Sorted</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#assorted" class="tsd-kind-icon">as<wbr>Sorted</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="interval.html#contains" class="tsd-kind-icon">contains</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#contains" class="tsd-kind-icon">contains</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="interval.html#containspoint" class="tsd-kind-icon">contains<wbr>Point</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#containspoint" class="tsd-kind-icon">contains<wbr>Point</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="interval.html#equals" class="tsd-kind-icon">equals</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#equals" class="tsd-kind-icon">equals</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="interval.html#grow" class="tsd-kind-icon">grow</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="interval.html#remaptointerval" class="tsd-kind-icon">remap<wbr>ToInterval</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#grow" class="tsd-kind-icon">grow</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="interval.html#reverse" class="tsd-kind-icon">reverse</a>
+								<a href="intervalsorted.html#inflate" class="tsd-kind-icon">inflate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#remaptointerval" class="tsd-kind-icon">remap<wbr>ToInterval</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#reverse" class="tsd-kind-icon">reverse</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#swap" class="tsd-kind-icon">swap</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#valueat" class="tsd-kind-icon">value<wbr>At</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="interval.html#swap" class="tsd-kind-icon">swap</a>
+								<a href="intervalsorted.html#withmax" class="tsd-kind-icon">with<wbr>Max</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="interval.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
+								<a href="intervalsorted.html#withmin" class="tsd-kind-icon">with<wbr>Min</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="interval.html#valueat" class="tsd-kind-icon">value<wbr>At</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#witht0" class="tsd-kind-icon">with<wbr>T0</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="interval.html#witht0" class="tsd-kind-icon">with<wbr>T0</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="interval.html#witht1" class="tsd-kind-icon">with<wbr>T1</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="intervalsorted.html#witht1" class="tsd-kind-icon">with<wbr>T1</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="interval.html#fromvalues" class="tsd-kind-icon">from<wbr>Values</a>
+								<a href="intervalsorted.html#fromcenter" class="tsd-kind-icon">from<wbr>Center</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="interval.html#intersection" class="tsd-kind-icon">intersection</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="intervalsorted.html#fromvalues" class="tsd-kind-icon">from<wbr>Values</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="interval.html#union" class="tsd-kind-icon">union</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="intervalsorted.html#intersection" class="tsd-kind-icon">intersection</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="intervalsorted.html#union" class="tsd-kind-icon">union</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="intervalsorted.html" class="tsd-kind-icon">Interval<wbr>Sorted</a>
-					</li>
 					<li class=" tsd-kind-class">
 						<a href="line.html" class="tsd-kind-icon">Line</a>
 					</li>
