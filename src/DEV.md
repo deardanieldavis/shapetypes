@@ -13,3 +13,19 @@ Run `npm run doc`
 
 # Tslint fixes
 Run `npm run fix`
+
+# Build release
+```
+# Reset the repo to the latest commit and build everything
+npm run reset && npm run test && npm run cov:check && npm run doc:html
+
+# Then version it with standard-version options. e.g.:
+# don't bump package.json version (see: https://github.com/conventional-changelog/standard-version)
+# npm run version -- --release-as major
+npm run version -- --release-as minor
+# npm run version -- --release-as patch
+# npm run version -- --prerelease alpha
+
+# And don't forget to push the docs to GitHub pages:
+npm run doc:publish
+```
