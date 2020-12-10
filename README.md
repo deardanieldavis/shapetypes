@@ -20,21 +20,28 @@ You can install shapetypes with npm:
 ```ts
 import { Point, Polyline, Polygon, Rectangle, Vector } from 'shapetypes';
 
+// Create a triangle
 const triangle = new Polyline([new Point(0, 0), new Point(1, 1), new Point(2, 0)], true);
 console.log(triangle.area);
 // => 1
-console.log(triangle.contains(new Point(1, 0.5)));
+
+// Test to see if a point is inside
+const testPoint = new Point(1, 0.5);
+console.log(triangle.contains(testPoint));
 // => True
 
+// Move the triangle and see if the point is inside
 const shifted = triangle.translate(new Vector(3, 4));
-console.log(shifted.contains(new Point(1, 0.5)));
+console.log(shifted.contains(testPoint));
 // => False
 
+// Create a rectangular polygon
 const rectangle = new Rectangle(Plane.worldXY(), 10, 20);
 const polygon = new Polygon(rectangle.toPolyline());
 console.log(polygon.area);
 // => 200
 
+// Cut the triangle from the polygon
 const result = polygon.difference(triangle);
 console.log(result[0].area);
 // => 199
@@ -46,7 +53,7 @@ If you've used Rhino, the Shapetypes syntax should feel familiar. There are a co
 1. There are no 3d functions – this library is just for 2d geometry.
 2. All geometric objects are immutable, meaning they can't be changed after they're created.
   Rather than modifying an object, you can create a copy with different parameters.
-   This can often be done through helper methods that have 'with' as prefix, such as [Point.withX](https://deardanieldavis.github.io/shapetypes/classes/point.html#withx)
+   This can often be done through helper methods that have 'with' as a prefix, such as [Point.withX](https://deardanieldavis.github.io/shapetypes/classes/point.html#withx)
    (see example below).
 ```ts
 import {Point} from 'shapetypes';
@@ -70,7 +77,7 @@ console.log(newPoint.x);
 
 
 ## Alternatives
-- [Rhino3dm](https://www.npmjs.com/package/rhino3dm): A web assembly port of Rhino Common. This is a much 
+- [Rhino3dm](https://www.npmjs.com/package/rhino3dm): A web assembly port of Rhino Common. This is a much
 more extensive library that supports 3d geometry.
 - [VerbNurbs](https://www.npmjs.com/package/verb-nurbs): A cross-platform Nurbs library that compiles to javascript.
 - [Javascript Topology Suite](https://github.com/bjornharrtell/jsts): A javascript library of geometric operations primarily for GIS data.
