@@ -35,5 +35,6 @@ npm run doc:publish
 # The follow the instruction in the output
 # Which look something like: git push --follow-tags origin master && npm publish
 
-
 ```
+CI via Travis-ci
+Coverage via codecov.io
