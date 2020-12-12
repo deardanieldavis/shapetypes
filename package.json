@@ -6,8 +6,9 @@
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
   "repository": "https://github.com/deardanieldavis/shapetypes",
+  "homepage": "https://deardanieldavis.github.io/shapetypes/",
   "license": "MIT",
-  "keywords": [],
+  "keywords": ["geometry", "2d", "cad", "vector", "polyline", "polygon"],
   "scripts": {
     "describe": "npm-scripts-info",
     "build": "run-s clean && run-p build:*",
