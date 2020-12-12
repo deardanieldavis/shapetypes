@@ -1,4 +1,4 @@
-![npm](https://img.shields.io/npm/v/shapetypes)
+![npm](https://img.shields.io/npm/v/shapetypes) [![Build Status](https://travis-ci.com/deardanieldavis/shapetypes.svg?branch=master)](https://travis-ci.com/deardanieldavis/shapetypes)
 
 # Shapetypes
 
