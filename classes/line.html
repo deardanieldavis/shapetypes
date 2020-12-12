@@ -74,26 +74,30 @@
 					<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 						<h3>Example</h3>
 					</a>
-					<pre><code class="language-js"><span class="hljs-keyword">import</span> { Line } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>
+					<pre><code class="language-js"><span class="hljs-keyword">import</span> { Line, Point, Transform, Vector } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>;
 
+<span class="hljs-comment">// Create a new line</span>
 <span class="hljs-keyword">const</span> line = <span class="hljs-keyword">new</span> Line(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">4</span>,<span class="hljs-number">5</span>));
 
+<span class="hljs-comment">// Get properties of the line</span>
 <span class="hljs-built_in">console</span>.log(line.from.toString());
 <span class="hljs-comment">// =&gt; (1,1)</span>
 <span class="hljs-built_in">console</span>.log(line.to.toString());
 <span class="hljs-comment">// =&gt; (4,5)</span>
 <span class="hljs-built_in">console</span>.log(line.length);
 <span class="hljs-comment">// =&gt; 5</span>
-
 <span class="hljs-keyword">const</span> mid = line.pointAt(<span class="hljs-number">0.5</span>);
 <span class="hljs-built_in">console</span>.log(mid.toString());
 <span class="hljs-comment">// =&gt; (2.5,3)</span>
 
+<span class="hljs-comment">// Find closest point on the line</span>
 <span class="hljs-keyword">const</span> closest = line.closestPoint(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">5</span>,<span class="hljs-number">5</span>));
 <span class="hljs-built_in">console</span>.log(closest.toString());
 <span class="hljs-comment">// =&gt; (4,5)</span>
 
-<span class="hljs-keyword">const</span> moved = line.transform(Transform.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">5</span>, <span class="hljs-number">0</span>)));
+<span class="hljs-comment">// Translate the line with a transform matrix</span>
+<span class="hljs-keyword">const</span> matrix = Transform.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">5</span>, <span class="hljs-number">0</span>));
+<span class="hljs-keyword">const</span> moved = line.transform(matrix);
 <span class="hljs-built_in">console</span>.log(moved.toString());
 <span class="hljs-comment">// =&gt; [(6,1),(9,5)]</span></code></pre>
 				</div>
@@ -179,7 +183,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L88">lib/line.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L92">lib/line.ts:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -220,7 +224,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L111">lib/line.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L115">lib/line.ts:115</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -242,7 +246,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L122">lib/line.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L126">lib/line.ts:126</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -265,7 +269,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L132">lib/line.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L136">lib/line.ts:136</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -287,7 +291,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L139">lib/line.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L143">lib/line.ts:143</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -309,7 +313,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L146">lib/line.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L150">lib/line.ts:150</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -331,7 +335,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L156">lib/line.ts:156</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L160">lib/line.ts:160</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -358,7 +362,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L72">lib/line.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L76">lib/line.ts:76</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -389,7 +393,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L57">lib/line.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L61">lib/line.ts:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -435,7 +439,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L171">lib/line.ts:171</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L175">lib/line.ts:175</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -473,7 +477,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L198">lib/line.ts:198</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L202">lib/line.ts:202</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -510,7 +514,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L213">lib/line.ts:213</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L217">lib/line.ts:217</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -547,7 +551,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L244">lib/line.ts:244</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L248">lib/line.ts:248</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -584,7 +588,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L261">lib/line.ts:261</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L265">lib/line.ts:265</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -621,7 +625,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L275">lib/line.ts:275</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L279">lib/line.ts:279</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -643,7 +647,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L291">lib/line.ts:291</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L295">lib/line.ts:295</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -686,7 +690,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L335">lib/line.ts:335</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L339">lib/line.ts:339</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -736,7 +740,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L353">lib/line.ts:353</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L357">lib/line.ts:357</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -773,7 +777,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L364">lib/line.ts:364</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L368">lib/line.ts:368</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -795,7 +799,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L372">lib/line.ts:372</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L376">lib/line.ts:376</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -825,7 +829,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L381">lib/line.ts:381</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L385">lib/line.ts:385</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -857,7 +861,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L390">lib/line.ts:390</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L394">lib/line.ts:394</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -891,7 +895,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#changebasis">changeBasis</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L49">lib/geometry.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L54">lib/geometry.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -938,7 +942,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#planetoplane">planeToPlane</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L65">lib/geometry.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L70">lib/geometry.ts:70</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -983,7 +987,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#rotate">rotate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L79">lib/geometry.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L84">lib/geometry.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1011,7 +1015,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#rotate">rotate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L93">lib/geometry.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L98">lib/geometry.ts:98</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1060,7 +1064,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L110">lib/geometry.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L115">lib/geometry.ts:115</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1089,7 +1093,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L123">lib/geometry.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L128">lib/geometry.ts:128</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1127,7 +1131,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L136">lib/geometry.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L141">lib/geometry.ts:141</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1179,7 +1183,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="geometry.html">Geometry</a>.<a href="geometry.html#transform">transform</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/line.ts#L426">lib/line.ts:426</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/line.ts#L433">lib/line.ts:433</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1189,17 +1193,20 @@
 								<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 									<h3>Example</h3>
 								</a>
-								<pre><code class="language-js"><span class="hljs-keyword">const</span> line = <span class="hljs-keyword">new</span> Line(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">10</span>,<span class="hljs-number">0</span>));
+								<pre><code class="language-js"><span class="hljs-keyword">import</span> { Line, Point, Transform, Vector } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>;
+
+<span class="hljs-comment">// Create a line</span>
+<span class="hljs-keyword">const</span> line = <span class="hljs-keyword">new</span> Line(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">10</span>,<span class="hljs-number">0</span>));
 <span class="hljs-built_in">console</span>.log(line.toString());
 <span class="hljs-comment">// =&gt; [(0,0),(10,0)]</span>
 
-<span class="hljs-comment">// Using a transform matrix</span>
+<span class="hljs-comment">// Translate using a transform matrix</span>
 <span class="hljs-keyword">const</span> matrix = Transform.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">5</span>, <span class="hljs-number">4</span>));
 <span class="hljs-keyword">const</span> moved = line.transform(matrix);
 <span class="hljs-built_in">console</span>.log(moved.toString());
 <span class="hljs-comment">// =&gt; [(5,4),(15,4)]</span>
 
-<span class="hljs-comment">// Using a direct method</span>
+<span class="hljs-comment">// Translate using the direct method</span>
 <span class="hljs-keyword">const</span> otherMoved = line.translate(<span class="hljs-number">5</span>, <span class="hljs-number">4</span>);
 <span class="hljs-built_in">console</span>.log(otherMoved.toString());
 <span class="hljs-comment">// =&gt; [(5,4),(15,4)]</span></code></pre>
@@ -1236,7 +1243,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#translate">translate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L152">lib/geometry.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L157">lib/geometry.ts:157</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1265,7 +1272,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#translate">translate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L165">lib/geometry.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L170">lib/geometry.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

@@ -77,29 +77,37 @@
 					<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 						<h3>Example</h3>
 					</a>
-					<pre><code class="language-js"><span class="hljs-keyword">import</span> { Polygon } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>
+					<pre><code class="language-js"><span class="hljs-keyword">import</span> { Point, Polygon, Polyline, Rectangle } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>
 
+<span class="hljs-comment">// Create a polygon from a triangular polyline</span>
 <span class="hljs-keyword">const</span> triangle = <span class="hljs-keyword">new</span> Polyline([<span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>)], <span class="hljs-literal">true</span>);
 <span class="hljs-keyword">const</span> polygon = <span class="hljs-keyword">new</span> Polygon(triangle);
+
+<span class="hljs-comment">// Get properties of the polygon</span>
 <span class="hljs-built_in">console</span>.log(polygon.area);
 <span class="hljs-comment">// =&gt; 1</span>
-
-<span class="hljs-built_in">console</span>.log(polygon.contains(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>));
-<span class="hljs-comment">// =&gt; True</span>
 <span class="hljs-built_in">console</span>.log(polygon.boundary.from.toString());
-<span class="hljs-comment">// =&gt; [0,0]</span>
+<span class="hljs-comment">// =&gt; (0,0)</span>
 
+<span class="hljs-comment">// Check for point containment</span>
+<span class="hljs-built_in">console</span>.log(polygon.contains(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>)));
+<span class="hljs-comment">// =&gt; True</span>
 
+<span class="hljs-comment">// Create a larger polygon from a rectangle</span>
 <span class="hljs-keyword">const</span> outer = <span class="hljs-keyword">new</span> Rectangle(Plane.worldXY(), <span class="hljs-number">10</span>, <span class="hljs-number">10</span>).toPolyline();
-<span class="hljs-keyword">const</span> outerPolygon = <span class="hljs-keyword">new</span> Polygon(polyline);
+<span class="hljs-keyword">const</span> outerPolygon = <span class="hljs-keyword">new</span> Polygon(outer);
 <span class="hljs-built_in">console</span>.log(outerPolygon.area);
 <span class="hljs-comment">// =&gt; 100</span>
 
+<span class="hljs-comment">// Subtract the triangle from the rectangle</span>
 <span class="hljs-keyword">const</span> subtracted = outerPolygon.difference(triangle);
+
+<span class="hljs-comment">// Check that the area was reduced</span>
 <span class="hljs-built_in">console</span>.log(subtracted[<span class="hljs-number">0</span>].area);
 <span class="hljs-comment">// =&gt; 99</span>
 
-<span class="hljs-built_in">console</span>.log(subtracted.contains(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>));
+<span class="hljs-comment">// Check to see whether the point is still contained</span>
+<span class="hljs-built_in">console</span>.log(subtracted[<span class="hljs-number">0</span>].contains(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>)));
 <span class="hljs-comment">// =&gt; False</span>
 </code></pre>
 				</div>
@@ -178,7 +186,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L95">lib/polygon.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L103">lib/polygon.ts:103</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -232,7 +240,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L139">lib/polygon.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L147">lib/polygon.ts:147</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -254,7 +262,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L150">lib/polygon.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L158">lib/polygon.ts:158</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -276,7 +284,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L158">lib/polygon.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L166">lib/polygon.ts:166</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -298,7 +306,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L165">lib/polygon.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L173">lib/polygon.ts:173</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -323,7 +331,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L75">lib/polygon.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L83">lib/polygon.ts:83</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -363,7 +371,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L341">lib/polygon.ts:341</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L349">lib/polygon.ts:349</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -385,7 +393,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L178">lib/polygon.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L186">lib/polygon.ts:186</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -416,7 +424,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L202">lib/polygon.ts:202</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L210">lib/polygon.ts:210</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -449,7 +457,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L239">lib/polygon.ts:239</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L247">lib/polygon.ts:247</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -486,7 +494,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L331">lib/polygon.ts:331</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L339">lib/polygon.ts:339</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -518,7 +526,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L268">lib/polygon.ts:268</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L276">lib/polygon.ts:276</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -555,7 +563,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L319">lib/polygon.ts:319</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L327">lib/polygon.ts:327</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -588,7 +596,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L288">lib/polygon.ts:288</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L296">lib/polygon.ts:296</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -610,7 +618,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L306">lib/polygon.ts:306</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L314">lib/polygon.ts:314</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -647,7 +655,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#changebasis">changeBasis</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L49">lib/geometry.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L54">lib/geometry.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -694,7 +702,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#planetoplane">planeToPlane</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L65">lib/geometry.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L70">lib/geometry.ts:70</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -739,7 +747,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#rotate">rotate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L79">lib/geometry.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L84">lib/geometry.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -767,7 +775,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#rotate">rotate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L93">lib/geometry.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L98">lib/geometry.ts:98</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -816,7 +824,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L110">lib/geometry.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L115">lib/geometry.ts:115</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -845,7 +853,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L123">lib/geometry.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L128">lib/geometry.ts:128</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -883,7 +891,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L136">lib/geometry.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L141">lib/geometry.ts:141</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -935,7 +943,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="geometry.html">Geometry</a>.<a href="geometry.html#transform">transform</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polygon.ts#L391">lib/polygon.ts:391</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polygon.ts#L400">lib/polygon.ts:400</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -946,20 +954,21 @@
 									<h3>Example</h3>
 								</a>
 								<pre><code class="language-js">
-<span class="hljs-keyword">import</span> { Polygon } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>
+<span class="hljs-keyword">import</span> { Point, Polygon, Polyline, Transform, Vector } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>;
 
+<span class="hljs-comment">// Create a new polygon from a triangular polyline</span>
 <span class="hljs-keyword">const</span> triangle = <span class="hljs-keyword">new</span> Polyline([<span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>)], <span class="hljs-literal">true</span>);
 <span class="hljs-keyword">const</span> polygon = <span class="hljs-keyword">new</span> Polygon(triangle);
 <span class="hljs-built_in">console</span>.log(polygon.boundary.from.toString());
 <span class="hljs-comment">// =&gt; (0,0)</span>
 
-<span class="hljs-comment">// Using a transform matrix</span>
-<span class="hljs-keyword">const</span> matrix = Transform.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>);
+<span class="hljs-comment">// Translate polygon using a transform matrix</span>
+<span class="hljs-keyword">const</span> matrix = Transform.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>));
 <span class="hljs-keyword">const</span> shifted = polygon.transform(matrix);
 <span class="hljs-built_in">console</span>.log(shifted.boundary.from.toString());
 <span class="hljs-comment">// =&gt; (3,4)</span>
 
-<span class="hljs-comment">// Using the direct method</span>
+<span class="hljs-comment">// Translate polygon using the direct method</span>
 <span class="hljs-keyword">const</span> otherShifted = polygon.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>));
 <span class="hljs-built_in">console</span>.log(otherShifted.boundary.from.toString());
 <span class="hljs-comment">// =&gt; (3,4)</span></code></pre>
@@ -996,7 +1005,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#translate">translate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L152">lib/geometry.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L157">lib/geometry.ts:157</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1025,7 +1034,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#translate">translate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L165">lib/geometry.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L170">lib/geometry.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

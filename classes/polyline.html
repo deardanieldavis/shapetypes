@@ -78,21 +78,25 @@
 					<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 						<h3>Example</h3>
 					</a>
-					<pre><code class="language-js"><span class="hljs-keyword">import</span> { Polyline } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>
+					<pre><code class="language-js"><span class="hljs-keyword">import</span> { Point, Polyline, Vector } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>
 
+<span class="hljs-comment">// Create a new polyline</span>
 <span class="hljs-keyword">const</span> triangle = <span class="hljs-keyword">new</span> Polyline([<span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>)], <span class="hljs-literal">true</span>);
+
+<span class="hljs-comment">// Get properties of the polyline</span>
 <span class="hljs-built_in">console</span>.log(triangle.area);
 <span class="hljs-comment">// =&gt; 1</span>
-<span class="hljs-built_in">console</span>.log(triangle.contains(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>));
-<span class="hljs-comment">// =&gt; True</span>
-<span class="hljs-built_in">console</span>.log(triangle.from.toString());
-<span class="hljs-comment">// =&gt; [0,0]</span>
+<span class="hljs-built_in">console</span>.log(triangle.length);
+<span class="hljs-comment">// =&gt; 4.82842712474619</span>
 
+<span class="hljs-comment">// Check whether a point is inside the closed polyline</span>
+<span class="hljs-built_in">console</span>.log(triangle.contains(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>)));
+<span class="hljs-comment">// =&gt; True</span>
+
+<span class="hljs-comment">// Move the polyline and check whether the point is inside</span>
 <span class="hljs-keyword">const</span> shifted = triangle.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>));
-<span class="hljs-built_in">console</span>.log(shifted.contains(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>));
-<span class="hljs-comment">// =&gt; False</span>
-<span class="hljs-built_in">console</span>.log(shifted.from.toString());
-<span class="hljs-comment">// =&gt; [3,4]</span></code></pre>
+<span class="hljs-built_in">console</span>.log(shifted.contains(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>)));
+<span class="hljs-comment">// =&gt; False</span></code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -188,7 +192,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L94">lib/polyline.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L96">lib/polyline.ts:96</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -238,7 +242,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L129">lib/polyline.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L131">lib/polyline.ts:131</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -260,7 +264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L151">lib/polyline.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L153">lib/polyline.ts:153</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -282,7 +286,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L161">lib/polyline.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L163">lib/polyline.ts:163</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -304,7 +308,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L168">lib/polyline.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L170">lib/polyline.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -326,7 +330,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L176">lib/polyline.ts:176</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L178">lib/polyline.ts:178</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -349,7 +353,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L186">lib/polyline.ts:186</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L188">lib/polyline.ts:188</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -371,7 +375,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L200">lib/polyline.ts:200</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L202">lib/polyline.ts:202</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -393,7 +397,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L207">lib/polyline.ts:207</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L209">lib/polyline.ts:209</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -415,7 +419,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L214">lib/polyline.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L216">lib/polyline.ts:216</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -437,7 +441,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L232">lib/polyline.ts:232</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L234">lib/polyline.ts:234</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -462,7 +466,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L670">lib/polyline.ts:670</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L672">lib/polyline.ts:672</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -504,7 +508,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L712">lib/polyline.ts:712</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L714">lib/polyline.ts:714</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -547,7 +551,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L67">lib/polyline.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L69">lib/polyline.ts:69</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -587,7 +591,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L730">lib/polyline.ts:730</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L732">lib/polyline.ts:732</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -609,7 +613,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L243">lib/polyline.ts:243</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L245">lib/polyline.ts:245</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -631,7 +635,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L263">lib/polyline.ts:263</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L265">lib/polyline.ts:265</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -662,7 +666,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L283">lib/polyline.ts:283</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L285">lib/polyline.ts:285</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -694,7 +698,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L308">lib/polyline.ts:308</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L310">lib/polyline.ts:310</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -732,7 +736,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L342">lib/polyline.ts:342</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L344">lib/polyline.ts:344</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -765,7 +769,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L370">lib/polyline.ts:370</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L372">lib/polyline.ts:372</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -802,7 +806,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L396">lib/polyline.ts:396</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L398">lib/polyline.ts:398</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -845,7 +849,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L425">lib/polyline.ts:425</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L427">lib/polyline.ts:427</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -869,7 +873,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L439">lib/polyline.ts:439</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L441">lib/polyline.ts:441</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -907,7 +911,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L490">lib/polyline.ts:490</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L492">lib/polyline.ts:492</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -946,7 +950,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L514">lib/polyline.ts:514</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L516">lib/polyline.ts:516</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -981,7 +985,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L583">lib/polyline.ts:583</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L585">lib/polyline.ts:585</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1036,7 +1040,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L641">lib/polyline.ts:641</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L643">lib/polyline.ts:643</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1058,7 +1062,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L595">lib/polyline.ts:595</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L597">lib/polyline.ts:597</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1089,7 +1093,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L649">lib/polyline.ts:649</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L651">lib/polyline.ts:651</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1111,7 +1115,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L614">lib/polyline.ts:614</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L616">lib/polyline.ts:616</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1149,7 +1153,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#changebasis">changeBasis</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L49">lib/geometry.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L54">lib/geometry.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1196,7 +1200,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#planetoplane">planeToPlane</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L65">lib/geometry.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L70">lib/geometry.ts:70</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1241,7 +1245,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#rotate">rotate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L79">lib/geometry.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L84">lib/geometry.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1269,7 +1273,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#rotate">rotate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L93">lib/geometry.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L98">lib/geometry.ts:98</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1318,7 +1322,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L110">lib/geometry.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L115">lib/geometry.ts:115</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1347,7 +1351,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L123">lib/geometry.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L128">lib/geometry.ts:128</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1385,7 +1389,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#scale">scale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L136">lib/geometry.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L141">lib/geometry.ts:141</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1437,7 +1441,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="geometry.html">Geometry</a>.<a href="geometry.html#transform">transform</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/polyline.ts#L776">lib/polyline.ts:776</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/polyline.ts#L780">lib/polyline.ts:780</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1447,20 +1451,22 @@
 								<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 									<h3>Example</h3>
 								</a>
-								<pre><code class="language-js">
-<span class="hljs-keyword">import</span> { Polyline } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>
+								<pre><code class="language-js"><span class="hljs-keyword">import</span> { Point, Polyline. Transform, Vector } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>;
 
+<span class="hljs-comment">// Create a new polyline</span>
 <span class="hljs-keyword">const</span> triangle = <span class="hljs-keyword">new</span> Polyline([<span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>)], <span class="hljs-literal">true</span>);
+
+<span class="hljs-comment">// Check start position of the polyline</span>
 <span class="hljs-built_in">console</span>.log(shifted.from.toString());
 <span class="hljs-comment">// =&gt; (0,0)</span>
 
-<span class="hljs-comment">// Using a transform matrix</span>
-<span class="hljs-keyword">const</span> matrix = Transform.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>);
+<span class="hljs-comment">// Translate polyline using a transform matrix</span>
+<span class="hljs-keyword">const</span> matrix = Transform.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>));
 <span class="hljs-keyword">const</span> shifted = triangle.transform(matrix);
 <span class="hljs-built_in">console</span>.log(shifted.from.toString());
 <span class="hljs-comment">// =&gt; (3,4)</span>
 
-<span class="hljs-comment">// Using direct method</span>
+<span class="hljs-comment">// Translate polyline using the direct method</span>
 <span class="hljs-keyword">const</span> otherShifted = triangle.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>));
 <span class="hljs-built_in">console</span>.log(otherShifted.from.toString());
 <span class="hljs-comment">// =&gt; (3,4)</span></code></pre>
@@ -1497,7 +1503,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#translate">translate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L152">lib/geometry.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L157">lib/geometry.ts:157</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1526,7 +1532,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="geometry.html">Geometry</a>.<a href="geometry.html#translate">translate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/2a9be66/src/lib/geometry.ts#L165">lib/geometry.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/deardanieldavis/shapetypes/blob/9a37461/src/lib/geometry.ts#L170">lib/geometry.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

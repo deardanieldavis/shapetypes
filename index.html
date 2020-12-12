@@ -64,47 +64,105 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<p><img src="https://img.shields.io/npm/v/shapetypes" alt="npm"></p>
+				<p><img src="https://img.shields.io/npm/v/shapetypes" alt="npm"> <a href="https://travis-ci.com/deardanieldavis/shapetypes"><img src="https://travis-ci.com/deardanieldavis/shapetypes.svg?branch=master" alt="Build Status"></a> <a href="https://codecov.io/gh/deardanieldavis/shapetypes"><img src="https://codecov.io/gh/deardanieldavis/shapetypes/branch/master/graph/badge.svg?token=I35V6RV6DB" alt="codecov"></a></p>
 				<a href="#shapetypes" id="shapetypes" style="color: inherit; text-decoration: none;">
 					<h1>Shapetypes</h1>
 				</a>
-				<p>A 2d geometry library based loosely on the <a href="https://github.com/mcneel/opennurbs/">Open NURBS API</a>. </p>
+				<p>A 2d geometry library written in Typescript. </p>
 				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
 					<h1>Features</h1>
 				</a>
 				<ul>
-					<li>Essential geometry types – point, line, vector, rectangle, polyline, and polygon</li>
-					<li>Basic transformations – rotate, translate, and plane to plane</li>
-					<li>Intersections, booleans, and containment</li>
-					<li>Lightweight and written in Typescript</li>
-					<li><a href="https://deardanieldavis.github.io/shapetypes/">Lots of documentation</a></li>
+					<li>Essential geometry types – <a href="https://deardanieldavis.github.io/shapetypes/classes/point.html">point</a>, <a href="https://deardanieldavis.github.io/shapetypes/classes/line.html">line</a>, <a href="https://deardanieldavis.github.io/shapetypes/classes/vector.html">vector</a>, <a href="https://deardanieldavis.github.io/shapetypes/classes/polyline.html">polyline</a>, and <a href="https://deardanieldavis.github.io/shapetypes/classes/polygon.html">polygon</a>.</li>
+					<li>Basic transformations – <a href="https://deardanieldavis.github.io/shapetypes/classes/transform.html#rotate">rotate</a>, <a href="https://deardanieldavis.github.io/shapetypes/classes/transform.html#translate">translate</a>, and <a href="https://deardanieldavis.github.io/shapetypes/classes/transform.html#changebasis">change basis</a>.</li>
+					<li>Geometric relationships – <a href="https://deardanieldavis.github.io/shapetypes/modules/intersection.html">intersections</a>, <a href="https://deardanieldavis.github.io/shapetypes/classes/polygon.html#union">booleans</a>, and <a href="https://deardanieldavis.github.io/shapetypes/classes/polygon.html#contains">containment</a>.</li>
+					<li>An API that loosely follows <a href="https://github.com/mcneel/opennurbs/">Open NURBS</a> and <a href="https://developer.rhino3d.com/api/RhinoCommon/html/R_Project_RhinoCommon.htm">Rhino Common</a>.</li>
+					<li><a href="https://deardanieldavis.github.io/shapetypes/">Lots of documentation</a>.</li>
 				</ul>
-				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
-					<h1>Getting started</h1>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
 				</a>
+				<p>You can install shapetypes with npm:</p>
 				<p><code>npm install shapetypes</code></p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {Point, Plane, Rectangle} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>;
-<span class="hljs-keyword">let</span> rectangle = <span class="hljs-keyword">new</span> Rectangle(Plane.worldXY, <span class="hljs-number">10</span>, <span class="hljs-number">20</span>);
-<span class="hljs-built_in">console</span>.log(rectangle.area);
-<span class="hljs-comment">//&gt;200</span>
-<span class="hljs-built_in">console</span>.log(rectangle.contains(<span class="hljs-keyword">new</span> Point(<span class="hljs-number">5</span>, <span class="hljs-number">5</span>)));
-<span class="hljs-comment">//&gt;true</span>
-</code></pre>
+				<a href="#a-quick-example" id="a-quick-example" style="color: inherit; text-decoration: none;">
+					<h2>A quick example</h2>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Point, Polyline, Polygon, Rectangle, Vector } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>;
+
+<span class="hljs-comment">// Create a triangle</span>
+<span class="hljs-keyword">const</span> triangle = <span class="hljs-keyword">new</span> Polyline([<span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>), <span class="hljs-keyword">new</span> Point(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>)], <span class="hljs-literal">true</span>);
+<span class="hljs-built_in">console</span>.log(triangle.area);
+<span class="hljs-comment">// =&gt; 1</span>
+
+<span class="hljs-comment">// Test to see if a point is inside</span>
+<span class="hljs-keyword">const</span> testPoint = <span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>);
+<span class="hljs-built_in">console</span>.log(triangle.contains(testPoint));
+<span class="hljs-comment">// =&gt; True</span>
+
+<span class="hljs-comment">// Move the triangle and see if the point is inside</span>
+<span class="hljs-keyword">const</span> shifted = triangle.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>));
+<span class="hljs-built_in">console</span>.log(shifted.contains(testPoint));
+<span class="hljs-comment">// =&gt; False</span>
+
+<span class="hljs-comment">// Create a rectangular polygon</span>
+<span class="hljs-keyword">const</span> rectangle = <span class="hljs-keyword">new</span> Rectangle(Plane.worldXY(), <span class="hljs-number">10</span>, <span class="hljs-number">20</span>);
+<span class="hljs-keyword">const</span> polygon = <span class="hljs-keyword">new</span> Polygon(rectangle.toPolyline());
+<span class="hljs-built_in">console</span>.log(polygon.area);
+<span class="hljs-comment">// =&gt; 200</span>
+
+<span class="hljs-comment">// Cut the triangle from the polygon</span>
+<span class="hljs-keyword">const</span> result = polygon.difference(triangle);
+<span class="hljs-built_in">console</span>.log(result[<span class="hljs-number">0</span>].area);
+<span class="hljs-comment">// =&gt; 199</span></code></pre>
+				<p><a href="https://runkit.com/deardanieldavis/shapetypes-main">Try on Runkit</a> (note: Runkit is in Javascript rather than Typescript).</p>
+				<a href="#if-you39re-coming-from-rhino" id="if-you39re-coming-from-rhino" style="color: inherit; text-decoration: none;">
+					<h2>If you&#39;re coming from Rhino</h2>
+				</a>
+				<p>If you&#39;ve used Rhino, the Shapetypes syntax should feel familiar. There are a couple of important differences though:</p>
+				<ol>
+					<li>There are no 3d functions – this library is just for 2d geometry.</li>
+					<li>All geometric objects are immutable, meaning they can&#39;t be changed after they&#39;re created.
+						Rather than modifying an object, you can create a copy with different parameters.
+						This can often be done through helper methods that have &#39;with&#39; as a prefix, such as <a href="https://deardanieldavis.github.io/shapetypes/classes/point.html#withx">Point.withX</a>
+					(see example below).</li>
+				</ol>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {Point} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;shapetypes&#x27;</span>;
+
+<span class="hljs-comment">// Create a new point at 3,4</span>
+<span class="hljs-keyword">const</span> p = <span class="hljs-keyword">new</span> Point(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>);
+
+<span class="hljs-comment">// Access the x parameter</span>
+<span class="hljs-built_in">console</span>.log(p.x);
+<span class="hljs-comment">// =&gt; 3</span>
+
+<span class="hljs-comment">// Try to change the x parameter </span>
+p.x = <span class="hljs-number">5</span>;
+<span class="hljs-comment">// =&gt; This will throw an error since objects can&#x27;t be modified after they&#x27;re created.</span>
+
+<span class="hljs-comment">// Instead, create a copy with a different x value.</span>
+<span class="hljs-keyword">const</span> newPoint = p.withX(<span class="hljs-number">5</span>);
+<span class="hljs-built_in">console</span>.log(newPoint.x);
+<span class="hljs-comment">// =&gt; 5</span></code></pre>
 				<a href="#alternatives" id="alternatives" style="color: inherit; text-decoration: none;">
-					<h1>Alternatives</h1>
+					<h2>Alternatives</h2>
 				</a>
 				<ul>
 					<li><a href="https://www.npmjs.com/package/rhino3dm">Rhino3dm</a>: A web assembly port of Rhino Common. This is a much
 					more extensive library that supports 3d geometry.</li>
-					<li><a href="https://www.npmjs.com/package/verb-nurbs">VerbNurbs</a>: A cross-platform Nurbs library.</li>
-					<li><a href="https://github.com/bjornharrtell/jsts">Javascript Topology Suite</a>: A library of geometric operations primarily for GIS data.</li>
-					<li><a href="https://turfjs.org">Turf JS</a>: Another library of geometric operations primarily for GIS data.</li>
+					<li><a href="https://www.npmjs.com/package/verb-nurbs">VerbNurbs</a>: A cross-platform Nurbs library that compiles to javascript.</li>
+					<li><a href="https://github.com/bjornharrtell/jsts">Javascript Topology Suite</a>: A javascript library of geometric operations primarily for GIS data.</li>
+					<li><a href="https://turfjs.org">Turf JS</a>: Another javascript library of geometric operations primarily for GIS data.</li>
 				</ul>
 				<a href="#credits" id="credits" style="color: inherit; text-decoration: none;">
 					<h1>Credits</h1>
 				</a>
 				<p>Package based on <a href="https://github.com/bitjson/typescript-starter">Typescript Starter</a>.
+					Booleans via the <a href="https://github.com/mfogel/polygon-clipping">Polygon-clipping library</a>.
 				This project is not affiliated with Rhino3d or McNeel in any way.</p>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h1>License</h1>
+				</a>
+				<p><a href="https://github.com/deardanieldavis/shapetypes/blob/master/LICENSE">MIT License</a></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
