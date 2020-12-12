@@ -78,7 +78,7 @@ console.log(newPoint.x);
 
 
 ## Alternatives
-- [Rhino3dm](https://www.npmjs.com/package/rhino3dm): A web assembly port of Rhino Common. This is a much
+- [Rhino3dm](https://www.npmjs.com/package/rhino3dm): A web assembly port of [openNURBS](https://github.com/mcneel/opennurbs/). This is a much
 more extensive library that supports 3d geometry.
 - [VerbNurbs](https://www.npmjs.com/package/verb-nurbs): A cross-platform Nurbs library that compiles to javascript.
 - [Javascript Topology Suite](https://github.com/bjornharrtell/jsts): A javascript library of geometric operations primarily for GIS data.
