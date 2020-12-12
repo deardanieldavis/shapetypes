@@ -57,24 +57,30 @@ export function inRayRange(distance: number, range: RayRange): boolean {
  *
  * ### Example
  * ```js
- * import { Ray } from 'shapetypes'
+ * import { Point, Ray, Vector } from 'shapetypes';
  *
+ * // Create a new ray
  * const ray = new Ray(new Point(3,4), new Vector(1,0));
- * console.log(ray.from);
- * // -> [3,4]
  *
- * console.log(ray.direction);
- * // -> ⟨1,0⟩
+ * // Get properties of the ray
+ * console.log(ray.from.toString());
+ * // => (3,4)
+ * console.log(ray.direction.toString());
+ * // => ⟨1,0⟩
  *
- * console.log(ray.pointAt(5));
- * // -> [8,4]
+ * // Get a point on the ray
+ * const p = ray.pointAt(5);
+ * console.log(p.toString());
+ * // => (8,4)
  *
- * console.log(ray.intersection(new Point(8,4)));
- * // -> [5]
+ * // Get parameter of intersection between point and ray
+ * console.log(ray.intersection(p));
+ * // => [5]
  *
+ * // Translate the ray
  * const transformed = ray.translate(new Vector(3,4));
- * console.log(transformed.from);
- * // => [6,8]
+ * console.log(transformed.from.toString());
+ * // => (6,8)
  * ```
  */
 export class Ray extends Geometry {
@@ -282,17 +288,20 @@ export class Ray extends Geometry {
    *
    * ### Example
    * ```js
+   * import { Point, Ray, Transform, Vector } from 'shapetypes';
+   *
+   * // Create a new ray
    * const ray = new Ray(new Point(2,2), Vector.worldX());
    * console.log(ray.from.toString());
    * // => (2,2)
    *
-   * // Using a transform matrix
+   * // Translate ray using a transform matrix
    * const matrix = Transform.translate(new Vector(3,4));
    * const moved = ray.transform(matrix);
    * console.log(moved.from.toString());
    * // => (5,6)
    *
-   * // Using the direct method
+   * // Translate ray using the direct method
    * const otherMoved = ray.translate(new Vector(3,4));
    * console.log(otherMoved.from.toString());
    * // => (5,6)

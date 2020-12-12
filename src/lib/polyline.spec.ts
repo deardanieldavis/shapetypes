@@ -30,7 +30,7 @@ test.beforeEach('Create test geometry', t => {
     [new Point(0, 0), new Point(2, 0), new Point(1, 1)],
     true
   );
-  t.context.rect = Rectangle.fromCorner(Plane.worldXY(), 10, 20).toPolyline();
+  t.context.rect = Rectangle.fromCenter(Plane.worldXY(), 10, 20).toPolyline();
   t.context.elbow = Polyline.fromCoords([
     [10, 0],
     [0, 0],

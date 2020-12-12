@@ -14,13 +14,23 @@ import { Plane, Point, Vector } from '../index';
  *
  * ### Example
  * ```js
- * import { Transform } from 'shapetypes'
+ * import { Transform, Vector } from 'shapetypes';
  *
- * const tran = Transform.rotate(Math.PI / 2);
- * const v = new Vector(1,0);
- * const translated = v.transform(tran);
- * console.log(translated.toString());
- * // => (0,-1)
+ * // Create a new vecctor
+ * const vector = new Vector(3, 4);
+ * console.log(vector.length);
+ * // => 5
+ *
+ * // Scale vector using a transform matrix
+ * const matrix = Transform.scale(2);
+ * const scaled = vector.transform(matrix);
+ * console.log(vector.length);
+ * // => 10
+ *
+ * // Scale vector using the direct method
+ * const otherScaled = vector.scale(2);
+ * console.log(otherScaled.length);
+ * // => 10
  * ```
  *
  */
@@ -68,9 +78,14 @@ export class Transform {
    *
    * ### Example
    * ```js
+   * import { Plane, Point, Transform, Vector } from 'shapetypes';
+   *
+   * // Setup the transformation
    * const from = new Plane(new Point(3, 4), Vector.worldX());
-   * const to = Plane.worldX();
+   * const to = Plane.worldXY();
    * const tran = Transform.changeBasis(from, to);
+   *
+   * // Change the point's coordinates from the `from` plane to the `to` plane.
    * const p = new Point(1, 2);
    * const after = tran.transformPoint(p);
    * console.log(after.toString());
@@ -119,13 +134,18 @@ export class Transform {
    *
    * ### Example
    * ```js
+   * import { Plane, Point, Transform, Vector } from 'shapetypes';
+   *
+   * // Setup the transformation
    * const from = new Plane(new Point(3, 4), Vector.worldX());
-   * const to = Plane.worldX();
-   * const tran = Transform.changeBasis(from, to);
+   * const to = Plane.worldXY();
+   * const tran = Transform.planeToPlane(from, to);
+   *
+   * // Move point so it is in the same place relative to plane `to` as it was for `from`
    * const p = new Point(4, 6);
    * const after = tran.transformPoint(p);
    * console.log(after.toString());
-   * // => [1,2]
+   * // => (1,2)
    * ```
    *
    * @category Create

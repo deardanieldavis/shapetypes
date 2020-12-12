@@ -15,20 +15,27 @@ import {
  *
  * ### Example
  * ```js
- * import { BoundingBox } from 'shapetypes'
+ * import { BoundingBox, IntervalSorted, Point } from 'shapetypes';
  *
+ * // Create a new bounding box
  * const bb = new BoundingBox(new IntervalSorted(0, 10), new IntervalSorted(5, 25));
+ *
+ * // Get properties of the bounding box
  * console.log(bb.area);
  * // => 200
- * console.log(bb.center);
- * // => x: 5, y: 15
- * console.log(bb.contains(new Point(5, 15));
+ * console.log(bb.center.toString());
+ * // => '(5,15)'
+ *
+ * // Test for containment
+ * console.log(bb.contains(new Point(5, 15)));
  * // => True
  *
+ * // Change the bounding box's xRange
  * const shifted = bb.withXRange(new IntervalSorted(0, 20));
  * console.log(shifted.area);
  * // => 400
  *
+ * // Scale the bounding box
  * const scaled = bb.scale(2);
  * console.log(scaled.area);
  * // => 800
@@ -414,17 +421,20 @@ export class BoundingBox extends Geometry {
    *
    * ### Example
    * ```js
+   * import { BoundingBox, IntervalSorted, Transform } from 'shapetypes';
+   *
+   * // Create bounding box
    * const bb = new BoundingBox(new IntervalSorted(0, 10), new IntervalSorted(5, 25));
    * console.log(bb.area);
    * // => 200
    *
-   * // Using a transform matrix
+   * // Scale using a transform matrix
    * const matrix = Transform.scale(2);
    * const scaled = bb.transform(matrix);
    * console.log(scaled.area);
    * // => 800
    *
-   * // Using the direct method
+   * // Scale using the direct method
    * const otherScaled = bb.scale(2);
    * console.log(otherScaled.area);
    * // => 800

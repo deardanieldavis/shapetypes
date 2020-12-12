@@ -8,7 +8,7 @@ A 2d geometry library written in Typescript.
 - Essential geometry types – [point](https://deardanieldavis.github.io/shapetypes/classes/point.html), [line](https://deardanieldavis.github.io/shapetypes/classes/line.html), [vector](https://deardanieldavis.github.io/shapetypes/classes/vector.html), [polyline](https://deardanieldavis.github.io/shapetypes/classes/polyline.html), and [polygon](https://deardanieldavis.github.io/shapetypes/classes/polygon.html).
 - Basic transformations – [rotate](https://deardanieldavis.github.io/shapetypes/classes/transform.html#rotate), [translate](https://deardanieldavis.github.io/shapetypes/classes/transform.html#translate), and [change basis](https://deardanieldavis.github.io/shapetypes/classes/transform.html#changebasis).
 - Geometric relationships – [intersections](https://deardanieldavis.github.io/shapetypes/modules/intersection.html), [booleans](https://deardanieldavis.github.io/shapetypes/classes/polygon.html#union), and [containment](https://deardanieldavis.github.io/shapetypes/classes/polygon.html#contains).
-- An API that loosely follows the [Open NURBS](https://github.com/mcneel/opennurbs/) and [Rhino Common](https://developer.rhino3d.com/api/RhinoCommon/html/R_Project_RhinoCommon.htm) APIs.
+- An API that loosely follows [Open NURBS](https://github.com/mcneel/opennurbs/) and [Rhino Common](https://developer.rhino3d.com/api/RhinoCommon/html/R_Project_RhinoCommon.htm).
 - [Lots of documentation](https://deardanieldavis.github.io/shapetypes/).
 
 ## Installation
@@ -46,7 +46,7 @@ const result = polygon.difference(triangle);
 console.log(result[0].area);
 // => 199
 ```
-[Try on Runkit](https://runkit.com/deardanieldavis/shapetypes-main) (note Runkit example is in Javascript rather than Typescript).
+[Try on Runkit](https://runkit.com/deardanieldavis/shapetypes-main) (note: Runkit is in Javascript rather than Typescript).
 
 ## If you're coming from Rhino
 If you've used Rhino, the Shapetypes syntax should feel familiar. There are a couple of important differences though:
@@ -55,6 +55,7 @@ If you've used Rhino, the Shapetypes syntax should feel familiar. There are a co
   Rather than modifying an object, you can create a copy with different parameters.
    This can often be done through helper methods that have 'with' as a prefix, such as [Point.withX](https://deardanieldavis.github.io/shapetypes/classes/point.html#withx)
    (see example below).
+   
 ```ts
 import {Point} from 'shapetypes';
 

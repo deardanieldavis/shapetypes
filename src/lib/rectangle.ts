@@ -17,24 +17,26 @@ import {
  *
  * ### Example
  * ```js
- * import { Rectangle } from 'shapetypes'
+ * import { Plane, Point, Rectangle, Vector } from 'shapetypes';
  *
+ * // Create a new rectangle
  * const rect = new Rectangle(Plane.worldXY(), 10, 20);
+ *
+ * // Get properties of the rectangle
  * console.log(rect.area);
  * // => 200
  * console.log(rect.circumference);
  * // => 60
- * console.log(rect.center);
- * // => (0,0)
+ * console.log(rect.center.toString());
+ * // => (5,10)
  *
+ * // Create a new rectangle aligned to a plane
  * const plane = new Plane(new Point(3,4), new Vector(1,1));
  * const angledRect = new Rectangle(plane, 10, 20);
- *  * console.log(rect.area);
- * // => 200
- * console.log(rect.circumference);
- * // => 60
- * console.log(rect.center);
- * // => (3,4)
+ *
+ * // Get corners of angled rectangle
+ * console.log(angledRect.getCorners());
+ * // => [(3,4),(-11.14213562373095,8.14213562373095),(-4.071067811865474,25.213203435596427),(10.071067811865476,11.071067811865476)]
  * ```
  */
 export class Rectangle extends Geometry {
@@ -63,17 +65,14 @@ export class Rectangle extends Geometry {
   }
 
   /**
-   * Creates a rectangle aligned to a plane. One corner of the rectangle will
-   * sit on the plane's origin, with the rest of the rectangle growing along the
-   * plane's axes from that point.
+   * Creates a rectangle centered and aligned to a plane.
    *
    * @category Create
-   * @param x   The width of the rectangle along the plane's x-axis.
-   * @param y   The width of the rectangle along the plane's y-axis.
-   * @param center  The plane the rectangle is aligned to. The plane's origin will be one corner of the rectangle
-   *                with the rest of the rectangle growing from that point.
+   * @param x       Width of the rectangle along the x-axis of the plane (rectangle will be centered on the plane's origin).
+   * @param y       Width of the rectangle along the y-axis of the plane (rectangle will be centered on the plane's origin).
+   * @param center  The plane the rectangle is aligned to. The plane's origin will be the center of the rectangle.
    */
-  public static fromCorner(center: Plane, x: number, y: number): Rectangle {
+  public static fromCenter(center: Plane, x: number, y: number): Rectangle {
     return new Rectangle(
       center,
       IntervalSorted.fromCenter(0, x),
@@ -93,10 +92,15 @@ export class Rectangle extends Geometry {
   // -----------------------
 
   /***
-   * Creates a rectangle centered and aligned to a plane.
-   * @param plane   The position of the rectangle's center and axes.
-   * @param x       Width of the rectangle along the x-axis of the plane (rectangle will be centered on the plane's origin).
-   * @param y       Width of the rectangle along the y-axis of the plane (rectangle will be centered on the plane's origin).
+   * Creates a rectangle aligned to a plane. One corner of the rectangle will
+   * sit on the plane's origin, with the rest of the rectangle growing along the
+   * plane's axes from that point.
+   *
+   *
+   * @param plane   The plane the rectangle is aligned to. The plane's origin will be one corner of the rectangle
+   *                with the rest of the rectangle growing from that point.
+   * @param x   The width of the rectangle along the plane's x-axis.
+   * @param y   The width of the rectangle along the plane's y-axis.
    */
   constructor(plane: Plane, x: number, y: number);
   /**
@@ -408,17 +412,20 @@ export class Rectangle extends Geometry {
    *
    * ### Example
    * ```js
+   * import { Plane, Rectangle, Transform } from 'shapetypes';
+   *
+   * // Create a new rectangle
    * const rect = new Rectangle(Plane.worldXY(), 10, 20);
    * console.log(rect.area);
    * // => 200
    *
-   * // Using a transform matrix
+   * // Scale rectangle using a transform matrix
    * const matrix = Transform.scale(2);
    * const scaled = rect.transform(matrix);
    * console.log(scaled.area);
    * // => 800
    *
-   * // Using a direct method
+   * // Scale rectangle using the direct method
    * const otherScaled = rect.scale(2);
    * console.log(otherScaled.area);
    * // => 800

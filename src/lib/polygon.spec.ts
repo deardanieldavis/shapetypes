@@ -296,10 +296,10 @@ test('toString: returns string in right format', t => {
 // -----------------------
 test('Union: two adjacent rectangles join to become one', t => {
   const rectA = new Polygon(
-    Rectangle.fromCorner(Plane.worldXY(), 10, 20).toPolyline()
+    Rectangle.fromCenter(Plane.worldXY(), 10, 20).toPolyline()
   );
   const center = new Plane(new Point(10, 0), Vector.worldX());
-  const rectB = new Polygon(Rectangle.fromCorner(center, 10, 20).toPolyline());
+  const rectB = new Polygon(Rectangle.fromCenter(center, 10, 20).toPolyline());
   const result = rectA.union(rectB);
 
   t.is(result.length, 1);
@@ -310,7 +310,7 @@ test('Union: two adjacent rectangles join to become one', t => {
 });
 test('Union: a big rectangle over the trinagle returns the big rectangle', t => {
   const rectA = new Polygon(
-    Rectangle.fromCorner(Plane.worldXY(), 20, 20).toPolyline()
+    Rectangle.fromCenter(Plane.worldXY(), 20, 20).toPolyline()
   );
   const result = rectA.union(t.context.triangleHole);
 
@@ -320,10 +320,10 @@ test('Union: a big rectangle over the trinagle returns the big rectangle', t => 
 
 test('intersection: two corner overlaps returns correct part', t => {
   const rectA = new Polygon(
-    Rectangle.fromCorner(Plane.worldXY(), 10, 20).toPolyline()
+    Rectangle.fromCenter(Plane.worldXY(), 10, 20).toPolyline()
   );
   const center = new Plane(new Point(5, 10), Vector.worldX());
-  const rectB = new Polygon(Rectangle.fromCorner(center, 10, 20).toPolyline());
+  const rectB = new Polygon(Rectangle.fromCenter(center, 10, 20).toPolyline());
   const result = rectA.intersection(rectB);
 
   t.is(result.length, 1);
@@ -331,7 +331,7 @@ test('intersection: two corner overlaps returns correct part', t => {
 });
 test('intersection: rectangle over half the triangle should return half triangle', t => {
   const rectA = new Polygon(
-    Rectangle.fromCorner(Plane.worldXY(), 6, 20).toPolyline()
+    Rectangle.fromCenter(Plane.worldXY(), 6, 20).toPolyline()
   );
   const result = rectA.intersection(t.context.triangleHole);
 
@@ -341,10 +341,10 @@ test('intersection: rectangle over half the triangle should return half triangle
 
 test('difference: cuts corner out of one of them', t => {
   const rectA = new Polygon(
-    Rectangle.fromCorner(Plane.worldXY(), 10, 20).toPolyline()
+    Rectangle.fromCenter(Plane.worldXY(), 10, 20).toPolyline()
   );
   const center = new Plane(new Point(5, 10), Vector.worldX());
-  const rectB = new Polygon(Rectangle.fromCorner(center, 10, 20).toPolyline());
+  const rectB = new Polygon(Rectangle.fromCenter(center, 10, 20).toPolyline());
   const result = rectA.difference(rectB);
 
   t.is(result.length, 1);
@@ -352,10 +352,10 @@ test('difference: cuts corner out of one of them', t => {
 });
 test('difference: can cut a hole out of another rectangle', t => {
   const rectA = new Polygon(
-    Rectangle.fromCorner(Plane.worldXY(), 10, 10).toPolyline()
+    Rectangle.fromCenter(Plane.worldXY(), 10, 10).toPolyline()
   );
   const rectB = new Polygon(
-    Rectangle.fromCorner(Plane.worldXY(), 1, 1).toPolyline()
+    Rectangle.fromCenter(Plane.worldXY(), 1, 1).toPolyline()
   );
   const result = rectA.difference(rectB);
 

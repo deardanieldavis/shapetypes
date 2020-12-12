@@ -8,14 +8,17 @@ import { Interval } from '../index';
  * ```js
  * import { IntervalSorted } from 'shapetypes'
  *
+ * // Create sorted interval
  * const interval = new IntervalSorted(5, 10);
+ *
+ * // Get properties of the interval
  * console.log(interval.length);
  * // => 5
  * console.log(interval.mid);
  * // => 7.5
  * console.log(interval.contains(8));
  * // => True
- * console.log(interval.isIncreasing());
+ * console.log(interval.isIncreasing);
  * // => True
  *
  * ```

@@ -72,7 +72,7 @@ test('fromCorners: Sets correct interval ranges', t => {
 });
 
 test('fromCenter: Sets correct interval ranges', t => {
-  const r = Rectangle.fromCorner(Plane.worldXY(), 10, 20);
+  const r = Rectangle.fromCenter(Plane.worldXY(), 10, 20);
   t.true(r.x.equals(new IntervalSorted(-5, 5)));
   t.true(r.y.equals(new IntervalSorted(-10, 10)));
 });

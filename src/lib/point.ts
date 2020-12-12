@@ -11,16 +11,26 @@ import {
  *
  * ### Example
  * ```js
- * import { Point } from 'shapetypes'
+ * import { Point, Vector } from 'shapetypes';
  *
+ * // Create a point
  * const p = new Point(3, 4);
+ *
+ * // Get properties of the point
  * console.log(p.x);
  * // => 3
  *
- * const other = new Point(0,0);
- * console.log(p.distanceTo(other));
- * // => 5
+ * // Copy the point and change a parameter
+ * const other = p.withX(-1);
+ * console.log(other.x);
+ * // => -1
  *
+ * // Measure distance between points
+ * const distance = p.distanceTo(other);
+ * console.log(distance);
+ * // => 4
+ *
+ * // Translate the point
  * const shifted = p.translate(new Vector(10, 20));
  * console.log(shifted.toString());
  * // => '(13,24)'
@@ -241,17 +251,20 @@ export class Point extends Geometry {
    *
    * ### Example
    * ```js
+   * import { Point, Transform, Vector } from 'shapetypes';
+   *
+   * // Create a point
    * const p = new Point(3, 4);
    *
-   * // Using a transform matrix
+   * // Translate point using a transform matrix
    * const matrix = Transform.translate(new Vector(10, 20));
    * const transformed = p.transform(matrix);
    * console.log(transformed.toString());
    * // => (13,24)
    *
-   * // Using the direct method
+   * // Translate point using the direct method
    * const direct = p.translate(new Vector(10, 20));
-   * console.log(p.toString());
+   * console.log(direct.toString());
    * // => (13,24)
    * ```
    *

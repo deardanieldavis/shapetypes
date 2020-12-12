@@ -17,15 +17,23 @@ import {
  * it controls where the circle's outer edge starts/ends, which is used in methods
  * like [[pointAt]], to generate points on the circle's edge.
  *
- *  * ### Example
- * ```js
- * import { Circle } from 'shapetypes'
+ * ### Example
+ * ```ts
+ * import { Circle, Point } from 'shapetypes';
  *
- * const circle = new Circle(new Point(3,4), 10);
- * console.log(circle.center);
+ * // Create a new circle
+ * const circle = new Circle(10, new Point(3,4));
+ *
+ * // Get properties of the circle
+ * console.log(circle.center.toString());
  * // => (3,4)
  * console.log(circle.area);
  * // => 314.16
+ *
+ * // Scale the circle
+ * const larger = circle.scale(2);
+ * console.log(larger.radius);
+ * // => 20
  * ```
  */
 export class Circle extends Geometry {
@@ -380,17 +388,20 @@ export class Circle extends Geometry {
    *
    * ### Example
    * ```js
+   * import { Circle, Transform } from 'shapetypes';
+   *
+   * // Create circle
    * const circle = new Circle(10);
    * console.log(circle.radius);
    * // => 10
    *
-   * // Using a transform matrix
+   * // Scale using a transform matrix
    * const matrix = Transform.scale(2);
    * const scaled = scale.transform(matrix);
    * console.log(scaled.radius);
    * // => 20
    *
-   * // Using a direct method
+   * // Scale using the direct method
    * const otherScaled = circle.scale(2);
    * console.log(otherScaled.radius);
    * // => 20

@@ -10,15 +10,20 @@ export abstract class Geometry {
    *
    * ### Example
    * ```js
+   * import { BoundingBox, IntervalSorted, Transform } from 'shapetypes';
+   *
+   * // Create bounding box
    * const bb = new BoundingBox(new IntervalSorted(0, 10), new IntervalSorted(5, 25));
    * console.log(bb.area);
    * // => 200
    *
-   * const scaled = bb.transform(Transform.scale(2));
+   * // Scale using a transform matrix
+   * const matrix = Transform.scale(2);
+   * const scaled = bb.transform(matrix);
    * console.log(scaled.area);
    * // => 800
    *
-   * // Direct method
+   * // Scale using the direct method
    * const otherScaled = bb.scale(2);
    * console.log(otherScaled.area);
    * // => 800

@@ -12,16 +12,27 @@ import {
  *
  * ### Example
  * ```js
- * import { Plane } from 'shapetypes'
+ * import { Plane, Point, Vector } from 'shapetypes';
  *
+ * // Create a plane
  * const plane = new Plane(new Point(3,4), Vector.worldX());
- * const worldPoint = plane.pointAt(2,2);
- * console.log(worldPoint.toString());
- * // => [5,6]
  *
+ * // Map a point from the global coordinate system to the plane's local coordinates
+ * const worldPoint = new Point(5,6);
  * const planePoint = plane.remapToPlaneSpace(worldPoint);
  * console.log(planePoint.toString());
  * // => [2,2]
+ *
+ * // Remap the local point back to the global coordinate system
+ * const output = plane.pointAt(planePoint);
+ * console.log(output.toString());
+ * // => [5,6]
+ *
+ * // Translate the plane
+ * const moved = plane.translate(new Vector(10,20));
+ * console.log(moved.origin.toString());
+ * // => (13,24)
+ *
  * ```
  */
 export class Plane extends Geometry {
@@ -140,14 +151,23 @@ export class Plane extends Geometry {
    *
    * ### Example
    * ```js
-   * const plane = new Plane(new Point(3,4), Vector.worldX());
-   * const worldPoint = plane.pointAt(2,2);
-   * console.log(worldPoint.toString());
-   * // => [5,6]
+   * import { Plane, Point, Vector } from 'shapetypes'
    *
+   * // Create a plane
+   * const plane = new Plane(new Point(3,4), Vector.worldX());
+   *
+   * // Map a point from the global coordinate system to the plane's local coordinates
+   * const worldPoint = new Point(5,6);
    * const planePoint = plane.remapToPlaneSpace(worldPoint);
    * console.log(planePoint.toString());
    * // => [2,2]
+   *
+   * // Remap the local point back to the global coordinate system
+   * const output = plane.pointAt(planePoint);
+   * console.log(output.toString());
+   * // => [5,6]
+   *
+   *
    * ```
    *
    * @param u   The location of the point measured as a distance along the plane's [[xAxis]].
@@ -223,19 +243,22 @@ export class Plane extends Geometry {
    *
    * ### Example
    * ```js
+   * import { Plane, Point, Transform, Vector } from 'shapetypes';
+   *
+   * // Create a plane
    * const plane = new Plane(new Point(2,2), Vector.worldX());
    * console.log(plane.origin.toString());
    * // => (2,2)
    *
-   * // Using a transform matrix
-   * const mover = Tranform.translate(new Vector(3,4));
+   * // Translate using a transform matrix
+   * const mover = Transform.translate(new Vector(3,4));
    * const moved = plane.transform(mover);
    * console.log(moved.origin.toString());
    * // => (5,6)
    *
-   * // The direct method
+   * // Translate using the direct method
    * const otherMoved = plane.translate(new Vector(3,4));
-   * console.log(otherMoved.origin.toString);
+   * console.log(otherMoved.origin.toString());
    * // => (5,6)
    * ```
    *

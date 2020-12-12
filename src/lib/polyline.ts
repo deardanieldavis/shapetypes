@@ -34,24 +34,26 @@ import {
  *
  * ### Example
  * ```js
- * import { Polyline } from 'shapetypes'
+ * import { Point, Polyline, Vector } from 'shapetypes'
  *
+ * // Create a new polyline
  * const triangle = new Polyline([new Point(0, 0), new Point(1, 1), new Point(2, 0)], true);
+ *
+ * // Get properties of the polyline
  * console.log(triangle.area);
  * // => 1
- * console.log(triangle.contains(new Point(1, 0.5));
+ * console.log(triangle.length);
+ * // => 4.82842712474619
+ *
+ * // Check whether a point is inside the closed polyline
+ * console.log(triangle.contains(new Point(1, 0.5)));
  * // => True
- * console.log(triangle.from.toString());
- * // => [0,0]
  *
+ * // Move the polyline and check whether the point is inside
  * const shifted = triangle.translate(new Vector(3, 4));
- * console.log(shifted.contains(new Point(1, 0.5));
+ * console.log(shifted.contains(new Point(1, 0.5)));
  * // => False
- * console.log(shifted.from.toString());
- * // => [3,4]
  * ```
- *
- *
  */
 export class Polyline extends Geometry {
   // -----------------------
@@ -746,20 +748,22 @@ export class Polyline extends Geometry {
    *
    * ### Example
    * ```js
+   * import { Point, Polyline. Transform, Vector } from 'shapetypes';
    *
-   * import { Polyline } from 'shapetypes'
-   *
+   * // Create a new polyline
    * const triangle = new Polyline([new Point(0, 0), new Point(1, 1), new Point(2, 0)], true);
+   *
+   * // Check start position of the polyline
    * console.log(shifted.from.toString());
    * // => (0,0)
    *
-   * // Using a transform matrix
-   * const matrix = Transform.translate(new Vector(3,4);
+   * // Translate polyline using a transform matrix
+   * const matrix = Transform.translate(new Vector(3,4));
    * const shifted = triangle.transform(matrix);
    * console.log(shifted.from.toString());
    * // => (3,4)
    *
-   * // Using direct method
+   * // Translate polyline using the direct method
    * const otherShifted = triangle.translate(new Vector(3, 4));
    * console.log(otherShifted.from.toString());
    * // => (3,4)

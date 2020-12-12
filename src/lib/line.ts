@@ -18,26 +18,30 @@ import {
  *
  * ### Example
  * ```js
- * import { Line } from 'shapetypes'
+ * import { Line, Point, Transform, Vector } from 'shapetypes';
  *
+ * // Create a new line
  * const line = new Line(new Point(1,1), new Point(4,5));
  *
+ * // Get properties of the line
  * console.log(line.from.toString());
  * // => (1,1)
  * console.log(line.to.toString());
  * // => (4,5)
  * console.log(line.length);
  * // => 5
- *
  * const mid = line.pointAt(0.5);
  * console.log(mid.toString());
  * // => (2.5,3)
  *
+ * // Find closest point on the line
  * const closest = line.closestPoint(new Point(5,5));
  * console.log(closest.toString());
  * // => (4,5)
  *
- * const moved = line.transform(Transform.translate(new Vector(5, 0)));
+ * // Translate the line with a transform matrix
+ * const matrix = Transform.translate(new Vector(5, 0));
+ * const moved = line.transform(matrix);
  * console.log(moved.toString());
  * // => [(6,1),(9,5)]
  */
@@ -400,17 +404,20 @@ export class Line extends Geometry {
    *
    * ### Example
    * ```js
+   * import { Line, Point, Transform, Vector } from 'shapetypes';
+   *
+   * // Create a line
    * const line = new Line(new Point(0,0), new Point(10,0));
    * console.log(line.toString());
    * // => [(0,0),(10,0)]
    *
-   * // Using a transform matrix
+   * // Translate using a transform matrix
    * const matrix = Transform.translate(new Vector(5, 4));
    * const moved = line.transform(matrix);
    * console.log(moved.toString());
    * // => [(5,4),(15,4)]
    *
-   * // Using a direct method
+   * // Translate using the direct method
    * const otherMoved = line.translate(5, 4);
    * console.log(otherMoved.toString());
    * // => [(5,4),(15,4)]

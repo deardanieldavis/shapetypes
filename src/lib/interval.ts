@@ -8,7 +8,10 @@ import { approximatelyEqual, IntervalSorted, PointContainment } from '../index';
  * ```js
  * import { Interval } from 'shapetypes'
  *
+ * // Create an interval
  * const interval = new Interval(5, 10);
+ *
+ * // Get properties of the interval
  * console.log(interval.length);
  * // => 5
  * console.log(interval.mid);
@@ -18,12 +21,15 @@ import { approximatelyEqual, IntervalSorted, PointContainment } from '../index';
  * console.log(interval.isIncreasing);
  * // => True
  *
- * const interval = new Interval(10, 5);
- * console.log(interval.length);
+ * // Create the same interval but in reverse
+ * const reversed = new Interval(10, 5);
+ *
+ * // Get properties of the reversed interval
+ * console.log(reversed.length);
  * // => -5
- * console.log(interval.contains(8));
+ * console.log(reversed.contains(8));
  * // => True
- * console.log(interval.isIncreasing);
+ * console.log(reversed.isIncreasing);
  * // => False
  * ```
  *

@@ -11,21 +11,27 @@ import {
  *
  * ### Example
  * ```js
- * import { Vector } from 'shapetypes'
+ * import { Vector } from 'shapetypes';
  *
+ * // Create a new vector
  * const v = new Vector(10, 0);
+ *
+ * // Get properties of the vector
  * console.log(v.x);
  * // => 10
  * console.log(v.length);
  * // => 10
  *
+ * // Measure the angle between two vectors
  * const other = new Vector(0,1);
  * const angle = v.angle(other);
+ * console.log(angle);
  * // => 1.57
  *
+ * // Rotate a vector
  * const rotated = v.rotate(Math.PI / 2);
- * console.log(v.toString());
- * // => [0, 10]
+ * console.log(rotated.toString());
+ * // => `⟨0,10⟩`
  * ```
  */
 export class Vector extends Geometry {
@@ -434,17 +440,20 @@ export class Vector extends Geometry {
    *
    * ### Example
    * ```js
+   * import { Transform, Vector } from 'shapetypes';
+   *
+   * // Create a new vecctor
    * const vector = new Vector(3, 4);
    * console.log(vector.length);
    * // => 5
    *
-   * // Using a transform matrix
+   * // Scale vector using a transform matrix
    * const matrix = Transform.scale(2);
    * const scaled = vector.transform(matrix);
    * console.log(vector.length);
    * // => 10
    *
-   * // Using a direct method
+   * // Scale vector using the direct method
    * const otherScaled = vector.scale(2);
    * console.log(otherScaled.length);
    * // => 10

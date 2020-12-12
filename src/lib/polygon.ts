@@ -30,29 +30,37 @@ import {
  *
  * ### Example
  * ```js
- * import { Polygon } from 'shapetypes'
+ * import { Point, Polygon, Polyline, Rectangle } from 'shapetypes'
  *
+ * // Create a polygon from a triangular polyline
  * const triangle = new Polyline([new Point(0, 0), new Point(1, 1), new Point(2, 0)], true);
  * const polygon = new Polygon(triangle);
+ *
+ * // Get properties of the polygon
  * console.log(polygon.area);
  * // => 1
- *
- * console.log(polygon.contains(new Point(1, 0.5));
- * // => True
  * console.log(polygon.boundary.from.toString());
- * // => [0,0]
+ * // => (0,0)
  *
+ * // Check for point containment
+ * console.log(polygon.contains(new Point(1, 0.5)));
+ * // => True
  *
+ * // Create a larger polygon from a rectangle
  * const outer = new Rectangle(Plane.worldXY(), 10, 10).toPolyline();
- * const outerPolygon = new Polygon(polyline);
+ * const outerPolygon = new Polygon(outer);
  * console.log(outerPolygon.area);
  * // => 100
  *
+ * // Subtract the triangle from the rectangle
  * const subtracted = outerPolygon.difference(triangle);
+ *
+ * // Check that the area was reduced
  * console.log(subtracted[0].area);
  * // => 99
  *
- * console.log(subtracted.contains(new Point(1, 0.5));
+ * // Check to see whether the point is still contained
+ * console.log(subtracted[0].contains(new Point(1, 0.5)));
  * // => False
  *
  * ```
@@ -362,20 +370,21 @@ export class Polygon extends Geometry {
    * ### Example
    * ```js
    *
-   * import { Polygon } from 'shapetypes'
+   * import { Point, Polygon, Polyline, Transform, Vector } from 'shapetypes';
    *
+   * // Create a new polygon from a triangular polyline
    * const triangle = new Polyline([new Point(0, 0), new Point(1, 1), new Point(2, 0)], true);
    * const polygon = new Polygon(triangle);
    * console.log(polygon.boundary.from.toString());
    * // => (0,0)
    *
-   * // Using a transform matrix
-   * const matrix = Transform.translate(new Vector(3,4);
+   * // Translate polygon using a transform matrix
+   * const matrix = Transform.translate(new Vector(3,4));
    * const shifted = polygon.transform(matrix);
    * console.log(shifted.boundary.from.toString());
    * // => (3,4)
    *
-   * // Using the direct method
+   * // Translate polygon using the direct method
    * const otherShifted = polygon.translate(new Vector(3, 4));
    * console.log(otherShifted.boundary.from.toString());
    * // => (3,4)
