@@ -88,3 +88,6 @@ more extensive library that supports 3d geometry.
 Package based on [Typescript Starter](https://github.com/bitjson/typescript-starter).
 Booleans via the [Polygon-clipping library](https://github.com/mfogel/polygon-clipping).
 This project is not affiliated with Rhino3d or McNeel in any way.
+
+# License
+[MIT License](https://github.com/deardanieldavis/shapetypes/blob/master/LICENSE)
