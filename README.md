@@ -1,4 +1,4 @@
-![npm](https://img.shields.io/npm/v/shapetypes) [![Build Status](https://travis-ci.com/deardanieldavis/shapetypes.svg?branch=master)](https://travis-ci.com/deardanieldavis/shapetypes)
+![npm](https://img.shields.io/npm/v/shapetypes) [![Build Status](https://travis-ci.com/deardanieldavis/shapetypes.svg?branch=master)](https://travis-ci.com/deardanieldavis/shapetypes) [![codecov](https://codecov.io/gh/deardanieldavis/shapetypes/branch/master/graph/badge.svg?token=I35V6RV6DB)](https://codecov.io/gh/deardanieldavis/shapetypes)
 
 # Shapetypes
 
