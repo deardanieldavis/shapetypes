@@ -227,7 +227,7 @@ export class Point extends Geometry {
   }
 
   /**
-   * Creates a copy of the vector with a different x coordinate.
+   * Creates a copy of the point with a different x coordinate.
    * @param newX New x coordinate.
    */
   public withX(newX: number): Point {
@@ -235,7 +235,7 @@ export class Point extends Geometry {
   }
 
   /**
-   * Creates a copy of the vector with a different y coordinate.
+   * Creates a copy of the point with a different y coordinate.
    * @param newY New y coordinate.
    */
   public withY(newY: number): Point {
